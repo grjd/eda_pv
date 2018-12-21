@@ -1,0 +1,7 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {subsection}{\numberline {1.1}Exploratory Data Analysis static variables}{4}
+\contentsline {subsection}{\numberline {1.2}Exploratory Data Analysis longitudinal variables}{16}
+\contentsline {section}{\numberline {2}Methodology}{16}
+\contentsline {section}{\numberline {3}Results}{18}
+\contentsline {section}{\numberline {4}Conclusions}{18}
