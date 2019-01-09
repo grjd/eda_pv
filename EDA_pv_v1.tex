@@ -152,12 +152,13 @@ We identify time series characteristics with predictive power about cognitive de
 The Vallecas Project for early detection of AD is the most ambitious population-based study for healthy aging in Spain. The project is carried out at the Queen Sofia Foundation Alzheimer Center by a multidisciplinary team of researchers from the CIEN Foundation. The main objective of the Vallecas Project is to elucidate, through tracking of progression of the cohort, the best combination of features, clinical and others that are informative about developing cognitive impairment in the future. 
 %Thus, it intends to identify a set of \emph{markers} to eventually determine the potential risk that an individual has to develop the disease in the future. 
 
-The dataset at its inception in the first year contained 1,213 subjects who were described using a large range of features most of them collected yearly. 
-It is worth noting that the data set contains two types of observations: variables and time series. The former refer to variables that are measured only once, typically in the first year's visit (e.g. APOE genotyping or educational attainment) and the later are variables with a time index attached (time series) measured at every subject's visit (e.g. results of cognitive performance test, subjective memory complains).
-Importantly, the dimensionality of the dataset grows every year (new measurements of features are added) as it does the number of samples as the subjects keep coming for their yearly visits, however the number of examples collected per year decreases (some volunteers drop the study). Table \ref{fig:tableclustervallecas} shows the features types that are collected in the study.
+The dataset at its inception in the first year contained 1,213 subjects who were studied using a large range of features most of them collected yearly. 
+It is worth noting that the data set contains two types of observations: variables and time series. The former refers to variables that are measured only once, typically in the first year's visit (e.g. APOE genotyping or educational attainment) and the later are variables with a time index attached (time series) measured at every subject's visit (e.g. results of cognitive performance tests, subjective memory complains etc.).
+Importantly, the dimensionality of the dataset grows every year (new measurements of features are added) as it does the number of samples as the subjects keep coming for their yearly visits, however the number of examples collected per year decreases (some volunteers drop the study). 
+Table \ref{tab:vallecasvars} shows the features types that are collected in the study.
 
 \begin{table}
-\begin{tabular}{ |p{4cm}|p{4cm}|p{4cm}| }
+\begin{tabular}{ |p{4.4cm}|p{4.4cm}|p{4.4cm}| }
 \hline
 \hline
 MRI & Genetics(APOE) & Demographics  \\
@@ -173,11 +174,20 @@ Traumatic brain injury & Engagement external world &  \\
 
 \hline
 \end{tabular}
-\caption{\label{tab:tableclustervallecas} Category of features included in the dataset. Each item in the table refers to a set of variables collected. Note that some features are collected only during the first year (basal) for example Genetics(APOE) or Demographics e.g. level of education, but for the most part, features are assessed for every year's visit by the team of neuropsychologists and neurologists.}
+\caption{Category of features included in the \emph{Vallecas} dataset. Each item in the table refers to a set of variables. Note that some features are collected only during the first year (basal) for example \emph{Genetics}(APOE) or \emph{Demographics} e.g. level of education, but for the most part, features are assessed at each year visit.}
+\label{tab:vallecasvars}
 \end{table}
 
-The structure of the document is as follows. 
-Section \cite{se:int} provides a comprehensive description of the information collected, the description relies upon visual charts and we also study the distribution of some key features collected in \emph{Proyecto Vallecas} dataset.
+%%EDA paper1: Here we perform Exploratory Data Analysis (EDA). EDA is the first step in the data analysis process and is performed once the pre processing steps have finished. 
+The total number of visits collected in the so far 7 years project is 4444. Figure \ref{fig:pv5years} depicts the number of volunteers for the seven years life of the project.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_visits}
+        \caption{Number of volunteers across seven years of \emph{Proyecto Vallecas}. As expected, the number of subjects decreases across time. The number of subjects in the year 1 was 1213 of which 33 were removed because were diagnosed with MCI or AD resulting in 1180 subjects recruited to participate in the study in year 1. 965 of the initial 1180 came for a second visit ($18\%$ drop rate), 865 in year 3 ($27\%$ drop rate from year 1), 770 in year 4 ($35\%$ drop rate from year 1), 704 in year 5 ($40\%$ drop rate from year 1), 431 in year 6($63\%$ drop rate from year 1) and 107 in year 7 which at this moment still ongoing ($91\%$ drop rate from year 1). The total number of visits in five years amounts to 5022.} \label{fig:pv5years}
+\end{figure}
+
+The structure of the document is as follows. Section \ref{se:int} provides a comprehensive description of the information collected, the description relies upon visual charts and we also study the distribution of some key features collected in \emph{Proyecto Vallecas} dataset.
 Section \ref{se:met} shows statistical tests and the correlation analysis paying special attention to the evolution of the longitudinal variables and their underlying relationship with cognitive performance. 
 Section \ref{se:met} describes the features that are most strongly related to cognitive decline for both static (measured once) and dynamic variables (measured every year). We extract features from the longitudinal features to build a classifier based on relevant features extracted from time series \cite{christ2018time}. We conclude with the discussion of the results and future works in Section \ref{se:con} connecting our findings with previous populational studies.  
 
@@ -190,52 +200,18 @@ Section \ref{se:met} describes the features that are most strongly related to co
 %'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
 
 \subsection{Exploratory Data Analysis static variables}
+\label{sse:eda}
 %Static as the correlate with conversion
-In this section we perform Exploratory Data Analysis (EDA). The objective of EDA is to build graphical representations that help us make sense of the data. EDA gives us a bird's eye of the dataset to help us identifying patterns and trends and most importantly, assist us in framing the type of questions we want to ask.
-EDA relies upon a careful pre-processing of the dataset. We perform EDA in a succession of steps, we will start with data understanding where we will plot charts containing basic information of the dataset like the age distribution and other demographics of the participants. 
-We will also study the distribution of the most significant features of all type of features depicted in \ref{tab:tableclustervallecas}. Furthermore we plot the distribution of cognitive decline conditional to other features. This will set the stage for the correlation analysis described in Section \ref{se:res} for both static (one observation) and dynamic variables (time series). 
-
-%%EDA paper1: Here we perform Exploratory Data Analysis (EDA). EDA is the first step in the data analysis process and is performed once the pre processing steps have finished. 
-The total number of visits collected in the so far 7 years project is 4444. Figure \ref{fig:pv5years}depicts the number of volunteers for the seven years life of the project.
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_visits}
-        \caption{Number of volunteers across seven years of \emph{Proyecto Vallecas}. As expected, the number of subjects decreases across time. The number of subjects in the year 1 was 1213 of which 33 were removed because were diagnosed with MCI or AD resulting in 1180 subjects recruited to participate in the study in year 1. 965 of the initial 1180 came for a second visit ($18\%$ drop rate), 865 in year 3 ($27\%$ drop rate from year 1), 770 in year 4 ($35\%$ drop rate from year 1), 704 in year 5 ($40\%$ drop rate from year 1), 431 in year 6(($63\%$ drop rate from year 1)) and 107 in year 7 which at this moment still ongoing ($91\%$ drop rate from year 1). The total number of visits in five years amounts to 5022.} \label{fig:pv5years}
-\end{figure}
+In this section we perform Exploratory Data Analysis (EDA). The objective of EDA is to build graphical representations that help us make sense of the data. EDA gives us a bird's eye of the dataset aiding at identifying patterns and trends and most importantly, assisting in framing the type of questions we want to ask.
+EDA relies upon a careful pre-processing of the dataset. We perform EDA in a succession of steps. We will start with a preliminary data analysis plotting basic information of the dataset such as the age distribution and other demographics of the participants. 
+We will also study the distribution of the most significant features of all type of features indicated in Table \ref{tab:vallecasvars}. Furthermore, we plot the distribution of cognitive decline conditional to other features. This will set the stage for the correlation analysis described in Section \ref{se:res} for both static (one observation) and dynamic variables (time series).
 
 
 % features_dict['Anthropometric_s'] == ['lat_manual', 'pabd', 'peso', 'talla', 'audi', 'visu', 'imc']
 % Plot 'pabd', 'peso', 'talla', 'audi'
-Figure \ref{fig:anthro} shows the histogram for anthropometric variables bmi, abdominal perimeter, weight and height, measured at year 1.
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_anthro}
-        \caption{Histogram of anthropometric variables measured in year 1 of \emph{Proyecto Vallecas} dataset. Clockwise, Body Mass Index (min=16.95, max=41.93), abdominal perimeter (min=57cm, max=134cm), weight (min=41kg, max=118kg) and height(min=134cm, max=193cm)} 
-        \label{fig:anthro}
-\end{figure}
-
-Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality.
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_sexlat}
-        \caption{Histogram of sex and hand laterality in year 1. There is majority of females, 753 versus 427. The right handed are 1106, left 19, ambidextrous 39 and 16 were forced right abut born left.} 
-        \label{fig:anthro}
-\end{figure}
-
-% features_dict['Demographics_s'] == ['edad', 'edad_visita7']
-Figures \ref{fig:ages} and \ref{fig:ages} show the histogram for demographic variables. Figure \ref{fig:ages} depicts the age of the participants at the inception of the project and the age of the participants that came to the seventh visit.
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_ages}
-        \caption{Histogram of the age of the participants in the first and last year of the \emph{Proyecto Vallecas} dataset. The youngest and the oldest participant in year 1 were 69 and 86 years old. In year 7 the minimum and maximum ages are 76 and 89.} 
-        \label{fig:anthro}
-\end{figure}
-
-%['renta', 'nivelrenta', 'educrenta', 'municipio', 'barrio', 'distrito', 'sexo', 'nivel_educativo', 'anos_escolaridad', 'familial_ad', 'sdestciv', 'sdhijos', 'numhij', 'sdvive', 'sdocupac', 'sdresid', 'sdtrabaja', 'sdeconom', 'sdatrb']
-
-Figure \ref{fig:apoe} the APOE Genotyping test classifying the subjects in three groups depending on whether they have no copy of the APO$\epsilon4$ allele one copy ApoE4 heterozygotes or two copies APO$\epsilon4$ APO$\epsilon4$ \cite{farrer1997effects}. The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD), however the correlation with risk changes with ethnicity, for example Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but AD is apparently less frequent than in other populations \cite{sepehrnia1989genetic}.
+\subsubsection{Genetic, Anthropometric and Demographic}
+\label{ssse:ant}
+Figure \ref{fig:apoe} shows the APOE Genotyping test, classifying the subjects in three groups depending on whether they have no copy of the APO$\epsilon4$ allele, one copy APO$\epsilon4$ heterozygotes or two copies of APO$\epsilon4$ \cite{farrer1997effects}. The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD). However researchers have observed risk changes of APO$\epsilon4$ presence with factors such as ethnicity. For instance, Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but at the same time AD is apparently less frequent in Nigerians than in other populations \cite{sepehrnia1989genetic}.
 Estimated worldwide human allele frequencies of ApoE is $13.7\%$ and $36.7\%$ in AD patients. On the other hand, $40–65\%$ of AD patients have at least one copy of the APO$\epsilon4$ allele.
 
 In our population, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ heterozygotes and $1\%$ APO$\epsilon4$ homozygotes. 
@@ -243,18 +219,67 @@ In our population, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ he
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_apoe}
-        \caption{APOE Genotyping testing in \emph{Proyecto Vallecas} dataset. $17\%$ of subjects carry at least one copy of the $\epsilon4$, slightly higher than the worldwide in Caucasian population described ($13.7\%$ ) as estimated in \cite{farrer1997effects}} 
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_apoe}
+        \caption{APOE Genotyping testing in \emph{Proyecto Vallecas} dataset. $17\%$ of subjects carry at least one copy of the $\epsilon4$, slightly higher than the worldwide estimates in Caucasian population ($13.7\%$) indicated in \cite{farrer1997effects}} 
+        \label{fig:apoe}
+\end{figure}
+
+Figure \ref{fig:anthro} shows the histogram for anthropometric variables bmi, abdominal perimeter, weight and height, measured at year 1.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/Fig_anthro}
+        \caption{Histogram of anthropometric variables measured in year 1 of \emph{Proyecto Vallecas} dataset. Clockwise, Body Mass Index (min=16.95, max=41.93), abdominal perimeter (min=57cm, max=134cm), weight (min=41kg, max=118kg) and height(min=134cm, max=193cm)} 
+        \label{fig:anthro}
+\end{figure}
+
+Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality.
+%Change this figure
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=.4\linewidth]{figures/Fig_sexlat}
+        \caption{Histogram of hand laterality (left) and sex (right). There is majority of females, 753 versus 427 males. The right handed are 1106, left 19, ambidextrous 39 and 16 were forced right abut born left.} 
+        \label{fig:sexlat}
+\end{figure}
+
+% features_dict['Demographics_s'] == ['edad', 'edad_visita7']
+Figure \ref{fig:ages} shows ages of participants at the inception of the project and the age of the participants that came to the seventh visit.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=.6\linewidth]{figures/Fig_ages}
+        \caption{Histogram of the age of the participants in the first and last years of the \emph{Proyecto Vallecas} dataset. The youngest and the oldest participant in year 1 were 69 and 86 years old respectively. In year 7 the minimum and maximum ages are 76 and 89.} 
+        \label{fig:ages}
+\end{figure}
+
+%['renta', 'nivelrenta', 'educrenta', 'municipio', 'barrio', 'distrito', 'sexo', 'nivel_educativo', 'anos_escolaridad', 'familial_ad', 'sdestciv', 'sdhijos', 'numhij', 'sdvive', 'sdocupac', 'sdresid', 'sdtrabaja', 'sdeconom', 'sdatrb']
+
+Figure \ref{fig:incomeresidency} shows the home residency and the income distribution of \emph{Proyecto Vallecas} subjects as estimated based on their home residency. A more in detail representation of the home residency is shown in figure \ref{fig:resid_detail}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/incomeresidency}
+        \caption{On the left, distribution of home residency by districts of \emph{Proyecto Vallecas} volunteers. All districts of the city of Madrid are represented. Note that there are 156 subjects of a total of 1180 that are not residents in the city of Madrid and are not included here. On the right, we plot the income distribution as estimated based on the home residency, 251 subjects live in low income areas, 769 in medium income areas and 160 in high income neighborhoods of Madrid.
+        } \label{fig:incomeresidency}
+\end{figure}
+
+% Create figure and dsave it properly as png
+% \begin{figure}[]
+%         \centering
+%         \includegraphics[height=\textheight, width=\textwidth]{figures/resid_detail}
+%         \caption{On the left, city of residency of subjects, the large majority lives in Madrid. Middle figure neighborhood and right figure borough of residence in the city of Madrid. 
+%         } \label{fig:incomeresidency}
+% \end{figure}
+
+Figure \ref{fig:demo} depicts the rest of demographic variables including: educational attainment, number of sons, years of work as an employee, self-assessed economic status, marital status and the number of people living at home.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_demo}
+        \caption{Histogram of demographic variables in the \emph{Proyecto Vallecas} dataset measured in the first year. Clockwise, educational attainment classified as \emph{no formal education, primary school, secondary school and university degree}, number of sons, number of years of work as an employee, self-assessed economic status (1 the lowest, 10 the highest, marital status (\emph{single, married, widows, divorced}) and the number of people living at home.} 
         \label{fig:demo}
 \end{figure}
 
-Figure \ref{fig:ages} depicts the rest of demographic variables including: educational attainment,  number of sons, years of work as an employee, self-assessed economic status,marital status and the  number of people living at home.
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_demo}
-        \caption{Histogram of demographic variables in the \emph{Proyecto Vallecas} dataset in the first year. Clockwise, educational attainment (No formal education, primary school, secondary school and university),  number of sons, number of years of work as an employee, self-assessed economic status (1 the lowest, 10 the highest, marital status (single, married, widows and divorced) and the  number of people living at home.} 
-        \label{fig:demo}
-\end{figure}
+\subsubsection{Sleep}
+\label{ssse:sleep}
 
 Figure \ref{fig:sleep} depicts features related to sleep patterns of the subjects. Daily naps are less common that what it could be expected from a Spaniard population aged 70 or more. $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects report to snore during sleep $60\%$. 
 
@@ -262,57 +287,37 @@ Figure \ref{fig:sleep} depicts features related to sleep patterns of the subject
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_sleep}
         \caption{Histogram of sleep variables in the \emph{Proyecto Vallecas} dataset in the first year. From left to right and up to the bottom, number of hours of sleep during the day ($\mu=0.45, \sigma=1$), tingling during sleep (0 No, 1 Yes, 9 Dk/Da), movements during sleep (0 No, 1 Yes, 9 Dk/Da), number of hours of night sleep ($\mu=6.8, \sigma=1.3$), deep sleep (1 Light, 2 Moderate, 3 Deep), remember dreams (0 No, 1 Yes, 9 Dk/Da), snoring (0 No, 1 Yes, 2 snore and difficult breathing 9 Dk/Da), noises during sleep (0 No, 1 Yes, 9 Dk/Da), sufficient sleep (0 No, 1 Yes, 9 Dk/Da).} 
-        \label{fig:demo}
+        \label{fig:sleep}
 \end{figure}
 
-Figure \ref{fig:incomeresidency} shows the home residency and the income distribution of \emph{Proyecto Vallecas} subjects as estimated based on their home residency. A more in detail representation of the home residency is shown in figure \ref{fig:resid_detail}
 
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/incomeresidency}
-        \caption{On the left, distribution of home residency by districts of \emph{Proyecto Vallecas} volunteers in year 1. All districts of the city of Madrid are represented. Note that there are 156 subjects of a total of 1180 that are not residents in the city of Madrid and are not included here. On the right, we plot the income distribution as estimated based on the home residency, 251 subjects live in low income areas, 769 in medium income areas and 160 in high income neighborhoods of Madrid.
-        } \label{fig:incomeresidency}
-\end{figure}
-
-\begin{figure}[]
-        \centering
-        \includegraphics[height=\textheight, width=\textwidth]{figures/resid_detail}
-        \caption{On the left, city of residency of subjects, the large majority lives in Madrid. Middle figure neighborhood and right figure borough of residence in the city of Madrid. 
-        } \label{fig:incomeresidency}
-\end{figure}
-
+\subsubsection{Life style}
+\label{ssse:life}
 % Food
-Figure \ref{fig:food} depicts the type of food consumption reported by the subjects. $84\%$ of subjects report to consume olive oil 6/7 days a week, $74\%$ bread, $44\%$ vegetables and $29\%$ report consuming sweets 6/7 days a week.
+Figure \ref{fig:food} depicts the type of food consumption as reported by the subjects. $84\%$ of subjects report to consume olive oil $6/7$ days a week, $74\%$ bread, $44\%$ vegetables and $29\%$ report consuming sweets 6/7 days a week.
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_food}
-        \caption{Histogram of type of weekly food consumption reported by the subjects in the first visit. The x-axis of each chart represents how many days a week they consume which type of food. The large majority of subjects report a daily consumption of bread, milk and olive oil. } 
+        \caption{Histogram of type of weekly food consumption reported by the subjects in the first visit. The x-axis of each chart represents how many days a week they consume which type of food. The large majority of subjects report a daily consumption of bread, milk and olive oil.}
         \label{fig:food}
 \end{figure}
 
 %Diet
-Figure \ref{fig:diet} depicts the type diet estimated based on the eported weekly food consumption. We distinguish bettwen diet with strong glucemic component (sweets), proteic (cred meat), proteic (eggs, sish meat) and Mediterranean (fruit, fish, vegetables) and we calculate an score for each diet based on REF-MA.
+Figure \ref{fig:diet} depicts the type diet estimated based on the reported weekly food consumption. We distinguish between three different diets: strong glucemic component(carbs, sweets), strong proteic component (red meat, eggs, fish) and Mediterranean (fruit, fish, vegetables) and we calculate an score for each diet based on REF-MA.
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_diet}
-        \caption{Histogram of type of diet based on weekly food consumption as reported by the subjects in the first visit. The x-axis of each chart represents the score for each type of diet, the larger the score the most prevalent the main component of the diet is in the subject's diet. For example a subject with a score of 12 in the glucemic diet will likely consume more sweets than a subject a score of 6, by the same token a subject with a large score in the Mediterranean diet will likely consume more fruit and vegetables than a subject with a lower score.} 
-        \label{fig:food}
+        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/Fig_diet}
+        \caption{Histogram of type of diet based on weekly food consumption as reported by the subjects in the first visit. The x-axis of each chart represents the score for each type of diet, the larger the score the most prevalent the main component of the diet is in the subject's diet. For example, a subject with a score of 12 in the glucemic diet will likely consume more sweets than a subject a score of 6, by the same token a subject with a large score in the Mediterranean diet will likely consume more fruit and vegetables than a subject with a lower score.} 
+        \label{fig:diet}
 \end{figure}
-
-% Cardiovascular_s ['hta', 'hta_ini', 'glu', 'lipid', 'tabac', 'tabac_cant', 'tabac_fin', 'tabac_ini', 'sp', 'cor', 'cor_ini', 'arri', 'arri_ini', 'card', 'card_ini', 'tir', 'ictus', 'ictus_num', 'ictus_ini', 'ictus_secu']
-Figure \ref{fig:cardio} depicts features related to the in the population. The subjects were asked whether they suffer hypertension, angina and heart attack, glucose metabolism disorders, dyslipidemia (an abnormal amount of lipids in the blood), arrhythmias, and if they smoke. 
-Thyroid hormones have a significant impact on cardiac function and structure (excess thyroid hormone affects cardiovascular \cite{klein2007thyroid}) and subjects reported whether they suffer from hyper(hipo)thyroidism.
-Stroke is a risk factor for coronary heart disease and subjects reported if they had in the past  Hemorrhagic or ischemic cerebral ictus. Ischemic stroke and AD share pathophysiological mechanisms such as inflammation, immune exhaustion and neurovascular damage \cite{lucke2015common}. 
-The causality between AD and hemorrhagic stroke seems to be reversed, patients who had Alzheimer's disease are at the highest risk of hemorrhagic stroke \cite{wang2014newly}.
-% Pass on sp (you think you are overweighted?) and use If your BMI is 25.0 to <30, it falls within the overweight range. If your BMI is 30.0 or higher, it falls within the obese range
 
 Obesity (Higher midlife BMI) is related to higher risk of dementia and AD, independently of obesity-related risk factors and co-morbidities \cite{tolppanen2014midlife}, \cite{nepal2014rising}. 
 
-The distribution of the BMI of our population is particularly interesting $(BMI_{\mu}=27.3, BMI_{\sigma}=3.6)$. The $26.8\%$ have healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$) \cite{lacruz2015prevalence}. 
-The majority of subjects report to have hypertension $53\%$ vs $47\%$, this in line with larger studies 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ in men and $39\%$ in women) \cite{grau2011cardiovascular}.
-The $27\%$ are smokers with $33\%$ of ex-smokers.
+The distribution of the BMI in our population is particularly interesting $(\mu_{BMI}=27.3, \sigma_{BMI}=3.6)$. $26.8\%$ of the population have healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$). 
+The majority of subjects report to have hypertension $53\%$ vs $47\%$, this in line with larger studies 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ in men and $39\%$ in women) \cite{grau2011cardiovascular}, \cite{lacruz2015prevalence}.
+$27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 
  %total cholesterol ≥ 250 mg/dL (43% and 40%, respectively), 
  %obesity (29% and 29%, respectively), tobacco use (33% and 21%, respectively), and diabetes (16% and 11%, respectively). Total cholesterol ≥ 190 and ≥ 250 mg/dL were the respective minimum and maximum coefficients of variation (7%-24% in men, 7%-26% in women). Average concordance in lipid measurements between laboratories was excellent. 
@@ -321,47 +326,62 @@ The $27\%$ are smokers with $33\%$ of ex-smokers.
 %https://www.brightfocus.org/alzheimers/article/weight-risk-factor-alzheimers-disease
 
 %https://www.isglobal.org/en/new/-/asset_publisher/JZ9fGljXnWpI/content/cardiopatia-isquemica-demencias-e-ictus-se-situan-como-las-principales-causas-de-muerte-en-espana
+
+%YS: change arrythmia in pic for stroke 3 top
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_cardio}
-        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (No, Atrial fibrillation, Arrhythmia), body mass index, heart stroke (No past strokes, Angina, Stroke), diabetes (No, diabetes mellitus, intollerance to carbs), hypertension, ictus historial (No, Ischemic, Hemorrhagic, cholesterol (No, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides), Smoke (No, Smoker, Ex-smoker), thyroiditis (No, Hyper, hipo)) } 
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_cardio}
+        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), body mass index, heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intollerance to carbs}), hypertension, ictus historial (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}). } 
         \label{fig:cardio}
 \end{figure}
 
 %PhysicalExercise_s ['ejfre', 'ejminut']
-Figure \ref{fig:phys} depicts features related to physical exercise. The subjects were asked the frequency in days per week of the physical exercise and the duration of the sessions.
+%YS: fig left, cambio 1,2 por dias a la semana
+Figure \ref{fig:phys} depicts features related to physical exercise. The subjects were asked the frequency in days per week of their physical exercise and the duration of the sessions.
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_phys}
-        \caption{Histogram of features related to cardiovascular health. From top down and left to right:  } 
-        \label{fig:cardio}
-\end{figure}
-
-%TraumaticBrainInjury_s ['tce', 'tce_con', 'tce_ini', 'tce_num', 'tce_secu']
-%PhysicalExercise_s ['ejfre', 'ejminut']
-Figure \ref{fig:tce} shows the distribution of episodes (at least one) of traumatic brain injury. 
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_tce}
-        \caption{Histogram of traumatic brain injury. $20\%$ declared to have suffered in the past an episode of  traumatic brain injury of unspecified seriousness.} 
-        \label{fig:tce}
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_phys}
+        \caption{Histogram of features related to physical exercise. On the left days/week that subjects report to practice physical exercise, and on the right the average duration of the sessions (\emph{less than 30 minutes, less than one hour, between one and tow hours, more than two hours})} 
+        \label{fig:phys}
 \end{figure}
 
 %EngagementExternalWorld_s ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13', 'a14']
 
-Figure \ref{fig:engage} depicts features related to engagement with the external world of the subject. In particular, do creative activities,  
-going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TVradio , how often reads (books, newspaper, magazines), how often uses the internet.
+Figure \ref{fig:engage} depicts features related to engagement with the external world of the subject. In particular, doing creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, reading habits (books, newspaper, magazines), and use of the internet and IT.
 %EngagementExternalWorld_s ['a03' amigos, 'a04' travel, 'a05' ong, 'a06' church, 'a08' cine, 'a09' sport, 'a10' music, 'a11' tv, 'a12' read, 'a13' internet] 
-Church goes are a minority in this sample, $75\%$ never go to church versus $17\%$ that go a few times and $8\%$ that go often. $86\%$ habitually watches the TV or listens to the radio, $68\%$ read books or magazines often and only $29\%$ use the Internet often.
+Of interest, church goers are a minority in our population, $75\%$ never go to church, $17\%$ that go a few times and $8\%$ go often. $86\%$ habitually watches the TV or listens to the radio, $68\%$ read books or magazines often and only $29\%$ use the Internet often.
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.5\linewidth]{figures/Fig_engage}
-        \caption{Histogram of features that reflect engagement with the external world from the part of the subject. From top down and left the charts depict the number of subjects that get involve Never, Few and Often in: creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TVradio , how often reads (books, newspaper, magazines), how often uses the internet.} 
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_engage}
+        \caption{Histogram of features that reflect engagement with the external world from the part of the subject. From top down and left to right the charts depict the number of subjects that get involve in creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TVradio , how often reads (books, newspaper, magazines), how often uses the internet.} 
         \label{fig:engage}
 \end{figure}
 
+\subsubsection{Cardiovascular}
+\label{ssse:cardio}
+
+% Cardiovascular_s ['hta', 'hta_ini', 'glu', 'lipid', 'tabac', 'tabac_cant', 'tabac_fin', 'tabac_ini', 'sp', 'cor', 'cor_ini', 'arri', 'arri_ini', 'card', 'card_ini', 'tir', 'ictus', 'ictus_num', 'ictus_ini', 'ictus_secu']
+Figure \ref{fig:cardio} depicts features related to the cardiovascular health self reported in our population. The subjects were asked whether they suffer hypertension, angina and heart attack, glucose metabolism disorders, dyslipidemia (an abnormal amount of lipids in the blood), arrhythmias, and if they smoke. 
+Thyroid hormones have a significant impact on cardiac function and structure (excess thyroid hormone affects cardiovascular \cite{klein2007thyroid}), subjects also reported whether they suffer from hyper(hipo)thyroidism.
+Stroke is a risk factor for coronary heart disease and subjects were asked if they had in the past hemorrhagic or ischemic cerebral ictus. Ischemic stroke and AD share pathophysiological mechanisms such as inflammation, immune exhaustion and neurovascular damage \cite{lucke2015common}. 
+The causality between AD and hemorrhagic stroke seems to be reversed (AD causes X, rather than the usual search of factor X that causes AD), patients who had Alzheimer's disease are at the highest risk of hemorrhagic stroke \cite{wang2014newly}.
+% Pass on sp (you think you are overweighted?) and use If your BMI is 25.0 to <30, it falls within the overweight range. If your BMI is 30.0 or higher, it falls within the obese range
+
+\subsubsection{Traumatic brain injury}
+\label{ssse:tbe}
+%TraumaticBrainInjury_s ['tce', 'tce_con', 'tce_ini', 'tce_num', 'tce_secu']
+Figure \ref{fig:tce} shows the distribution of episodes (at least one) of traumatic brain injury. 
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_tce}
+        \caption{Histogram of traumatic brain injury. $20\%$ of subjects declared to have suffered in the past an episode of traumatic brain injury of unspecified seriousness.} 
+        \label{fig:tce}
+\end{figure}
+
+
 \subsection{Exploratory Data Analysis longitudinal variables}
+\label{sse:eda_long}
 
 \section{Methodology}
 \label{se:met}
@@ -403,7 +423,14 @@ $S$ is strictly equal to the area cover by the curve because the curve is flat, 
 Figure \ref{fig:b} calculates the surface of the trapezoids, it is also possible to interpolate and calculates the surface defined by the spline and the x and y axis.
 One  advantage of having $S$ is that it gives us a new scale of memory health condensed in one number, for example rather than building a classifier of converter versus no convderters we could build regressors that predict the $S$ score. The upper bound is 32 and the minimum 0.
 
+Once we have exposed the conceptual soundness of the concept we need to study the utility of S in order to do that we will take advantage of the large dataset in Proyecto Vallecas.
+We compare the correlation between conversion to MCI and S, and single values of the Buschke test and other cognitive performance test. We also compare S with other aggregates of the Buschke test like the sum or the arithmetic and the geometric mean.
 
+Calculate the DTW between S and a conversion or memory indicator across years, for example the ICV or the hippocampal volume. 
+Plot the distribution of S $\mu = 16.37, \sigma=5.1770$, get the left tail $\mu + n*\sigma$ (worst recallers) and the right tail (best recallers) and study neurophysiological differences. Look at, hippocampal siuze, connectivity. YS: WHERE to look at
+
+%https://kids.frontiersin.org/article/10.3389/frym.2017.00071
+%https://www.scientificamerican.com/article/does-size-matter-for-brains/
 \section{Results}
 \label{se:res}
 
@@ -414,6 +441,79 @@ One  advantage of having $S$ is that it gives us a new scale of memory health co
 \section{Conclusions}
 \label{se:con}
 
+\subsection{The neuroanatomy of memory}
+
+The three main processes of memory are encoding, storage and recalling, Within recall psychologists distinguish between free recall, cue recall and serial recall.
+%Ebbinghaus discovered that multiple learning, over-learning, and spacing study times increased retention of information
+We own to Tulving the distinction between episodic and semantic memory, and also the encoding specificity principle which states that a person is more likely to recall information if the recall cues match or are similar to the encoding cues. 
+%ojo literal wikipedia https://en.wikipedia.org/wiki/Recall_(memory)
+The anterior cingulate cortex, globus pallidus, thalamus, and cerebellum show higher activation during recall than during recognition which suggests that these components of the cerebello-frontal pathway play a role in recall processes that they do not in recognition. The specific role of each of the six main regions in episodic retrieval is still unclear, but some ideas have been suggested. The right prefrontal cortex has been related to retrieval attempt;[28][29] the medial temporal lobes to conscious recollection;[30] the anterior cingulate to response selection;[31] the posterior midline region to imagery;[28][31][32][33] the inferior parietal to awareness of space;[34] and the cerebellum to self-initiated retrieval .[35]
+
+There is a number of factors that affect recall: attention, motivation, interference, context, state-dependent memory, gender (Women perform better than males on episodic memory tasks including delayed recall and recognition. However, males and females do not differ on working, immediate and semantic memory tasks.) physical activities
+
+
+
+
+
+%ojo +-lit from margolin1992cognitive
+Many years ago Lashley \cite{lashley1929brain} set out to find the engram the putative site of memory storage and his failure toi find a specific location (in rats) led him to the conclussion that memories were spatially distributed  throughout the brain. Squire \cite{squire2004memory} pointed out to methodological shortcoming in Lashley's work but in general terms his conclusions are considered valid.
+One suggestion is thet engrams are stored in cerebral cortex near the regions where the stimuli is processed eg visual memories near occipìtal, auditory components in auditory cortex and so for. 
+By exclusion (HM) we know that the memory abilities preserved by amnesic subjects would not be dependent of removed areas (hippocampus, or medial dorsal nucleus). Habit formation is known to be mediated by the amygdala, conditioning of motor responses in the basal ganglia and working memory to frontal and parietal regions \cite{margolin1992cognitive} pg. 178. 
+
+
+Amnesia or memory disorders can be grouped in terms of etiology or in terms of neuroanatomy. The former we can mention AD, anoxia, etc.In terms of neuroanatomy some have distinguished between hippocampal and diancephlic amnesia (mammalian bodies and or thalamus)
+Where are memories stored in the brain? Broadly speaking a classification can be made:
+
+How to assess memory performance?
+\begin{itemize}
+\item Assessment of Explicit or episodic memories 
+\begin{itemize}
+  \item Wechsler memory scale(WMS) it has been critizied
+  \item Buschke Selective Reminding Procedure, more sophisticated than WMS, the subject attempts to learn a list a word list across several (3) trials. It allows generation of a variety of scores (sum recall, LTretrieval, ST retrieval ...). The popularity resides in the reduced testing time, word list learning may be better than story recall and separation between retrieval and enter in formation into long term store. Among the criticism is the B. is more a procedure than a test per se (the word list, number of words and number of trials vary widely). Furthermore, B assumes that if a subject fails to to recall a word that has been previosuly recalled in LTM the retrieval failure is a recall failure
+\end{itemize}  
+\item Explicit or Implicit memories (preserved in amnesia)
+\begin{itemize}
+\item  Sentence puzzle completion
+\end{itemize}
+\end{itemize}  
+There are many issues that the memory test assessment elude, for example Metamemory and confabulation. Metamemory is the knowledge one posses about the functioning of the human memory system (for example, if one is using Anki (Hermann Ebbinghaus theory of retention training)). Confabulation is poorly understood, intrusions on list learning may be related to confabulation.
+
+%https://qbi.uq.edu.au/brain-basics/memory/where-are-memories-stored
+\begin{itemize}
+\item Explicit declarative or episodic memories and semantic memories: hippocampus, neocortex and amygdala.
+\begin{itemize}
+  \item Hippocampus is part of the temporal lobe and is where explicit or episodic memories are formed and indexed for later access. (we know this thanks to Henry Molaison who had his medial temporal lobe (hippocampus, amygdala, and enthorinal cortex) surgically removed to treat his epilepsy, rendering him amnesic but with capacity to learn motor tasks)
+  \item Neocrotex is the neural tissue that forms the outside surface of the brain. Transfer from the hippocampus (temporary) to the neocortex (general knowledge) may happen during sleep
+  \item Amygdala is an almond shape structure above the hippocampus and attaches emotional significance to memories, this is why memories associated with grief , shame etc are difficult to forget, characterizing the path amygdala, hippocampus, neocortex may explain how memories are retained. The amygdala not only adds strength to the emotional memory, it also plays a role in forming new memories, specially related to fear. Fearful memories are able to be formed after a few repetitions
+\end{itemize} 
+\item Implicit memories (eg motor) cerebellum and basal ganglia
+\begin{itemize}
+  \item cerebellum located at the rear base of the brain, important in motor control eg the vestibulo-ocular reflex let us maintain our gaze on a location as we rotate our heads.
+  \item Basal ganglia lying deep within the brain and involved in habit formation, reward processing and learning. They co-ordinate sequences of motor activity, it is the most affected region in Parkinson's. disease
+\end{itemize}
+\item Short-term working memory prefrontal cortex
+\begin{itemize}
+  \item Prefrontal cortex seats at the very front of the brain and it is the most recent addiction to the mammalian brain, holding information activates the pFC, there seems to exist a functional separation between left and right sides of the pFC.
+\end{itemize}  
+\end{itemize}
+
+Note that another classification of memories is Long term memories including Explicit and Implicit and short term memories. Short term (primary or active memory) is the capacity for holding, but not manipulating, a small amount of information in mind in an active, readily available state for a short period of time.  The duration of short-term memory (when rehearsal or active maintenance is prevented) is believed to be in the order of seconds (Miller's law magical number 7 +-2 and more recently Cowan 4+-1.).
+The modal model of memory was developed in the 1960s by Shiffrin and assumed that all memories pass from a short-term to a long-term store after a small period of time. The exact meachanisms by which this transfer occurs is unclear.
+
+One evidence of the existence of short-term store comes from anteroretrogade amnesia which is the inability to learn new facts and episodes, patients with this amnesia (eg HM) have intact its ability to retain small amounts of information over small time scales (30 seconds) but are unable to form long term memories. Other evidence comes from distraction interventions, a distraction may impair memory 3-5 most recently learned words of a list (to be stored in short  term memory) while leaving the recall for words earlier in the list intact (to be stored in long term memory). See, however, \cite{bjork1974recency}, for a criticism of the existence of short term memory using a distractor task. But not everyone agrees that short and long term memories vary independently, the unitary model states that memory is unitary over time scales from milliseconds to years. Admittedly it has been difficult to demarcate the a clear boundary between short and long term memories.
+
+The biological basis STM: stimuli are coded in STM using transmitter depletion, the stimulus activates a spatial pattern of neurons and as they fire they deplete the available neurotransmitters, the pattern of depletion is iconic (WOW!) representing the stimulus functioning as a memory trace. As the neurotransmitters reuptake mechanisms kick in to restore the pre stimulus level, the memory trace decays \cite{grossberg1971pavlovian}.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=.5\linewidth]{figures/memory_types}
+        \caption{Memory types under the modal or multi-store or Atkinson-Shiffrin model. Alternatively, the Fergus Craik and Robert Lockhart in 1972, and posits that memory recall, is a function of the depth of mental processing, on a continuous scale from shallow (perceptual) to deep (semantic). Under this model, there is no real structure to memory and no distinction between short-term and long-term memory. Anothe classification is the to Multiple Trace Theory, long-term episodic memories are stored in hippocampus, so mild AD patients, even MCI, will lose these kind of "long-term" memories. Long term semantic memories will be lost in parallel with neocortex neuron death.
+        %http://www.human-memory.net/types.html
+        } 
+        \label{fig:b}
+\end{figure}
+
+%Rehearsal is the process where information is kept in short-term memory by mentally repeating it. When the information is repeated each time, that information is reentered into the short-term memory, thus keeping that information for another 10 to 20 seconds (the average storage time for short-term memory)
 %-------------------------------------------------------------------------------
 % REFERENCES
 %-------------------------------------------------------------------------------
@@ -423,7 +523,7 @@ One  advantage of having $S$ is that it gives us a new scale of memory health co
 
 
 % BibTeX users please use
-\bibliographystyle{spmpsci}
+\bibliographystyle{apalike}
 \bibliography{../bibliography-jgr/bibliojgr}
 
 \end{document}
