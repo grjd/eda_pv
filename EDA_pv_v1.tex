@@ -282,7 +282,7 @@ Figure \ref{fig:demo} depicts the rest of demographic variables including: educa
 \label{ssse:sleep}
 
 Figure \ref{fig:sleep} depicts features related to sleep patterns of the subjects. Daily naps are less common that what it could be expected from a Spaniard population aged 70 or more. $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects report to snore during sleep $60\%$. 
-
+% YS remove TBI of charts
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_sleep}
@@ -381,16 +381,37 @@ Figure \ref{fig:tce} shows the distribution of episodes (at least one) of trauma
 
 
 \subsection{Exploratory Data Analysis longitudinal variables}
-\label{sse:eda_long}
+\label{se:eda_long}
+%'CognitivePerformance', 'Diagnoses', 'Neuropsychiatric', 'QualityOfLife', 'Genetics_s', 'SCD', 'Demographics', 'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
+The longitudinal variables are MRI, cognitive performance, Neuropsychiatric, QualityOfLife, and SCD.
+\subsubsection{MRI}
+\label{sse:mri}
+
+
+\subsubsection{Cognitive Performance}
+\label{sse:cogper}
+
+\subsubsection{Neuropsychiatric}
+\label{sse:neupsy}
+
+\subsubsection{Quality of Life self assessment}
+\label{sse:qol}
+
+\subsubsection{Subjective cognitive decline}
+\label{sse:scd}
+
+\subsubsection{Diagnoses}
+\label{sse:diag}
+
 
 \section{Methodology}
 \label{se:met}
-The Buschke memory test with free and cued recall is commonly used to assessing persons across levels of cognitive functioning \cite{buschke1973selective}. The Buchske test is of easy realization and can be performed by participants with different levels of impairment and clinical conditions \cite{o200212}, \cite{leitner2017comparison}. The test was originally conceived designed to asses long-term storage (LTS), retrieval from long-term storage (LTR), and recall from short-term storage (STR).
+The Buschke memory test with free and cued recall is commonly used to assessing persons across levels of cognitive functioning \cite{buschke1973selective}. The Buchske test is of easy realization and can be performed by participants with different levels of impairment and clinical conditions \cite{o200212}, \cite{leitner2017comparison}. The test was originally  designed to asses long-term storage (LTS), retrieval from long-term storage (LTR), and recall from short-term storage (STR).
 
-The Buschke test in \emph{Proyecto Vallecas} consists in asking the subject to recall a list of words in three occasions separated by "distrating periods". First, the experimenter reads a list of 16 words and the subject is immediately asked to recall as many words as possible. Next, the subject is distracted with an interference test to be asked again to recall the original 16 words, the subject is distracted again with another interference test to be asked for the third time to recall the original 16 words.
+The Buschke test in \emph{Proyecto Vallecas} consists in asking the subject to recall a list of words in three occasions separated by distracting periods. First, the experimenter reads a list of 16 words and the subject is immediately asked to recall as many words as possible. Next, the subject is distracted with an interference test to be asked again to recall the original 16 words, the subject is distracted again with another interference test to be asked for the third time to recall the original 16 words.
 
-The score consists in three numbers each computes the number of words that the subject correctly recalled at each time. In order to asses retrieval from short/long?-term storage both the total number of items and the increase/decrease in the scores need to be considered. Two subjects with identical aggregate score could have very different recalling. For example, let us say that we perform the Buschke test in two subjects, subject A and subject B. Subject A recalls 12, 14 and 15 words at each time and subject B has for the same test a score of 15, 14 and 12, both subjects have recalled the same total number of items (41) but memory retention is very different. Subject B shows no memory retention (a decrease in the number of recalled items) while subject A does consolidate her memory (an increase decrease in the number of recalled items).
-It is evident, then, that in order to have an unique score from the three scores just described we can't just aggregate the scores since we would be missing whether the subjects recalls or forgets which is what the Buschke memory test is essentially testing for. In order to capture that information we need take into account whether the scores increase, decrease or stay stationary.
+The score consists in three numbers each computes the number of words that the subject correctly recalled at each time. In order to asses retrieval from short/long?-term storage both the total number of items and the increase/decrease in the scores need to be considered. Two subjects with identical aggregate score could have very different recalling. For example, let us say that we perform the Buschke test in two subjects, subject A and subject B. Subject A recalls 12, 14 and 15 words at each time and subject B has for the same test a score of 15, 14 and 12, both subjects have recalled the same total number of items (41) but memory retention is very different. Subject B shows no memory retention (a decrease in the number of recalled items) while subject A does consolidate her memory (an increase in the number of recalled items).
+It is evident, then, that in order to have an unique score from the three scores described we can't just aggregate the scores since we would be missing whether the subjects recalls or forgets which is what the Buschke memory test is essentially testing for. In order to capture this information we need take into account whether the scores increase, decrease or stay stationary.
 
 We have defined a model that brings together the aggregate of recalled items and the slope of the curve described by the scores at each trial. 
 From calculus we know that the area under a curve between two points can be found by doing a definite integral between the two points. 
@@ -420,7 +441,7 @@ $S$ is strictly equal to the area cover by the curve because the curve is flat, 
         \label{fig:b}
 \end{figure}
 
-Figure \ref{fig:b} calculates the surface of the trapezoids, it is also possible to interpolate and calculates the surface defined by the spline and the x and y axis.
+Figure \ref{fig:b} calculates the surface of the trapezoids, it is also possible to interpolate and calculate the surface defined by the spline within the x and y axis.
 One  advantage of having $S$ is that it gives us a new scale of memory health condensed in one number, for example rather than building a classifier of converter versus no convderters we could build regressors that predict the $S$ score. The upper bound is 32 and the minimum 0.
 
 Once we have exposed the conceptual soundness of the concept we need to study the utility of S in order to do that we will take advantage of the large dataset in Proyecto Vallecas.
