@@ -8,6 +8,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.stats.mstats as mstats
 from matplotlib.patches import Polygon
 import pdb
 import time
@@ -95,17 +96,29 @@ def main():
 	#for y in Y:
 	#for index, row in dataframe_bus.iterrows():
 	S = [0] * dataframe_bus.shape[0]
+	# arithmetic, gemoetric mean and sum of Bischke scores
+	mean_a, mean_g, suma = S[:], S[:], S[:]
+
 	for ix, y in enumerate(dataframe_bus):	
 		#print(row[bus_scores[0]], row[bus_scores[1]],row[bus_scores[2]])
 		bes = buschke_aggregate(y)
 		S[ix]=bes[0]
+		mean_a[ix] = np.mean(y)
+		mean_g[ix] = mstats.gmean(y)
+		suma[ix] = np.sum(y) 
 		print('Total Aggregate S=', bes[0])
+		print('arithmetic mean:', mean_a[ix], ' Geometric mean:', mean_g[ix], ' Sum:',suma[ix])
 		print('Poly1d exponents drecresaing' ,bes[-1])
 		print('Poly2 exponents drecreasing',bes[-2])
 		print('\n')
+		#pdb.set_trace()
 	dataframe['S'] = S 
 	df_copy['S'] = S 
+	df_copy['mean_a'] = mean_a
+	df_copy['mean_g'] = mean_g
+	df_copy['suma'] = suma
 	selected_columns = ['fcsrtrl1_visita1', 'fcsrtrl2_visita1', 'fcsrtrl3_visita1','S', 'mmse_visita1','conversionmci']
+	selected_columns = selected_columns + ['mean_a', 'mean_g', 'suma']
 	df_copy = df_copy[selected_columns]
 	print('\n\n', 'Max S=', np.max(S), ' Max subject ix=', S.index(max(S)),' Min S=',np.min(S),\
 		' min subject ix=', S.index(min(S)), ' avg= ',np.mean(S), ' std=', np.std(S) , '\n\n')	
@@ -113,13 +126,13 @@ def main():
 	print('minimum scores subject:', dataframe.min())
 	corr = df_copy.corr(method='pearson', min_periods=1)
 	print(corr)
-	plt.matshow(df_copy.corr())
+	#plt.matshow(df_copy.corr())
 	f, ax = plt.subplots(figsize=(10, 8))
 	g = sns.heatmap(corr, mask=np.zeros_like(corr, dtype=np.bool), cmap=sns.diverging_palette(220, 10, as_cmap=True),square=True, ax=ax)
 	#g = sns.heatmap(corr, xticklabels=corr.columns.values,yticklabels=corr.columns.values)
 	g.set_yticklabels(g.get_yticklabels(), rotation = 0, fontsize = 8)
 	g.set_xticklabels(g.get_xticklabels(), rotation = 45, fontsize = 8)
-	g.set_title('Correlation Bushcke, MMSe, conversionMCI')
+	g.set_title('Correlation Bushcke, MMSE, conversionMCI')
 	print('*** DONE!!!!! ***')
 	pdb.set_trace()
 	#time.sleep(10)

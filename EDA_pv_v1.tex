@@ -452,6 +452,41 @@ Plot the distribution of S $\mu = 16.37, \sigma=5.1770$, get the left tail $\mu 
 
 %https://kids.frontiersin.org/article/10.3389/frym.2017.00071
 %https://www.scientificamerican.com/article/does-size-matter-for-brains/
+
+\subsection{Bayesian inference for hypothesis testing}
+\label{sse:res}
+%https://docs.pymc.io/notebooks/BEST.html
+Bayesian Estimation Supersedes the T-Test
+\cite{kruschke2013bayesian}
+
+When we are interested about two groups being different from each other we need a statistical model because true differences are usually accompanied by measurement of stochastic noise which prevents us from drawing conclusions simply from differences calculated from the observed data.
+Thus, statistical test difference are necessary because of noise. There is noise in the measurement (epistemic uncertainty) and noise in the world (aleatoric uncertainty), the latter we cant do anything about it the former can be refined. Uncertainty can be aleatory or epistemic. Epistemic is when the modeler sees an opportunity to tame the uncertainty by gathering more data or by refining the model, that is in epistemic uncertainty the modeler has a say, she can intervene to try to reduce it. In aleatory uncertainty, on the contrary, the modeler does not foresee ways to reduce it. Thus, aleatoric uncertainty is one that is presumed to be related to the intrinsic randomness of the phenomenon, the epistemic uncertainty is caused by a lack of knowledge (or data). Note that parameter uncertainties are strictly epistemic because the uncertainty in the estimation decreases and may asymptotically vanish with increasing quantity and quality of the available observational data. 
+Measurement error is also epistemic error.
+%Special Workshop on Risk Acceptance and Risk Communication March 26-27, 2007, Stanford University
+
+% ojo literal
+%https://docs.pymc.io/notebooks/BEST.html
+The \emph{de facto} standard for statistically comparing two or more samples is to use statistical test, that is, declare a null hypothesis (e.g. there is no difference between the groups) and using a chosen test statistic to decide whether the distribution of the observed data is plausible under the hypothesis. The rejection occurs when the calculated test statistic is higher than some pre-specified threshold value.
+The criticism of this approach are both well documented and justified. Setting up a statistical test involves several subjective choices (e.g. statistical test to use, null hypothesis to test, significance level) by the user that are rarely justified based on the problem or decision at hand, but rather, are usually based on "traditional" choices that are entirely arbitrary\cite{aarts2012insignificance}. Furthermore, the evidence that provides is indirect, incomplete and typically overstates the evidence against the null hypothesis \cite{goodman1999toward}.
+
+Here we will use a more informative and sound approach for comparing groups, which is based on estimation rather than testing and Bayesian rather than frequentist. The bottom line is that instead of checking if the groups are different under some hardly justified criterion, we estimate how different they are. Note that since we will make estimates we are oblige of include the uncertainty in the estimate. We will distinguish between epistemic uncertainty (lack of knowledge of the model parameters) and aleatory uncertainty (inherent stochasticity of the system).
+
+
+In practical terms  this is how we perform Bayesian estimation.
+The first step in a Bayesian approach to inference is to specify the full probability model that corresponds to the problem. For example, we can use a t-student distribution, normal etc. to describe the data of each of the two groups. T-student is a robust choice (less sensitive to outliers). T-student has 3 parameters, mean, precision (inverse variance) and degrees of freedom which sets the normality of the distribution, large $\nu$ close to normal, small heavy tails $\nu$. Then, we define the likelihood functions for each group (prob observed data can be drawn from the putative model).
+\begin{equation}
+y_i^{(H)} \sim T(\nu, \mu_1, \sigma_1) \\
+y_i^{(C)} \sim T(\nu, \mu_2, \sigma_2)
+\end{equaion}   
+of course we need to have different parameers for mean adn std but for simploicity we assume same degreees of freedom.
+Now, we need a distribution for the means, since they are real valued we use Normal distribution, with mean (from the pooled experimental and twice the pooled empirical std in order to apply diffuse (little) information and do not favor any particular prior).
+\begin{equation}
+\mu_k \sim N(\hat{x}, 2*\sigma)
+\end{equaion}
+
+Having fully specified our probabilistic model (all the parameters, mu, precision and dimensions) we can compute the comparisons, we compute the difference of means,difference of stds and rthe ffect size (difference of means divided by the squared root of the pooled estimates of the std).
+Finally, we can fit the model and evaluate its output
+
 \section{Results}
 \label{se:res}
 
