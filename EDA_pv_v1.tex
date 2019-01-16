@@ -390,68 +390,287 @@ The longitudinal variables are MRI, cognitive performance, Neuropsychiatric, Qua
 
 \subsubsection{Cognitive Performance}
 \label{sse:cogper}
+Figures \ref{fig:cogperyears} and \ref{fig:cogperyears} plot the evolution of four measures related to cognitive performance. Figure \ref{fig:cogperyears}, clockwise and starting in the top left chart: score for the number of words that start by the letter p in one minute, score for the number of animals that the subject can recall in one minute, score of speed processing of symbols and the score in the mini-mental examination (MMSE). 
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/p_visita}
+        \caption{Histograms of number of words that start by the letter p for each year.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/animales_visita}
+        \caption{Histograms of number of animals recalled each year.}
+    \end{subfigure}%\quad
+    
+     \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/cn_visita}
+        \caption{Histograms of score of speed processing of symbols for each year.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/mmse_visita}
+        \caption{Histograms of score of the MMSE test score for each year.}
+    \end{subfigure}%\quad
+   
+    \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the seven years of \emph{Vallecas Project}. From left to right and top to bottom: number of words that start by letter p, number of animals, speed processing of symbols and MMSE.}
+    \label{fig:cogperyears}
+\end{figure}
+
+Figure \ref{fig:cogper4} plots the time series for four measures related to cognitive performance. Clockwise starting top left chart: score of speed processing of symbols, score for the number of animals that the subject can recall in one minute, score for the number of words that start by the letter p in one minute and the score in the mini-mental examination (MMSE).
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/p_visita1_years}
+        \caption{Time series (indexed in years) of the  number of words that start by the letter p that subjects can recall in one minute. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=13.44, \sigma_{1}=7.02$, $\mu_{2}=14.16, \sigma_{2}=4.96$, $\mu_{3}=14.30, \sigma_{3}=4.94$, $\mu_{4}=14.21, \sigma_{4}=4.94$,$\mu_{5}=14.71,\sigma_{5}=4.92$.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/animales_visita1_years}
+        \caption{Time series the  number of animals that subjects can recall in one minute. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=18.21, \sigma_{1}=8.71$, $\mu_{2}=17.76, \sigma_{2}=5.12$, $\mu_{3}=18.48, \sigma_{3}=5.40$, $\mu_{4}=18.29, \sigma_{4}=5.54$,$\mu_{5}=18.32,\sigma_{5}=5.50$.}
+    \end{subfigure}%\quad
+    
+     \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/cn_visita1_years}
+        \caption{Time series of feature \emph{cn} which measures the speed processing of symbols in a task (attention and velocity). This measure tends to be more stable than other eg Buschke. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=18.71, \sigma_{1}=7.60$, $\mu_{2}=18.70, \sigma_{2}=7.47$, $\mu_{3}=18.81, \sigma_{3}=7.55$, $\mu_{4}=18.54, \sigma_{4}=7.67$,$\mu_{5}=18.05,\sigma_{5}=7.35$.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/mmse_visita1_years}
+        \caption{Time series of the score of the minimental examination test MMSE. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=28.40, \sigma_{1}=1.78$, $\mu_{2}=28.44, \sigma_{2}=1.80$, $\mu_{3}=28.23, \sigma_{3}=2.00$, $\mu_{4}=28.11, \sigma_{4}=2.28$,$\mu_{5}=27.94,\sigma_{5}=2.45$.}
+    \end{subfigure}%\quad
+   
+    \caption{Time series of cognitive performance across the seven years of \emph{Vallecas Project} of features related to cognitive performance. The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}.}
+    \label{fig:cogper4}
+\end{figure}
+
+
+Figure \ref{fig:cogperyearsbus}, clockwise and starting in the top left chart: Buschke delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details \ref{}).
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/fcsrtlibdem_visita}
+        \caption{Histograms of the Buschke delayed recall score for each year.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/bus_meana_visita}
+        \caption{Histograms of of the Buschke arithmetic mean for each year.}
+    \end{subfigure}%\quad
+    
+     \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/bus_sum_visita}
+        \caption{Histograms of of the Buschke sum for each year.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/bus_int_visita}
+        \caption{Histograms of of the \emph{Buschke Integral} score for each year..}
+    \end{subfigure}%\quad
+   
+    \caption{THistograms showing the evolution of features related to the cognitive performance of the subjects across the seven years of \emph{Vallecas Project}. From left to right and top to bottom: 
+    Buschke delayed recall score,Buschke arithmetic mean,  Buschke sum and \emph{Buschke Integral}.}
+    \label{fig:cogperyearsbus}
+\end{figure}
+
+
+Figure \ref{fig:busper4} plots the time series for four measures related to cognitive performance measured using the Buschke test. Clockwise starting top left chart: delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details \ref{}).
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/fcsrtlibdem_visita1_years}
+        \caption{Time series (indexed in years) of Buscke recall delayed score. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=9.02, \sigma_{1}=3.01$, $\mu_{2}=9.44, \sigma_{2}=3.02$, $\mu_{3}=10.10, \sigma_{3}=3.23$, $\mu_{4}=10.44, \sigma_{4}=3.52$,$\mu_{5}=14.76,\sigma_{5}=3.62$.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/bus_meana_visita1_years}
+        \caption{Time series (indexed in years) of the mean of the Buschke score. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): }
+    \end{subfigure}%\quad
+    
+     \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/bus_sum_visita1_years}
+        \caption{Time series (indexed in years) of the sum of the Buschke score. The statistics for years 1 to 5 (years 6 and 7 are still ongoing):}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/bus_int_visita1_years}
+        \caption{Time series (indexed in years) of the mean of the \emph{Buschke Integral} score. The statistics for years 1 to 5 (years 6 and 7 are still ongoing):}
+    \end{subfigure}%\quad
+   
+    \caption{Time series of Buschke scores (delayed recall, mean of scores, sum of scores and the \emph{Buschke Integral} score) across the seven years of \emph{Vallecas Project} of features related to cognitive performance. The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}} 
+    \label{fig:busper4}
+\end{figure}
+
+
+% faq can deal with domestic affairs nort confnitive performance but functioal
+% cdrsum how the examiner sees the subject, not performance but functional, cdrtot is the same as diagnostoc.
 
 \subsubsection{Neuropsychiatric}
 \label{sse:neupsy}
+%Neuropsychiatric includes 'act_ansi_visita1', 'act_ansi_visita2', 'act_ansi_visita3', 'act_ansi_visita4','act_ansi_visita5', 'act_ansi_visita6', 'act_ansi_visita7','act_apat_visita1',\'act_apat_visita2', 'act_apat_visita3', 'act_apat_visita4', 'act_apat_visita5', 'act_apat_visita6', 'act_apat_visita7','act_depre_visita1', 'act_depre_visita2',\'act_depre_visita3', 'act_depre_visita4', 'act_depre_visita5', 'act_depre_visita6',\'act_depre_visita7','gds_visita1', 'gds_visita2', 'gds_visita3', 'gds_visita4', \'gds_visita5', 'gds_visita6', 'gds_visita7','stai_visita1', 'stai_visita2', \'stai_visita3', 'stai_visita4', 'stai_visita5', 'stai_visita6', 'stai_visita7'
+%gds: 0,14 stai: real numbers
+
+Figure \ref{fig:neuropsylong} plots the evolution of features related to neuropsychiatric disorders, specifically the Geriatric Depression Scale (GDS) and the State and Trait Anxiety Scores (STAI). 
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/gds_visita}
+        \caption{.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/stai_visita}
+        \caption{}
+    \end{subfigure}%\quad
+    \caption{} 
+    \label{fig:neuropsylong}
+\end{figure}
+
+
+Figure \ref{fig:neuropsy} plots the time series for features related to neuropsychiatric disorders, specifically the Geriatric Depression Scale (GDS) and the State and Trait Anxiety Scores (STAI). 
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/gds_visita1_years}
+        \caption{Time series (indexed in years) of the geriatric depression scale (GDS) with 14 questions. A score larger that 5 points in GDS is suggestive of depression. The statistics for years 1 to 5 (years 6 and 7 are still ongoing) are: $\mu_{1}=1.63, \sigma_{1}=2.24$, $\mu_{2}=1.58, \sigma_{2}=2.35$, $\mu_{3}=2.18, \sigma_{3}=2.52$, $\mu_{4}=2.15, \sigma_{4}=2.61$,$\mu_{5}=2.16,\sigma_{5}=2.63$.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/act_ansi_visita1_years}
+        \caption{ }
+    \end{subfigure}%\quad
+    \caption{Time series of the Geriatric Depression Scale (GDS) and the State and Trait Anxiety (STAI) scores across the seven years of \emph{Vallecas Project}. The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}} 
+    \label{fig:neuropsy}
+\end{figure}
 
 \subsubsection{Quality of Life self assessment}
 \label{sse:qol}
+%'QualityOfLife':['eq5dmov_visita1' (movilidad hoy) 'eq5dcp_visita1' (cuidado perso hoy)'eq5dact_visita1' (act quoti hoy),'eq5ddol_visita1' (dolor hoy), 'eq5dans_visita1' (feeling depre anxi hoy), 'eq5dsalud_visita1' (salud comparado last year), 'eq5deva_visita1','valcvida2_visita1' (como valora su qofl) 'valsatvid2_visita1' (como valora su vida) , 'valfelc2_visita1' (cual es su grado de satisf)]
 
-\subsubsection{Subjective cognitive decline}
-\label{sse:scd}
+Figure \ref{fig:qollong} plots the evolution of the quality of life self-assessed by the participants in \emph{Vallecas Project}.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/eq5dmov_visita}
+        \caption{Histograms of the personal mobility self assessed by the subjects.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/eq5ddol_visita}
+        \caption{Histograms of pain feeling for each year}
+    \end{subfigure}%\quad
+    
+     \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/eq5dsalud_visita}
+        \caption{Histograms of self assessment of health compared with the previous year.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/valfelc2_visita}
+        \caption{Histograms of the life satisfaction for each year.}
+    \end{subfigure}%\quad
+   
+    \caption{Histograms showing the evolution of features related to the quality of life of the subjects across the seven years of \emph{Vallecas Project}.}
+    \label{fig:qollong}
+\end{figure}
+
+Figure \ref{fig:qol4} plots the time series for four measures related to quality of life self-assessed by the participants in \emph{Vallecas Project}. Clockwise starting top left chart: score of personal mobility, feeling pain, self assessment of health compared with the previous year and life satisfaction score.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/eq5dmov_visita1_years}
+        \caption{Time series of the score of personal mobility self assessed by the subjects. The statistics for years 1 to 5 (years 6 and 7 are still ongoing):.}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/eq5ddol_visita1_years}
+        \caption{Time series of pain feeling. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): .}
+    \end{subfigure}%\quad
+    
+     \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/eq5dsalud_visita1_years}
+        \caption{Time series of self assessment of health compared with the previous year. This measure tends to be more stable than other eg Buschke. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): .}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=2.5in]{figures/valfelc2_visita1_years}
+        \caption{Time series of the score of life satisfaction. The statistics for years 1 to 5 (years 6 and 7 are still ongoing) are: .}
+    \end{subfigure}%\quad
+   
+    \caption{Time series of auto-informed scores of quality of life across the seven years of \emph{Vallecas Project}. The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}.}
+    \label{fig:qol4}
+\end{figure}
 
 \subsubsection{Diagnoses}
-\label{sse:diag}
+\label{sse:scd}
+
+%0 = Control 1= SCD 2 = SCD-Plus 3 = MCI 4 = Dementia
+%\subsubsection{Diagnoses}
+%\label{sse:diag}
+Figure \ref{fig:diag1} plots the time series for the diagnoses administered to subjects for each year's visit. The diagnosis includes 5 categories: Healthy, Subjective Cognitive Decline (SCD), Subjective Cognitive Decline Plus (SCD +), Mild Cognitive Impairment (MCI) and Alzheimer's disease (AD).
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/conversion_years}
+        \caption{Ratio of subjects diagnosed as Healthy, Subjective Cognitive Decline (SCD), Subjective Cognitive Decline Plus (SCD +), Mild Cognitive Impairment (MCI) and Alzheimer's disease (AD) across the seven years of \emph{Vallecas Project}.} 
+        \label{fig:diag1}
+\end{figure}
+% SCD only
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}[t]{0.45\textwidth}
+%         \centering
+%         \includegraphics[height=2.5in]{figures/dx_largo_SCD_visita1_years}
+%         \caption{Time series (indexed in years) of the number of subjects with subjective cognitive decline. The statistics for years 1 to 5 (years 6 and 7 are still ongoing) are: .}
+%     \end{subfigure}
+%     %~ 
+%     \hfill
+%     \begin{subfigure}[t]{0.45\textwidth}
+%         \centering
+%         \includegraphics[height=2.5in]{figures/dx_largo_PLUS_visita1_years}
+%         \caption{Time series (indexed in years) of the number of subjects with subjective cognitive decline plus. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): }
+%     \end{subfigure}%\quad
+%     \caption{Time series (indexed in years) of the number of subjects with subjective cognitive decline . The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}} 
+%     \label{fig:scd2}
+% \end{figure}
+
 
 
 \section{Methodology}
 \label{se:met}
-The Buschke memory test with free and cued recall is commonly used to assessing persons across levels of cognitive functioning \cite{buschke1973selective}. The Buchske test is of easy realization and can be performed by participants with different levels of impairment and clinical conditions \cite{o200212}, \cite{leitner2017comparison}. The test was originally  designed to asses long-term storage (LTS), retrieval from long-term storage (LTR), and recall from short-term storage (STR).
-
-The Buschke test in \emph{Proyecto Vallecas} consists in asking the subject to recall a list of words in three occasions separated by distracting periods. First, the experimenter reads a list of 16 words and the subject is immediately asked to recall as many words as possible. Next, the subject is distracted with an interference test to be asked again to recall the original 16 words, the subject is distracted again with another interference test to be asked for the third time to recall the original 16 words.
-
-The score consists in three numbers each computes the number of words that the subject correctly recalled at each time. In order to asses retrieval from short/long?-term storage both the total number of items and the increase/decrease in the scores need to be considered. Two subjects with identical aggregate score could have very different recalling. For example, let us say that we perform the Buschke test in two subjects, subject A and subject B. Subject A recalls 12, 14 and 15 words at each time and subject B has for the same test a score of 15, 14 and 12, both subjects have recalled the same total number of items (41) but memory retention is very different. Subject B shows no memory retention (a decrease in the number of recalled items) while subject A does consolidate her memory (an increase in the number of recalled items).
-It is evident, then, that in order to have an unique score from the three scores described we can't just aggregate the scores since we would be missing whether the subjects recalls or forgets which is what the Buschke memory test is essentially testing for. In order to capture this information we need take into account whether the scores increase, decrease or stay stationary.
-
-We have defined a model that brings together the aggregate of recalled items and the slope of the curve described by the scores at each trial. 
-From calculus we know that the area under a curve between two points can be found by doing a definite integral between the two points. 
-The three scores in the Buchske are defined in the space of the positive integers, $x \in +\mathbb{Z}^3$, the area under the curve $y = f(x)$ between two points $x=a$ and $x=b$ is the integral between the limits of $a$ and $b$ which gives us the area defined by the region $f(x)$ and the boundaries a and b.
-\begin{equation}
-\int_{x=a}^{x=b}f(x)dx
-\label{eq:defint}
-\end{equation}
- 
-Coming back to our original problem we need calculate not only the area between the interval (a,b) corresponding to the first and the third recall scores, but also the area defined between the first and the second scores $(a,h)$ and between the second and the third scores $(h,b)$.  
-Thus, the quantity $S$ we want to compute is defined as:
-\begin{equation}
-S = \int_{a}^{b}f(x)dx + \int_{a}^{h}(f(x) - f(a))dx + \int_{h}^{b}(f(x)-f(h))dx
-\label{eq:buchske}
-\end{equation}
-
-where the first term on the right side is the area under the curve which gives us an aggregate of the number of items recall, the second and third terms are also areas but contrary to the first term which is always positive because $y =f(x), y \in [0,16]$, can be negative if the $f(x)$ is decreasing, positive if $f(x)$ is increasing or zero in case $f(x)$ remains constant across trials.
-
-Let us see this with an example, for the sake of the argument we assume that the scores are $[0,1,2]$ rather than $[0,1,....16]$. Figure \ref{fig:b} shows the value of $S$ in three different examples, in each case the area is identical, 2, for a total maximum of 4 but $S$ varies with the slope of the learning curve. On the left, figure \ref{fig:b}-a,
-$S$ is strictly equal to the area cover by the curve because the curve is flat, $S=2$. On the middle figure, \ref{fig:b}-b, the scores $S$ is larger than the previous case because the curve is increasing (positive slope), $S=2+1/2+1/2=3$. Finally, the figure on the right side, \ref{fig:b}-c, $S=2-1/2-1/2=1$ capturing that the slope is negative and therefore the subject is not consolidating memory.      
-  
-%https://matplotlib.org/gallery/showcase/integral.html#sphx-glr-gallery-showcase-integral-py
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/fig_buschkewitheqs}
-        \caption{The figure shows the computation of the Buschke scores in three scenarios. On the left figure (a) there is no learning because the subject recalls the same number of items each time ($f(x)=1, x=[0,1,2], S=2$), on the middle figure (b) the subjects learns ($f(x)=x, x=[0,1,2], S=3$) and on the right figure (c) the subject forgets items ($f(x)=2-x, x=[0,1,2], S=1$). The maximum score not (shown) is $S=4$ that corresponds with the subject recalling all the two items at each time ($f(x)=2, x=[0,1,2], S=4$).} 
-        \label{fig:b}
-\end{figure}
-
-Figure \ref{fig:b} calculates the surface of the trapezoids, it is also possible to interpolate and calculate the surface defined by the spline within the x and y axis.
-One  advantage of having $S$ is that it gives us a new scale of memory health condensed in one number, for example rather than building a classifier of converter versus no convderters we could build regressors that predict the $S$ score. The upper bound is 32 and the minimum 0.
-
-Once we have exposed the conceptual soundness of the concept we need to study the utility of S in order to do that we will take advantage of the large dataset in Proyecto Vallecas.
-We compare the correlation between conversion to MCI and S, and single values of the Buschke test and other cognitive performance test. We also compare S with other aggregates of the Buschke test like the sum or the arithmetic and the geometric mean.
-
-Calculate the DTW between S and a conversion or memory indicator across years, for example the ICV or the hippocampal volume. 
-Plot the distribution of S $\mu = 16.37, \sigma=5.1770$, get the left tail $\mu + n*\sigma$ (worst recallers) and the right tail (best recallers) and study neurophysiological differences. Look at, hippocampal siuze, connectivity. YS: WHERE to look at
-
-%https://kids.frontiersin.org/article/10.3389/frym.2017.00071
-%https://www.scientificamerican.com/article/does-size-matter-for-brains/
 
 \subsection{Bayesian inference for hypothesis testing}
 \label{sse:res}
@@ -477,12 +696,12 @@ The first step in a Bayesian approach to inference is to specify the full probab
 \begin{equation}
 y_i^{(H)} \sim T(\nu, \mu_1, \sigma_1) \\
 y_i^{(C)} \sim T(\nu, \mu_2, \sigma_2)
-\end{equaion}   
-of course we need to have different parameers for mean adn std but for simploicity we assume same degreees of freedom.
+\end{equation}   
+of course we need to have different parameters for mean adn std but for simploicity we assume same degreees of freedom.
 Now, we need a distribution for the means, since they are real valued we use Normal distribution, with mean (from the pooled experimental and twice the pooled empirical std in order to apply diffuse (little) information and do not favor any particular prior).
 \begin{equation}
 \mu_k \sim N(\hat{x}, 2*\sigma)
-\end{equaion}
+\end{equation}
 
 Having fully specified our probabilistic model (all the parameters, mu, precision and dimensions) we can compute the comparisons, we compute the difference of means,difference of stds and rthe ffect size (difference of means divided by the squared root of the pooled estimates of the std).
 Finally, we can fit the model and evaluate its output
@@ -494,8 +713,103 @@ Finally, we can fit the model and evaluate its output
 % build the code, calculate the b-integral compare if it is better than indoividual scores or the aggregate score in a rgression o ...
 % /Users/jaime/github/papers/EDA_pv/code/area_under_curve.py
 
+
 \section{Conclusions}
 \label{se:con}
+
+
+%-------------------------------------------------------------------------------
+% REFERENCES
+%-------------------------------------------------------------------------------
+\newpage
+\section{Appendix. The \emph{Buschke Integral} score}
+\label{se:appbusint}
+
+The empirical or clinical demonstration of the utility of the score is done in three ways, first calculating the correlation beteen S and the individual Buschke values(and the sum) with conversion. Second, compute the correlation of the score with hippocampal volume (underlying the capacity of operational memory) and finally the robustness of the score in time, that is, we compare the variability in individual basis across years, we expect to have less variability of S compared to individual scores in subject basis. The range of scores is different (16 vs 32) so we calculate the inter years difference and normalize 0,1.
+%The most important EDA on time series data is to identify trend, seasonality & correlation. 
+
+%Plot longitudinal time series (histograms + mean sigma) and do EDA of time series.
+
+EDA:: Calculate volatility of time series $x_t , t=1,7$, test for stationarity but they are really short.
+Normalize (standarize) to have mean 0. Normalize values $X_{1}$, values of score for year 1 all subjects, a value of this variable is $X^{s=1180}_{1}$. The multidimensional i, $n=7, X_{i}$ has subjects visits per year elements $X_1$ has 1180... $X_7$ has 107 elements. From the values we then compute the probability distribution, we can get 10 bins (0, 0.1,0.9,1) or $100 (0,0.01,...0.99,1)$. Finally we calculate the KL distance inter years for each score $KL(P_i| P_{i-k})$, for example P is the prob dis of sum of B. Plot the distributions, and show the shadow areas of MI.
+
+We do KL also for new B $KL(Q_i| Q_{i-k})$, we expect that the MI interyears of the new B is larger than sum of B.
+
+%To get distribution/histogram, you can use value_counts() on pd.Series object and then normalize by .sum() to calculate percentage
+%df['sum'].value_counts()
+%temp/temp.sum()
+%sumatemp= temp/temp.sum()
+%# Q2. groupby on marks
+%df.groupby('sum')['bus'].value_counts() / df.groupby('sum')['bus'].count()
+% https://stackoverflow.com/questions/31617597/generate-probability-vectors-from-python-pandas-dataframe-and-calculate-dot-prod
+%dataframe['bus_visita1'].value_counts()/dataframe['bus_visita1'].count()
+
+% from sklearn import preprocessing
+
+% x = df.values #returns a numpy array
+% x_scaled = min_max_scaler.fit_transform(x)
+% min_max_scaler = preprocessing.MinMaxScaler()
+
+% x = x.reshape(1180,1)
+
+% df = pandas.DataFrame(x_scaled)
+
+\subsection{The Buschke test}
+The Buschke memory test with free and cued recall is commonly used to assessing cognitive functioning. The Buchske test is of easy realization and can be performed by participants with different levels of impairment and clinical conditions \cite{o200212}, \cite{leitner2017comparison}. The test was originally designed to asses long-term storage (LTS), retrieval from long-term storage (LTR), and recall from short-term storage (STR) \cite{buschke1973selective}.
+
+The Buschke test in the \emph{Vallecas Project} consists in asking the subject to recall a list of words in three occasions separated by distracting periods. First, the experimenter reads a list of 16 words and the subject is immediately asked to recall as many words as possible. Next, the subject is distracted with an interference test to be asked again to recall the original 16 words, the subject is distracted again with another interference test to be asked for the third time to recall the original 16 words.
+
+The score consists in three numbers each computes the number of words that the subject correctly recalled at each time. In order to asses retrieval from short-term storage both the total number of items and the increase/decrease in the scores need to be considered. Two subjects with identical aggregate score could have very different recalling. For example, let us say that we perform the Buschke test in two subjects, subject A and subject B. Subject A recalls 12, 14 and 15 words at each time and subject B has for the same test a score of 15, 14 and 12, both subjects have recalled the same total number of items (41) but memory retention is very different. Subject B shows no memory retention (a decrease in the number of recalled items) while subject A does consolidate her memory (an increase in the number of recalled items).
+It is evident, then, that in order to have an unique score from the three scores described we can't just aggregate the scores since we would be missing whether the subjects recalls or forgets which is what the Buschke memory test is essentially testing for. In order to capture this information we need take into account whether the scores increase, decrease or stationary.
+
+We have defined a model that brings together the aggregate of recalled items and the slope of the curve described by the scores at each trial. 
+From calculus we know that the area under a curve between two points can be found by doing a definite integral between the two points. 
+The three scores in the Buschke are defined in the space of the positive integers, $x \in +\mathbb{Z}^3$, the area under the curve $y = f(x)$ between two points $x=a$ and $x=b$ is the integral between the limits of $a$ and $b$ which gives us the area defined by the region $f(x)$ and the boundaries a and b.
+\begin{equation}
+\int_{x=a}^{x=b}f(x)dx
+\label{eq:defint}
+\end{equation}
+ 
+Coming back to our original problem we need to calculate not only the area between the interval (a,b) corresponding to the first and the third recall scores, but also the area defined between the first and the second scores $(a,h)$ and between the second and the third scores $(h,b)$.  
+Thus, the quantity $S$ we want to compute is defined as:
+\begin{equation}
+S = \int_{a}^{b}f(x)dx + \int_{a}^{h}(f(x) - f(a))dx + \int_{h}^{b}(f(x)-f(h))dx
+\label{eq:buchske}
+\end{equation}
+where the first term on the right side is the area under the curve which gives us the aggregate of the number of items recall, the second and third terms contrary to the first term which is always positive because $y =f(x), y \in [0,16]$, can be negative if the curve $f(x)$ is decreasing, positive if $f(x)$ is increasing or zero in case $f(x)$ remains constant across trials.
+
+Let us see this with an example, for simplicity's sake we assume that the scores are $[0,1,2]$. Figure \ref{fig:b} shows the value of $S$ in three different examples, in each case the area is identical, 2, for a total maximum of 4 but $S$ varies with the slope of the learning curve. On the left, figure \ref{fig:b}-a,
+$S$ is strictly equal to the area cover by the curve because the curve is flat, $S=2$. On the middle figure, \ref{fig:b}-b, the score $S$ is larger than the previous case because the curve is increasing (positive slope), $S=2+1/2+1/2=3$. Finally, the figure on the right side, \ref{fig:b}-c, $S=2-1/2-1/2=1$ capturing that the slope is negative and therefore the subject is not consolidating memory.      
+  
+%https://matplotlib.org/gallery/showcase/integral.html#sphx-glr-gallery-showcase-integral-py
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/fig_buschkewitheqs}
+        \caption{The figure shows the computation of the \emph{Buschke Integral} scores in three scenarios. On the left figure (a) there is no learning because the subject recalls the same number of items each time ($f(x)=1, x=[0,1,2], S=2$), on the middle figure (b) the subjects learns ($f(x)=x, x=[0,1,2], S=3$) and on the right figure (c) the subject forgets items ($f(x)=2-x, x=[0,1,2], S=1$). The maximum score not (shown) is $S=4$ that corresponds with the subject recalling all the two items at each time ($f(x)=2, x=[0,1,2], S=4$).} 
+        \label{fig:b}
+\end{figure}
+
+%Figure \ref{fig:b} calculates the surface of the trapezoids, it is also possible to interpolate and calculate the surface defined by the spline within the x and y axis.
+One advantage of the \emph{Buschke Integral} score $S$ defined here is that it gives us a new scale of memory health condensed in one single number. This allows us to parcel the space of subjects in a larger number of meaningful categories beyond the converter versus no converter classification. The new metric upper bound is 32 (max score per trial $(16)\times (3-1)$ number of points -1) and the minimum 0.
+
+
+Once we have justify the conceptual soundness of the \emph{Buschke Integral} score we need to study the clinical utility of term, to do so we will take advantage of the large dataset \emph{Vallecas Project}.
+
+We compare the correlation between conversion to MCI and S, and single values of the Buschke test and other cognitive performance test. We also compare S with other aggregates of the Buschke test like the sum or the arithmetic and the geometric mean.
+
+Calculate the DTW between S and a conversion or memory indicator across years, for example the ICV or the hippocampal volume. 
+Plot the distribution of S $\mu = 16.37, \sigma=5.1770$, get the left tail $\mu + n*\sigma$ (worst recallers) and the right tail (best recallers) and study neurophysiological differences. Look at, hippocampal siuze, connectivity. YS: WHERE to look at
+
+-plot the kde of bus int, use sns pairplot when i have the hippo sizes script
+
+-correlation with conversion
+- kullback leiber of distribution inter years compared with other measures (sum etc) see if distance is smaller ion. b int
+- correlation with brain hippocampus
+
+%https://kids.frontiersin.org/article/10.3389/frym.2017.00071
+%https://www.scientificamerican.com/article/does-size-matter-for-brains/
+
+
 
 \subsection{The neuroanatomy of memory}
 
@@ -570,16 +884,14 @@ The biological basis STM: stimuli are coded in STM using transmitter depletion, 
 \end{figure}
 
 %Rehearsal is the process where information is kept in short-term memory by mentally repeating it. When the information is repeated each time, that information is reentered into the short-term memory, thus keeping that information for another 10 to 20 seconds (the average storage time for short-term memory)
-%-------------------------------------------------------------------------------
-% REFERENCES
-%-------------------------------------------------------------------------------
 \newpage
-
 \addcontentsline{toc}{section}{References}
 
 
 % BibTeX users please use
 \bibliographystyle{apalike}
 \bibliography{../bibliography-jgr/bibliojgr}
+
+
 
 \end{document}
