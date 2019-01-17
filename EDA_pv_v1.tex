@@ -483,7 +483,7 @@ Figure \ref{fig:cogperyearsbus}, clockwise and starting in the top left chart: B
         \caption{Histograms of of the \emph{Buschke Integral} score for each year..}
     \end{subfigure}%\quad
    
-    \caption{THistograms showing the evolution of features related to the cognitive performance of the subjects across the seven years of \emph{Vallecas Project}. From left to right and top to bottom: 
+    \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the seven years of \emph{Vallecas Project}. From left to right and top to bottom: 
     Buschke delayed recall score,Buschke arithmetic mean,  Buschke sum and \emph{Buschke Integral}.}
     \label{fig:cogperyearsbus}
 \end{figure}
@@ -536,36 +536,34 @@ Figure \ref{fig:neuropsylong} plots the evolution of features related to neurops
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[height=2.5in]{figures/gds_visita}
-        \caption{.}
+        \caption{Histogram of Geriatric Depression Scale (GDS) score. Larger values indicate a depressive profile. For normally distributed data, the skewness should be about 0, the GDS distribution is clearly right tailed, the skew is 1.93 for year 1 and goes to 1.78 for year 5.}%stats.skew(dataframe['gds_visita5'],nan_policy='omit')
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[height=2.5in]{figures/stai_visita}
-        \caption{}
+        \caption{Histogram of the State and Trait Anxiety Scores (STAI) scores represented as Z-scores. Negative values (left tailed) indicate an anxious profile. For normally distributed data, the skewness should be about 0, the STAI distribution is right tailed, the skew is 0.67 for year 1 and goes to 0.73 year 5.} %stats.skew(dataframe['stai_visita5'],nan_policy='omit')
     \end{subfigure}%\quad
-    \caption{} 
+    \caption{Histograms of Geriatric Depression Scale (GDS) and the State and Trait Anxiety Scores (STAI) z-score across the seven years of \emph{Vallecas Project}.} 
     \label{fig:neuropsylong}
 \end{figure}
 
-
-Figure \ref{fig:neuropsy} plots the time series for features related to neuropsychiatric disorders, specifically the Geriatric Depression Scale (GDS) and the State and Trait Anxiety Scores (STAI). 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[height=2.5in]{figures/gds_visita1_years}
-        \caption{Time series (indexed in years) of the geriatric depression scale (GDS) with 14 questions. A score larger that 5 points in GDS is suggestive of depression. The statistics for years 1 to 5 (years 6 and 7 are still ongoing) are: $\mu_{1}=1.63, \sigma_{1}=2.24$, $\mu_{2}=1.58, \sigma_{2}=2.35$, $\mu_{3}=2.18, \sigma_{3}=2.52$, $\mu_{4}=2.15, \sigma_{4}=2.61$,$\mu_{5}=2.16,\sigma_{5}=2.63$.}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[height=2.5in]{figures/act_ansi_visita1_years}
-        \caption{ }
-    \end{subfigure}%\quad
-    \caption{Time series of the Geriatric Depression Scale (GDS) and the State and Trait Anxiety (STAI) scores across the seven years of \emph{Vallecas Project}. The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}} 
-    \label{fig:neuropsy}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}[t]{0.6\textwidth}
+%         \centering
+%         \includegraphics[height=2.5in]{figures/gds_visita1_years}
+%         \caption{Time series (indexed in years) of the geriatric depression scale (GDS) with 14 questions. A score larger that 5 points in GDS is suggestive of depression. The statistics for years 1 to 5 (years 6 and 7 are still ongoing) are: $\mu_{1}=1.63, \sigma_{1}=2.24$, $\mu_{2}=1.58, \sigma_{2}=2.35$, $\mu_{3}=2.18, \sigma_{3}=2.52$, $\mu_{4}=2.15, \sigma_{4}=2.61$,$\mu_{5}=2.16,\sigma_{5}=2.63$.}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[t]{0.45\textwidth}
+%         \centering
+%         \includegraphics[height=2.5in]{figures/act_ansi_visita1_years}
+%         \caption{ }
+%     \end{subfigure}%\quad
+%     \caption{Time series of the Geriatric Depression Scale (GDS) and the State and Trait Anxiety (STAI) scores across the seven years of \emph{Vallecas Project}. The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}} 
+%     \label{fig:neuropsy}
+% \end{figure}
 
 \subsubsection{Quality of Life self assessment}
 \label{sse:qol}
@@ -672,6 +670,12 @@ Figure \ref{fig:diag1} plots the time series for the diagnoses administered to s
 \section{Methodology}
 \label{se:met}
 
+Compare posterior year n year n+1 for a bunch of feature, the HO is that they don't change , if they change, diff posterior, can be because that feature changes with time(at the light of our data) or because the effect of those that left, to investigate take within year n the two groups remain and left and do Bayesian posterior if Ho true then tej feature changes in time naturally.
+At the end we can get the list of features that we expect to change in time at different lags and those that not.
+
+
+
+
 \subsection{Bayesian inference for hypothesis testing}
 \label{sse:res}
 %https://docs.pymc.io/notebooks/BEST.html
@@ -734,25 +738,6 @@ EDA:: Calculate volatility of time series $x_t , t=1,7$, test for stationarity b
 Normalize (standarize) to have mean 0. Normalize values $X_{1}$, values of score for year 1 all subjects, a value of this variable is $X^{s=1180}_{1}$. The multidimensional i, $n=7, X_{i}$ has subjects visits per year elements $X_1$ has 1180... $X_7$ has 107 elements. From the values we then compute the probability distribution, we can get 10 bins (0, 0.1,0.9,1) or $100 (0,0.01,...0.99,1)$. Finally we calculate the KL distance inter years for each score $KL(P_i| P_{i-k})$, for example P is the prob dis of sum of B. Plot the distributions, and show the shadow areas of MI.
 
 We do KL also for new B $KL(Q_i| Q_{i-k})$, we expect that the MI interyears of the new B is larger than sum of B.
-
-%To get distribution/histogram, you can use value_counts() on pd.Series object and then normalize by .sum() to calculate percentage
-%df['sum'].value_counts()
-%temp/temp.sum()
-%sumatemp= temp/temp.sum()
-%# Q2. groupby on marks
-%df.groupby('sum')['bus'].value_counts() / df.groupby('sum')['bus'].count()
-% https://stackoverflow.com/questions/31617597/generate-probability-vectors-from-python-pandas-dataframe-and-calculate-dot-prod
-%dataframe['bus_visita1'].value_counts()/dataframe['bus_visita1'].count()
-
-% from sklearn import preprocessing
-
-% x = df.values #returns a numpy array
-% x_scaled = min_max_scaler.fit_transform(x)
-% min_max_scaler = preprocessing.MinMaxScaler()
-
-% x = x.reshape(1180,1)
-
-% df = pandas.DataFrame(x_scaled)
 
 \subsection{The Buschke test}
 The Buschke memory test with free and cued recall is commonly used to assessing cognitive functioning. The Buchske test is of easy realization and can be performed by participants with different levels of impairment and clinical conditions \cite{o200212}, \cite{leitner2017comparison}. The test was originally designed to asses long-term storage (LTS), retrieval from long-term storage (LTR), and recall from short-term storage (STR) \cite{buschke1973selective}.
