@@ -174,12 +174,12 @@ Traumatic brain injury & Engagement external world &  \\
 
 \hline
 \end{tabular}
-\caption{Category of features included in the \emph{Vallecas} dataset. Each item in the table refers to a set of variables. Note that some features are collected only during the first year (basal) for example \emph{Genetics}(APOE) or \emph{Demographics} e.g. level of education, but for the most part, features are assessed at each year visit.}
+\caption{The table depicts a classification of the features of the \emph{Vallecas} dataset. Each item in the table refers to a set of variables. Note that some features are collected only during the first year for example APOE (\emph{Genetics}) or the education level (\emph{Demographics}), but for the most part, features are assessed at each year's visit.}
 \label{tab:vallecasvars}
 \end{table}
 
 %%EDA paper1: Here we perform Exploratory Data Analysis (EDA). EDA is the first step in the data analysis process and is performed once the pre processing steps have finished. 
-The total number of visits collected in the so far 7 years project is 4444. Figure \ref{fig:pv5years} depicts the number of volunteers for the seven years life of the project.
+Figure \ref{fig:pv5years} depicts the number of volunteers for the seven years life of the project. The total number of visits collected so far is 4444. 
 
 \begin{figure}[H]
         \centering
@@ -187,9 +187,9 @@ The total number of visits collected in the so far 7 years project is 4444. Figu
         \caption{Number of volunteers across seven years of \emph{Proyecto Vallecas}. As expected, the number of subjects decreases across time. The number of subjects in the year 1 was 1213 of which 33 were removed because were diagnosed with MCI or AD resulting in 1180 subjects recruited to participate in the study in year 1. 965 of the initial 1180 came for a second visit ($18\%$ drop rate), 865 in year 3 ($27\%$ drop rate from year 1), 770 in year 4 ($35\%$ drop rate from year 1), 704 in year 5 ($40\%$ drop rate from year 1), 431 in year 6($63\%$ drop rate from year 1) and 107 in year 7 which at this moment still ongoing ($91\%$ drop rate from year 1). The total number of visits in five years amounts to 5022.} \label{fig:pv5years}
 \end{figure}
 
-The structure of the document is as follows. Section \ref{se:int} provides a comprehensive description of the information collected, the description relies upon visual charts and we also study the distribution of some key features collected in \emph{Proyecto Vallecas} dataset.
-Section \ref{se:met} shows statistical tests and the correlation analysis paying special attention to the evolution of the longitudinal variables and their underlying relationship with cognitive performance. 
-Section \ref{se:met} describes the features that are most strongly related to cognitive decline for both static (measured once) and dynamic variables (measured every year). We extract features from the longitudinal features to build a classifier based on relevant features extracted from time series \cite{christ2018time}. We conclude with the discussion of the results and future works in Section \ref{se:con} connecting our findings with previous populational studies.  
+%The structure of the document is as follows. Section \ref{se:eda} provides a comprehensive description of the information collected, the description relies upon visual charts and we also study the distribution of some key features collected in \emph{Proyecto Vallecas} dataset.
+%Section \ref{se:met} shows statistical tests and the correlation analysis paying special attention to the evolution of the longitudinal variables and their underlying relationship with cognitive performance. 
+%This section describes the features that are most strongly related to cognitive decline for both static (measured once) and dynamic variables (measured every year). We extract features from the longitudinal features to build a classifier based on relevant features extracted from time series \cite{christ2018time}. We conclude with the discussion of the results and future works in Section \ref{se:con} connecting our findings with previous populational studies.  
 
 % YS give full description of features
 % Description of the dataset table with all features
@@ -199,7 +199,7 @@ Section \ref{se:met} describes the features that are most strongly related to co
 %Diet APOE
 %'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
 
-\subsection{Exploratory Data Analysis static variables}
+\section{Exploratory Data Analysis static variables}
 \label{sse:eda}
 %Static as the correlate with conversion
 In this section we perform Exploratory Data Analysis (EDA). The objective of EDA is to build graphical representations that help us make sense of the data. EDA gives us a bird's eye of the dataset aiding at identifying patterns and trends and most importantly, assisting in framing the type of questions we want to ask.
@@ -209,12 +209,12 @@ We will also study the distribution of the most significant features of all type
 
 % features_dict['Anthropometric_s'] == ['lat_manual', 'pabd', 'peso', 'talla', 'audi', 'visu', 'imc']
 % Plot 'pabd', 'peso', 'talla', 'audi'
-\subsubsection{Genetic, Anthropometric and Demographic}
+\subsection{Genetic, Anthropometric and Demographic}
 \label{ssse:ant}
-Figure \ref{fig:apoe} shows the APOE Genotyping test, classifying the subjects in three groups depending on whether they have no copy of the APO$\epsilon4$ allele, one copy APO$\epsilon4$ heterozygotes or two copies of APO$\epsilon4$ \cite{farrer1997effects}. The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD). However researchers have observed risk changes of APO$\epsilon4$ presence with factors such as ethnicity. For instance, Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but at the same time AD is apparently less frequent in Nigerians than in other populations \cite{sepehrnia1989genetic}.
+The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD). However, researchers have observed risk changes of APO$\epsilon4$ presence with factors such as ethnicity. For instance, Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but at the same time AD is apparently less frequent in Nigerians than in other populations \cite{sepehrnia1989genetic}.
 Estimated worldwide human allele frequencies of ApoE is $13.7\%$ and $36.7\%$ in AD patients. On the other hand, $40–65\%$ of AD patients have at least one copy of the APO$\epsilon4$ allele.
 
-In our population, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ heterozygotes and $1\%$ APO$\epsilon4$ homozygotes. 
+Figure \ref{fig:apoe} shows the APOE Genotyping test, classifying the subjects in three groups depending on whether they lack a copy of the APO$\epsilon4$ allele, have one copy APO$\epsilon4$ heterozygotes or have two copies of APO$\epsilon4$ \cite{farrer1997effects}. In our population, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ heterozygotes and $1\%$ APO$\epsilon4$ homozygotes. 
 %DO p(AD|+ in apoe)
 
 \begin{figure}[H]
@@ -224,7 +224,7 @@ In our population, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ he
         \label{fig:apoe}
 \end{figure}
 
-Figure \ref{fig:anthro} shows the histogram for anthropometric variables bmi, abdominal perimeter, weight and height, measured at year 1.
+Figure \ref{fig:anthro} shows the histogram for anthropometric variables bmi, abdominal perimeter, weight and height, measured in the first visit.
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/Fig_anthro}
@@ -242,7 +242,7 @@ Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality.
 \end{figure}
 
 % features_dict['Demographics_s'] == ['edad', 'edad_visita7']
-Figure \ref{fig:ages} shows ages of participants at the inception of the project and the age of the participants that came to the seventh visit.
+Figure \ref{fig:ages} shows the age of the participants at the inception of the project and the age of the participants that came to the seventh visit.
 
 \begin{figure}[H]
         \centering
@@ -253,7 +253,9 @@ Figure \ref{fig:ages} shows ages of participants at the inception of the project
 
 %['renta', 'nivelrenta', 'educrenta', 'municipio', 'barrio', 'distrito', 'sexo', 'nivel_educativo', 'anos_escolaridad', 'familial_ad', 'sdestciv', 'sdhijos', 'numhij', 'sdvive', 'sdocupac', 'sdresid', 'sdtrabaja', 'sdeconom', 'sdatrb']
 
-Figure \ref{fig:incomeresidency} shows the home residency and the income distribution of \emph{Proyecto Vallecas} subjects as estimated based on their home residency. A more in detail representation of the home residency is shown in figure \ref{fig:resid_detail}
+Figure \ref{fig:incomeresidency} shows the home residency and the income distribution of the subjects estimated based on their home residency. 
+%YS make the image with savefig
+%A more in detail representation of the home residency is shown in figure \ref{fig:resid_detail}
 
 \begin{figure}[H]
         \centering
@@ -278,23 +280,29 @@ Figure \ref{fig:demo} depicts the rest of demographic variables including: educa
         \label{fig:demo}
 \end{figure}
 
-\subsubsection{Sleep}
+\subsection{Sleep}
 \label{ssse:sleep}
 
-Figure \ref{fig:sleep} depicts features related to sleep patterns of the subjects. Daily naps are less common that what it could be expected from a Spaniard population aged 70 or more. $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects report to snore during sleep $60\%$. 
+A recent study shows that excessive amounts of tau in the cerebral spinal fluid and spinal cord of extremely sleep-deprived adults. The increase in tau surpassed the 30 percent increase in A-beta. Thus, the two most important hallmarks of AD are affected by sleep \cite{holth2019sleep}.
+
+Understanding the sleep-wake cycle is particularly important, animal studies show that the concentration of Amyloid beta decreases drastically during sleep, suggesting that during sleep removing of metabolic debris could take place \cite{kang2009amyloid}, \cite{xie2013sleep}. However, we causal link sleep-AD is unclear, does lack of sleep causes AD or is the pathology  responsible for disrupting the sleeping cycle. 
+This chicken-and-egg problem can not be solved with correlational studies neither with meta analysis \cite{bubu2016sleep}.
+%https://www.sciencenews.org/article/sleep-brain-alzheimers-plaques-protein
+
+Figure \ref{fig:sleep} depicts features related to sleep patterns of the subjects. Daily naps are less common than what it could be expected from a Spaniard population aged 70 or more. $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects ($60\%$) report to snore during sleep. 
 % YS remove TBI of charts
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_sleep}
-        \caption{Histogram of sleep variables in the \emph{Proyecto Vallecas} dataset in the first year. From left to right and up to the bottom, number of hours of sleep during the day ($\mu=0.45, \sigma=1$), tingling during sleep (0 No, 1 Yes, 9 Dk/Da), movements during sleep (0 No, 1 Yes, 9 Dk/Da), number of hours of night sleep ($\mu=6.8, \sigma=1.3$), deep sleep (1 Light, 2 Moderate, 3 Deep), remember dreams (0 No, 1 Yes, 9 Dk/Da), snoring (0 No, 1 Yes, 2 snore and difficult breathing 9 Dk/Da), noises during sleep (0 No, 1 Yes, 9 Dk/Da), sufficient sleep (0 No, 1 Yes, 9 Dk/Da).} 
+        \caption{Histogram of sleep variables in the \emph{Proyecto Vallecas} dataset in the first year. From left to right and up to the bottom, number of hours of sleep during the day ($\mu=0.45, \sigma=1$), tingling during sleep (0 No, 1 Yes), movements during sleep (0 No, 1 Yes), number of hours of night sleep ($\mu=6.8, \sigma=1.3$), deep sleep (1 Light, 2 Moderate, 3 Deep), remember dreams (0 No, 1 Yes), snoring (0 No, 1 Yes, 2 snore and difficult breathing ), noises during sleep (0 No, 1 Yes), sufficient sleep (0 No, 1 Yes).} 
         \label{fig:sleep}
 \end{figure}
 
 
-\subsubsection{Life style}
+\subsection{Life style}
 \label{ssse:life}
 % Food
-Figure \ref{fig:food} depicts the type of food consumption as reported by the subjects. $84\%$ of subjects report to consume olive oil $6/7$ days a week, $74\%$ bread, $44\%$ vegetables and $29\%$ report consuming sweets 6/7 days a week.
+Figure \ref{fig:food} depicts the type of food consumption as reported by the subjects in a questionnaire. $84\%$ of subjects consume olive oil $6/7$ days a week, $74\%$ bread, $44\%$ vegetables and $29\%$ report consuming sweets $6/7$ days a week.
 
 \begin{figure}[H]
         \centering
@@ -304,7 +312,7 @@ Figure \ref{fig:food} depicts the type of food consumption as reported by the su
 \end{figure}
 
 %Diet
-Figure \ref{fig:diet} depicts the type diet estimated based on the reported weekly food consumption. We distinguish between three different diets: strong glucemic component(carbs, sweets), strong proteic component (red meat, eggs, fish) and Mediterranean (fruit, fish, vegetables) and we calculate an score for each diet based on REF-MA.
+Figure \ref{fig:diet} depicts the type diet based on the reported weekly food consumption. We distinguish between three different diets: diet with a strong glucemic component(carbs, sweets), diet with a strong proteic component (red meat, eggs, fish) and the Mediterranean diet (fruit, fish, vegetables) and we calculate an score for each diet based on REF-Miguel.
 
 \begin{figure}[H]
         \centering
@@ -314,11 +322,11 @@ Figure \ref{fig:diet} depicts the type diet estimated based on the reported week
 \end{figure}
 
 Obesity (Higher midlife BMI) is related to higher risk of dementia and AD, independently of obesity-related risk factors and co-morbidities \cite{tolppanen2014midlife}, \cite{nepal2014rising}. 
-
-The distribution of the BMI in our population is particularly interesting $(\mu_{BMI}=27.3, \sigma_{BMI}=3.6)$. $26.8\%$ of the population have healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$). 
-The majority of subjects report to have hypertension $53\%$ vs $47\%$, this in line with larger studies 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ in men and $39\%$ in women) \cite{grau2011cardiovascular}, \cite{lacruz2015prevalence}.
+The distribution of the BMI in our population is particularly interesting $(\mu_{BMI}=27.3, \sigma_{BMI}=3.6)$. $26.8\%$ of the population have a healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$). 
+The majority of subjects report to have hypertension $53\%$ vs $47\%$, this is in line with larger studies, for example in \cite{grau2011cardiovascular} 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ of men and $39\%$ of women, in \cite{lacruz2015prevalence}.
 $27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 
+Figure \ref{fig:cardio} features related to cardiovascular health in the \emph{Vallecas Project}.
  %total cholesterol ≥ 250 mg/dL (43% and 40%, respectively), 
  %obesity (29% and 29%, respectively), tobacco use (33% and 21%, respectively), and diabetes (16% and 11%, respectively). Total cholesterol ≥ 190 and ≥ 250 mg/dL were the respective minimum and maximum coefficients of variation (7%-24% in men, 7%-26% in women). Average concordance in lipid measurements between laboratories was excellent. 
 %of note the self reported hypertension is inferior to population studies in which the blood pressure is actually measured mean systolic $\geq140$ mmHg and/or diastolic BP (DBP) $\geq90$ mmHg and/or use of antihypertensive medication \cite{lacruz2015prevalence}. 
@@ -337,6 +345,10 @@ $27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 
 %PhysicalExercise_s ['ejfre', 'ejminut']
 %YS: fig left, cambio 1,2 por dias a la semana
+Studies have shown a beneficial effect of physical exercise in the ageing brain, reporting increasing executive functioning and reduction in the expected decline of white and grey tissue density with increased fitness \cite{colcombe2003aerobic}. The effects of physical exercise in white matter of the ageing brain are particularly interesting. Overall, white matter volume variations volume seems to be more contained than grey matter during healthy ageing \cite{bartzokis2003white}. However, the white matter decline is better observed with DTI-based measures rather than conventional T1-weighted imaging \cite{giorgio2010age}.
+
+%Although there is variation among brain regions, it is thought that  We will explore this hypothesis in the future when we have available the segmentation of all the years.
+
 Figure \ref{fig:phys} depicts features related to physical exercise. The subjects were asked the frequency in days per week of their physical exercise and the duration of the sessions.
 \begin{figure}[H]
         \centering
@@ -347,7 +359,7 @@ Figure \ref{fig:phys} depicts features related to physical exercise. The subject
 
 %EngagementExternalWorld_s ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13', 'a14']
 
-Figure \ref{fig:engage} depicts features related to engagement with the external world of the subject. In particular, doing creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, reading habits (books, newspaper, magazines), and use of the internet and IT.
+Figure \ref{fig:engage} depicts features related to engagement with the external world of the subject. In particular, doing creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, reading habits (books, newspaper, magazines), and use of the Internet and IT.
 %EngagementExternalWorld_s ['a03' amigos, 'a04' travel, 'a05' ong, 'a06' church, 'a08' cine, 'a09' sport, 'a10' music, 'a11' tv, 'a12' read, 'a13' internet] 
 Of interest, church goers are a minority in our population, $75\%$ never go to church, $17\%$ that go a few times and $8\%$ go often. $86\%$ habitually watches the TV or listens to the radio, $68\%$ read books or magazines often and only $29\%$ use the Internet often.
 
@@ -358,7 +370,7 @@ Of interest, church goers are a minority in our population, $75\%$ never go to c
         \label{fig:engage}
 \end{figure}
 
-\subsubsection{Cardiovascular}
+\subsection{Cardiovascular}
 \label{ssse:cardio}
 
 % Cardiovascular_s ['hta', 'hta_ini', 'glu', 'lipid', 'tabac', 'tabac_cant', 'tabac_fin', 'tabac_ini', 'sp', 'cor', 'cor_ini', 'arri', 'arri_ini', 'card', 'card_ini', 'tir', 'ictus', 'ictus_num', 'ictus_ini', 'ictus_secu']
@@ -368,7 +380,7 @@ Stroke is a risk factor for coronary heart disease and subjects were asked if th
 The causality between AD and hemorrhagic stroke seems to be reversed (AD causes X, rather than the usual search of factor X that causes AD), patients who had Alzheimer's disease are at the highest risk of hemorrhagic stroke \cite{wang2014newly}.
 % Pass on sp (you think you are overweighted?) and use If your BMI is 25.0 to <30, it falls within the overweight range. If your BMI is 30.0 or higher, it falls within the obese range
 
-\subsubsection{Traumatic brain injury}
+\subsection{Traumatic brain injury}
 \label{ssse:tbe}
 %TraumaticBrainInjury_s ['tce', 'tce_con', 'tce_ini', 'tce_num', 'tce_secu']
 Figure \ref{fig:tce} shows the distribution of episodes (at least one) of traumatic brain injury. 
@@ -380,15 +392,122 @@ Figure \ref{fig:tce} shows the distribution of episodes (at least one) of trauma
 \end{figure}
 
 
-\subsection{Exploratory Data Analysis longitudinal variables}
+\section{Exploratory Data Analysis longitudinal variables}
 \label{se:eda_long}
 %'CognitivePerformance', 'Diagnoses', 'Neuropsychiatric', 'QualityOfLife', 'Genetics_s', 'SCD', 'Demographics', 'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
 The longitudinal variables are MRI, cognitive performance, Neuropsychiatric, QualityOfLife, and SCD.
-\subsubsection{MRI}
+
+\subsection{MRI}
 \label{sse:mri}
+Here we show the automated segmentation of all subjects with MRI in the first year, so far we present the results for brain extraction for the first year. We plan to show segmentation of subcortical structure for all the years in the short future. Of note, the imaging data has not been stored, let alone preprocessed, with the minimum quality requirements for a project of of such volume and complexity. This is delaying and the work that we intend to show here.
+
+The segmentation goes through the following stages:
+\begin{enumerate}  
+  %0 The input image is copied in .anat and renamed {T1}.nii.gz (-t T1,T2,PD), we work with T1 now
+  \item \textbf{Reorinetation} to the standard (MNI) orientation
+  %, \emph{fslreorient2std} it swaps axes around maintaining the correct left-right relationships so that x=left-right, y=anterior-posterior and z=superior-inferior. 
+  %size T1 < T1_orig== T1_fullfov, T1 reoriented and cropped is small in size than the original image because we cut the neck. e. T1.nii.gz is the averaged and aligned image file. 
+  \item \textbf{Cropping} to remove the neck, this is a necessary step prior to brain extraction. 
+  %\emph{robustfov} looks at axial slices in the superior direction (starting at the edge of the volume and moving towards the centre) and determines whether a slice contains only noise or signal plus noise. Once it finds the first consecutive slices that contain signal plus noise it then takes that as the position of the top of the head and then extracts a fixed size of FOV in the superior-inferior direction down from the top of the head, which should cover the brain but stop short of the jaw and neck
+  \item \textbf{Bias field correction} 
+  %  I used strongbias = no good if the field is not strong which is good for 1-5T. 
+    %For high-field or multi-coil array is better to use strongfield=yes. 
+    %For my MRI, 3T and not multi-coil what to use?
+  %The bias-corrected version of the image is called T1_biascorr
+  \item \textbf{Registration} to standard space computing both linear registration (FLIRT algorithm) and non-linear registration (FNIRT algorithm)
+  %do_nonlinreg=yes call to [fnirt], [flirt] is always run also for non linear registration
+  %creates the images: T1_to_MNI_lin (the result of the linear reg), T1_to_MNI_nonlin(the result of the non linear reg)
+  %T1_to_MNI_nonlin_field (non-linear warp field) , T1_to_MNI_nonlin_jac (Jacobian of the non-linear warp field)
+  %and T1_vols.txt containing a scaling factor and brain volumes, based on skull-constrained registration, suitable for head-size normalisation (as the scaling is based on the skull size, not the brain size). 
+  \item \textbf{Brain Extraction} in two steps. First, the BET algorithm obtains a brain mask which can be coarse to then perform the brain extraction transforming standard-space mask to the input image using the FNIRT (non-linear) registration.
+  %This step can be interactive changing the threshold : You must adjust the threshold for the extraction (-f) to assure that the skull is removed while the cortical surface is left in tact. This will require running BET multiple times to assure that it is satisfactory. 
+  %run $FSLDIR/bin/bet ${T1} ${T1}_initfast2_brain -m -f 0.1 (by default betfparam=0.1)
+  % 0.1 is overincusive, it will get a very rough brain which means it will likely get portions of the skull(the larger the f eg 0.8 the most brain restricted) but we use 0.1 because we refibne after with FNRIT
+  %produces: T1_biascorr_brain and T1_biascorr_brain_mask
+  \item \textbf{Tissue Segmentation} (FAST algorithm)
+  %produces: T1_biascorr - refined again in this stage, (CSF) T1_fast_pve_0, (Gray) T1_fast_pve_1, (White)T1_fast_pve_2 - partial volume segmentations (CSF, GM, WM respectively) and T1_fast_pveseg - a summary image showing the tissue with the greatest partial volume fraction per voxel
+  \item \textbf{Subcortical Segmentation} (FIRST algorithm)
+  %T1_subcort_seg - summary image of all subcortical segmentations, T1_biascorr_to_std_sub.mat - a transformation matrix of the subcortical optimised MNI registration
+  %All the other ouputs in first_results subdir: T1_first_all_fast_firstseg == T1_subcort_seg and btk, vbars for each region, need to be converted to .nii
+\end{enumerate}
+
+We show the results for brain extraction, tissue segmentation (CSF, white and gray matter) and subcortical segmentation (thalamus, putamen, hippocampus, accumbens, pallidum, caudate, amygdala) for a total of 979 MRIs in the first year. 
+
+\paragraph*{Brain extraction}
+
+Research shows that the growth rate of the brain slowly declines declines from the first year of birth (it increases dramatically during), brain volume reaches its maximum at the age of 40 years to then decline by $5\%$ per decade, the decline is thought to accelerate at around 70 years \cite{peters2006ageing}.
+
+Figure \ref{fig:boxbet} shows the results of the brain extraction algorithm. First, the BET algorithm obtains a brain mask to then perform the brain extraction transforming standard-space mask to the input image using a non-linear registration algorithm.
+
+The brain's size is expressed in mm${^3}$ in native space (left) and scaled in MNI space (right). The average brain size is around 1,000 cm${^3}$ or 1000,000 mm${^3}$ which reflects the age and the gender unbalance of the sample.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/boxplot_Nonebrain}
+        \caption{The figure shows the box plot of the size of the brain in mm${^3}$ both in native space (left) and in the normalized MNI space (right).} 
+        \label{fig:boxbet}
+\end{figure}
+
+\paragraph*{Segmentation of brain tissue}
+%fsleyes T1_fast_restore.nii.gz T1_fast_pve_0.nii.gz -cm green -dr 0.5 1 T1_fast_pve_1.nii.gz -cm blue-lightblue -dr 0.5 1 T1_fast_pve_2.nii.gz -cm red-yellow -dr 0.5 1
+Figure \ref{fig:tissueseg} shows the segmentation based on tissue (CSF (green), Gray matter(blue); White matter (red-yellow)) of one subject of the \emph{Vallecas Project}.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/tissueseg}
+        \caption{Example of tissue based segmentation of one subject in her first visit. } 
+        \label{fig:tissueseg}
+\end{figure}
+%fsleyes ../T1_fast_restore.nii.gz T1_first_all_fast_firstseg.nii.gz -cm Red-Yellow -dr 0 118
+
+Figure \ref{fig:boxtissue} shows the boxplot of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. CSF volume on the left, gray matter center and white matter on the right. All volumes are expressed in mm${^3}$.
 
 
-\subsubsection{Cognitive Performance}
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierstissue}
+        \caption{Boxplot of volume in mm${^3}$ for the tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
+        \label{fig:boxtissue}
+\end{figure}
+
+Figure \ref{fig:kde_3_tissues} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_3_tissues}
+        \caption{Histogram and KDE in cm${^3}$ for tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
+        \label{fig:kde_3_tissues}
+\end{figure}
+
+
+\paragraph*{Segmentation of brain subcortical structures}
+
+Figure \ref{fig:subcorseg} shows the segmentation based of the subcortical structures: Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala and Brain stem of one subject of the \emph{Vallecas Project}. The statistical analysis of all the subjects in the first year visit  will be ready very SOON! 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/subcorseg}
+        \caption{Segmentation of subcortical structures Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala of one subject of the \emph{Vallecas Project}. } 
+        \label{fig:subcorseg}
+\end{figure}
+
+Figure \ref{fig:boxsubcor} shows the boxplot of the segmentation of subcortical structures of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierssubcortical}
+        \caption{Boxplot of volume in mm${^3}$ of the bilateral subcortical segmentation for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm. The subcortical structures represented are Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala.} 
+        \label{fig:boxsubcor}
+\end{figure}
+
+Figure \ref{fig:kde_subcortical} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of subcortical structures of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_subcortical}
+        \caption{Boxplot of volume in mm${^3}$ of the bilateral subcortical segmentation for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm. The subcortical structures represented are Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala.} 
+        \label{fig:kde_subcortical}
+\end{figure}
+
+
+\subsection{Cognitive Performance}
 \label{sse:cogper}
 Figures \ref{fig:cogperyears} and \ref{fig:cogperyears} plot the evolution of four measures related to cognitive performance. Figure \ref{fig:cogperyears}, clockwise and starting in the top left chart: score for the number of words that start by the letter p in one minute, score for the number of animals that the subject can recall in one minute, score of speed processing of symbols and the score in the mini-mental examination (MMSE). 
 
@@ -455,7 +574,7 @@ Figure \ref{fig:cogper4} plots the time series for four measures related to cogn
 \end{figure}
 
 
-Figure \ref{fig:cogperyearsbus}, clockwise and starting in the top left chart: Buschke delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details \ref{}).
+Figure \ref{fig:cogperyearsbus}, clockwise and starting in the top left chart: Buschke delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details).
 
 \begin{figure}[H]
     \centering
@@ -484,12 +603,12 @@ Figure \ref{fig:cogperyearsbus}, clockwise and starting in the top left chart: B
     \end{subfigure}%\quad
    
     \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the seven years of \emph{Vallecas Project}. From left to right and top to bottom: 
-    Buschke delayed recall score,Buschke arithmetic mean,  Buschke sum and \emph{Buschke Integral}.}
+    Buschke delayed recall score, Buschke arithmetic mean, Buschke sum and \emph{Buschke Integral}.}
     \label{fig:cogperyearsbus}
 \end{figure}
 
 
-Figure \ref{fig:busper4} plots the time series for four measures related to cognitive performance measured using the Buschke test. Clockwise starting top left chart: delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details \ref{}).
+Figure \ref{fig:busper4} plots the time series for four measures related to cognitive performance measured using the Buschke test. Clockwise starting top left chart: delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details).
 
 \begin{figure}[H]
     \centering
@@ -525,7 +644,7 @@ Figure \ref{fig:busper4} plots the time series for four measures related to cogn
 % faq can deal with domestic affairs nort confnitive performance but functioal
 % cdrsum how the examiner sees the subject, not performance but functional, cdrtot is the same as diagnostoc.
 
-\subsubsection{Neuropsychiatric}
+\subsection{Neuropsychiatric}
 \label{sse:neupsy}
 %Neuropsychiatric includes 'act_ansi_visita1', 'act_ansi_visita2', 'act_ansi_visita3', 'act_ansi_visita4','act_ansi_visita5', 'act_ansi_visita6', 'act_ansi_visita7','act_apat_visita1',\'act_apat_visita2', 'act_apat_visita3', 'act_apat_visita4', 'act_apat_visita5', 'act_apat_visita6', 'act_apat_visita7','act_depre_visita1', 'act_depre_visita2',\'act_depre_visita3', 'act_depre_visita4', 'act_depre_visita5', 'act_depre_visita6',\'act_depre_visita7','gds_visita1', 'gds_visita2', 'gds_visita3', 'gds_visita4', \'gds_visita5', 'gds_visita6', 'gds_visita7','stai_visita1', 'stai_visita2', \'stai_visita3', 'stai_visita4', 'stai_visita5', 'stai_visita6', 'stai_visita7'
 %gds: 0,14 stai: real numbers
@@ -565,7 +684,7 @@ Figure \ref{fig:neuropsylong} plots the evolution of features related to neurops
 %     \label{fig:neuropsy}
 % \end{figure}
 
-\subsubsection{Quality of Life self assessment}
+\subsection{Quality of Life self assessment}
 \label{sse:qol}
 %'QualityOfLife':['eq5dmov_visita1' (movilidad hoy) 'eq5dcp_visita1' (cuidado perso hoy)'eq5dact_visita1' (act quoti hoy),'eq5ddol_visita1' (dolor hoy), 'eq5dans_visita1' (feeling depre anxi hoy), 'eq5dsalud_visita1' (salud comparado last year), 'eq5deva_visita1','valcvida2_visita1' (como valora su qofl) 'valsatvid2_visita1' (como valora su vida) , 'valfelc2_visita1' (cual es su grado de satisf)]
 
@@ -633,7 +752,7 @@ Figure \ref{fig:qol4} plots the time series for four measures related to quality
     \label{fig:qol4}
 \end{figure}
 
-\subsubsection{Diagnoses}
+\subsection{Diagnoses}
 \label{sse:scd}
 
 %0 = Control 1= SCD 2 = SCD-Plus 3 = MCI 4 = Dementia
@@ -667,11 +786,60 @@ Figure \ref{fig:diag1} plots the time series for the diagnoses administered to s
 
 
 
-\section{Methodology}
+\section{Correlation analysis}
 \label{se:met}
+%YS do normality gaussan tests and compare with risk book taleb mandelbrot
+% take ntes on it
 
-Compare posterior year n year n+1 for a bunch of feature, the HO is that they don't change , if they change, diff posterior, can be because that feature changes with time(at the light of our data) or because the effect of those that left, to investigate take within year n the two groups remain and left and do Bayesian posterior if Ho true then tej feature changes in time naturally.
-At the end we can get the list of features that we expect to change in time at different lags and those that not.
+In the previous sections we studied the dataset unidimensionally, that is, we plot distributions and compute statistics of only one variable at a time. Here we perform correlational analysis, that is two or more dimensions, in order to study the effect of some variables upon others. For example computing the conditional distribution of conversion to MCI and certain life style, demographics or subcortical structure volume.
+
+\paragraph*{Genetic,AnthropometricandDemographic}
+Figure \ref{fig:groupby_genetics_mci} shows the results of grouping by \emph{Conversion to MCI} relative to the genetics profile. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending on the variable APOE4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 heterozygotes, 2:two copies of APO$\epsilon$4).
+On the left the grouping is shown in absolute numbers and on the right in relative numbers which is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters).
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/groupby_genetics_mci}
+        \caption{The figure shows the grouping bu conversion to MCI relative to the genetic profile of the subjects. On the left the groping is in absolute numbers and on the right in relative terms. The chart on the right is preferable to understand the effect of the APOE in conversion because the dataset is unbalanced (the ratio non converters converters is 9 to 1).} 
+        \label{fig:groupby_genetics_mci}
+\end{figure}
+
+%Anthro. bmi, abdo, weight, height
+Figure \ref{fig:groupby_anthropometric_mci} shows the results of grouping by \emph{Conversion to MCI} relative to anthropometric features, i.e: BMI, abdominal perimeter, weight and height. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending depending on the body mass index and related variables. 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/groupby_anthropometric_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to the body mass index, abdominal perimeter, weight and height, all in relative numbers to acknowledge the fact that the dataset is unbalanced (the ratio non converters converters is 9 to 1). The split is performed using the four quartiles of each variables as described in the legend of each chart.} 
+        \label{fig:groupby_genetics_mci}
+\end{figure}
+
+%Demo
+
+\paragraph*{Sleep}
+\paragraph*{Life style}
+\paragraph*{Cardiovascular}
+\paragraph*{Traumatic brain injury}
+
+Figure \ref{fig:scatternative} shows the results of brain extraction size (the four first steps) in mm${^3}$. 
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/bus-scatterNatxy}
+        \caption{The figure shows the scatter plot of the size of the brain in mm${^3}$ and the \emph{Buschke integral}(See the Appendix for an in detail explanation of this new score). Each dot is one subject of the \emph{Vallecas Project} in year 1, the red dots indicate conversion in the future to MCI, blue dots represent subject that do not convert to MCI.} 
+        \label{fig:scatternative}
+\end{figure}
+% Figure \ref{fig:pairbrain} shows scatter plots of pairs of variables including the size of the brain and the Buschke test. As expected, we don't observe see a significant correlation between the size of the brain and the Buschke scores. We expect, however, to find a correlation between hippocampus size. 
+% The estimation of the parameters of the new measure called \emph{Buschke Integral} (see Appendix) is based on the relationship between the hippocampus size and the \emph{Buschke Integral}. More on this very SOON!
+
+% \begin{figure}[H]
+%         \centering
+%         \includegraphics[keepaspectratio, width=\linewidth]{figures/bus-brainpairplot}
+%         \caption{The figure shows the scatter plot and the histogram of pairs of variables, in particular variables of the Buschke test, the size of the brain and conversion to MCI. The first row shows the size of the brain in $mm^3$, from second to sixth row/column are Buschke tests and the last row/column plots the conversion to MCI. The red dots are converters and the blue dots are healthy subjects. As a curiosity the average volume of a modern human brain is 1300 $cm^3$ to 1500 $cm3$, our subjects are within that range. The mean and the standard deviation of the distribution f the brain size in the first year is $(\mu=1,003cm^3, \sigma=90cm^3)$ (calculated with 765 subjects it should be $+900$. AGHHH!!! Images in f...s.. state!!).} 
+%         \label{fig:pairbrain}
+% \end{figure}
+
+%Compare posterior year n year n+1 for a bunch of feature, the HO is that they don't change , if they change, diff posterior, can be because that feature changes with time(at the light of our data) or because the effect of those that left, to investigate take within year n the two groups remain and left and do Bayesian posterior if Ho true then tej feature changes in time naturally.
+%At the end we can get the list of features that we expect to change in time at different lags and those that not.
 
 
 
@@ -682,18 +850,14 @@ At the end we can get the list of features that we expect to change in time at d
 Bayesian Estimation Supersedes the T-Test
 \cite{kruschke2013bayesian}
 
-When we are interested about two groups being different from each other we need a statistical model because true differences are usually accompanied by measurement of stochastic noise which prevents us from drawing conclusions simply from differences calculated from the observed data.
-Thus, statistical test difference are necessary because of noise. There is noise in the measurement (epistemic uncertainty) and noise in the world (aleatoric uncertainty), the latter we cant do anything about it the former can be refined. Uncertainty can be aleatory or epistemic. Epistemic is when the modeler sees an opportunity to tame the uncertainty by gathering more data or by refining the model, that is in epistemic uncertainty the modeler has a say, she can intervene to try to reduce it. In aleatory uncertainty, on the contrary, the modeler does not foresee ways to reduce it. Thus, aleatoric uncertainty is one that is presumed to be related to the intrinsic randomness of the phenomenon, the epistemic uncertainty is caused by a lack of knowledge (or data). Note that parameter uncertainties are strictly epistemic because the uncertainty in the estimation decreases and may asymptotically vanish with increasing quantity and quality of the available observational data. 
-Measurement error is also epistemic error.
+%When we are interested about two groups being different from each other we need a statistical model because true differences are usually accompanied by measurement of stochastic noise which prevents us from drawing conclusions simply from differences calculated from the observed data. Thus, statistical test difference are necessary because of noise. There is noise in the measurement (epistemic uncertainty) and noise in the world (aleatoric uncertainty), the latter we cant do anything about it the former can be refined. Uncertainty can be aleatory or epistemic. Epistemic is when the modeler sees an opportunity to tame the uncertainty by gathering more data or by refining the model, that is in epistemic uncertainty the modeler has a say, she can intervene to try to reduce it. In aleatory uncertainty, on the contrary, the modeler does not foresee ways to reduce it. Thus, aleatoric uncertainty is one that is presumed to be related to the intrinsic randomness of the phenomenon, the epistemic uncertainty is caused by a lack of knowledge (or data). Note that parameter uncertainties are strictly epistemic because the uncertainty in the estimation decreases and may asymptotically vanish with increasing quantity and quality of the available observational data.  Measurement error is also epistemic error.
 %Special Workshop on Risk Acceptance and Risk Communication March 26-27, 2007, Stanford University
 
 % ojo literal
 %https://docs.pymc.io/notebooks/BEST.html
-The \emph{de facto} standard for statistically comparing two or more samples is to use statistical test, that is, declare a null hypothesis (e.g. there is no difference between the groups) and using a chosen test statistic to decide whether the distribution of the observed data is plausible under the hypothesis. The rejection occurs when the calculated test statistic is higher than some pre-specified threshold value.
-The criticism of this approach are both well documented and justified. Setting up a statistical test involves several subjective choices (e.g. statistical test to use, null hypothesis to test, significance level) by the user that are rarely justified based on the problem or decision at hand, but rather, are usually based on "traditional" choices that are entirely arbitrary\cite{aarts2012insignificance}. Furthermore, the evidence that provides is indirect, incomplete and typically overstates the evidence against the null hypothesis \cite{goodman1999toward}.
 
-Here we will use a more informative and sound approach for comparing groups, which is based on estimation rather than testing and Bayesian rather than frequentist. The bottom line is that instead of checking if the groups are different under some hardly justified criterion, we estimate how different they are. Note that since we will make estimates we are oblige of include the uncertainty in the estimate. We will distinguish between epistemic uncertainty (lack of knowledge of the model parameters) and aleatory uncertainty (inherent stochasticity of the system).
-
+%The \emph{de facto} standard for statistically comparing two or more samples is to use statistical test, that is, declare a null hypothesis (e.g. there is no difference between the groups) and using a chosen test statistic to decide whether the distribution of the observed data is plausible under the hypothesis. The rejection occurs when the calculated test statistic is higher than some pre-specified threshold value. The criticism of this approach are both well documented and justified. Setting up a statistical test involves several subjective choices (e.g. statistical test to use, null hypothesis to test, significance level) by the user that are rarely justified based on the problem or decision at hand, but rather, are usually based on "traditional" choices that are entirely arbitrary\cite{aarts2012insignificance}. Furthermore, the evidence that provides is indirect, incomplete and typically overstates the evidence against the null hypothesis \cite{goodman1999toward}.
+%Here we will use a more informative and sound approach for comparing groups, which is based on estimation rather than testing and Bayesian rather than frequentist. The bottom line is that instead of checking if the groups are different under some hardly justified criterion, we estimate how different they are. Note that since we will make estimates we are oblige of include the uncertainty in the estimate. We will distinguish between epistemic uncertainty (lack of knowledge of the model parameters) and aleatory uncertainty (inherent stochasticity of the system).
 
 In practical terms  this is how we perform Bayesian estimation.
 The first step in a Bayesian approach to inference is to specify the full probability model that corresponds to the problem. For example, we can use a t-student distribution, normal etc. to describe the data of each of the two groups. T-student is a robust choice (less sensitive to outliers). T-student has 3 parameters, mean, precision (inverse variance) and degrees of freedom which sets the normality of the distribution, large $\nu$ close to normal, small heavy tails $\nu$. Then, we define the likelihood functions for each group (prob observed data can be drawn from the putative model).
@@ -729,25 +893,14 @@ Finally, we can fit the model and evaluate its output
 \section{Appendix. The \emph{Buschke Integral} score}
 \label{se:appbusint}
 
-The empirical or clinical demonstration of the utility of the score is done in three ways, first calculating the correlation beteen S and the individual Buschke values(and the sum) with conversion. Second, compute the correlation of the score with hippocampal volume (underlying the capacity of operational memory) and finally the robustness of the score in time, that is, we compare the variability in individual basis across years, we expect to have less variability of S compared to individual scores in subject basis. The range of scores is different (16 vs 32) so we calculate the inter years difference and normalize 0,1.
-%The most important EDA on time series data is to identify trend, seasonality & correlation. 
-
-%Plot longitudinal time series (histograms + mean sigma) and do EDA of time series.
-
-EDA:: Calculate volatility of time series $x_t , t=1,7$, test for stationarity but they are really short.
-Normalize (standarize) to have mean 0. Normalize values $X_{1}$, values of score for year 1 all subjects, a value of this variable is $X^{s=1180}_{1}$. The multidimensional i, $n=7, X_{i}$ has subjects visits per year elements $X_1$ has 1180... $X_7$ has 107 elements. From the values we then compute the probability distribution, we can get 10 bins (0, 0.1,0.9,1) or $100 (0,0.01,...0.99,1)$. Finally we calculate the KL distance inter years for each score $KL(P_i| P_{i-k})$, for example P is the prob dis of sum of B. Plot the distributions, and show the shadow areas of MI.
-
-We do KL also for new B $KL(Q_i| Q_{i-k})$, we expect that the MI interyears of the new B is larger than sum of B.
-
-\subsection{The Buschke test}
 The Buschke memory test with free and cued recall is commonly used to assessing cognitive functioning. The Buchske test is of easy realization and can be performed by participants with different levels of impairment and clinical conditions \cite{o200212}, \cite{leitner2017comparison}. The test was originally designed to asses long-term storage (LTS), retrieval from long-term storage (LTR), and recall from short-term storage (STR) \cite{buschke1973selective}.
 
 The Buschke test in the \emph{Vallecas Project} consists in asking the subject to recall a list of words in three occasions separated by distracting periods. First, the experimenter reads a list of 16 words and the subject is immediately asked to recall as many words as possible. Next, the subject is distracted with an interference test to be asked again to recall the original 16 words, the subject is distracted again with another interference test to be asked for the third time to recall the original 16 words.
 
-The score consists in three numbers each computes the number of words that the subject correctly recalled at each time. In order to asses retrieval from short-term storage both the total number of items and the increase/decrease in the scores need to be considered. Two subjects with identical aggregate score could have very different recalling. For example, let us say that we perform the Buschke test in two subjects, subject A and subject B. Subject A recalls 12, 14 and 15 words at each time and subject B has for the same test a score of 15, 14 and 12, both subjects have recalled the same total number of items (41) but memory retention is very different. Subject B shows no memory retention (a decrease in the number of recalled items) while subject A does consolidate her memory (an increase in the number of recalled items).
+The score consists in three numbers, each computes the number of words that the subject correctly recalled at each time. In order to asses retrieval from short-term storage both the total number of items and the increase/decrease in the scores need to be considered. Two subjects with identical aggregate score may have very different recall performance. For example, let us say that we perform the Buschke test in two subjects, subject A and subject B. Subject A recalls 12, 14 and 15 words at each time and subject B has a score of 15, 14 and 12. Thus, both subjects have recalled the same total number of items (41) but memory retention is very different. Subject B shows no memory retention (a decrease in the number of recalled items) while subject A does consolidate her memory (an increase in the number of recalled items).
 It is evident, then, that in order to have an unique score from the three scores described we can't just aggregate the scores since we would be missing whether the subjects recalls or forgets which is what the Buschke memory test is essentially testing for. In order to capture this information we need take into account whether the scores increase, decrease or stationary.
 
-We have defined a model that brings together the aggregate of recalled items and the slope of the curve described by the scores at each trial. 
+We have defined a new metric called \emph{Buschke Integral} that brings together the aggregate of recalled items and the slope of the curve described by the scores at each trial. 
 From calculus we know that the area under a curve between two points can be found by doing a definite integral between the two points. 
 The three scores in the Buschke are defined in the space of the positive integers, $x \in +\mathbb{Z}^3$, the area under the curve $y = f(x)$ between two points $x=a$ and $x=b$ is the integral between the limits of $a$ and $b$ which gives us the area defined by the region $f(x)$ and the boundaries a and b.
 \begin{equation}
@@ -763,7 +916,7 @@ S = \int_{a}^{b}f(x)dx + \int_{a}^{h}(f(x) - f(a))dx + \int_{h}^{b}(f(x)-f(h))dx
 \end{equation}
 where the first term on the right side is the area under the curve which gives us the aggregate of the number of items recall, the second and third terms contrary to the first term which is always positive because $y =f(x), y \in [0,16]$, can be negative if the curve $f(x)$ is decreasing, positive if $f(x)$ is increasing or zero in case $f(x)$ remains constant across trials.
 
-Let us see this with an example, for simplicity's sake we assume that the scores are $[0,1,2]$. Figure \ref{fig:b} shows the value of $S$ in three different examples, in each case the area is identical, 2, for a total maximum of 4 but $S$ varies with the slope of the learning curve. On the left, figure \ref{fig:b}-a,
+Let us see this with an example, for simplicity's sake we assume that the scores are $[0,1,2]$. Figure \ref{fig:b} shows the value of $S$ in three different examples. In each case the area is identical, 2, for a total maximum of 4 but the \emph{Buschke Integral} $S$ varies with the slope of the learning curve. On the left, figure \ref{fig:b}-a,
 $S$ is strictly equal to the area cover by the curve because the curve is flat, $S=2$. On the middle figure, \ref{fig:b}-b, the score $S$ is larger than the previous case because the curve is increasing (positive slope), $S=2+1/2+1/2=3$. Finally, the figure on the right side, \ref{fig:b}-c, $S=2-1/2-1/2=1$ capturing that the slope is negative and therefore the subject is not consolidating memory.      
   
 %https://matplotlib.org/gallery/showcase/integral.html#sphx-glr-gallery-showcase-integral-py
@@ -777,98 +930,11 @@ $S$ is strictly equal to the area cover by the curve because the curve is flat, 
 %Figure \ref{fig:b} calculates the surface of the trapezoids, it is also possible to interpolate and calculate the surface defined by the spline within the x and y axis.
 One advantage of the \emph{Buschke Integral} score $S$ defined here is that it gives us a new scale of memory health condensed in one single number. This allows us to parcel the space of subjects in a larger number of meaningful categories beyond the converter versus no converter classification. The new metric upper bound is 32 (max score per trial $(16)\times (3-1)$ number of points -1) and the minimum 0.
 
+MORE ON THIS SOON!!!! We need to fit the model with the hippocampal size. In our three dimensional model we need to find the optimal set of parameters that best fit the data
+\begin{equation}
+y_i = \beta_0+ \beta_1 x_{1i} + \beta_2 x_{2i} + \beta_3 x_{3i}  
+\end{equation}
 
-Once we have justify the conceptual soundness of the \emph{Buschke Integral} score we need to study the clinical utility of term, to do so we will take advantage of the large dataset \emph{Vallecas Project}.
-
-We compare the correlation between conversion to MCI and S, and single values of the Buschke test and other cognitive performance test. We also compare S with other aggregates of the Buschke test like the sum or the arithmetic and the geometric mean.
-
-Calculate the DTW between S and a conversion or memory indicator across years, for example the ICV or the hippocampal volume. 
-Plot the distribution of S $\mu = 16.37, \sigma=5.1770$, get the left tail $\mu + n*\sigma$ (worst recallers) and the right tail (best recallers) and study neurophysiological differences. Look at, hippocampal siuze, connectivity. YS: WHERE to look at
-
--plot the kde of bus int, use sns pairplot when i have the hippo sizes script
-
--correlation with conversion
-- kullback leiber of distribution inter years compared with other measures (sum etc) see if distance is smaller ion. b int
-- correlation with brain hippocampus
-
-%https://kids.frontiersin.org/article/10.3389/frym.2017.00071
-%https://www.scientificamerican.com/article/does-size-matter-for-brains/
-
-
-
-\subsection{The neuroanatomy of memory}
-
-The three main processes of memory are encoding, storage and recalling, Within recall psychologists distinguish between free recall, cue recall and serial recall.
-%Ebbinghaus discovered that multiple learning, over-learning, and spacing study times increased retention of information
-We own to Tulving the distinction between episodic and semantic memory, and also the encoding specificity principle which states that a person is more likely to recall information if the recall cues match or are similar to the encoding cues. 
-%ojo literal wikipedia https://en.wikipedia.org/wiki/Recall_(memory)
-The anterior cingulate cortex, globus pallidus, thalamus, and cerebellum show higher activation during recall than during recognition which suggests that these components of the cerebello-frontal pathway play a role in recall processes that they do not in recognition. The specific role of each of the six main regions in episodic retrieval is still unclear, but some ideas have been suggested. The right prefrontal cortex has been related to retrieval attempt;[28][29] the medial temporal lobes to conscious recollection;[30] the anterior cingulate to response selection;[31] the posterior midline region to imagery;[28][31][32][33] the inferior parietal to awareness of space;[34] and the cerebellum to self-initiated retrieval .[35]
-
-There is a number of factors that affect recall: attention, motivation, interference, context, state-dependent memory, gender (Women perform better than males on episodic memory tasks including delayed recall and recognition. However, males and females do not differ on working, immediate and semantic memory tasks.) physical activities
-
-
-
-
-
-%ojo +-lit from margolin1992cognitive
-Many years ago Lashley \cite{lashley1929brain} set out to find the engram the putative site of memory storage and his failure toi find a specific location (in rats) led him to the conclussion that memories were spatially distributed  throughout the brain. Squire \cite{squire2004memory} pointed out to methodological shortcoming in Lashley's work but in general terms his conclusions are considered valid.
-One suggestion is thet engrams are stored in cerebral cortex near the regions where the stimuli is processed eg visual memories near occipìtal, auditory components in auditory cortex and so for. 
-By exclusion (HM) we know that the memory abilities preserved by amnesic subjects would not be dependent of removed areas (hippocampus, or medial dorsal nucleus). Habit formation is known to be mediated by the amygdala, conditioning of motor responses in the basal ganglia and working memory to frontal and parietal regions \cite{margolin1992cognitive} pg. 178. 
-
-
-Amnesia or memory disorders can be grouped in terms of etiology or in terms of neuroanatomy. The former we can mention AD, anoxia, etc.In terms of neuroanatomy some have distinguished between hippocampal and diancephlic amnesia (mammalian bodies and or thalamus)
-Where are memories stored in the brain? Broadly speaking a classification can be made:
-
-How to assess memory performance?
-\begin{itemize}
-\item Assessment of Explicit or episodic memories 
-\begin{itemize}
-  \item Wechsler memory scale(WMS) it has been critizied
-  \item Buschke Selective Reminding Procedure, more sophisticated than WMS, the subject attempts to learn a list a word list across several (3) trials. It allows generation of a variety of scores (sum recall, LTretrieval, ST retrieval ...). The popularity resides in the reduced testing time, word list learning may be better than story recall and separation between retrieval and enter in formation into long term store. Among the criticism is the B. is more a procedure than a test per se (the word list, number of words and number of trials vary widely). Furthermore, B assumes that if a subject fails to to recall a word that has been previosuly recalled in LTM the retrieval failure is a recall failure
-\end{itemize}  
-\item Explicit or Implicit memories (preserved in amnesia)
-\begin{itemize}
-\item  Sentence puzzle completion
-\end{itemize}
-\end{itemize}  
-There are many issues that the memory test assessment elude, for example Metamemory and confabulation. Metamemory is the knowledge one posses about the functioning of the human memory system (for example, if one is using Anki (Hermann Ebbinghaus theory of retention training)). Confabulation is poorly understood, intrusions on list learning may be related to confabulation.
-
-%https://qbi.uq.edu.au/brain-basics/memory/where-are-memories-stored
-\begin{itemize}
-\item Explicit declarative or episodic memories and semantic memories: hippocampus, neocortex and amygdala.
-\begin{itemize}
-  \item Hippocampus is part of the temporal lobe and is where explicit or episodic memories are formed and indexed for later access. (we know this thanks to Henry Molaison who had his medial temporal lobe (hippocampus, amygdala, and enthorinal cortex) surgically removed to treat his epilepsy, rendering him amnesic but with capacity to learn motor tasks)
-  \item Neocrotex is the neural tissue that forms the outside surface of the brain. Transfer from the hippocampus (temporary) to the neocortex (general knowledge) may happen during sleep
-  \item Amygdala is an almond shape structure above the hippocampus and attaches emotional significance to memories, this is why memories associated with grief , shame etc are difficult to forget, characterizing the path amygdala, hippocampus, neocortex may explain how memories are retained. The amygdala not only adds strength to the emotional memory, it also plays a role in forming new memories, specially related to fear. Fearful memories are able to be formed after a few repetitions
-\end{itemize} 
-\item Implicit memories (eg motor) cerebellum and basal ganglia
-\begin{itemize}
-  \item cerebellum located at the rear base of the brain, important in motor control eg the vestibulo-ocular reflex let us maintain our gaze on a location as we rotate our heads.
-  \item Basal ganglia lying deep within the brain and involved in habit formation, reward processing and learning. They co-ordinate sequences of motor activity, it is the most affected region in Parkinson's. disease
-\end{itemize}
-\item Short-term working memory prefrontal cortex
-\begin{itemize}
-  \item Prefrontal cortex seats at the very front of the brain and it is the most recent addiction to the mammalian brain, holding information activates the pFC, there seems to exist a functional separation between left and right sides of the pFC.
-\end{itemize}  
-\end{itemize}
-
-Note that another classification of memories is Long term memories including Explicit and Implicit and short term memories. Short term (primary or active memory) is the capacity for holding, but not manipulating, a small amount of information in mind in an active, readily available state for a short period of time.  The duration of short-term memory (when rehearsal or active maintenance is prevented) is believed to be in the order of seconds (Miller's law magical number 7 +-2 and more recently Cowan 4+-1.).
-The modal model of memory was developed in the 1960s by Shiffrin and assumed that all memories pass from a short-term to a long-term store after a small period of time. The exact meachanisms by which this transfer occurs is unclear.
-
-One evidence of the existence of short-term store comes from anteroretrogade amnesia which is the inability to learn new facts and episodes, patients with this amnesia (eg HM) have intact its ability to retain small amounts of information over small time scales (30 seconds) but are unable to form long term memories. Other evidence comes from distraction interventions, a distraction may impair memory 3-5 most recently learned words of a list (to be stored in short  term memory) while leaving the recall for words earlier in the list intact (to be stored in long term memory). See, however, \cite{bjork1974recency}, for a criticism of the existence of short term memory using a distractor task. But not everyone agrees that short and long term memories vary independently, the unitary model states that memory is unitary over time scales from milliseconds to years. Admittedly it has been difficult to demarcate the a clear boundary between short and long term memories.
-
-The biological basis STM: stimuli are coded in STM using transmitter depletion, the stimulus activates a spatial pattern of neurons and as they fire they deplete the available neurotransmitters, the pattern of depletion is iconic (WOW!) representing the stimulus functioning as a memory trace. As the neurotransmitters reuptake mechanisms kick in to restore the pre stimulus level, the memory trace decays \cite{grossberg1971pavlovian}.
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=.5\linewidth]{figures/memory_types}
-        \caption{Memory types under the modal or multi-store or Atkinson-Shiffrin model. Alternatively, the Fergus Craik and Robert Lockhart in 1972, and posits that memory recall, is a function of the depth of mental processing, on a continuous scale from shallow (perceptual) to deep (semantic). Under this model, there is no real structure to memory and no distinction between short-term and long-term memory. Anothe classification is the to Multiple Trace Theory, long-term episodic memories are stored in hippocampus, so mild AD patients, even MCI, will lose these kind of "long-term" memories. Long term semantic memories will be lost in parallel with neocortex neuron death.
-        %http://www.human-memory.net/types.html
-        } 
-        \label{fig:b}
-\end{figure}
-
-%Rehearsal is the process where information is kept in short-term memory by mentally repeating it. When the information is repeated each time, that information is reentered into the short-term memory, thus keeping that information for another 10 to 20 seconds (the average storage time for short-term memory)
 \newpage
 \addcontentsline{toc}{section}{References}
 
