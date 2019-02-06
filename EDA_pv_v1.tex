@@ -793,15 +793,51 @@ Figure \ref{fig:diag1} plots the time series for the diagnoses administered to s
 
 In the previous sections we studied the dataset unidimensionally, that is, we plot distributions and compute statistics of only one variable at a time. Here we perform correlational analysis, that is two or more dimensions, in order to study the effect of some variables upon others. For example computing the conditional distribution of conversion to MCI and certain life style, demographics or subcortical structure volume.
 
-\paragraph*{Genetic,AnthropometricandDemographic}
-Figure \ref{fig:groupby_genetics_mci} shows the results of grouping by \emph{Conversion to MCI} relative to the genetics profile. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending on the variable APOE4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 heterozygotes, 2:two copies of APO$\epsilon$4).
-On the left the grouping is shown in absolute numbers and on the right in relative numbers which is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters).
+\paragraph*{Genetic, Anthropometric, Demographic}
 
+Figure \ref{fig:genfami} shows the results of grouping by \emph{Conversion to MCI} relative to the genetics profile and familial AD. In essence what we do is to split the data into groups depending on the variable APOE4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 heterozygotes, 2:two copies of APO$\epsilon$4) and familial AD (0: non familial Ad and 1: familial AD).
+For each chart, on the left the grouping is shown in absolute numbers and on the right in relative numbers which is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars for each of the right sided charts must sum 1 and a frequentist could interpreted this function as a probability. 
+% makes more sense the var you can observe in the y-axis, the inferred var (converson better in the x-acis)
 \begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/groupby_genetics_mci}
-        \caption{The figure shows the grouping bu conversion to MCI relative to the genetic profile of the subjects. On the left the groping is in absolute numbers and on the right in relative terms. The chart on the right is preferable to understand the effect of the APOE in conversion because the dataset is unbalanced (the ratio non converters converters is 9 to 1).} 
-        \label{fig:groupby_genetics_mci}
+        \includegraphics[height=2.1in]{figures/groupby_mci_genetics}
+        \caption{Grouping by conversion to MCI relative to the genetic profile of the subjects. A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.55, p(MCI=1|APOE=2)=0.45$. Thus as much as the $45\%$ of APOE4 have converted to MCI.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/groupby_genetics_mci}
+        \caption{Grouping of the genetic profile conditioned by conversion to MCI. A frequentist could state that  $p(APOE=0|MCI=0)=0.84, p(APOE=1|MCI=0)=0.15, p(APOE=2|MCI=0)=0.01,p(APOE=0|MCI=1)=0.67, p(APOE=1|MCI=1)=0.28, p(APOE=2|MCI=1)=0.05$.}
+    \end{subfigure}%\quad
+    
+        \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/groupby_Familial_mciY}
+        \caption{Grouping of conversion to MCI conditioned by familial AD,$p(MCI=0|fAD=0)=.88, p(MCI=1|fAD=0)=0.12, p(MCI=0|fAD=1)=0.86, p(MCI=1|fAD=1)=0.14$. }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/groupby_Familial_mci}
+        \caption{Grouping of familial AD conditioned by conversion to MCI, }
+    \end{subfigure}%\quad
+
+     \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/groupby_geneticsFamilial_mci}
+        \caption{ }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=2.1in]{figures/groupby_geneticsFamilial_mci}
+        \caption{Grouping of familial AD and genetic profile conditioned by conversion to MCI.}
+    \end{subfigure}%\quad
+   
+    \caption{\emph{Conversion to MCI} relative to the genetics profile and familial AD; a) APO$\epsilon4$ and conversion to MCI in the future represented as genetic profile conditioned to conversion, $p(MCI|APOE)$. b) APO$\epsilon4$ and conversion to MCI in the future represented as conversion conditioned to genetic profile , $p(APO\epsilon4|MCI)$. c) conversion to MCI in the future and familial AD  represented as familial AD conditioned to conversion, $p(fAD|MCI)$. d) conversion to MCI in the future and familial AD represented as conversion conditioned to either familial AD and APO$\epsilon4$, $p(fAD, APO\epsilon4|MCI)$.}
+    \label{fig:genfami}
 \end{figure}
 
 %Anthro. bmi, abdo, weight, height
@@ -842,10 +878,27 @@ Figure \ref{fig:scatternative} shows the results of brain extraction size (the f
 %At the end we can get the list of features that we expect to change in time at different lags and those that not.
 
 
-
+\subsection{From which distribution do the data come from?}
+\label{sse:res}
+%http://allendowney.blogspot.com/2013/08/are-my-data-normal.html
+The standard tests fro assessing whether the data comes from a particular distribution eg : Gaussian are Kolomogorov-Smirnov, Shapiro-Wilks etc. But what we really wan tot know is if the distribution is a good fit for the data and this is not a statistical test but a model decision.
+The normal distribution is a good fit for human height but, make no mistake the human height is not normal, because human height is bounded and the normal distribution goes to infinity in both directions.
+Even if you ignore this 'technicality' (you could because the probability of the non-physical tails are very small), the distribution of human height deviates in systemic ways from the normal distribution.
+"Instead of testing whether a dataset is drawn from a distribution, the right question: how can you tell whether a distribution is a good model for a dataset?" The best approach for this is visual.
+If you want to compare data to a known distribution, the simplest visualization is to plot the CDFs of the model and the data on the same axes. But this is if you know the distribution and the parameters, if you want to use a model but do not know the parameters, you can use the data to estimate the parameters
+A normal probability plot is basically a Q-Q plot. No statistical test that can tell you whether a particular distribution is a good model for your data.  In general, modeling decisions are hard, but I think the visualizations in this article are some of the best tools to guide those decisions.
 
 \subsection{Bayesian inference for hypothesis testing}
 \label{sse:res}
+%
+% OJO Literal +-
+Bayesians take a probabilistic view of the world, the model is a probability distribution that gets adjusted and  refined with the advent of new observed measurements. Thus, a standard regression model $Y = X\beta + \epsilon$ can be rewritten in Bayesian nomenclature as
+$Y ~ N(X \beta, \sigma^2)$ in words we view the random variable Y as random variable (or random vector for more than one dimension) of which each data point is distributed according to a normal distribution (the prior). So what is the difference of these two models? First, in the Bayesian setting we have our priors, that is, we can bring any prior knowledge e.g. if we think it is likely that $\sigma$ is small we can choose a distribution with more probability mass in small value. Second, we quantify uncertainty, rather than getting a single estimate of $\beta$ as in the first model, we instead get a complete posterior distribution about how likely the values the different values of beta are. Foe example, with a few data points we will be getting wide posteriors this encapsulates the idea that we have a lot uncertainty on beta because we have only a few data points.
+Bayesian inference does not give us only one best fitting line (as maximum likelihood does) but rather a whole posterior distribution of likely parameters.
+
+Hierarchical linear regression here to predict \cite{gelman2006data}
+
+
 %https://docs.pymc.io/notebooks/BEST.html
 Bayesian Estimation Supersedes the T-Test
 \cite{kruschke2013bayesian}
@@ -930,10 +983,22 @@ $S$ is strictly equal to the area cover by the curve because the curve is flat, 
 %Figure \ref{fig:b} calculates the surface of the trapezoids, it is also possible to interpolate and calculate the surface defined by the spline within the x and y axis.
 One advantage of the \emph{Buschke Integral} score $S$ defined here is that it gives us a new scale of memory health condensed in one single number. This allows us to parcel the space of subjects in a larger number of meaningful categories beyond the converter versus no converter classification. The new metric upper bound is 32 (max score per trial $(16)\times (3-1)$ number of points -1) and the minimum 0.
 
-MORE ON THIS SOON!!!! We need to fit the model with the hippocampal size. In our three dimensional model we need to find the optimal set of parameters that best fit the data
+
+
+\subsection{Regression Model of Buschke Integral to fit hippocampal volume data}
+We use linear regression to investigate the relationship between the Buschke integral and the hippocampal volume.
+%https://lectures.quantecon.org/py/ols.html
+%NOT REALLY Given the plot, choosing a linear model to describe this relationship seems like a reasonable assumption
+
+We fit the model with the hippocampal size. In our three dimensional model we need to find the optimal set of parameters that best fit the data
 \begin{equation}
-y_i = \beta_0+ \beta_1 x_{1i} + \beta_2 x_{2i} + \beta_3 x_{3i}  
+y_i = \beta_0+ \beta_1 x_{1i} + \beta_2 x_{2i} + \beta_3 x_{3i} +  \epsilon
 \end{equation}
+where $\beta_0$ is the intercept of the linear trend in the y-axis, $\beta_i$ are the slopes of the linear trend line in each dimension, representing the marginal effect of each variable $x_i$ on the hippocampal volume and $\epsilon$ is the error term (deviations from observations from the linear model due to factors not included in the model.)
+
+The most common technique to estimate the parameters is the OLS, an OLs model is solved by finding the parameters that minimize the sum of squared residuals, $min_{\hat{\beta}}\sum_{i=1}^{n} \hat{u}_{i}^{2}$, where u is the difference between the observation and the pediction $u_i = y_i - X_i\beta$.
+
+
 
 \newpage
 \addcontentsline{toc}{section}{References}

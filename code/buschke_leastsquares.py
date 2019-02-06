@@ -24,6 +24,54 @@ import sys
 #sys.path.append('/Users/jaime/github/code/tensorflow/production')
 #import descriptive_stats as pv
 
+
+def compare_OLS_models(regs_list, model_names):
+	"""
+	"""
+	from statsmodels.iolib.summary2 import summary_col
+	info_dict={'R-squared' : lambda x: x.rsquared,'No. observations' : lambda x: int(x.nobs)}
+	results_table = summary_col(results=regs_list,  float_format='%0.2f',stars = True,model_names=model_names,\
+		info_dict=info_dict)
+
+	results_table.add_title('Table 2 - OLS Regressions')
+	print(results_table)
+
+
+
+def fit_buschke_model(df, x, y):
+	"""fit_buschke_model: builds regression model and solves it with OLS method
+	Args:x list of independent variables , y the dependent variable (column names of df)
+	Output: regression model
+	"""
+	
+	import statsmodels.api as sm
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures'
+	# build the model
+	# to estimate beta_0 we need a column of all 1s
+	df['const'] = 1
+	exoglist = ['const'] + x
+	reg = sm.OLS(endog=df[y], exog=df[exoglist], missing='drop')
+	#type(reg) == statsmodels.regression.linear_model.OLS	
+	# fit the model to obtain the parameters
+	res_ols = reg.fit()
+	#type(results)==statsmodels.regression.linear_model.RegressionResultsWrapper
+	print(res_ols.summary())
+	betas = res_ols.params
+	print('the model parameters are:', betas)
+	# use the model to predict
+	df_plot = df.dropna(subset=[y+x])
+	#plot predcited values
+	fig = plt.figure(figsize=(7, 7))
+	ax = fig.add_subplot(111, xlabel='Buschke $\\int$', ylabel='Hippocampal size', title='OLS predicted values')
+	if len(x) > 1:
+		# for several dimensions plot just one
+		x = x[1]
+	ax.scatter(df_plot[x], res_ols.predict(), alpha=0.5, label='predicted')
+	ax.scatter(df_plot[x], df_plot[y], alpha=0.5, label='observed')
+	plt.savefig(os.path.join(figures_dir,'buschke-hippo-fit.png'), dpi=240)
+	return res_ols
+
+
 def compute_buschke_integral_df(dataframe, features_dict=None):
 	""" compute_buchske_integral_df compute new Buschke 
 	Args: dataframe with the columns fcsrtrl1_visita[1-7]
@@ -31,7 +79,10 @@ def compute_buschke_integral_df(dataframe, features_dict=None):
 
 	import scipy.stats.mstats as mstats
 	print('Compute the Buschke aggregate \n')
+	# Busche integral (aggreate is clculated with 3 values, totalk integral and partial integral 21 and 32)
 	S = [0] * dataframe.shape[0]
+	S21 = [0] * dataframe.shape[0]
+	S32 = [0] * dataframe.shape[0]
 	# arithmetic, gemoetric mean and sum of Bischke scores
 	nb_years = 7
 	mean_a, mean_g, suma = S[:], S[:], S[:]
@@ -49,10 +100,13 @@ def compute_buschke_integral_df(dataframe, features_dict=None):
 			#pdb.set_trace()
 			bes = area_under_curve.buschke_aggregate(y)
 			S[ix]=bes[0]
+			S21[ix]=bes[2]
+			S32[ix]=bes[3]
 			mean_a[ix] = np.mean(y)
 			mean_g[ix] = mstats.gmean(y)
 			suma[ix] = np.sum(y) 
 			print('Total Aggregate S=', bes[0])
+			print('Total sum Sum =', bes[1], ' partial Sum 10=',bes[2], ' Partial Sum 21=',bes[3])
 			print('arithmetic mean:', mean_a[ix], ' Geometric mean:', mean_g[ix], ' Sum:',suma[ix])
 			print('Poly1d exponents decreasing' ,bes[-1])
 			print('Poly2 exponents decreasing',bes[-2])
@@ -63,6 +117,8 @@ def compute_buschke_integral_df(dataframe, features_dict=None):
 		#features_dict['CognitivePerformance'].append('bus_sum_'+coda);
 		#features_dict['CognitivePerformance'].append('bus_meana_'+coda);
 		dataframe[coda_col] = S
+		dataframe['bus_parint1_' + coda] = S21
+		dataframe['bus_parint2_' + coda] = S32
 		dataframe['bus_sum_'+coda] = suma
 		dataframe['bus_meana_'+coda] = mean_a
 	
@@ -604,8 +660,6 @@ def plot_histograma_genetics(df, target_variable=None):
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
 	print('Groupby by Genetics\n')
 	fig, ax = plt.subplots(1, 2, figsize=(8, 6))
-	#fig.set_size_inches(20,5)
-	#fig.suptitle('Conversion by absolute numbers, Genetics')
 	#abs numbers
 	d = df.groupby([target_variable, 'apoe']).size()
 	p = d.unstack(level=1).plot(kind='bar', ax=ax[0], title='APOE4-conversion Absolute')
@@ -613,8 +667,57 @@ def plot_histograma_genetics(df, target_variable=None):
 	d = df.groupby([target_variable, 'apoe']).size().unstack(level=1)
 	d = d / d.sum()
 	p = d.plot(kind='bar', ax=ax[1],title='APOE4-conversion Relative')
+	print('**** a.rel *****'); print(d)
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_mci_genetics.png'), dpi=240)
+	
+	fig, ax = plt.subplots(1, 2, figsize=(8, 6))
+	#abs numbers
+	d = df.groupby(['apoe', target_variable]).size()
+	p = d.unstack(level=1).plot(kind='bar', ax=ax[0], title='*APOE4-conversion Absolute')
+	#in relative numbers
+	d = df.groupby(['apoe', target_variable]).size().unstack(level=1)
+	d = d / d.sum()
+	print('**** b.rel *****\n'); print(d)
+	p = d.plot(kind='bar', ax=ax[1],title='*APOE4-conversion Relative')
 	plt.tight_layout()
 	plt.savefig(os.path.join(figures_path, 'groupby_genetics_mci.png'), dpi=240)
+	
+	# X-conversion Y familal 
+	fig, ax = plt.subplots(1, 2, figsize=(8, 6))
+	df_af = df.groupby([target_variable, 'familial_ad']).size()
+	p_af = df_af.unstack(level=1).plot(kind='bar', ax=ax[0], title='Familial AD ~ conversion Absolute')
+	df_af = df.groupby([target_variable,'familial_ad']).size().unstack(level=1)
+	df_af = df_af / df_af.sum()
+	print('**** c.relY *****\n'); print(df_af)
+	p_af = df_af.plot(kind='bar', ax=ax[1], title='Familial AD ~ conversion Relative')
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_Familial_mciY.png'), dpi=240)
+
+	# X -familal y-conversion
+	fig, ax = plt.subplots(1, 2, figsize=(8, 6))
+	df_af = df.groupby(['familial_ad', target_variable]).size()
+	p_af = df_af.unstack(level=1).plot(kind='bar', ax=ax[0], title='Familial AD ~ conversion Absolute')
+	df_af = df.groupby(['familial_ad', target_variable]).size().unstack(level=1)
+	df_af = df_af / df_af.sum()
+	print('**** c.rel *****\n'); print(df_af)
+	p_af = df_af.plot(kind='bar', ax=ax[1], title='Familial AD ~ conversion Relative')
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_Familial_mci.png'), dpi=240)
+	
+	# group with familial and APOE
+	fig, ax = plt.subplots(1, 2, figsize=(8, 6))
+	df_af =  df.groupby(['familial_ad', 'conversionmci', 'apoe'])['id'].count()
+	df_af.unstack(level=1).plot(kind='bar', ax=ax[0], title='APOE4 & Familial AD ~ conversion Absolute')
+	print(df_af)
+	df_af =  df.groupby(['familial_ad', 'conversionmci', 'apoe'])['id'].count().unstack(level=1)
+	print('**** d.abs *****\n');print(df_af)
+	df_af = df_af / df_af.sum()
+	df_af.plot(kind='bar', ax=ax[1], title='APOE4 & Familial AD ~ conversion Relative')
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_geneticsFamilial_mci.png'), dpi=240)
+	print('**** d.rel *****\n');print(df_af)
+	pdb.set_trace()
 	#plt.show()
 
 def plot_histograma_diet_categorical(df, target_variable=None):
@@ -695,9 +798,12 @@ def main():
 	'fcsrtrl3_visita1', 'fcsrtrl3_visita2', 'fcsrtrl3_visita3', 'fcsrtrl3_visita4', 'fcsrtrl3_visita5', 'fcsrtrl3_visita6', \
 	'fcsrtrl3_visita7','bus_int_visita1', 'bus_sum_visita1', 'bus_int_visita2', 'bus_sum_visita2', 'bus_int_visita3', \
 	'bus_sum_visita3', 'bus_int_visita4', 'bus_sum_visita4', 'bus_int_visita5', 'bus_sum_visita5', 'bus_int_visita6', \
-	'bus_sum_visita6', 'bus_int_visita7', 'bus_sum_visita7'] 
+	'bus_sum_visita6', 'bus_int_visita7', 'bus_sum_visita7', 'bus_parint1_visita1','bus_parint1_visita2','bus_parint1_visita3',\
+	'bus_parint1_visita4', 'bus_parint1_visita5','bus_parint1_visita6','bus_parint1_visita7', 'bus_parint2_visita1', 'bus_parint2_visita2',\
+	'bus_parint2_visita3','bus_parint2_visita4', 'bus_parint2_visita5','bus_parint2_visita6','bus_parint2_visita7'] 
 	
-	buschke_features = ['bus_int_visita1']
+	buschke_features = ['bus_int_visita1', 'bus_sum_visita1','bus_parint1_visita1', 'bus_parint2_visita1']
+	#buschke_features = ['bus_int_visita1']
 	conversion_features =['conversionmci','dx_corto_visita1', 'dx_corto_visita2','dx_corto_visita3',\
 	'dx_corto_visita4','dx_corto_visita5','dx_corto_visita6','dx_corto_visita7']
 	conversion_features =['conversionmci', 'scdgroups_visita1']
@@ -715,6 +821,14 @@ def main():
 	'R_Puta_visita1':[],'R_Thal_visita1':[]}
 	df_nooutliers, outliers_dictio = identify_outliers(dataframe[lst], dictio_s)
 
+	# Build the model to fit the hippocampal volume
+	y = ['L_Hipp_visita1']
+	x = ['bus_int_visita1']
+	res_ols1 = fit_buschke_model(df_nooutliers, x, y)
+	x = buschke_features[1:]
+	res_ols2 = fit_buschke_model(df_nooutliers, x, y)
+	compare_OLS_models([res_ols1,res_ols2], ['int', 'int and partial'])
+
 	### Correlation GroupBy analysis
 	types_of_groups = ['Anthropometric_s', 'Genetics_s', 'Demographics_s', 'Diet_s','EngagementExternalWorld_s','Sleep_s',\
 	'PsychiatricHistory_s','Cardiovascular_s'] #,'TraumaticBrainInjury_s'] 
@@ -722,7 +836,6 @@ def main():
 
 	for type_of_group in types_of_groups:
 		plot_histograma_bygroup_categorical(dataframe, type_of_group, target_variable)
-		pdb.set_trace()
 	return	
 	### boxplot of brain size
 	plt_boxplot_brain_volumes(dataframe, mri_brain_cols[1:3] )
