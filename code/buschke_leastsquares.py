@@ -364,51 +364,47 @@ def normal_gaussian_test(rv_values, rv_name =None, method=None, plotcurve=False)
 		plt.title('Comparing CDFs for KS-Test: '+ rv_name + ' . KS p-value='+str(p_kol))
 	return report_test
 
+def plot_histograma_tbi_categorical(df, target_variable=None):
+	""" physical exercise
+	"""
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
+	print('Groupby by TBI \n')
+	df['tce_total'] = df['tce'][df['tce']<9]*df['tce_num']
+	bins = [-np.inf, 0, 1, 2, 3, np.inf]
+	names = ['0','1','2', '3', '3+']
+	df['tce_cut']= pd.cut(df['tce_total'], bins, labels=names)
+	fig, ax = plt.subplots(1, figsize=(4,4))
+	d = df.groupby([target_variable, 'tce_cut']).size().unstack(level=1)
+	print d; d = d / d.sum(); print d
+	p = d.plot(kind='bar', ax=ax, legend='nb of TBI')
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_tbi_mci.png'), dpi=240)
+
 def plot_histograma_cardiovascular_categorical(df, target_variable=None):
 	"""plot_histograma_cardiovascular_categorical: 
 	"""
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
 	this_function_name = sys._getframe(  ).f_code.co_name
 	print('Calling to {}',format(this_function_name))
 	list_cardio=['hta', 'hta_ini', 'glu', 'lipid', 'tabac', 'tabac_cant', 'tabac_fin', \
 	'tabac_ini', 'sp', 'cor', 'cor_ini', 'arri', 'arri_ini', 'card', 'card_ini', 'tir', \
 	'ictus', 'ictus_num', 'ictus_ini', 'ictus_secu']
+
 	df['hta'] = df['hta'].astype('category').cat.rename_categories(['NoHypArt', 'HypArt'])
 	df['glu'] = df['glu'].astype('category').cat.rename_categories(['NoGlu', 'DiabMel','Intoler.HydroC'])
 	df['tabac'] = df['tabac'].astype('category').cat.rename_categories(['NoSmoker', 'Smoker', 'ExSomoker'])
-	df['sp'] = df['sp'].astype('category').cat.rename_categories(['NoOW', 'OverWeight', 'NP'])
-	df['cor'] = df['cor'].astype('category').cat.rename_categories(['NoHeartPb', 'Angina', 'Infartion', 'NP'])
-	df['arri'] = df['arri'].astype('category').cat.rename_categories(['NoArri', 'FibrAur', 'Arrhythmia', 'NP'])
-	df['card'] = df['card'].astype('category').cat.rename_categories(['NoCardDis', 'CardDis', 'NP'])
-	df['tir'] = df['tir'].astype('category').cat.rename_categories(['NoTyr', 'HiperTyr','HipoTir', 'NP'])
-	df['ictus'] = df['ictus'].astype('category').cat.rename_categories(['NoIct', 'IschIct','HemoIct', 'NP'])
-	fig, ax = plt.subplots(2,5)
-	fig.set_size_inches(15,10)
-	ax[-1, -1].axis('off')
-	fig.suptitle('Conversion absolute numbers for cardiovascular')
-	d = df.groupby([target_variable, 'hta']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,0])
-	d = df.groupby([target_variable, 'glu']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,1])
-	d = df.groupby([target_variable, 'tabac']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,2])
-	d = df.groupby([target_variable, 'sp']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,3])
-	d = df.groupby([target_variable, 'cor']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,4])
-	d = df.groupby([target_variable, 'arri']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[1,0])
-	d = df.groupby([target_variable, 'card']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[1,1])
-	d = df.groupby([target_variable, 'tir']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[1,2])
-	d = df.groupby([target_variable, 'ictus']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[1,3])
+	df['sp'] = df['sp'][df['sp']<9].astype('category').cat.rename_categories(['NoOW', 'OverWeight'])
+	df['cor'] = df['cor'][df['cor']<9].astype('category').cat.rename_categories(['NoHeartPb', 'Angina', 'Infarction'])
+	df['arri'] = df['arri'][df['arri']<9].astype('category').cat.rename_categories(['NoArri', 'FibrAur', 'Arrhythmia'])
+	df['card'] = df['card'][df['card']<9].astype('category').cat.rename_categories(['NoCardDis', 'CardDis'])
+	df['tir'] = df['ictus'][df['ictus']<9].astype('category').cat.rename_categories(['NoTyr', 'HiperTyr','HipoTir'])
+	df['ictus'] = df['ictus'][df['ictus']<9].astype('category').cat.rename_categories(['NoIct', 'IschIct','HemoIct'])
 
 	# in relative numbers
-	fig, ax = plt.subplots(2,5)
-	ax[-1, -1].axis('off')
-	fig.set_size_inches(15,10)
-	fig.suptitle('Conversion relative numbers for cardiovascular')
+	fig, ax = plt.subplots(3,3)
+	#ax[-1, -1].axis('off')
+	fig.set_size_inches(12,12)
+	#fig.suptitle('Conversion relative numbers for cardiovascular')
 	d = df.groupby([target_variable, 'hta']).size().unstack(level=1)
 	d = d / d.sum()
 	p = d.plot(kind='bar', ax=ax[0,0])
@@ -420,24 +416,28 @@ def plot_histograma_cardiovascular_categorical(df, target_variable=None):
 	p = d.plot(kind='bar', ax=ax[0,2])
 	d = df.groupby([target_variable, 'sp']).size().unstack(level=1)
 	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[0,3])
+	p = d.plot(kind='bar', ax=ax[1,0])
 	d = df.groupby([target_variable, 'cor']).size().unstack(level=1)
 	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[0,4])
+	p = d.plot(kind='bar', ax=ax[1,1])
 	d = df.groupby([target_variable, 'arri']).size().unstack(level=1)
 	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[1,0])
+	p = d.plot(kind='bar', ax=ax[1,2])
 	d = df.groupby([target_variable, 'card']).size().unstack(level=1)
 	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[1,1])
+	p = d.plot(kind='bar', ax=ax[2,0])
 	d = df.groupby([target_variable, 'tir']).size().unstack(level=1)
 	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[1,2])
+	p = d.plot(kind='bar', ax=ax[2,1])
 	d = df.groupby([target_variable, 'ictus']).size().unstack(level=1)
 	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[1,3])
-	plt.show()
-
+	p = d.plot(kind='bar', ax=ax[2,2])
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_cardio_mci.png'), dpi=240)
+	# calling to physical ex 
+	plot_histograma_physicalex_categorical(df, target_variable)
+	# calling to TBI 
+	plot_histograma_tbi_categorical(df, target_variable)
 
 def plot_histograma_psychiatrichistory_categorical(df, target_variable=None):
 	list_psychiatric_h=['depre', 'depre_ini', 'depre_num', 'depre_trat', 'ansi', 'ansi_ini', 'ansi_num', 'ansi_trat']
@@ -460,6 +460,10 @@ def plot_histograma_psychiatrichistory_categorical(df, target_variable=None):
 	p = d.plot(kind='bar', ax=ax[1])
 
 def plot_histograma_sleep_categorical(df, target_variable=None):
+	"""
+	"""
+	print('Groupby by sleep\n')
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
 
 	this_function_name = sys._getframe(  ).f_code.co_name
 	print('Calling to {}',format(this_function_name))
@@ -468,55 +472,57 @@ def plot_histograma_sleep_categorical(df, target_variable=None):
 	'sue_rec', 'sue_ron', 'sue_rui', 'sue_suf']
 	df['sue_noc_cat'] = pd.cut(df['sue_noc'], 4) # hours of sleep night
 	df['sue_dia_cat'] = pd.cut(df['sue_dia'],4) # hours of sleep day
-	fig, ax = plt.subplots(2,4)
-	#ax[-1, -1].axis('off')
-	fig.set_size_inches(10,10)
-	fig.suptitle('Conversion absolute numbers for Sleep')
-	datag = df.groupby([target_variable, 'sue_noc_cat']).size()
-	p = datag.unstack(level=1).plot(kind='bar', ax=ax[0,0])
-	datag = df.groupby([target_variable, 'sue_dia_cat']).size()
-	p = datag.unstack(level=1).plot(kind='bar', ax=ax[0,1])
-	datag = df.groupby([target_variable, 'sue_con']).size()
-	p = datag.unstack(level=1).plot(kind='bar', ax=ax[0,2])
-	datag = df.groupby([target_variable, 'sue_suf']).size()
-	p = datag.unstack(level=1).plot(kind='bar', ax=ax[0,3])
-	datag = df.groupby([target_variable, 'sue_pro']).size()
-	p = datag.unstack(level=1).plot(kind='bar', ax=ax[1,0])
-	datag = df.groupby([target_variable, 'sue_ron']).size()
-	p = datag.unstack(level=1).plot(kind='bar', ax=ax[1,1])
-	datag = df.groupby([target_variable, 'sue_rec']).size()
-	p = datag.unstack(level=1).plot(kind='bar', ax=ax[1,2])
-	datag = df.groupby([target_variable, 'sue_hor']).size()
-	p = datag.unstack(level=1).plot(kind='bar', ax=ax[1,3])
 
-	fig, ax = plt.subplots(2,4)
+	# relative
+	fig, ax = plt.subplots(3,3)
 	#ax[-1, -1].axis('off')
-	fig.set_size_inches(10,10)
-	fig.suptitle('Conversion relative numbers for Sleep')
-	datag = df.groupby([target_variable, 'sue_noc_cat']).size().unstack(level=1)
+	fig.set_size_inches(12,12)
+	#fig.suptitle('Conversion relative numbers for Sleep')
+	
+	bins = [-np.inf, 0, 2, 4, np.inf]
+	names = ['0', '<2', '2-4','4+']
+	df['sue_dia_r']= pd.cut(df['sue_dia'], bins, labels=names)
+	bins = [-np.inf, 0, 2, 4, 8, 10, np.inf]
+	names = ['0', '<2', '2-4','4-8', '8-10', '10+']
+	df['sue_noc_r']= pd.cut(df['sue_noc'], bins, labels=names)
+	df['sue_con_r'] = df['sue_con'].astype('category').cat.rename_categories(['Light', 'Moderate', 'Deep'])
+
+	df['sue_suf_r'] = df['sue_suf'][df['sue_suf']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	df['sue_rec_r'] = df['sue_rec'][df['sue_rec']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	df['sue_mov_r'] = df['sue_mov'][df['sue_mov']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	df['sue_ron_r'] = df['sue_ron'][df['sue_ron']<9].astype('category').cat.rename_categories(['No', 'Yes', 'Snore&Breath'])
+	df['sue_rui_r'] = df['sue_rui'][df['sue_rui']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	df['sue_hor_r'] = df['sue_hor'][df['sue_hor']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+
+	datag = df.groupby([target_variable, 'sue_dia_r']).size().unstack(level=1)
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[0,0])
-	datag = df.groupby([target_variable, 'sue_dia_cat']).size().unstack(level=1)
+	datag = df.groupby([target_variable, 'sue_noc_r']).size().unstack(level=1)
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[0,1])
-	datag = df.groupby([target_variable, 'sue_con']).size().unstack(level=1)
+	datag = df.groupby([target_variable, 'sue_con_r']).size().unstack(level=1)
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[0,2])
-	datag= df.groupby([target_variable, 'sue_suf']).size().unstack(level=1)
-	datag = datag / datag.sum()
-	p = datag.plot(kind='bar', ax=ax[0,3])
-	datag = df.groupby([target_variable, 'sue_pro']).size().unstack(level=1)
+	datag= df.groupby([target_variable, 'sue_suf_r']).size().unstack(level=1)
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[1,0])
-	datag = df.groupby([target_variable, 'sue_ron']).size().unstack(level=1)
+	datag = df.groupby([target_variable, 'sue_rec_r']).size().unstack(level=1)
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[1,1])
-	datag = df.groupby([target_variable, 'sue_rec']).size().unstack(level=1)
+	datag = df.groupby([target_variable, 'sue_mov_r']).size().unstack(level=1)
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[1,2])
-	datag = df.groupby([target_variable, 'sue_hor']).size().unstack(level=1)
+	datag = df.groupby([target_variable, 'sue_ron_r']).size().unstack(level=1)
 	datag = datag / datag.sum()
-	p = datag.plot(kind='bar', ax=ax[1,3])
+	p = datag.plot(kind='bar', ax=ax[2,0])
+	datag = df.groupby([target_variable, 'sue_rui_r']).size().unstack(level=1)
+	datag = datag / datag.sum()
+	p = datag.plot(kind='bar', ax=ax[2,1])
+	datag = df.groupby([target_variable, 'sue_hor_r']).size().unstack(level=1)
+	datag = datag / datag.sum()
+	p = datag.plot(kind='bar', ax=ax[2,2])
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_sleep_mci.png'), dpi=240)
 
 
 def plot_histograma_anthropometric_categorical(df, target_variable=None):
@@ -553,107 +559,148 @@ def plot_histograma_anthropometric_categorical(df, target_variable=None):
 	plt.tight_layout()
 	plt.savefig(os.path.join(figures_path, 'groupby_anthropometric_mci.png'), dpi=240)
 
+def plot_histograma_physicalex_categorical(df, target_variable=None):
+	""" physical exercise
+	"""
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
+	print('Groupby by Physical exercise \n')
+	df['phys_total'] = df['ejfre']*df['ejminut']
+	bins = [-np.inf, 60, 120, 180, 240, 360, 420, np.inf]
+	names = ['<60', '60-120','120-180', '180-240', '240-360', '360-420', '420+']
+	df['phys_total_cut']= pd.cut(df['phys_total'], bins, labels=names)
 
-def plot_histograma_engagement_categorical(df, target_variable=None):	
+	fig, ax = plt.subplots(1, figsize=(4,4))
+	d = df.groupby([target_variable, 'phys_total_cut']).size().unstack(level=1)
+	print d; d = d / d.sum(); print d
+	p = d.plot(kind='bar', ax=ax)
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_physex_mci.png'), dpi=240)
+
+def plot_histograma_engagement_categorical(df, target_variable=None):
+	"""
+	"""	
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
 	lista_engag_ext_w = ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', \
 	'a10', 'a11', 'a12', 'a13', 'a14']
 	#physical activities 1, creative 2, go out with friends 3,travel 4, ngo 5,church 6, social club 7,
 	# cine theater 8,sport 9, listen music 10, tv-radio (11), books (12), internet (13), manualidades(14)
-	df['physicaltrain_cat'] = pd.cut(df['a01'] + df['a09'], 3) # phys exer sport
-	df['creative_cat'] = pd.cut(df['a02'] + df['a14'], 3) # creative manualidades
-	df['sociallife_cat'] = pd.cut(df['a03'] + df['a05']+ df['a07'] + df['a08'], 3)
-	#church, books, music , techno
-	fig, ax = plt.subplots(2,4)
-	ax[-1, -1].axis('off')
-	fig.set_size_inches(15,10)
-	fig.suptitle('Conversion absolute numbers for Engagement external world')
-	d = df.groupby([target_variable, 'physicaltrain_cat']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,0],label='physical exercise')
 
-	d = df.groupby([target_variable, 'creative_cat']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,1])
-	d = df.groupby([target_variable, 'sociallife_cat']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,2])
-	d = df.groupby([target_variable, 'a06']).size() # church goers
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0,3])
-	d = df.groupby([target_variable, 'a12']).size() #read books
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[1,0])
-	d = df.groupby([target_variable, 'a10']).size() #listen to music
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[1,1])
-	d = df.groupby([target_variable, 'a13']).size() #internet
- 	p = d.unstack(level=1).plot(kind='bar', ax=ax[1,2],label='Internet')
-	ax[1,2].legend() 	
+	df['creative_cat'] = pd.cut(df['a02'] + df['a14'], 3) # creative manualidades
+	df['creative_cat'] = df['creative_cat'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['friends_cat'] = df['a03'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['travel_cat'] = df['a04'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['ngo_cat'] = df['a05'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['church_cat'] = df['a06'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['club_cat'] = df['a07'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['movies_cat'] = df['a08'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['sports_cat'] = df['a09'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['music_cat'] = df['a10'][df['a10']>0].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['tv_cat'] = df['a11'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['books_cat'] = df['a12'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	df['internet_cat'] = df['a13'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+
  	# 
-	fig, ax = plt.subplots(2,4)
-	ax[-1, -1].axis('off')
+	fig, ax = plt.subplots(4,3)
+	#ax[-1, -1].axis('off')
 	fig.set_size_inches(15,10)
-	fig.suptitle('Conversion relative numbers for Engagement external world')
-	datag = df.groupby([target_variable, 'physicaltrain_cat']).size().unstack(level=1)
-	datag = datag / datag.sum()
-	p = datag.plot(kind='bar', ax=ax[0,0])
+	#fig.suptitle('Conversion relative numbers for Engagement external world')
 	datag = df.groupby([target_variable, 'creative_cat']).size().unstack(level=1)
 	datag = datag / datag.sum()
+	p = datag.plot(kind='bar', ax=ax[0,0])
+	datag = df.groupby([target_variable, 'friends_cat']).size().unstack(level=1)
+	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[0,1])
-	datag = df.groupby([target_variable, 'sociallife_cat']).size().unstack(level=1)
+	datag = df.groupby([target_variable, 'travel_cat']).size().unstack(level=1)
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[0,2])
-	datag = df.groupby([target_variable, 'a06']).size().unstack(level=1) # church goers
-	datag = datag / datag.sum()
-	p = datag.plot(kind='bar', ax=ax[0,3])
-	datag = df.groupby([target_variable, 'a12']).size().unstack(level=1) #read books
+	datag = df.groupby([target_variable, 'ngo_cat']).size().unstack(level=1) # church goers
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[1,0])
-	datag = df.groupby([target_variable, 'a10']).size().unstack(level=1) #listen to music
+	datag = df.groupby([target_variable, 'church_cat']).size().unstack(level=1) #read books
 	datag = datag / datag.sum()
 	p = datag.plot(kind='bar', ax=ax[1,1])
-	datag = df.groupby([target_variable, 'a13']).size().unstack(level=1) #internet
+	datag = df.groupby([target_variable, 'club_cat']).size().unstack(level=1) #listen to music
+	datag = datag / datag.sum()
+	p = datag.plot(kind='bar', ax=ax[1,2])
+ 	datag = df.groupby([target_variable, 'movies_cat']).size().unstack(level=1) #read books
+	datag = datag / datag.sum()
+	p = datag.plot(kind='bar', ax=ax[2,0])
+	datag = df.groupby([target_variable, 'sports_cat']).size().unstack(level=1) #listen to music
+	datag = datag / datag.sum()
+	p = datag.plot(kind='bar', ax=ax[2,1])
+	datag = df.groupby([target_variable, 'music_cat']).size().unstack(level=1) #internet
  	datag = datag / datag.sum()
- 	p = datag.plot(kind='bar', ax=ax[1,2])
+ 	p = datag.plot(kind='bar', ax=ax[2,2])
+ 	datag = df.groupby([target_variable, 'tv_cat']).size().unstack(level=1) #read books
+	datag = datag / datag.sum()
+	p = datag.plot(kind='bar', ax=ax[3,0])
+	datag = df.groupby([target_variable, 'books_cat']).size().unstack(level=1) #listen to music
+	datag = datag / datag.sum()
+	p = datag.plot(kind='bar', ax=ax[3,1])
+	datag = df.groupby([target_variable, 'internet_cat']).size().unstack(level=1) #internet
+ 	datag = datag / datag.sum()
+ 	p = datag.plot(kind='bar', ax=ax[3,2])
+ 	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_social_mci.png'), dpi=240)
 
 
 def plot_histograma_demographics_categorical(df, target_variable=None):
+	"""
+	"""
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
 	d, p= pd.Series([]), pd.Series([])
 
 	df['nivel_educativo'] = df['nivel_educativo'].astype('category').cat.rename_categories(['~Pr', 'Pr', 'Se', 'Su'])
-	df['familial_ad'] = df['familial_ad'].astype('category').cat.rename_categories(['NoFam', 'Fam'])
-	df['nivelrenta'] = df['nivelrenta'].astype('category').cat.rename_categories(['Baja', 'Media', 'Alta'])
-	df['edad_visita1'] = pd.cut(df['edad_visita1'], range(0, 100, 10), right=False)
+	
+	bins = [-np.inf, 0, 1, 2, 3, 4, np.inf]
+	names = ['0', '1', '2','3', '4', '5+']
+	df['numhij_r']= pd.cut(df['numhij'], bins, labels=names)
+
+	bins = [-np.inf, 0, 10, 20, 30, np.inf]
+	names = ['0', '<10', '10-20', '20-30', '30+']
+	df['sdatrb_r']= pd.cut(df['sdatrb'], bins, labels=names)
+
+	bins = [ 0, 3, 8, 10]
+	names = ['Low', 'Med','Up']
+	df['sdeconom_r']= pd.cut(df['sdeconom'], bins, labels=names)
+	df['sdestciv'] = df['sdestciv'].astype('category').cat.rename_categories(['Single', 'Married', 'Widow', 'Divorced'])
+
+	bins = [ 0, 2, 4, 6, np.inf]
+	names = ['1', '2-4','4-6', '6+']
+	dfno9 = df['sdvive'][df['sdvive'] <9]
+	df['sdvive_r']= pd.cut(dfno9, bins, labels=names).dropna()
+	
+	df['nivelrenta'] = df['nivelrenta'].astype('category').cat.rename_categories(['Low', 'Med', 'High'])
+	
 	#in absolute numbers
-	fig, ax = plt.subplots(1,5)
-	fig.set_size_inches(20,5)
-	fig.suptitle('Conversion by absolute numbers, for various demographics')
-
-	d = df.groupby([target_variable, 'apoe']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[0])
-	d = df.groupby([target_variable, 'nivel_educativo']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[1])
-	d = df.groupby([target_variable, 'familial_ad']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[2])
-	d = df.groupby([target_variable, 'nivelrenta']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[3])
-	d = df.groupby([target_variable, 'edad_visita1']).size()
-	p = d.unstack(level=1).plot(kind='bar', ax=ax[4])
-
 	#in relative numbers
-	fig, ax = plt.subplots(1,5)
-	fig.set_size_inches(20,5)
-	fig.suptitle('Conversion by relative numbers, for various demographics')
-	d = df.groupby([target_variable, 'apoe']).size().unstack(level=1)
-	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[0])
+	fig, ax = plt.subplots(3,2)
+	fig.set_size_inches(14,12)
+	#fig.suptitle('Conversion conditioned by various demographics')
+
 	d = df.groupby([target_variable, 'nivel_educativo']).size().unstack(level=1)
+	d = d / d.sum();print(d)
+	p = d.plot(kind='bar', ax=ax[0,0])
+	
+	d = df.groupby([target_variable, 'numhij_r']).size().unstack(level=1)
 	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[1])
-	d = df.groupby([target_variable, 'familial_ad']).size().unstack(level=1)
+	p = d.plot(kind='bar', ax=ax[0,1])
+	d = df.groupby([target_variable, 'sdatrb_r']).size().unstack(level=1)
 	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[2])
-	d = df.groupby([target_variable, 'nivelrenta']).size().unstack(level=1)
-	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[3])
-	d = df.groupby([target_variable, 'edad_visita1']).size().unstack(level=1)
-	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[4])
-	plt.show()
+	p = d.plot(kind='bar', ax=ax[1,0])
+	d = df.groupby([target_variable, 'sdeconom_r']).size().unstack(level=1)
+	d = d / d.sum();print(d)
+	p = d.plot(kind='bar', ax=ax[1,1])
+	d = df.groupby([target_variable, 'sdestciv']).size().unstack(level=1)
+	print(d)
+	d = d / d.sum();print(d)
+	p = d.plot(kind='bar', ax=ax[2,0])
+	d = df.groupby([target_variable, 'sdvive_r']).size().unstack(level=1)
+	print(d)
+	d = d / d.sum();print(d)
+	p = d.plot(kind='bar', ax=ax[2,1])
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_Demosmci.png'), dpi=240)
 
 def plot_histograma_genetics(df, target_variable=None):
 	#in absolute numbers
@@ -720,56 +767,173 @@ def plot_histograma_genetics(df, target_variable=None):
 	pdb.set_trace()
 	#plt.show()
 
+def plot_histograma_food_categorical(df, target_variable=None):
+	"""
+	"""
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
+	print('Groupby by Diet \n')
+	df['alfrut_cut'] = df['alfrut'].astype('category').cat.rename_categories(['0', '1-2', '3-5','6-7'])
+	df['alcar_cut'] = df['alcar'].astype('category').cat.rename_categories(['0', '1-2', '3-5','6-7'])
+	df['aldulc_cut'] = df['aldulc'].astype('category').cat.rename_categories(['0', '1-2', '3-5','6-7'])
+	df['alverd_cut'] = df['alverd'].astype('category').cat.rename_categories(['0', '1-2', '3-5','6-7'])
+		#diet in relative numbers
+	fig, ax = plt.subplots(2,2)
+	fig.set_size_inches(8,8)
+	#fig.suptitle('Conversion by relative numbers for Alimentation')
+	d = df.groupby([target_variable, 'alfrut_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[0,0])
+	d = df.groupby([target_variable, 'alverd_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[0,1])
+	d = df.groupby([target_variable, 'alcar_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[1,0])
+	d = df.groupby([target_variable, 'aldulc_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[1,1])
+	plt.tight_layout()
+	#plt.savefig(os.path.join(figures_path, 'groupby_diet_mci.png'), dpi=240)
+	plt.savefig(os.path.join(figures_path, 'groupby_food_mci.png'), dpi=240)
+
+
 def plot_histograma_diet_categorical(df, target_variable=None):
 	""" plot_histograma_diet_categorical
 	Args: datafame, target_variable
 	Output:None
 	"""
-	# df['alfrut'] = df['alfrut'].astype('category').cat.rename_categories(['0', '1-2', '3-5','6-7'])
-	# df['alcar'] = df['alcar'].astype('category').cat.rename_categories(['0', '1-2', '3-5','6-7'])
-	# df['aldulc'] = df['aldulc'].astype('category').cat.rename_categories(['0', '1-2', '3-5','6-7'])
-	# df['alverd'] = df['alverd'].astype('category').cat.rename_categories(['0', '1-2', '3-5','6-7'])
-	
+
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
+	print('Groupby by Diet \n')
 	# 4 groups:: 'dietaglucemica', 'dietagrasa', 'dietaproteica', 'dietasaludable'
 	nb_of_categories = 4
-	#df['dietaproteica_cut'] = pd.cut(df['dietaproteica'],nb_of_categories)
-	#df['dietagrasa_cut'] = pd.cut(df['dietagrasa'],nb_of_categories)
-	# df['dietaketo_cut'] = pd.cut(df['dietaketo'],nb_of_categories)
-	
+	# cut in 4 groups based on range
 	df['dietaglucemica_cut'] = pd.cut(df['dietaglucemica'],nb_of_categories)
 	df['dietasaludable_cut']= pd.cut(df['dietasaludable'],nb_of_categories)
 	df['dietaproteica_cut']= pd.cut(df['dietaproteica'],nb_of_categories)
 	df['dietagrasa_cut']= pd.cut(df['dietagrasa'],nb_of_categories)
+	#cut in 4 quartiles
+	df['dietaglucemica_cut'] = pd.qcut(df['dietaglucemica'], nb_of_categories, precision=1) 
+	df['dietasaludable_cut'] = pd.qcut(df['dietasaludable'], nb_of_categories, precision=1) 
+	df['dietaproteica_cut'] = pd.qcut(df['dietaproteica'], nb_of_categories, precision=1) 
+	df['dietaproteica_cut'] = pd.qcut(df['dietaproteica'], nb_of_categories, precision=1) 
 	#diet in relative numbers
-	fig, ax = plt.subplots(1,4)
-	fig.set_size_inches(20,5)
-	fig.suptitle('Conversion by relative numbers for Alimentation')
+	fig, ax = plt.subplots(2,2)
+	fig.set_size_inches(8,8)
+	#fig.suptitle('Conversion by relative numbers for Alimentation')
 	d = df.groupby([target_variable, 'dietaglucemica_cut']).size().unstack(level=1)
-	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[0])
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[0,0])
 	d = df.groupby([target_variable, 'dietasaludable_cut']).size().unstack(level=1)
-	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[1])
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[0,1])
 	d = df.groupby([target_variable, 'dietaproteica_cut']).size().unstack(level=1)
-	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[2])
-	p = d.plot(kind='bar', ax=ax[3])
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[1,0])
 	d = df.groupby([target_variable, 'dietagrasa_cut']).size().unstack(level=1)
-	d = d / d.sum()
-	p = d.plot(kind='bar', ax=ax[3])
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[1,1])
+	plt.tight_layout()
+	#plt.savefig(os.path.join(figures_path, 'groupby_diet_mci.png'), dpi=240)
+	plt.savefig(os.path.join(figures_path, 'groupby_diet_mciQuart.png'), dpi=240)
+	print('Calling to food...\n)')
+	plot_histograma_food_categorical(df, target_variable)
+
+def plot_histograma_T1_categorical(df, target_variable):
+	""" group by conversion wioth subcortical structure size
+	"""
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
+	print('Groupby by Subcortical structure size \n')
+	nb_of_categories = 4
+	#cut in 4 quartiles
+
+	df['L_Thal_visita1_cut'] = pd.qcut(df['L_Thal_visita1'].dropna(), nb_of_categories, precision=1)
+	df['R_Thal_visita1_cut'] = pd.qcut(df['R_Thal_visita1'].dropna(), nb_of_categories, precision=1) 
+	df['L_Puta_visita1_cut'] = pd.qcut(df['L_Puta_visita1'].dropna(), nb_of_categories, precision=1)  
+	df['R_Puta_visita1_cut'] = pd.qcut(df['R_Puta_visita1'].dropna(), nb_of_categories, precision=1)  
+	df['L_Caud_visita1_cut'] = pd.qcut(df['L_Caud_visita1'].dropna(), nb_of_categories, precision=1)
+	df['R_Caud_visita1_cut'] = pd.qcut(df['R_Caud_visita1'].dropna(), nb_of_categories, precision=1) 
+
+	df['L_Pall_visita1_cut'] = pd.qcut(df['L_Pall_visita1'].dropna(), nb_of_categories, precision=1)  
+	df['R_Pall_visita1_cut'] = pd.qcut(df['R_Pall_visita1'].dropna(), nb_of_categories, precision=1) 
+
+	df['L_Hipp_visita1_cut'] = pd.qcut(df['L_Hipp_visita1'].dropna(), nb_of_categories, precision=1)  
+	df['R_Hipp_visita1_cut'] = pd.qcut(df['R_Hipp_visita1'].dropna(), nb_of_categories, precision=1)  
+	df['L_Amyg_visita1_cut'] = pd.qcut(df['L_Amyg_visita1'].dropna(), nb_of_categories, precision=1)  
+	df['R_Amyg_visita1_cut'] = pd.qcut(df['R_Amyg_visita1'].dropna(), nb_of_categories, precision=1)  
+	df['L_Accu_visita1_cut'] = pd.qcut(df['L_Accu_visita1'].dropna(), nb_of_categories, precision=1)  
+	df['R_Accu_visita1_cut'] = pd.qcut(df['R_Accu_visita1'].dropna(), nb_of_categories, precision=1)  
+
+	fig, ax = plt.subplots(3,2)
+	fig.set_size_inches(10,12)
+	#fig.suptitle('Conversion by relative numbers for Alimentation')
+	d = df.groupby([target_variable, 'L_Hipp_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[0,0])
+	d = df.groupby([target_variable, 'R_Hipp_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[0,1])
+	d = df.groupby([target_variable, 'L_Amyg_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[1,0])
+	d = df.groupby([target_variable, 'R_Amyg_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[1,1])
+	d = df.groupby([target_variable, 'L_Accu_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[2,0])
+	d = df.groupby([target_variable, 'R_Accu_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[2,1])
+	plt.tight_layout()
+	#plt.savefig(os.path.join(figures_path, 'groupby_diet_mci.png'), dpi=240)
+	plt.savefig(os.path.join(figures_path, 'groupby_HipAmyAcc_mciQuart.png'), dpi=240)
+
+
+	fig, ax = plt.subplots(4,2)
+	fig.set_size_inches(10,12)
+	d = df.groupby([target_variable, 'L_Puta_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[0,0])
+	d = df.groupby([target_variable, 'R_Puta_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[0,1])
+	d = df.groupby([target_variable, 'L_Thal_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[1,0])
+	d = df.groupby([target_variable, 'R_Thal_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[1,1])
+
+	d = df.groupby([target_variable, 'L_Caud_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[2,0])
+	d = df.groupby([target_variable, 'R_Caud_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[2,1])
+	d = df.groupby([target_variable, 'L_Pall_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[3,0])
+	d = df.groupby([target_variable, 'R_Pall_visita1_cut']).size().unstack(level=1)
+	print(d); d = d / d.sum(); print(d)
+	p = d.plot(kind='bar', ax=ax[3,1])
+	plt.tight_layout()
+	#plt.savefig(os.path.join(figures_path, 'groupby_diet_mci.png'), dpi=240)
+	plt.savefig(os.path.join(figures_path, 'groupby_ThalCau_mciQuart.png'), dpi=240)
+	pdb.set_trace()
+
 
 def plot_histograma_bygroup_categorical(df, type_of_group, target_variable):
 	""" plot_histograma_bygroup_categorical
 	"""
 	if type_of_group is 'Genetics_s': plot_histograma_genetics(df, target_variable)
 	if type_of_group is 'Demographics_s': plot_histograma_demographics_categorical(df, target_variable)
-	if type_of_group is 'Diet_s': plot_histograma_diet_categorical(df, target_variable)
+	if type_of_group is 'Diet_s': plot_histograma_diet_categorical(df, target_variable) #call to food from within
 	if type_of_group is 'EngagementExternalWorld_s': plot_histograma_engagement_categorical(df, target_variable)
 	if type_of_group is 'Anthropometric_s': plot_histograma_anthropometric_categorical(df, target_variable)
 	if type_of_group is 'Sleep_s': plot_histograma_sleep_categorical(df, target_variable)
 	if type_of_group is 'PsychiatricHistory_s': plot_histograma_psychiatrichistory_categorical(df, target_variable)
-	if type_of_group is 'Cardiovascular_s': plot_histograma_cardiovascular_categorical(df, target_variable)
-	if type_of_group is 'TraumaticBrainInjury_s': plot_histograma_traumaticbraininjury_categorical(df, target_variable)
+	if type_of_group is 'Cardiovascular_s': plot_histograma_cardiovascular_categorical(df, target_variable) #call to physical within 
 
 def main():
 	# Open csv with MRI data
@@ -820,6 +984,11 @@ def main():
 	'R_Amyg_visita1':[], 'R_Caud_visita1':[],'R_Hipp_visita1':[], 'R_Pall_visita1':[], \
 	'R_Puta_visita1':[],'R_Thal_visita1':[]}
 	df_nooutliers, outliers_dictio = identify_outliers(dataframe[lst], dictio_s)
+	###########
+	lst2plotgroup = mri_subcortical_cols + ['conversionmci']
+	plot_histograma_T1_categorical(df_nooutliers[lst2plotgroup], 'conversionmci')
+	pdb.set_trace()
+
 
 	# Build the model to fit the hippocampal volume
 	y = ['L_Hipp_visita1']
@@ -830,13 +999,16 @@ def main():
 	compare_OLS_models([res_ols1,res_ols2], ['int', 'int and partial'])
 
 	### Correlation GroupBy analysis
-	types_of_groups = ['Anthropometric_s', 'Genetics_s', 'Demographics_s', 'Diet_s','EngagementExternalWorld_s','Sleep_s',\
-	'PsychiatricHistory_s','Cardiovascular_s'] #,'TraumaticBrainInjury_s'] 
+	# group by static variables
+	types_of_groups = ['Cardiovascular_s', 'EngagementExternalWorld_s','Diet_s', 'Sleep_s','Demographics_s', 'Anthropometric_s', 'Genetics_s', \
+	'PsychiatricHistory_s'] #,'TraumaticBrainInjury_s'] 
 	target_variable = 'conversionmci'
-
 	for type_of_group in types_of_groups:
 		plot_histograma_bygroup_categorical(dataframe, type_of_group, target_variable)
-	return	
+	# group by brain structure size	
+
+
+
 	### boxplot of brain size
 	plt_boxplot_brain_volumes(dataframe, mri_brain_cols[1:3] )
 	# boxplot of brain strucures

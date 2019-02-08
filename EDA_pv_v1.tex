@@ -404,7 +404,7 @@ Here we show the automated segmentation of all subjects with MRI in the first ye
 The segmentation goes through the following stages:
 \begin{enumerate}  
   %0 The input image is copied in .anat and renamed {T1}.nii.gz (-t T1,T2,PD), we work with T1 now
-  \item \textbf{Reorinetation} to the standard (MNI) orientation
+  \item \textbf{Reorientation} to the standard (MNI) orientation
   %, \emph{fslreorient2std} it swaps axes around maintaining the correct left-right relationships so that x=left-right, y=anterior-posterior and z=superior-inferior. 
   %size T1 < T1_orig== T1_fullfov, T1 reoriented and cropped is small in size than the original image because we cut the neck. e. T1.nii.gz is the averaged and aligned image file. 
   \item \textbf{Cropping} to remove the neck, this is a necessary step prior to brain extraction. 
@@ -803,7 +803,7 @@ For each chart, on the left the grouping is shown in absolute numbers and on the
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
         \includegraphics[height=2.1in]{figures/groupby_mci_genetics}
-        \caption{Grouping by conversion to MCI relative to the genetic profile of the subjects. A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.55, p(MCI=1|APOE=2)=0.45$. Thus as much as the $45\%$ of APOE4 have converted to MCI.}
+        \caption{Grouping by conversion to MCI relative to the genetic profile of the subjects. A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.45, p(MCI=1|APOE=2)=0.55$, thus, for those with homozygotic APOE4, $APOE4=2$, the converters to MCI are majority.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.4\textwidth}
@@ -829,33 +829,153 @@ For each chart, on the left the grouping is shown in absolute numbers and on the
         \includegraphics[height=2.1in]{figures/groupby_geneticsFamilial_mci}
         \caption{ }
     \end{subfigure}
-    \hfill
+    \hfill %YS get chart with conversion in x, and family apoe in y
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
         \includegraphics[height=2.1in]{figures/groupby_geneticsFamilial_mci}
         \caption{Grouping of familial AD and genetic profile conditioned by conversion to MCI.}
     \end{subfigure}%\quad
    
-    \caption{\emph{Conversion to MCI} relative to the genetics profile and familial AD; a) APO$\epsilon4$ and conversion to MCI in the future represented as genetic profile conditioned to conversion, $p(MCI|APOE)$. b) APO$\epsilon4$ and conversion to MCI in the future represented as conversion conditioned to genetic profile , $p(APO\epsilon4|MCI)$. c) conversion to MCI in the future and familial AD  represented as familial AD conditioned to conversion, $p(fAD|MCI)$. d) conversion to MCI in the future and familial AD represented as conversion conditioned to either familial AD and APO$\epsilon4$, $p(fAD, APO\epsilon4|MCI)$.}
+    \caption{\emph{Conversion to MCI} relative to the genetics profile and familial AD; a) APO$\epsilon4$ and conversion to MCI in the future represented as genetic profile conditioned to conversion, $p(MCI|APO\epsilon4)$. b) APO$\epsilon4$ and conversion to MCI in the future represented as conversion conditioned to genetic profile , $p(APO\epsilon4|MCI)$. c) conversion to MCI in the future and familial AD  represented as familial AD conditioned to conversion, $p(fAD|MCI)$. d) conversion to MCI in the future and familial AD represented as conversion conditioned to either familial AD and APO$\epsilon4$, $p(fAD, APO\epsilon4|MCI)$.}
     \label{fig:genfami}
 \end{figure}
 
+Figure \ref{genfami} gives an excellent opportunity to discuss the perils of reaching to conclusions without a good understanding of probability theory. 
+Figure \ref{genfami}-a) shows that for those with $APO\epsilon4=2$, https://jeremykun.com/2013/01/12/the-fundamental-group-a-primer/the probability to convert is larger than to no convert,$p(MCI=1|APO\epsilon4=2) > p(MCI=0|APO\epsilon4=2)$. On the other hand, for heterozygotes and non APOE4,$APO\epsilon4=0,1$, the reverse happens, there are more non converters than converters if the subject is not carrier of homozygote $APO\epsilon4$. 
+However, Figure \ref{genfami}-b) the homozygotic APOE are a very small number ($11/1181 = 0.093\%$), so for those that are converters to MCI only the $0.05\%$ are homozygotic $APO\epsilon4$, $p(APOE=2|MCI=1)=0.05$.
+
 %Anthro. bmi, abdo, weight, height
-Figure \ref{fig:groupby_anthropometric_mci} shows the results of grouping by \emph{Conversion to MCI} relative to anthropometric features, i.e: BMI, abdominal perimeter, weight and height. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending depending on the body mass index and related variables. 
+Figure \ref{fig:groupby_anthropometric_mci} shows the results of grouping by \emph{Conversion to MCI} relative to anthropometric features, i.e: BMI, abdominal perimeter, weight and height. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending depending on the body mass index and related variables. We do not observe any relevant conditioning of these variables on conversion to MCI. The split is performed using the four quartiles of each variable as described in the legend.
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/groupby_anthropometric_mci}
-        \caption{The figure shows the grouping by conversion to MCI relative to the body mass index, abdominal perimeter, weight and height, all in relative numbers to acknowledge the fact that the dataset is unbalanced (the ratio non converters converters is 9 to 1). The split is performed using the four quartiles of each variables as described in the legend of each chart.} 
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_anthropometric_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to the body mass index, abdominal perimeter, weight and height, all in relative numbers to acknowledge the fact that the dataset is unbalanced (the ratio non converters converters is 9 to 1). } 
         \label{fig:groupby_genetics_mci}
 \end{figure}
 
-%Demo
+%Demographics
+Figure \ref{fig:groupby_Demosmci} shows the results of grouping by \emph{Conversion to MCI} relative to demographics information such as education level, family size and residence, marital status, self perceived socioecnomic status and work experience. Interestingly, within a frequentist interpretation, the probability to convert to MCI being single is larger than being married which is larger than being widowed which in turn is larger than convert to MCI being a divorcee (See Table \ref{tab:marital} for the specifics). 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_Demosmci}
+        \caption{The figure shows the grouping by conversion to MCI relative to demographics information. From up left to bottom right: conversion conditioned to educational level, number of sons, years of work as an employee, self perceived socioeconomic status, marital status, number of people living at home } 
+        \label{fig:groupby_Demosmci}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\caption{Conversion conditioned to marital status. The "probability" to convert top MCI decreases progressively from single to married to widow to divorced.}
+\begin{tabular}[t]{lcccc}
+\hline
+Conversion&Single&Married&Widow&Divorced \\
+\hline
+No&58($0.82\%$)&484($0.87\%$)&206($0.89\%$)&68($0.92\%$)\\
+Yes&13($0.18\%$)&72($0.13\%$)&26($0.11\%$)&6($0.08\%$)\\
+%Mary Johnson&4&5&&\\
+\hline
+\label{tab:marital}
+\end{tabular}
+\end{table}%
 
 \paragraph*{Sleep}
+
+Figure \ref{fig:groupby_sleep_mci} shows the results of grouping by \emph{Conversion to MCI} relative to information about the sleep patterns. A quick visual inspection seems to indicate that remembering dreams, sleep with movement, sleep with tingling are less frequent in converters while the opposite happens for snoring and noises while sleeping. No converters for any subject that sleeps more than 2 hours during the day, there is neither converter that sleeps more than 10 hours by night.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_sleep_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to sleeping patterns. From up left to bottom right: conversion conditioned to number of hours of daily sleep, number of hours of sleep at night, loose of consciousness while sleep, sufficient sleep, remember dreams, movement while sleep, snoring, noises and tingling.} 
+        \label{fig:groupby_sleep_mci}
+\end{figure}
+
+
 \paragraph*{Life style}
+Here we study the grouping by \emph{Conversion to MCI} relative to information about life style patterns. Life style is a quite vague  category where completeness is certainly unwarranted. Nevertheless, \emph{The Vallecas Project} makes available a representative set of factors including, food consumption and diet, physical exercise and social life.
+
+Figure \ref{fig:groupby_food_mci} shows the results of grouping by \emph{Conversion to MCI} relative to food consumption in weekly basis. We outline four group foods: fruits, vegetables, red meat and sweets. A visual inspection shows no effect of food consumption on conversion to MCI. %As for all the charts in this section each coloured bar must sum one. 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_food_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to food consumption in weekly basis. From up left to bottom right: fruits, vegetables, red meat and sweets.  Curiously, the highest rate of conversion is when subjects report 6-7 days/week consumption (red bars) in any of the four groups of food depicted. The majority of subjects,$63\%$, claims to eat fruit 6-7 days/week, $35\%$ vegetables, only $4\%$ red ,eat and $24\%$ claim to eat sweets 6-7 days/week.} 
+        \label{fig:groupby_sleep_mci}
+\end{figure}
+
+Figure \ref{fig:groupby_diet_mciQuart} shows the results of grouping by \emph{Conversion to MCI} relative to diet. We distinguish between four types of diets baaed on food consumption, high in sugar diet, high in proteins diet, high in fruits and vegetables (Mediterranean) diet and high in fats diet. A visual inspection shows no effect of the type of diet on conversion to MCI with the exception of the bottom right plot (diet high in fats) with shows a very high rate of converters ($50\%$), however this is a very small group of only 10 subjects of a total of 1180 that fall into the quartile of no fat consumption. 
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_diet_mciQuart}
+        \caption{The figure shows the grouping by conversion to MCI relative to diet. From up left to bottom right: weekly consumption of fruits, vegetables, red meat and sweets.} 
+        \label{fig:groupby_sleep_mci}
+\end{figure}
+
+%physical exercise
+Figure \ref{fig:groupby_physex_mci} shows the results of grouping by \emph{Conversion to MCI} physical exercise. The physical activity in minutes of physical exercise per week. % computed as the product of the number of sessions per week and the average minutes per session.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=.4\linewidth]{figures/groupby_physex_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to physical exercise computed as the product of the number of number of sessions/week and minutes per session that yields the estimated total minutes of physical exercise per week.} 
+        \label{fig:groupby_sleep_mci}
+\end{figure}
+
+%engagement external world
+Figure \ref{fig:groupby_social_mci} shows the results of grouping by \emph{Conversion to MCI} activities referred to social life and the subject's engagement with the external world. A quick visual inspection seems to indicate a lesser conversion ratio for regular users of the Internet and new technologies and those that often go to the movie theater and to sport events.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_social_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to activities that reflect the subject's social life and her  engagement with the external world. From up left to bottom right the frequency (Never, Few, Often) of participating in: creative-artistic activities, go out with friends, traveling, participation in NGO and other non profit bodies, go to church,  
+        social clubs, movie theater, sports events, music concerts, watching TV, reading (newspapers and books) and use the Internet.}
+        \label{fig:groupby_social_mci}
+\end{figure}
+
+
 \paragraph*{Cardiovascular}
+Figure \ref{fig:groupby_cardio_mci} shows the results of grouping \emph{Conversion to MCI} by activities to the cardiovascular health of the subjects. A quick visual inspection seems to indicate a higher conversion ratio for subjects with heart problems (e.g. infarction) but not for overweight or smokers.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_cardio_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to the cardiovascular health of the subjects. From up left to bottom right: blood preassure (\emph{Normal blood preassure, hypertension}), diabetes (\emph{No diabetic, diabetes mellitus, intollerance to carbs}),Smoke (\emph{Non smoker, Smoker, Ex-smoker}), body mass index (\emph{No overweight, overweight}) ,cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}),arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), heart stroke (\emph{No past strokes, Angina, Stroke}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}), ictus (\emph{No, Ischemic, Hemorrhagic}).}
+        \label{fig:groupby_cardio_mci}
+\end{figure}
+
+
 \paragraph*{Traumatic brain injury}
+Figure \ref{fig:groupby_tbi_mci} shows the results of grouping \emph{Conversion to MCI} by episodes of traumatic brain injury. A quick visual inspection seems to indicate a higher conversion ratio for subjects a history of TBI incidents
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=.4\linewidth]{figures/groupby_tbi_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative epusodes of traumatic brain injury.}
+        \label{fig:groupby_tbi_mci}
+\end{figure}
+
+
+
+\paragraph{Brain subcortical structures}
+
+Figures \ref{fig:groupby_HipAmyAcc_mciQuart} and \ref{fig:groupby_cardio_mci} show the results of grouping \emph{Conversion to MCI} by the segmented size of subcortical structures. 
+A quick visual inspection seems to indicate exists the possibility that the size of the left hippocampus and the right accumbens could have a positive effect in the conversion rate.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_HipAmyAcc_mciQuart}
+        \caption{The figure shows the grouping by conversion to MCI relative the size of the segmented subcortical structures: Hippocampus, Amygdala and Accumbens both left and right.}
+        \label{fig:groupby_HipAmyAcc_mciQuart}
+\end{figure}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_ThalCau_mciQuart}
+        \caption{The figure shows the grouping by conversion to MCI relative the size of the segmented subcortical structures: Putamen, Thalamus, Caudate and Pallidum both left and right.}
+        \label{fig:groupby_HipAmyAcc_mciQuart}
+\end{figure}
+
+
 
 Figure \ref{fig:scatternative} shows the results of brain extraction size (the four first steps) in mm${^3}$. 
 \begin{figure}[H]
