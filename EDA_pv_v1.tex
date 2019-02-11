@@ -997,9 +997,40 @@ Figure \ref{fig:scatternative} shows the results of brain extraction size (the f
 %Compare posterior year n year n+1 for a bunch of feature, the HO is that they don't change , if they change, diff posterior, can be because that feature changes with time(at the light of our data) or because the effect of those that left, to investigate take within year n the two groups remain and left and do Bayesian posterior if Ho true then tej feature changes in time naturally.
 %At the end we can get the list of features that we expect to change in time at different lags and those that not.
 
+\subsection{ANOVA test}
+\label{sse:res}
+In the previous explore visually the relationship between two groups of variables visually, here we will quantify the interdependence graphically displayed using statistical tests. We will make inferences between the categorical variable \emph{conversionMCI} and other variables, continuous and categorical whose distribution was studied in Section \ref{sse:eda}.
+
+%https://thebittheories.com/data-analysis-and-statistical-inference-a-quick-guide-part-2-anova-87441c5018e5
+In ANOVA we can compare at ease when the number of factors increases, not for a test the number of tests to perform relative to the number of factors is $n!/m!(n-m)!$, thus, for 2 factors classes we need 1 ttest, for 3 factor classes we need 4 ttests, for 4 factor classes 6 ttest and so on.
+A ttest is to comapre the means of a condition(factors) between two groups. ANOVA is aan extension of this because we can compare more than twp conditions (factors) between two groups. ANOVE is an omnibus, test the data as a whole.
+In our case the there is one group of people, but can be characterized beased on different properties(factor9 age, conversion, blood preassure, food consumption etc.)
+%Literal
+Although it can be thought of as an extension of the t-test, in terms of when to use it, mathematically speaking, it’s more of a regression model and is considered a generalized linear model (GLM). The general regression equation is : outcome = b0 + b1group1 + b2group2 + ....+error.
+H0 no difference is the means, H1 difference in the means exist but we dont know where.
+
+The ANOVa assumptions are the same of a linear regression: Normality (if group sizes are equal the F-statistic is robust to violations of normality), Homogeneity of variance (same caveat)and Independent observations. Thus, if possible it is better to have groups of same size. If the assumptions are not meet it is preferable to use other tests eg Kruskal-Wallis than to normalize the data.
+%df['conversion'].groupby(df['filestyle'])
+
+
+
+In essence ANOVA tries to capture this idea:  less within group variability will make the samples vary significantly and less between group variability will make the samples not vary significantly. 
+ANOVA test computes the F ratio between/within variability, the F ratio of different samples tells about the total variability of different samples.
+The null hypothesis here is : Means of all the the groups taken does not vary significantly i.e. if we have three groups then (mean1 = mean2 = mean3) and alternative hypothesis is that at least one pair of samples is significantly different.
+%Here, if the p-value is greater than 0.05 then we accept the null hypothesis, otherwise we reject the null hypothesis.
+We calculate F for all the factors described above.
+
+
+
 
 \subsection{From which distribution do the data come from?}
 \label{sse:res}
+
+\subsection{Leavers and remainers.  Are they different?}
+\label{sse:leaversremainers}
+
+\subsection{From which distribution do the data come from?}
+\label{sse:leaversremainers}
 %http://allendowney.blogspot.com/2013/08/are-my-data-normal.html
 The standard tests fro assessing whether the data comes from a particular distribution eg : Gaussian are Kolomogorov-Smirnov, Shapiro-Wilks etc. But what we really wan tot know is if the distribution is a good fit for the data and this is not a statistical test but a model decision.
 The normal distribution is a good fit for human height but, make no mistake the human height is not normal, because human height is bounded and the normal distribution goes to infinity in both directions.

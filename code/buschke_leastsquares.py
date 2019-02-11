@@ -5,8 +5,9 @@
 #				 Plots  plt_boxplot_brain_volumes                                                                                     
 #Author       	: Jaime Gomez-Ramirez                                               
 #Email         	: jd.gomezramirez@gmail.com 
+#REMEMBER to Activate Keras source ~/github/code/tensorflow/bin/activate
 #######################################################
-
+# -*- coding: utf-8 -*-
 import os, sys, pdb, operator
 import datetime
 import time
@@ -14,15 +15,15 @@ import numpy as np
 import pandas as pd
 import importlib
 import sys
+
+sys.path.append('/Users/jaime/github/code/tensorflow/production')
+import descriptive_stats as pv
+#sys.path.append('/Users/jaime/github/papers/EDA_pv/code')
 import warnings
 from subprocess import check_output
-#sys.path.append('/Users/jaime/github/papers/EDA_pv/code')
 import area_under_curve 
 import matplotlib.pyplot as plt
 import seaborn as sns
-import sys
-#sys.path.append('/Users/jaime/github/code/tensorflow/production')
-#import descriptive_stats as pv
 
 
 def compare_OLS_models(regs_list, model_names):
@@ -920,7 +921,7 @@ def plot_histograma_T1_categorical(df, target_variable):
 	plt.tight_layout()
 	#plt.savefig(os.path.join(figures_path, 'groupby_diet_mci.png'), dpi=240)
 	plt.savefig(os.path.join(figures_path, 'groupby_ThalCau_mciQuart.png'), dpi=240)
-	pdb.set_trace()
+	#pdb.set_trace()
 
 
 def plot_histograma_bygroup_categorical(df, type_of_group, target_variable):
@@ -935,14 +936,202 @@ def plot_histograma_bygroup_categorical(df, type_of_group, target_variable):
 	if type_of_group is 'PsychiatricHistory_s': plot_histograma_psychiatrichistory_categorical(df, target_variable)
 	if type_of_group is 'Cardiovascular_s': plot_histograma_cardiovascular_categorical(df, target_variable) #call to physical within 
 
+def anova_test_2groups(dataframe, ed, ing):
+	"""
+	anova_tests_paper: anova_tests_paper with statsmodel , this is better than with sciopy.stats.f_oneway
+	#the egression (GLM) mode used in statsmodel does very easily for you the post-hoc, that is, of there is a difference
+	where is that difference eg we foan effect in smoking and conversion, but were is it, in the snoker or the nonsmoker or in the exsmoker?
+	Args:ed, ing laberls, ed the factor that affect to ing, eg ed=smoke and ing conversionmci
+	Output
+	"""
+	import scipy.stats as stats
+	import statsmodels.api as sm
+	from statsmodels.formula.api import ols
+	from statsmodels.stats.multicomp import pairwise_tukeyhsd
+	from statsmodels.stats.multicomp import MultiComparison
+	#dataframe[ing].replace({0: 'no', 1: 'hete', 2: 'homo'}, inplace= True)
+	#olsmodelstr = ing + ' ~ ' + 'C('+ed+')'
+	olsmodelstr = ing + ' ~ ' + ed
+	print olsmodelstr
+	mod = ols(olsmodelstr, data=dataframe).fit()
+	print mod.summary()
+	aov_table = sm.stats.anova_lm(mod, typ=2)
+	# aov_table isa datafarme aov_table.columns=Index([u'sum_sq', u'df', u'F', u'PR(>F)'], dtype='object')
+	print aov_table
+	#no effect sizes is calculated when we use Statsmodels.  
+	#To calculate eta squared we can use the sum of squares from the table
+	aov_table['mean_sq'] = aov_table[:]['sum_sq']/aov_table[:]['df']
+	esq_sm = aov_table['sum_sq'][0]/(aov_table['sum_sq'][0]+aov_table['sum_sq'][1])
+	aov_table['eta_sq'] = aov_table[:-1]['sum_sq']/sum(aov_table['sum_sq'])
+	aov_table['omega_sq'] = (aov_table[:-1]['sum_sq']-(aov_table[:-1]['df']*aov_table['mean_sq'][-1]))/(sum(aov_table['sum_sq'])+aov_table['mean_sq'][-1])
+	print aov_table
+
+	#Tukeys HSD Post-hoc comparison:ukey HSD post-hoc comparison test controls for type I error 
+	#and maintains the familywise error rate at 0.05.
+	#the reject column states whether or not the null hypothesis should be rejected
+	mc = MultiComparison(dataframe[ing].dropna(), dataframe[ed])
+	mc_results = mc.tukeyhsd()
+	print(mc_results)
+	return  aov_table
+	
+def anova_tests_paper(dataframe_conv, features_dict):
+	"""
+	"""
+	features_dict 
+	list_clusters, list_features =  features_dict.keys(), features_dict.values()
+	static_topics = filter(lambda k: '_s' in k, list_clusters)
+	longitudinal_topics = [a for a in list_clusters if (a not in static_topics)]
+	# genetic factor
+	genlist = [features_dict['Genetics_s'][0]]+ ['familial_ad']
+	
+	aov_table_apo = anova_test_2groups(dataframe_conv, genlist[0], 'conversionmci')
+	aov_table_fam = anova_test_2groups(dataframe_conv, genlist[-1], 'conversionmci')
+	df_anova_gen = pd.concat([aov_table_apo, aov_table_fam])
+	# anthropometric ['lat_manual', 'pabd', 'peso', 'talla', 'audi', 'visu', 'imc'] bmi, abdo, weight, height
+	antlist = features_dict['Anthropometric_s']
+
+	aov_table_lat = anova_test_2groups(dataframe_conv, 'lat_manual', 'conversionmci')
+	# Continuous use ANCOVA
+	#aov_table_bmi = anova_test_2groups(dataframe_conv, 'imc', 'conversionmci')
+	#aov_table_wei = anova_test_2groups(dataframe_conv, 'peso', 'conversionmci')
+	#aov_table_hei = anova_test_2groups(dataframe_conv, 'talla', 'conversionmci')
+	#aov_table_pab = anova_test_2groups(dataframe_conv, 'pabd', 'conversionmci')
+	#df_anova_ant = pd.concat([aov_table_lat,aov_table_bmi,aov_table_wei,aov_table_hei,aov_table_pab])
+	
+	#Demographics_s
+	#['renta', 'nivelrenta', 'educrenta', 'municipio', 'barrio', 'distrito', 'sexo', 'nivel_educativo', 'anos_escolaridad', 'familial_ad', 'sdestciv', 'sdhijos', 'numhij', 'sdvive', 'sdocupac', 'sdresid', 'sdtrabaja', 'sdeconom', 'sdatrb']
+	aov_table_ren = anova_test_2groups(dataframe_conv, 'nivelrenta', 'conversionmci')	
+	aov_table_sex = anova_test_2groups(dataframe_conv, 'sexo', 'conversionmci')	
+	aov_table_edu = anova_test_2groups(dataframe_conv, 'nivel_educativo', 'conversionmci')
+	aov_table_civ = anova_test_2groups(dataframe_conv, 'sdestciv', 'conversionmci')
+	df_anova_demo = pd.concat([aov_table_ren, aov_table_sex, aov_table_edu, aov_table_civ])
+	
+	# Cardiovascular_s
+	#['hta', 'hta_ini', 'glu', 'lipid', 'tabac', 'tabac_cant', 'tabac_fin', 'tabac_ini', 'sp', 'cor', 'cor_ini', 'arri', 'arri_ini', 'card', 'card_ini', 'tir', 'ictus', 'ictus_num', 'ictus_ini', 'ictus_secu']
+	aov_table_hta = anova_test_2groups(dataframe_conv, 'hta', 'conversionmci')
+	aov_table_glu =  anova_test_2groups(dataframe_conv, 'glu', 'conversionmci')
+	aov_table_tabac = anova_test_2groups(dataframe_conv, 'tabac', 'conversionmci')
+	aov_table_sp = anova_test_2groups(dataframe_conv, 'sp', 'conversionmci')
+	aov_table_cor = anova_test_2groups(dataframe_conv, 'cor', 'conversionmci')
+	aov_table_arri = anova_test_2groups(dataframe_conv, 'arri', 'conversionmci')
+	aov_table_card = anova_test_2groups(dataframe_conv, 'card', 'conversionmci')
+	aov_table_tir = anova_test_2groups(dataframe_conv, 'tir', 'conversionmci')
+	aov_table_ictus = anova_test_2groups(dataframe_conv, 'ictus', 'conversionmci')
+	df_anova_demo = pd.concat([aov_table_hta, aov_table_glu, aov_table_tabac, aov_table_sp,\
+		aov_table_cor,aov_table_arri])
+	# PhysicalExercise_s
+	dataframe_conv['phys_total'] = dataframe_conv['ejfre']*dataframe_conv['ejminut']
+	bins = [-np.inf, 60, 120, 180, 240, 360, 420, np.inf]
+	names = ['<60', '60-120','120-180', '180-240', '240-360', '360-420', '420+']
+	dataframe_conv['phys_total_cut']= pd.cut(dataframe_conv['phys_total'], bins, labels=names)
+	aov_table_phys = anova_test_2groups(dataframe_conv, 'phys_total_cut', 'conversionmci')
+	df_anova_phys = pd.concat([aov_table_phys])
+	
+	#PsychiatricHistory_s
+	dataframe_conv['depre_num_cat'] = pd.cut(dataframe_conv['depre_num']*dataframe_conv['depre'],4)
+	dataframe_conv['ansi_num_cat'] = pd.cut(dataframe_conv['ansi_num'],4)
+	aov_table_dep = anova_test_2groups(dataframe_conv, 'depre_num_cat', 'conversionmci')	
+	aov_table_ansi = anova_test_2groups(dataframe_conv, 'ansi_num_cat', 'conversionmci')
+	df_anova_psy = pd.concat([aov_table_dep, aov_table_glu, aov_table_ansi])	
+	#Diet_s
+	#cut in 4 quartiles
+	nb_of_categories = 4
+	dataframe_conv['dietaglucemica_cut'] = pd.qcut(dataframe_conv['dietaglucemica'], nb_of_categories, labels=["Q1", "Q2", "Q3", "Q4"], precision=1) 
+	dataframe_conv['dietasaludable_cut'] = pd.qcut(dataframe_conv['dietasaludable'], nb_of_categories, labels=["Q1", "Q2", "Q3", "Q4"], precision=1) 
+	dataframe_conv['dietaproteica_cut'] = pd.qcut(dataframe_conv['dietaproteica'], nb_of_categories, labels=["Q1", "Q2", "Q3", "Q4"], precision=1) 
+	aov_table_dglu = anova_test_2groups(dataframe_conv, 'dietaglucemica_cut', 'conversionmci')	
+	aov_table_dsal = anova_test_2groups(dataframe_conv, 'dietasaludable_cut', 'conversionmci')	
+	aov_table_dpro = anova_test_2groups(dataframe_conv, 'dietaproteica_cut', 'conversionmci')
+	df_anova_diet = pd.concat([aov_table_dglu, aov_table_dsal, aov_table_dpro])
+	#SocialEngagement_s
+	dataframe_conv['creative_cat'] = pd.cut(dataframe_conv['a02'] + dataframe_conv['a14'], 3) # creative manualidades
+	dataframe_conv['creative_cat'] = dataframe_conv['creative_cat'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['friends_cat'] = dataframe_conv['a03'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['travel_cat'] = dataframe_conv['a04'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['ngo_cat'] = dataframe_conv['a05'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['church_cat'] = dataframe_conv['a06'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['club_cat'] = dataframe_conv['a07'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['movies_cat'] = dataframe_conv['a08'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['sports_cat'] = dataframe_conv['a09'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['music_cat'] = dataframe_conv['a10'][dataframe_conv['a10']>0].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['tv_cat'] = dataframe_conv['a11'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['books_cat'] = dataframe_conv['a12'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	dataframe_conv['internet_cat'] = dataframe_conv['a13'].astype('category').cat.rename_categories(['Never', 'Few', 'Often'])
+	
+	aov_table_crea = anova_test_2groups(dataframe_conv, 'creative_cat', 'conversionmci')	
+	aov_table_fri = anova_test_2groups(dataframe_conv, 'friends_cat', 'conversionmci')	
+	aov_table_trav = anova_test_2groups(dataframe_conv, 'travel_cat', 'conversionmci')
+	aov_table_ngo = anova_test_2groups(dataframe_conv, 'ngo_cat', 'conversionmci')	
+	aov_table_chu = anova_test_2groups(dataframe_conv, 'church_cat', 'conversionmci')	
+	aov_table_clu = anova_test_2groups(dataframe_conv, 'club_cat', 'conversionmci')
+	aov_table_mov = anova_test_2groups(dataframe_conv, 'movies_cat', 'conversionmci')	
+	aov_table_spo = anova_test_2groups(dataframe_conv, 'sports_cat', 'conversionmci')	
+	aov_table_mus = anova_test_2groups(dataframe_conv, 'music_cat', 'conversionmci')
+	aov_table_tv = anova_test_2groups(dataframe_conv, 'tv_cat', 'conversionmci')	
+	aov_table_book = anova_test_2groups(dataframe_conv, 'books_cat', 'conversionmci')	
+	aov_table_int = anova_test_2groups(dataframe_conv, 'internet_cat', 'conversionmci')
+	df_anova_engage = pd.concat([aov_table_crea, aov_table_fri, aov_table_trav, aov_table_ngo,\
+		aov_table_chu, aov_table_clu, aov_table_mov,aov_table_spo,aov_table_mus,aov_table_tv,\
+		aov_table_book, aov_table_int])
+	print df_anova_engage
+
+	#TraumaticBrainInjury_s
+	dataframe_conv['tce_total'] = dataframe_conv['tce'][dataframe_conv['tce']<9]*dataframe_conv['tce_num']
+	bins = [-np.inf, 0, 1, 2, 3, np.inf]
+	names = ['0','1','2', '3', '3+']
+	dataframe_conv['tce_cut']= pd.cut(dataframe_conv['tce_total'], bins, labels=names)
+	aov_table_tbi = anova_test_2groups(dataframe_conv, 'tce_total', 'conversionmci')
+	df_anova_engage = pd.concat([aov_table_tbi])
+	#EngagementExternalWorld_s
+
+	#Sleep
+	bins = [-np.inf, 0, 2, 4, np.inf]
+	names = ['0', '<2', '2-4','4+']
+	dataframe_conv['sue_dia_r']= pd.cut(dataframe_conv['sue_dia'], bins, labels=names)
+	bins = [-np.inf, 0, 2, 4, 8, 10, np.inf]
+	names = ['0', '<2', '2-4','4-8', '8-10', '10+']
+	dataframe_conv['sue_noc_r']= pd.cut(dataframe_conv['sue_noc'], bins, labels=names)
+	dataframe_conv['sue_con_r'] = dataframe_conv['sue_con'].astype('category').cat.rename_categories(['Light', 'Moderate', 'Deep'])
+	dataframe_conv['sue_suf_r'] = dataframe_conv['sue_suf'][dataframe_conv['sue_suf']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	dataframe_conv['sue_rec_r'] = dataframe_conv['sue_rec'][dataframe_conv['sue_rec']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	dataframe_conv['sue_mov_r'] = dataframe_conv['sue_mov'][dataframe_conv['sue_mov']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	dataframe_conv['sue_ron_r'] = dataframe_conv['sue_ron'][dataframe_conv['sue_ron']<9].astype('category').cat.rename_categories(['No', 'Yes', 'Snore&Breath'])
+	dataframe_conv['sue_rui_r'] = dataframe_conv['sue_rui'][dataframe_conv['sue_rui']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	dataframe_conv['sue_hor_r'] = dataframe_conv['sue_hor'][dataframe_conv['sue_hor']<9].astype('category').cat.rename_categories(['No', 'Yes'])
+	aov_table_suenoc = anova_test_2groups(dataframe_conv, 'sue_noc_r', 'conversionmci')	
+	aov_table_suecon = anova_test_2groups(dataframe_conv, 'sue_con_r', 'conversionmci')	
+	aov_table_suesuf = anova_test_2groups(dataframe_conv, 'sue_suf_r', 'conversionmci')
+	aov_table_suerec = anova_test_2groups(dataframe_conv, 'sue_rec_r', 'conversionmci')	
+	aov_table_suemov = anova_test_2groups(dataframe_conv, 'sue_mov_r', 'conversionmci')	
+	aov_table_sueron = anova_test_2groups(dataframe_conv, 'sue_ron_r', 'conversionmci')	
+	aov_table_suerui = anova_test_2groups(dataframe_conv, 'sue_rui_r', 'conversionmci')
+	aov_table_suehor = anova_test_2groups(dataframe_conv, 'sue_hor_r', 'conversionmci')
+	df_anova_sleep = pd.concat([aov_table_suenoc, aov_table_suecon, aov_table_suesuf, aov_table_suerec,\
+		aov_table_suemov,aov_table_sueron,aov_table_suerui,aov_table_suehor ])
+	print df_anova_sleep
+	print aov_table_suenoc
+	return
+
 def main():
 	# Open csv with MRI data
 	plt.close('all')
 	csv_path = '/Users/jaime/Downloads/test_code/PV7years_T1vols.csv'
 	csv_path = '~/vallecas/data/BBDD_vallecas/PVDB_pve_sub.csv'
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures/'
-	dataset = pd.read_csv(csv_path)
-	dataframe = compute_buschke_integral_df(dataset)
+	dataframe = pd.read_csv(csv_path)
+	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
+	dataframe_orig = dataframe.copy()
+	print('Build dictionary with features ontology and check the features are in the dataframe\n') 
+	features_dict = pv.vallecas_features_dictionary(dataframe)
+
+	
+	# only study rows with conversionmci to some value
+	dataframe_conv = dataframe[dataframe['conversionmci'].notnull()]
+	### ANOVA ttest
+	anova_tests_paper(dataframe_conv, features_dict)
+	pdb.set_trace()
+
+	dataframe = compute_buschke_integral_df(dataframe)
 	#dataframe.replace('=', np.nan, axis=1, inplace=True)
 
 	# select buschke and MRI cols
@@ -984,6 +1173,10 @@ def main():
 	'R_Amyg_visita1':[], 'R_Caud_visita1':[],'R_Hipp_visita1':[], 'R_Pall_visita1':[], \
 	'R_Puta_visita1':[],'R_Thal_visita1':[]}
 	df_nooutliers, outliers_dictio = identify_outliers(dataframe[lst], dictio_s)
+	
+
+
+
 	###########
 	lst2plotgroup = mri_subcortical_cols + ['conversionmci']
 	plot_histograma_T1_categorical(df_nooutliers[lst2plotgroup], 'conversionmci')
