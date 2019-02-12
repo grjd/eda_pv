@@ -997,6 +997,23 @@ Figure \ref{fig:scatternative} shows the results of brain extraction size (the f
 %Compare posterior year n year n+1 for a bunch of feature, the HO is that they don't change , if they change, diff posterior, can be because that feature changes with time(at the light of our data) or because the effect of those that left, to investigate take within year n the two groups remain and left and do Bayesian posterior if Ho true then tej feature changes in time naturally.
 %At the end we can get the list of features that we expect to change in time at different lags and those that not.
 
+\subsection{Normality test}
+\label{sse:normal}
+The assumptions of ANOVa are: samples are independent, normality (this is not the case mkroe often than what it thought) to test for normality we can use QQ plot or use normality tests. To test whether a dataset is drawn from a particular distribution (e.g. normal or Gaussian) there is a number of tests: Anderson-Darling, Kolmogorov-Smirnov, Shapiro-Wilk, Ryan-Joiner and others. 
+%http://allendowney.blogspot.com/2013/08/are-my-data-normal.html
+But as Downly points out what people in reality wants to figure out is whether a particular distribution is a good model for a dataset, note that this  is not a statistical test but a model decision. The reason is that real world data never match an analytic distribution perfectly, so when you perform a test there are 2 possible outcomes:
+1. You have a ton of data, so the p value is low and you rightly conclude that the data did not come from the analytic distribution, but this doees not tell much because the analytic model could still be a good model. 2. you do not have enough data so p is high, and you conclude there is not enough evidence to reject the null hypothesis, but again it does not tell you whether the model is good or not, it just tells you that you don't have enough data. Thus, a statistical tell can not answer your question is model m good enough for data d?
+
+\teextbf{All statistical tests are based in models and models are based on assumptions(simplifications).}
+For example, the human height is not normal, it cant be because it is bounded, if you collect a sample of human height and ask whether they come from N, the answer is NO, and if (with enough data) do a statistical test will reject the hypothesis that they come from N.
+
+Instead of asking whether data comes from a distribution, the good question is can you tell whether a distribution is a good model for a dataset?
+ And the best approach is to create a visualization that compares the data and the model eg. plot the CDF (or the QQ plot) of the model (known distributions I know the parameters as well) and the data in the same axes. If you know the family of distribution but do not the parameters you can estimate the parameters, and then compare the estimated distribution to the data.
+
+
+
+
+
 \subsection{ANOVA test}
 \label{sse:res}
 In the previous explore visually the relationship between two groups of variables visually, here we will quantify the interdependence graphically displayed using statistical tests. We will make inferences between the categorical variable \emph{conversionMCI} and other variables, continuous and categorical whose distribution was studied in Section \ref{sse:eda}.
@@ -1012,13 +1029,35 @@ H0 no difference is the means, H1 difference in the means exist but we dont know
 The ANOVa assumptions are the same of a linear regression: Normality (if group sizes are equal the F-statistic is robust to violations of normality), Homogeneity of variance (same caveat)and Independent observations. Thus, if possible it is better to have groups of same size. If the assumptions are not meet it is preferable to use other tests eg Kruskal-Wallis than to normalize the data.
 %df['conversion'].groupby(df['filestyle'])
 
-
+The basic idea is that if the variability between the groups is greater than the variability within the groups, then we have evidence that the differences between the groups is not simply reflecting random noise.
+ANOVA is for comparing differences in emans (so doesnt make sense using it in a binomial distribution)
+%The key is that each individual falls into a group described by a (categorical) grouping variable (e.g. hospital or drug group) and for each individual we measure some continuous outcome (e.g. waiting time or blood pressure).
 
 In essence ANOVA tries to capture this idea:  less within group variability will make the samples vary significantly and less between group variability will make the samples not vary significantly. 
+
+%http://www.rebeccabarter.com/blog/2017-02-17-anova/
+If our data satisfies a few parametric assumptions, then we can show that this test statistic follows an F distribution and we can do a straightforward parametric hypothesis test:
+
 ANOVA test computes the F ratio between/within variability, the F ratio of different samples tells about the total variability of different samples.
 The null hypothesis here is : Means of all the the groups taken does not vary significantly i.e. if we have three groups then (mean1 = mean2 = mean3) and alternative hypothesis is that at least one pair of samples is significantly different.
 %Here, if the p-value is greater than 0.05 then we accept the null hypothesis, otherwise we reject the null hypothesis.
 We calculate F for all the factors described above.
+
+
+Two way ANOVA can compare the means of populations that are different in two ways or it can be used to study the variation in the mean responses for an experiment with two factors. Unlike One-Way ANOVA, it enables us to test the effect of two factors at the same time. The only restriction is that the number of observations in each cell has to be equal (there is no such restriction in case of one-way ANOVA).
+
+%use 1 way anova for longitudina \mu_i across years for same static variable
+% two way for groups of feature causing an effect in conversion
+
+%, eta squared is an overestimation of the effect. To get a less biased effect size measure we can use omega squared
+
+The typical question that ANOVa answers is if there is a difference in the mean (average) based on factors, for example is there a difference in the number of tweets based on the days of the week? is there a difference in the mean of a IQ for n different neighborhoods in a city or for 3 kind of diets?
+
+But ANOVA can be used to answers questions of the type: does the presence of another person in the room influence on the amount of time (not this is also a continuous variable, conversion is discrete) a person to help someone in distress (bystander effect, if someone is seeing me do i behave differently?) \cite{darley1968bystander}. The outcome of the experiment is the number of seconds it takes the subject to helo the experimenter, the rouping variable is the number of subjects int he room (0,2,4).
+
+
+
+
 
 
 

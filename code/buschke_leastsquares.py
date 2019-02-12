@@ -936,6 +936,69 @@ def plot_histograma_bygroup_categorical(df, type_of_group, target_variable):
 	if type_of_group is 'PsychiatricHistory_s': plot_histograma_psychiatrichistory_categorical(df, target_variable)
 	if type_of_group is 'Cardiovascular_s': plot_histograma_cardiovascular_categorical(df, target_variable) #call to physical within 
 
+
+def QQplot(df, feature):
+	"""Q-Q plot of the quantiles of x versus the quantiles/ppf of a distribution
+	cdf: actual cdf
+	fit: model CDF
+	"""
+	import statsmodels.api as sm
+	import scipy.stats as stats
+
+	#mod_fit = sm.OLS(df[feature].dropna(), df[feature].dropna()).fit()
+	#res = mod_fit.resid # residuals
+	res = df[feature].dropna()
+	#fig = sm.qqplot(res)
+	#determine parameters for t distribution including the loc and scale:
+	#fig = sm.qqplot(res, stats.norm, fit=True, line='45')
+	fig = plt.figure()
+	ax = fig.add_subplot(1,1,1)
+	#fit=True then the parameters for dist are fit automatically using dist.fit
+	#fir=False loc, scale, and distargs are passed to the distribution
+	graph = sm.graphics.qqplot(res, dist=stats.norm, line='45', fit=True, ax=ax)
+	#ax.set_xlim(-6, 6)
+	top = ax.get_ylim()[1] * 0.75
+	left = -1.8
+	txt = ax.text(left, top, "stats.norm, \nline='45', \nfit=True",
+              verticalalignment='top')
+	txt.set_bbox(dict(facecolor='k', alpha=0.1))
+	fig.tight_layout()
+	plt.gcf()
+	#fig = sm.qqplot(df[feature].dropna(), stats.t, fit=True, line='45')
+
+
+def Anova1way(df, feature):
+	"""
+	"""
+	import scipy.stats as stats
+	import time
+	y1, yN = 1,5
+	# get indices from visita1+i and get values from 1
+	vislabel_v1 = feature
+	dictio = {feature+'_visita1': [], feature+'_visita2': [], feature+'_visita3': [], \
+	feature+'_visita4': [], feature+'_visita5': []}
+	df_oneway = pd.DataFrame(data=dictio)
+	df_oneway[feature+'_visita1'] = df[feature].dropna()
+	#dx_corto_visitaJ notnan
+
+	for ix in np.arange(2,yN+1):
+		x = df['dx_corto_visita' + str(ix)]
+		#get vales in visita1 of those indices
+		indices = np.argwhere(~np.isnan(x))
+		indices = indices.ravel()
+		vislabel = feature + '_visita' + str(ix)
+		df_oneway[vislabel] = df[vislabel_v1][indices].dropna()
+	#ANOVA one way for 	visitasL
+
+	start = time.time()
+	F, p = stats.f_oneway(df_oneway[dictio.keys()[0]].dropna(),df_oneway[dictio.keys()[1]].dropna(), \
+		df_oneway[dictio.keys()[2]].dropna(),df_oneway[dictio.keys()[3]].dropna(),\
+		df_oneway[dictio.keys()[4]].dropna())
+	end = time.time()
+	print('ANOVA for:', feature, ' run in :', end - start, ' secs')
+	print('\n\n F=',F, ' p=', p)
+
+
 def anova_test_2groups(dataframe, ed, ing):
 	"""
 	anova_tests_paper: anova_tests_paper with statsmodel , this is better than with sciopy.stats.f_oneway
@@ -972,6 +1035,9 @@ def anova_test_2groups(dataframe, ed, ing):
 	mc = MultiComparison(dataframe[ing].dropna(), dataframe[ed])
 	mc_results = mc.tukeyhsd()
 	print(mc_results)
+	# qq plot of the linear model fit with ols
+	res = mod.resid 
+	fig = sm.qqplot(res, line='s')
 	return  aov_table
 	
 def anova_tests_paper(dataframe_conv, features_dict):
@@ -1124,9 +1190,16 @@ def main():
 	print('Build dictionary with features ontology and check the features are in the dataframe\n') 
 	features_dict = pv.vallecas_features_dictionary(dataframe)
 
-	
+
+
 	# only study rows with conversionmci to some value
 	dataframe_conv = dataframe[dataframe['conversionmci'].notnull()]
+	
+	### Normnality test
+	QQplot(dataframe_conv, 'a13')
+
+	Anova1way(dataframe_conv, 'a13')
+	pdb.set_trace()	
 	### ANOVA ttest
 	anova_tests_paper(dataframe_conv, features_dict)
 	pdb.set_trace()
