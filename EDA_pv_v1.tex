@@ -798,51 +798,59 @@ In the previous sections we studied the dataset unidimensionally, that is, we pl
 Figure \ref{fig:genfami} shows the results of grouping by \emph{Conversion to MCI} relative to the genetics profile and familial AD. In essence what we do is to split the data into groups depending on the variable APOE4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 heterozygotes, 2:two copies of APO$\epsilon$4) and familial AD (0: non familial Ad and 1: familial AD).
 For each chart, on the left the grouping is shown in absolute numbers and on the right in relative numbers which is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars for each of the right sided charts must sum 1 and a frequentist could interpreted this function as a probability. 
 % makes more sense the var you can observe in the y-axis, the inferred var (converson better in the x-acis)
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_mci_genetics}
+        \caption{APO$\epsilon4$ and conversion to MCI in the future represented as genetic profile conditioned to conversion, $p(MCI|APO\epsilon4)$. Grouping by conversion to MCI relative to the genetic profile of the subjects. A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.45, p(MCI=1|APOE=2)=0.55$, thus, for those with homozygotic APOE4, $APOE4=2$, the converters to MCI are majority.} 
+        \label{fig:groupby_mci_genetics}
+\end{figure}
+
+- CHi square or Fisher to study the effect on conversion of APOE4 (categorical) factor. 
+- If small p then study if they have an effect in the brain capacity (anova with brain size) and cognitive reserve (buschke), so the dependent variable is continuous and the iv is APOE that we presume (based on small p) are different for converters vs on converters.
+
+
+
+
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[t]{0.4\textwidth}
-        \centering
-        \includegraphics[height=2.1in]{figures/groupby_mci_genetics}
-        \caption{Grouping by conversion to MCI relative to the genetic profile of the subjects. A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.45, p(MCI=1|APOE=2)=0.55$, thus, for those with homozygotic APOE4, $APOE4=2$, the converters to MCI are majority.}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.4\textwidth}
-        \centering
-        \includegraphics[height=2.1in]{figures/groupby_genetics_mci}
-        \caption{Grouping of the genetic profile conditioned by conversion to MCI. A frequentist could state that  $p(APOE=0|MCI=0)=0.84, p(APOE=1|MCI=0)=0.15, p(APOE=2|MCI=0)=0.01,p(APOE=0|MCI=1)=0.67, p(APOE=1|MCI=1)=0.28, p(APOE=2|MCI=1)=0.05$.}
-    \end{subfigure}%\quad
+    % \hfill
+    % \begin{subfigure}[t]{0.4\textwidth}
+    %     \centering
+    %     \includegraphics[height=2.1in]{figures/groupby_genetics_mci}
+    %     \caption{Grouping of the genetic profile conditioned by conversion to MCI. A frequentist could state that  $p(APOE=0|MCI=0)=0.84, p(APOE=1|MCI=0)=0.15, p(APOE=2|MCI=0)=0.01,p(APOE=0|MCI=1)=0.67, p(APOE=1|MCI=1)=0.28, p(APOE=2|MCI=1)=0.05$.}
+    % \end{subfigure}%\quad
     
-        \begin{subfigure}[t]{0.4\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/groupby_Familial_mciY}
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_Familial_mciY}
         \caption{Grouping of conversion to MCI conditioned by familial AD,$p(MCI=0|fAD=0)=.88, p(MCI=1|fAD=0)=0.12, p(MCI=0|fAD=1)=0.86, p(MCI=1|fAD=1)=0.14$. }
     \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.4\textwidth}
+    % \hfill
+    % \begin{subfigure}[t]{0.4\textwidth}
+    %     \centering
+    %     \includegraphics[height=2.1in]{figures/groupby_Familial_mci}
+    %     \caption{Grouping of familial AD conditioned by conversion to MCI, }
+    % \end{subfigure}%\quad
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/groupby_Familial_mci}
-        \caption{Grouping of familial AD conditioned by conversion to MCI, }
-    \end{subfigure}%\quad
-
-     \begin{subfigure}[t]{0.4\textwidth}
-        \centering
-        \includegraphics[height=2.1in]{figures/groupby_geneticsFamilial_mci}
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_geneticsFamilial_mci}
         \caption{ }
     \end{subfigure}
-    \hfill %YS get chart with conversion in x, and family apoe in y
-    \begin{subfigure}[t]{0.4\textwidth}
-        \centering
-        \includegraphics[height=2.1in]{figures/groupby_geneticsFamilial_mci}
-        \caption{Grouping of familial AD and genetic profile conditioned by conversion to MCI.}
-    \end{subfigure}%\quad
+    % \hfill %YS get chart with conversion in x, and family apoe in y
+    % \begin{subfigure}[t]{0.4\textwidth}
+    %     \centering
+    %     \includegraphics[height=2.1in]{figures/groupby_geneticsFamilial_mci}
+    %     \caption{Grouping of familial AD and genetic profile conditioned by conversion to MCI.}
+    % \end{subfigure}%\quad
    
-    \caption{\emph{Conversion to MCI} relative to the genetics profile and familial AD; a) APO$\epsilon4$ and conversion to MCI in the future represented as genetic profile conditioned to conversion, $p(MCI|APO\epsilon4)$. b) APO$\epsilon4$ and conversion to MCI in the future represented as conversion conditioned to genetic profile , $p(APO\epsilon4|MCI)$. c) conversion to MCI in the future and familial AD  represented as familial AD conditioned to conversion, $p(fAD|MCI)$. d) conversion to MCI in the future and familial AD represented as conversion conditioned to either familial AD and APO$\epsilon4$, $p(fAD, APO\epsilon4|MCI)$.}
+    \caption{a) conversion to MCI in the future and familial AD  represented as familial AD conditioned to conversion, $p(fAD|MCI)$. b) conversion to MCI in the future and familial AD represented as conversion conditioned to either familial AD and APO$\epsilon4$, $p(fAD, APO\epsilon4|MCI)$.}
     \label{fig:genfami}
 \end{figure}
 
-Figure \ref{genfami} gives an excellent opportunity to discuss the perils of reaching to conclusions without a good understanding of probability theory. 
-Figure \ref{genfami}-a) shows that for those with $APO\epsilon4=2$, https://jeremykun.com/2013/01/12/the-fundamental-group-a-primer/the probability to convert is larger than to no convert,$p(MCI=1|APO\epsilon4=2) > p(MCI=0|APO\epsilon4=2)$. On the other hand, for heterozygotes and non APOE4,$APO\epsilon4=0,1$, the reverse happens, there are more non converters than converters if the subject is not carrier of homozygote $APO\epsilon4$. 
-However, Figure \ref{genfami}-b) the homozygotic APOE are a very small number ($11/1181 = 0.093\%$), so for those that are converters to MCI only the $0.05\%$ are homozygotic $APO\epsilon4$, $p(APOE=2|MCI=1)=0.05$.
+Figure \ref{fig:genfami} gives an excellent opportunity to discuss the perils of reaching to conclusions without a good understanding of probability theory. 
+Figure \ref{fig:genfami}-a) shows that for those with $APO\epsilon4=2$, https://jeremykun.com/2013/01/12/the-fundamental-group-a-primer/the probability to convert is larger than to no convert,$p(MCI=1|APO\epsilon4=2) > p(MCI=0|APO\epsilon4=2)$. On the other hand, for heterozygotes and non APOE4,$APO\epsilon4=0,1$, the reverse happens, there are more non converters than converters if the subject is not carrier of homozygote $APO\epsilon4$. 
+However, Figure \ref{fig:genfami}-b) the homozygotic APOE are a very small number ($11/1181 = 0.093\%$), so for those that are converters to MCI only the $0.05\%$ are homozygotic $APO\epsilon4$, $p(APOE=2|MCI=1)=0.05$.
 
 %Anthro. bmi, abdo, weight, height
 Figure \ref{fig:groupby_anthropometric_mci} shows the results of grouping by \emph{Conversion to MCI} relative to anthropometric features, i.e: BMI, abdominal perimeter, weight and height. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending depending on the body mass index and related variables. We do not observe any relevant conditioning of these variables on conversion to MCI. The split is performed using the four quartiles of each variable as described in the legend.
@@ -999,12 +1007,12 @@ Figure \ref{fig:scatternative} shows the results of brain extraction size (the f
 
 \subsection{Normality test}
 \label{sse:normal}
-The assumptions of ANOVa are: samples are independent, normality (this is not the case mkroe often than what it thought) to test for normality we can use QQ plot or use normality tests. To test whether a dataset is drawn from a particular distribution (e.g. normal or Gaussian) there is a number of tests: Anderson-Darling, Kolmogorov-Smirnov, Shapiro-Wilk, Ryan-Joiner and others. 
+The assumptions of ANOVa are: samples are independent, normality (this is not the case more often than what it thought) to test for normality we can use QQ plot or use normality tests. To test whether a dataset is drawn from a particular distribution (e.g. normal or Gaussian) there is a number of tests: Anderson-Darling, Kolmogorov-Smirnov, Shapiro-Wilk, Ryan-Joiner and others. 
 %http://allendowney.blogspot.com/2013/08/are-my-data-normal.html
 But as Downly points out what people in reality wants to figure out is whether a particular distribution is a good model for a dataset, note that this  is not a statistical test but a model decision. The reason is that real world data never match an analytic distribution perfectly, so when you perform a test there are 2 possible outcomes:
-1. You have a ton of data, so the p value is low and you rightly conclude that the data did not come from the analytic distribution, but this doees not tell much because the analytic model could still be a good model. 2. you do not have enough data so p is high, and you conclude there is not enough evidence to reject the null hypothesis, but again it does not tell you whether the model is good or not, it just tells you that you don't have enough data. Thus, a statistical tell can not answer your question is model m good enough for data d?
+1. You have a ton of data, so the p value is low and you rightly conclude that the data did not come from the analytic distribution, but this does not tell much because the analytic model could still be a good model. 2. you do not have enough data so p is high, and you conclude there is not enough evidence to reject the null hypothesis, but again it does not tell you whether the model is good or not, it just tells you that you don't have enough data. Thus, a statistical tell can not answer your question is model m good enough for data d?
 
-\teextbf{All statistical tests are based in models and models are based on assumptions(simplifications).}
+\textbf{All statistical tests are based in models and models are based on assumptions(simplifications).}
 For example, the human height is not normal, it cant be because it is bounded, if you collect a sample of human height and ask whether they come from N, the answer is NO, and if (with enough data) do a statistical test will reject the hypothesis that they come from N.
 
 Instead of asking whether data comes from a distribution, the good question is can you tell whether a distribution is a good model for a dataset?
@@ -1016,7 +1024,56 @@ Instead of asking whether data comes from a distribution, the good question is c
 
 \subsection{ANOVA test}
 \label{sse:res}
+
+
+%https://pythonfordatascience.org/anova-2-way-n-way/
+\paragraph*{Leavers and remainers. Are they different?}
+%\label{sse:leaversremainers}
+In order to asses if the leavers are different from the remainers we perform 1-way ANOVA for N (number of years of the experiment) groups for continuous features, i.e.: imc, weight....and segmentation values.
+Noe that if we had only two groups (2 years) 1way aNOVA is just like a ttest.
+
+\paragraph*{}
+
+A 2 way ANOVA is an extension of the 1 way and is used to study whether features with 2+ classes have an effect on the mean of another continuous (numeric) feature. The independent variables (input features) are called factors and each group is called level.
+For example for the factor conversion to mci, the levels are 0 or 1, familial AD 0,1, factor scd the levels are 0,1 and 2 and for the factor apoe, the levels are 0,1 and 2. Thus, for example we can test whether the factors apoe and familial AD leads to a difference in the size of the left hippocampus.
+But note that just as with a one-way ANOVA, a two-way ANOVA tests if there is a difference between the means, but it does not tell which groups differ. To get this information, one has to conduct post-hoc testing.
+With a N way ANOVa you test all the posible ingteractions eg for factors A,B,C on Y you test effect of A on Y,B on Y,C on Y, AB on Y,BC on Y, and ABC on Y.
+Crucially, it the main interaction (ABC on Y) is significant, the other interactions do not matter as much because the significant main interaction is indicating the the effects of each factor depends on the levels of each other factor. Now, to find out which combinations of the levels are different from other combinations would require post-hoc testing.    
+% If the main interaction is not significant, you remove it from the model and re-run it looking at the lower-level interactions, and so fourth.this should highlight how complex the designs can get very quickly!!
+%The Durban-Watson tests is to detect the presence of autocorrelation, Jarque-Bera tests the assumption of normality, Omnibus tests the assumption of homogeneity of variance, and the Condition Number assess multicollinearity. 
+%Statistical significance does not always translate into a large effect in the world. This is important to consider because everything cost money and time. To see this, we can calculate the effect size.
+
+
+YS: i. Translate figures 30 (change this) onwards with a statistical test that shows the effect on conversion (or other diagnostics) of (categorical) factors. The ANOVA seems can not be directly applied because the dependent variable (conversionmci is binomial rather than normal). We could normalize the binomial into normal (but this works well for large n and p ~0.5 not our case) or find out fitting GLM to binomial?? 
+
+Do this with Chi square or Fisher test for contingency matrix 2x2. For those features that show small p with conversion we can study if they have an effect in the brain capacity (anova with brain size) and cognitive reserve (buschke), so the dependent variable is continuous and the iv are vars that we presume are different for converters vs on converters (eg a13) d.
+
+
+ii. 1-way anova to test if a continuous (longitudinal) features changes across time, so here we study who are the leavers ad the remainers, and if the population substantially changes across time. The null hypothesis is that the mean of features is the same for all the years. For example, the mean of the size of the hipppocampus is the same every year. The problem with this is (a part from the fact we still don't have brain data for y2 to yN) is that subjects drop every year so previous to draw any conclusion from this or other test we have to know first if the leavers are different from the remainers, that is, is there a systematic change in the population that is being observed from year 1 to year N?
+We can do a 1 way anova with one continuous static variable and see if the subjects are different for that variable, for example, imc, weight and others. If they had different means (eg tall ones leave the experiment) would not make much sense to do 1 way anova of longitudinal features like buschke or brain size because the population has systematically change in predictable ways.
+Ideally, what we want to do is something like one way anova with a static categorical feature (whats is the equivalent of 1 way anova for non continuous, for example, binomial distribution??) Do Chi square or Fisher test to study binomial response.
+
+
+
+iii. Assuming that the assumptions of ANOVA hold (independence, normality and homogeneity of variance) we can do N-ANOVA tests to study the effect of categorical features (factors) on continuous features .e.g brain sizes. For example familial, apoe and brain size or diet, physical exercise and others and brain size.
+
+%http://davidquigley.com/talks/2015/biostatistics/module_07.1.html
+Chi square for binomial response.
+We collect two categorical variables, eg conversion and sleep, and would like to test whether the distribution of values for one variable was similar across both values of the other variable. We get the two by two contingency table. Like the Binomial test, to perform a Chi-squared test you specify an expected distribution of counts and then compare the expected distribution to what you actually observed. The size of the difference between observed and expected distributions is reflected in the test statistic.
+As the number of degrees of freedom increases, the shape of the chi-squared distribution changes and becomes a closer approximation to a normal distribution (chi df = N ~normal(N,) d)
+
+The chi-squared test makes an approximation to the chi-squared distribution that is more close to exactly correct as the number of observations increases. Assumptions: independence, number of cases per cell: do not use the chi-squared test for two-variable tests if any cell contains fewer than 10 counts. When the chi-squared test is inappropriate due to small sample sizes or highly unequal cell distribution, one can instead use Fisher’s exact test.
+Like the Binomial test, and in contrast to the chi-squared test, Fisher’s exact test provides an exact P value rather than an approximation
+
+------
+
+ANOVA studies how discrete (categorical) factors affect on a continuous variable you want to understand (brain size).
+
 In the previous explore visually the relationship between two groups of variables visually, here we will quantify the interdependence graphically displayed using statistical tests. We will make inferences between the categorical variable \emph{conversionMCI} and other variables, continuous and categorical whose distribution was studied in Section \ref{sse:eda}.
+
+In 2 way ANOVA there are 2 assignable sources of variation, for example sleep and diet, or physical exercise and apoe, having two sources instead of one makes the design more robust. 2 way aNOVA can be used to compared the means of populations that are different in two ways, for example sleep and diet. It also can be used the mean responses in an experiment with two factors (our experiment if figuring out if mci or not is problematic because it is a binomial so it doesnt make much sense talkign about the mean, or does it?). Other "responses" can be the brain size, or the Buschke test score, so the idea is I have two factors (categorical feattures) and I want to see if the mean \footnote{ The mean is of course affected by the variance, that is why we can use ANOVA. } of another numeric features is affected by those two factors contemporarily (note that 1 way ANOVA can not possibly do that). But, in 2 way ANOVA you must have the same number of observations for each category (1 way does not need that). 
+%YS: what does this means, factor must have same number of categories and within same number of cases ?
+
 
 %https://thebittheories.com/data-analysis-and-statistical-inference-a-quick-guide-part-2-anova-87441c5018e5
 In ANOVA we can compare at ease when the number of factors increases, not for a test the number of tests to perform relative to the number of factors is $n!/m!(n-m)!$, thus, for 2 factors classes we need 1 ttest, for 3 factor classes we need 4 ttests, for 4 factor classes 6 ttest and so on.
@@ -1030,10 +1087,8 @@ The ANOVa assumptions are the same of a linear regression: Normality (if group s
 %df['conversion'].groupby(df['filestyle'])
 
 The basic idea is that if the variability between the groups is greater than the variability within the groups, then we have evidence that the differences between the groups is not simply reflecting random noise.
-ANOVA is for comparing differences in emans (so doesnt make sense using it in a binomial distribution)
-%The key is that each individual falls into a group described by a (categorical) grouping variable (e.g. hospital or drug group) and for each individual we measure some continuous outcome (e.g. waiting time or blood pressure).
-
-In essence ANOVA tries to capture this idea:  less within group variability will make the samples vary significantly and less between group variability will make the samples not vary significantly. 
+ANOVA is for comparing differences in means (so doesnt make sense using it in a binomial distribution)
+%The key is that each individual falls into a group described by a (categorical) grouping variable (e.g. hospital or drug group) and for each individual we measure some continuous outcome (e.g. waiting time or blood pressure). d 
 
 %http://www.rebeccabarter.com/blog/2017-02-17-anova/
 If our data satisfies a few parametric assumptions, then we can show that this test statistic follows an F distribution and we can do a straightforward parametric hypothesis test:
@@ -1053,20 +1108,8 @@ Two way ANOVA can compare the means of populations that are different in two way
 
 The typical question that ANOVa answers is if there is a difference in the mean (average) based on factors, for example is there a difference in the number of tweets based on the days of the week? is there a difference in the mean of a IQ for n different neighborhoods in a city or for 3 kind of diets?
 
-But ANOVA can be used to answers questions of the type: does the presence of another person in the room influence on the amount of time (not this is also a continuous variable, conversion is discrete) a person to help someone in distress (bystander effect, if someone is seeing me do i behave differently?) \cite{darley1968bystander}. The outcome of the experiment is the number of seconds it takes the subject to helo the experimenter, the rouping variable is the number of subjects int he room (0,2,4).
+But ANOVA can be used to answers questions of the type: does the presence of another person in the room influence on the amount of time (not this is also a continuous variable, conversion is discrete) a person to help someone in distress (bystander effect, if someone is seeing me do i behave differently?) \cite{darley1968bystander}. The outcome of the experiment is the number of seconds it takes the subject to help the experimenter, the grouping variable is the number of subjects int he room (0,2,4).
 
-
-
-
-
-
-
-
-\subsection{From which distribution do the data come from?}
-\label{sse:res}
-
-\subsection{Leavers and remainers.  Are they different?}
-\label{sse:leaversremainers}
 
 \subsection{From which distribution do the data come from?}
 \label{sse:leaversremainers}
