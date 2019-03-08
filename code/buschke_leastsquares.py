@@ -991,7 +991,7 @@ def Anova1way(df, feature):
 	#ANOVA one way for 	visitasL
 
 	start = time.time()
-	F, p = stats.f_oneway(df_oneway[dictio.keys()[0]].dropna(),df_oneway[dictio.keys()[1]].dropna(), \
+	F, p = stats.f_oneway(df_oneway[dictio.keys()[1]].dropna(), \
 		df_oneway[dictio.keys()[2]].dropna(),df_oneway[dictio.keys()[3]].dropna(),\
 		df_oneway[dictio.keys()[4]].dropna())
 	end = time.time()
@@ -1178,11 +1178,41 @@ def anova_tests_paper(dataframe_conv, features_dict):
 	print aov_table_suenoc
 	return
 
+def compute_contingency_table(df, labelx, labely):
+	"""compute_contingency_table : computes contingency table and Chi2 or fisher test (2x2 table)
+	"""
+	#https://docs.scipy.org/doc/scipy-0.16.1/reference/generated/scipy.stats.fisher_exact.html
+	import scipy.stats as stats
+
+	#df['mci'] = df[labelx].astype('category')
+	df[labelx] = df[labelx].astype('int')
+	ctable = pd.crosstab(index=df[labelx], columns=df[labely])
+
+	ctable.index = df[labelx].unique()# ["died","survived"]
+	ctable.columns= df[labely].unique()
+	
+
+	if ctable.shape[0] != 2 or ctable.shape[1] != 2: 
+		print('contingency table is not 2x2. Chi2 test...\n')
+		c, p, dof, expected = stats.chi2_contingency(ctable.values)
+		return [c, p, dof, expected]
+		
+	#A 2x2 contingency table. Elements should be non-negative integers.
+	print('Computing Fisher test in 2x2 contingency table \n')
+	#P-value, the probability of obtaining a distribution at least as extreme as the one that was actually observed, 
+	#assuming that the null hypothesis is true.
+	#prior odds ratio and not a posterior estimate
+	#https://www.statsmodels.org/stable/contingency_tables.html
+	oddsratio, pvalue = stats.fisher_exact(ctable.values)
+	return [oddsratio, pvalue ]
+
+
 def main():
 	# Open csv with MRI data
 	plt.close('all')
 	csv_path = '/Users/jaime/Downloads/test_code/PV7years_T1vols.csv'
 	csv_path = '~/vallecas/data/BBDD_vallecas/PVDB_pve_sub.csv'
+	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-07March2019.csv'
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures/'
 	dataframe = pd.read_csv(csv_path)
 	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
@@ -1190,11 +1220,18 @@ def main():
 	print('Build dictionary with features ontology and check the features are in the dataframe\n') 
 	features_dict = pv.vallecas_features_dictionary(dataframe)
 
-
-
+	# plot charts for EDA paper
+	pv.plot_figures_static_of_paper(dataframe)
+	pdb.set_trace()
 	# only study rows with conversionmci to some value
 	dataframe_conv = dataframe[dataframe['conversionmci'].notnull()]
 	
+	### Fisher test for binomial features Chi sq or Fisher (2x2)
+	labelx, labely = 'conversionmci', 'nivel_educativo'
+	Fodds_and_p = compute_contingency_table(dataframe_conv, labelx, labely)
+	print('p value for ',labelx, ' x ', labely,' is:', Fodds_and_p[1])
+	pdb.set_trace()
+
 	### Normnality test
 	QQplot(dataframe_conv, 'a13')
 
