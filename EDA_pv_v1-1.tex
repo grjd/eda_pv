@@ -139,6 +139,7 @@
 
 %CODE
 %tensorflow/production/descriptive_stats.py
+% eda_paper.py
 %-------------------------------------------------------------------------------
 
 \section*{Abstract}
@@ -194,30 +195,31 @@ Figure \ref{fig:pv5years} depicts the number of volunteers for the seven years l
 %Section \ref{se:met} shows statistical tests and the correlation analysis paying special attention to the evolution of the longitudinal variables and their underlying relationship with cognitive performance. 
 %This section describes the features that are most strongly related to cognitive decline for both static (measured once) and dynamic variables (measured every year). We extract features from the longitudinal features to build a classifier based on relevant features extracted from time series \cite{christ2018time}. We conclude with the discussion of the results and future works in Section \ref{se:con} connecting our findings with previous populational studies.  
 
-% YS give full description of features
-% Description of the dataset table with all features
-% draw time line of the prj
-
-%Sleep
-%Diet APOE
-%'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
-
 \section{Exploratory Data Analysis static variables}
 \label{sse:eda}
 %Static as the correlate with conversion
 In this section we perform Exploratory Data Analysis (EDA). The objective of EDA is to build graphical representations that help us make sense of the data. EDA gives us a bird's eye of the dataset aiding at identifying patterns and trends and most importantly, assisting in framing the type of questions we want to ask.
 EDA relies upon a careful pre-processing of the dataset. We perform EDA in a succession of steps. We will start with a preliminary data analysis plotting basic information of the dataset such as the age distribution and other demographics of the participants. 
 We will also study the distribution of the most significant features of all type of features indicated in Table \ref{tab:vallecasvars}. Furthermore, we plot the distribution of cognitive decline conditional to other features. This will set the stage for the correlation analysis described in Section \ref{se:res} for both static (one observation) and dynamic variables (time series).
+%YS cambio, now i know i want to do, write this when all done
 
 
 % features_dict['Anthropometric_s'] == ['lat_manual', 'pabd', 'peso', 'talla', 'audi', 'visu', 'imc']
 % Plot 'pabd', 'peso', 'talla', 'audi'
 \subsection{Genetic, Anthropometric and Demographic}
 \label{ssse:ant}
-The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD). However, researchers have observed risk changes of APO$\epsilon4$ presence with factors such as ethnicity. For instance, Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but at the same time AD is apparently less frequent in Nigerians than in other populations \cite{sepehrnia1989genetic}.
-Estimated worldwide human allele frequencies of ApoE is $13.7\%$ and $36.7\%$ in AD patients. On the other hand, $40–65\%$ of AD patients have at least one copy of the APO$\epsilon4$ allele.
+%Amyloid beta ($A\beta$) plaques is one of the two hallmarks of AD, the other is tau neurofibrillary tangles
 
-Figure \ref{fig:apoe} shows the APOE Genotyping test, classifying the subjects in three groups depending on whether they lack a copy of the APO$\epsilon4$ allele, have one copy APO$\epsilon4$ heterozygotes or have two copies of APO$\epsilon4$ \cite{farrer1997effects}. In our population, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ heterozygotes and $1\%$ APO$\epsilon4$ homozygotes. 
+Human apolipoprotein E (APOE) is a cholesterol carrier that supports lipid transport protein coded by the polymorphic APOE gene. The APOE gene has three major alleles: $\epsilon2, \epsilon3 and \epsilon4$ \cite{mahley2000apolipoprotein}, \cite{hauser2011apolipoprotein}. The presence of the $\epsilon4$ allele is thought to be one of the greatest risk factor for developing sporadic AD. Carriers of one copy of the  $\epsilon4$ allele (heterozygotes) have an increased risk of 3-4 times of developing sporadic AD and carriers of two copies of the $\epsilon4$ allele (homozygotes) have an increased risk of 8-12 times of developing the disease \cite{heffernan2016neurobiology}. 
+
+The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD). This risk, however, varies by demographic factors such as sex and ethnicity. For instance, Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but at the same time AD is apparently less frequent in Nigerians than in other populations \cite{sepehrnia1989genetic}.
+
+The estimated worldwide human allele frequencies of APO$\epsilon4$ allele in the normal population is between $10-15\%$\cite{myers1996apolipoprotein} ($13.7\%$ for "Caucasian"\footnote{We use the term "Caucasian" as it is used in the referred work, however this labeling can be meaningless due to the large heterogeneity and non specificity in the population that the label is supposed to name \cite{bhopal1998white}} populations \cite{corder1994protective}). 
+%APOE allele frequencies were: ε2, 8.3%; ε3, 78%; ε4, 13.7% comparable to those reported for Caucasian populations (Corder et al., 1994
+On the other hand, $40–65\%$ of subjects diagnosed with AD have one or two copies of the $APO\epsilon4$ allele \cite{saunders1993association}. 
+%But why would such a seemingly deleterious allele survive in the population?
+
+Figure \ref{fig:apoe} shows the APOE Genotyping, classifying the subjects in three groups depending on whether they lack a copy of the APO$\epsilon4$ allele, have one copy of APO$\epsilon4$ (heterozygotes) or have two copies of APO$\epsilon4$ (homozygotes) \cite{farrer1997effects}. In our population, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ heterozygotes and $1\%$ APO$\epsilon4$ homozygotes. 
 %DO p(AD|+ in apoe)
 
 \begin{figure}[H]
@@ -227,11 +229,30 @@ Figure \ref{fig:apoe} shows the APOE Genotyping test, classifying the subjects i
         \label{fig:apoe}
 \end{figure}
 
-Figure \ref{fig:anthro} shows the histogram for anthropometric variables bmi, abdominal perimeter, weight and height, measured in the first visit.
+\colorbox{yellow}{Black text on red background}
+
+\fcolorbox{blue}{red}%
+  {Black text, red background, blue frame}
+
+
+\fbox{\begin{minipage}{40em}
+\begin{center}
+The quick brown fox jumps right over the lazy dog. the quick brown fox 
+  jumps right over the lazy dog. the quick brown fox jumps right over the lazy 
+  dog. the quick brown fox jumps right over the lazy dog. the quick brown fox 
+  jumps right over the lazy dog. the quick brown fox jumps right over the lazy 
+  dog. the quick brown fox jumps right over the lazy dog. the quick brown fox 
+  jumps right over the lazy dog.
+\end{center}
+\end{minipage}}
+
+Figure \ref{fig:anthro} shows the histogram for anthropometric variables body mass index (BMI), abdominal perimeter, weight and height, measured in the first visit.
+%https://www.alzheimersresearchuk.org/high-bmi-linked-increased-risk-dementia-later-life/
+
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/Fig_anthro}
-        \caption{Histogram of anthropometric variables measured in year 1 of \emph{Proyecto Vallecas} dataset. Clockwise, Body Mass Index (min=16.95, max=41.93), abdominal perimeter (min=57cm, max=134cm), weight (min=41kg, max=118kg) and height(min=134cm, max=193cm)} 
+        \caption{Histogram of anthropometric variables measured in year 1 of \emph{Proyecto Vallecas} dataset. Clockwise, Body Mass Index (min=16.95, max=41.93), abdominal perimeter (min=57cm, max=134cm), weight (min=41kg, max=118kg) and height (min=134cm, max=193cm)} 
         \label{fig:anthro}
 \end{figure}
 
@@ -240,7 +261,7 @@ Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality.
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.4\linewidth]{figures/Fig_sexlat}
-        \caption{Histogram of hand laterality (left) and sex (right). There is majority of females, 753 versus 427 males. The right handed are 1106, left 19, ambidextrous 39 and 16 were forced right abut born left.} 
+        \caption{Histogram of hand laterality (left) and sex (right). There is majority of females, 753 versus 427 males. The right handed are 1106, left 19, ambidextrous 39 and 16 were forced right about born left.} 
         \label{fig:sexlat}
 \end{figure}
 
@@ -250,7 +271,7 @@ Figure \ref{fig:ages} shows the age of the participants at the inception of the 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.6\linewidth]{figures/Fig_ages}
-        \caption{Histogram of the age of the participants in the first and last years of the \emph{Proyecto Vallecas} dataset. The youngest and the oldest participant in year 1 were 69 and 86 years old respectively. In year 7 the minimum and maximum ages are 76 and 89.} 
+        \caption{Histogram of the age of the participants in the first and last years of the \emph{Proyecto Vallecas} dataset. The youngest and the oldest participant in year 1 were 69 and 86 years old respectively. In year 7, the minimum and maximum ages are 76 and 89 respectively.} 
         \label{fig:ages}
 \end{figure}
 
@@ -286,9 +307,9 @@ Figure \ref{fig:demo} depicts the rest of demographic variables including: educa
 \subsection{Sleep}
 \label{ssse:sleep}
 
-A recent study shows that excessive amounts of tau in the cerebral spinal fluid and spinal cord of extremely sleep-deprived adults. The increase in tau surpassed the 30 percent increase in A-beta. Thus, the two most important hallmarks of AD are affected by sleep \cite{holth2019sleep}.
+A recent study shows that excessive amounts of tau in the cerebral spinal fluid and spinal cord of extremely sleep-deprived adults. The increase in tau surpassed the 30 percent increase in the Amyloid beta peptide. Thus, the two most important hallmarks of AD are affected by sleep \cite{holth2019sleep}.
 
-Understanding the sleep-wake cycle is particularly important, animal studies show that the concentration of Amyloid beta decreases drastically during sleep, suggesting that during sleep removing of metabolic debris could take place \cite{kang2009amyloid}, \cite{xie2013sleep}. However, we causal link sleep-AD is unclear, does lack of sleep causes AD or is the pathology  responsible for disrupting the sleeping cycle. 
+Understanding the sleep-wake cycle is particularly important, animal studies show that the concentration of Amyloid beta decreases drastically during sleep, suggesting that during sleep removing of metabolic debris could take place \cite{kang2009amyloid}, \cite{xie2013sleep}. However, the causal link sleep-AD is unclear; Does lack of sleep causes AD or is the pathology responsible for disrupting the sleeping cycle?
 This chicken-and-egg problem can not be solved with correlational studies neither with meta analysis \cite{bubu2016sleep}.
 %https://www.sciencenews.org/article/sleep-brain-alzheimers-plaques-protein
 
@@ -297,7 +318,7 @@ Figure \ref{fig:sleep} depicts features related to sleep patterns of the subject
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_sleep}
-        \caption{Histogram of sleep variables in the \emph{Proyecto Vallecas} dataset in the first year. From left to right and up to the bottom, number of hours of sleep during the day ($\mu=0.45, \sigma=1$), tingling during sleep (0 No, 1 Yes), movements during sleep (0 No, 1 Yes), number of hours of night sleep ($\mu=6.8, \sigma=1.3$), deep sleep (1 Light, 2 Moderate, 3 Deep), remember dreams (0 No, 1 Yes), snoring (0 No, 1 Yes, 2 snore and difficult breathing ), noises during sleep (0 No, 1 Yes), sufficient sleep (0 No, 1 Yes).} 
+        \caption{Histogram of sleep variables in the \emph{Proyecto Vallecas} dataset in the first year. From left to right and up to the bottom, number of hours of sleep during the day ($\mu=0.45, \sigma=1$), tingling during sleep (0 No, 1 Yes), movements during sleep (0 No, 1 Yes), number of hours of night sleep ($\mu=6.8, \sigma=1.3$), deep sleep (1 Light, 2 Moderate, 3 Deep), remember dreams (0 No, 1 Yes), snoring (0 No, 1 Yes, 2 snore and difficult breathing), noises during sleep (0 No, 1 Yes), sufficient sleep (0 No, 1 Yes).} 
         \label{fig:sleep}
 \end{figure}
 
@@ -342,15 +363,15 @@ Figure \ref{fig:cardio} features related to cardiovascular health in the \emph{V
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_cardio}
-        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), body mass index, heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intollerance to carbs}), hypertension, ictus historial (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}). } 
+        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), body mass index, heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intollerance to carbs}), hypertension, ictus history (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}). } 
         \label{fig:cardio}
 \end{figure}
 
 %PhysicalExercise_s ['ejfre', 'ejminut']
 %YS: fig left, cambio 1,2 por dias a la semana
-Studies have shown a beneficial effect of physical exercise in the ageing brain, reporting increasing executive functioning and reduction in the expected decline of white and grey tissue density with increased fitness \cite{colcombe2003aerobic}. The effects of physical exercise in white matter of the ageing brain are particularly interesting. Overall, white matter volume variations volume seems to be more contained than grey matter during healthy ageing \cite{bartzokis2003white}. However, the white matter decline is better observed with DTI-based measures rather than conventional T1-weighted imaging \cite{giorgio2010age}.
-
+Studies have shown a beneficial effect of physical exercise in the ageing brain, reporting increasing executive functioning and reduction in the expected decline of white and grey tissue density with increased fitness \cite{colcombe2003aerobic}. The effects of physical exercise in white matter of the ageing brain are particularly interesting. Overall, white matter volume variations seems to be more contained than grey matter volume variation during healthy ageing \cite{bartzokis2003white}. However, white matter decline is better observed with DTI-based measures rather than conventional T1-weighted imaging \cite{giorgio2010age}.
 %Although there is variation among brain regions, it is thought that  We will explore this hypothesis in the future when we have available the segmentation of all the years.
+%YS yes!!
 
 Figure \ref{fig:phys} depicts features related to physical exercise. The subjects were asked the frequency in days per week of their physical exercise and the duration of the sessions.
 \begin{figure}[H]
