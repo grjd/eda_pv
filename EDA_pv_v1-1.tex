@@ -225,7 +225,7 @@ Human apolipoprotein E (APOE) is a cholesterol carrier that supports lipid trans
 The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD). This risk, however, varies by demographic factors such as sex and ethnicity. For instance, Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but at the same time AD is apparently less frequent in Nigerians than in other populations \cite{sepehrnia1989genetic}.
 
 The estimated worldwide human allele frequencies of APO$\epsilon4$ allele in the normal population is between $10-15\%$\cite{myers1996apolipoprotein} ($13.7\%$ for "Caucasian"\footnote{We use the term "Caucasian" as it is used in the referred work, however this labeling can be meaningless due to the large heterogeneity and non specificity in the population that the label is supposed to name \cite{bhopal1998white}} populations \cite{corder1994protective}). 
-%APOE allele frequencies were: ε2, 8.3%; ε3, 78%; ε4, 13.7% comparable to those reported for Caucasian populations (Corder et al., 1994
+%APOE allele frequencies were: e2, 8.3%; e3, 78%; e4, 13.7% comparable to those reported for Caucasian populations (Corder et al., 1994
 On the other hand, $40–65\%$ of subjects diagnosed with AD have one or two copies of the $APO\epsilon4$ allele \cite{saunders1993association}. 
 %But why would such a seemingly deleterious allele survive in the population?
 
@@ -262,6 +262,9 @@ could be a risk of dementia but at the same time preclinical (undetected) stages
 %BMI is calculated by dividing your weight in kilograms by your height in meters squared. 
 %https://www.alzheimersresearchuk.org/high-bmi-linked-increased-risk-dementia-later-life/
 According to the BMI metrics ($25.0—29.9$ overweight, $>30.0$ obese) our population is overweight (right tail is longer than left tail in the top left histogram in Figure \ref{fig:anthro}. A recent meta-analysis \cite{winter2014bmi} found not association between overweight and an increased risk of mortality, on the other hand the study found an increased risk for those at the lower end (BMI $< 23.0$). If we pay attention to this results, weight loss would seem an appropriate feature to monitor in older age.
+Obesity (Higher midlife BMI) is related to higher risk of dementia and AD, independently of obesity-related risk factors and co-morbidities \cite{tolppanen2014midlife}, \cite{nepal2014rising}. 
+The distribution of the BMI in our population is particularly interesting $(\mu_{BMI}=27.3, \sigma_{BMI}=3.6)$. $26.8\%$ of the population have a healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$). 
+
 %CODE
 %dataframe['imc'].skew(). pd.qcut(dataframe['imc'],4)
 
@@ -278,7 +281,7 @@ Women and men seem to have different clinical presentations, according to \cite{
 
 %laterality
 %https://www.awakeningfromalzheimers.com/what-being-right-or-left-handed-says-about-alzheimers-risk/
-The $6.2\%$ of \emph{The Vallecas Project} cohort is not right handed. A 1986 study reported that compared to right handers, left handers are less vulnerable to the cognitive problems associated with AD \cite{de1986reduced}. However, hand laterality seems play a very marginal role if any in AD, in fact, research relating handedness preference and memory function have been abandoned since the early pre-MRI. years.   
+$6.2\%$ of \emph{The Vallecas Project} cohort is not right handed. A 1986 study reported that compared to right handers, left handers are less vulnerable to the cognitive problems associated with AD \cite{de1986reduced}. However, hand laterality seems play a very marginal role, if any, in AD, in fact, research relating handedness preference and memory function have been abandoned since the early pre-MRI years.   
 
 Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality in the \emph{Vallecas} cohort..
 %Change this figure
@@ -288,26 +291,6 @@ Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality in the \
         \caption{Histogram of hand laterality (left) and sex (right). There is majority of females, 753 versus 427 males. The right handed are 1106, left 19, ambidextrous 39 and 16 were forced right about born left,  $6.2\%$ of non-right-handers versus $93.8\%$ of right-handers.} 
         \label{fig:sexlat}
 \end{figure}
-
-%['renta', 'nivelrenta', 'educrenta', 'municipio', 'barrio', 'distrito', 'sexo', 'nivel_educativo', 'anos_escolaridad', 'familial_ad', 'sdestciv', 'sdhijos', 'numhij', 'sdvive', 'sdocupac', 'sdresid', 'sdtrabaja', 'sdeconom', 'sdatrb']
-Figure \ref{fig:incomeresidency} shows the home residency and the income distribution of the subjects estimated based on their home residency. 
-%YS make the image with savefig
-%A more in detail representation of the home residency is shown in figure \ref{fig:resid_detail}
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/incomeresidency}
-        \caption{On the left, distribution of home residency by districts of \emph{Proyecto Vallecas} volunteers. All districts of the city of Madrid are represented. Note that there are 156 subjects of a total of 1180 that are not residents in the city of Madrid and are not included here. On the right, we plot the income distribution as estimated based on the home residency, 251 subjects live in low income areas, 769 in medium income areas and 160 in high income neighborhoods of Madrid.
-        } \label{fig:incomeresidency}
-\end{figure}
-
-% Create figure and dsave it properly as png
-% \begin{figure}[]
-%         \centering
-%         \includegraphics[height=\textheight, width=\textwidth]{figures/resid_detail}
-%         \caption{On the left, city of residency of subjects, the large majority lives in Madrid. Middle figure neighborhood and right figure borough of residence in the city of Madrid. 
-%         } \label{fig:incomeresidency}
-% \end{figure}
 
 A 2018 study using data data on cognition from the 2000 and 2010 Health and Retirement Study, found that people with more education have lower prevalence of dementia and more years of cognitively healthy life \cite{crimmins2018educational}. In a postmortem study of 86 brains found an associations between number of children and neuropathology of AD for women only \cite{beeri2009number}. Researchers argue that this difference may be due to  sex-specific mechanisms (e.g. estrogen) rather socio economic differences present in both men and women. However, in addition to the limitations of the study (women were older than men) the ways in which motherhood affect AD risk are more complex, producing inconsistent results. A 3.5 thousands women study \cite{jang2018differential} found that women who give birth to five or more children may be more likely to develop Alzheimer's disease than women who have fewer births, furthermore, incomplete pregnancy was associated with low risk of AD in late life.
 But in a study with 14.5 thousands women presented at the 2018 Alzheimer’s Association International Conference in Chicago, researchers reported that women with three or more children had a 12 percent lower risk of dementia compared to women with one child.
@@ -325,6 +308,31 @@ Figure \ref{fig:demo} depicts demographic variables including: educational attai
         \caption{Histogram of demographic variables in the \emph{Proyecto Vallecas} dataset measured in the first year. Clockwise, educational attainment classified as \emph{no formal education, primary school, secondary school and university degree}, number of sons, number of years of work as an employee, self-assessed economic status (1 the lowest, 10 the highest, marital status (\emph{single, married, widows, divorced}) and the number of people living at home.} 
         \label{fig:demo}
 \end{figure}
+
+%['renta', 'nivelrenta', 'educrenta', 'municipio', 'barrio', 'distrito', 'sexo', 'nivel_educativo', 'anos_escolaridad', 'familial_ad', 'sdestciv', 'sdhijos', 'numhij', 'sdvive', 'sdocupac', 'sdresid', 'sdtrabaja', 'sdeconom', 'sdatrb']
+We close the section of demographic variables with census income estimate based on the ZIP code. Lifestyle factors affect the susceptibility to developing AD and these factors are in many ways related to the level of personal income. \emph{Ceteris paribus}, higher income subjects have better opportunities for education, rich and varied diet, leisure and health-care facilities than residents of lower income areas.
+The influence of the income level on AD mortality is uncertain. Nevertheless, the variation of income-related modifiable lifestyle risk factors (diet, physical exercise, social life, job) across life span, makes it very difficult if not impossible to suggest a clear association \cite{stkepkowski2015correlation}, \cite{ferri2017dementia}.  
+Stress is a coping mechanism for taxing changes impinged upon us in our environment. In particular, allostasis is the adaptive mechanism put in place by the body in anticipation for departures from homeostatic equilibrium triggered by stressful situations \cite{ellis2014beyond}. However not all the stressors are detrimental, stressors can also have beneficial effects. The duration and cyclicity of the stress is particularly important, chronic stress is unequivocally detrimental. The accumulative impact of neuroendocrine responses to chronic stressors might impair homeoastic mechanisms, setting the basis for depression, neurodegenerative disorders and other pathogenic conditions \cite{bisht2018chronic}. Financially stressed individuals with recurrent difficulties to making ends meet suffer from psychological stress that in turn may lead to cellular damage due to inflammation and oxidative damage \cite{hayashi2015conversion}. 
+
+Figure \ref{fig:incomeresidency} shows the home residency and the income distribution of the subjects estimated based on their home residency. 
+
+%A more in detail representation of the home residency is shown in figure \ref{fig:resid_detail}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/incomeresidency}
+        \caption{On the left, distribution of home residency by districts of \emph{Proyecto Vallecas} volunteers. All districts of the city of Madrid are represented. Note that there are 156 subjects of a total of 1180 that are not residents in the city of Madrid and are not included here. On the right, we plot the income distribution as estimated based on the home residency, 251 subjects live in low income areas, 769 in medium income areas and 160 in high income neighborhoods of Madrid.
+        } \label{fig:incomeresidency}
+\end{figure}
+
+% Create figure and dsave it properly as png
+% \begin{figure}[]
+%         \centering
+%         \includegraphics[height=\textheight, width=\textwidth]{figures/resid_detail}
+%         \caption{On the left, city of residency of subjects, the large majority lives in Madrid. Middle figure neighborhood and right figure borough of residence in the city of Madrid. 
+%         } \label{fig:incomeresidency}
+% \end{figure}
+
 
 \subsection{Sleep}
 \label{ssse:sleep}
@@ -345,8 +353,13 @@ Figure \ref{fig:sleep} depicts features related to sleep patterns of the subject
 \end{figure}
 
 
-\subsection{Life style}
+\subsection{Life style: food and diet, physical exercise and social bonding}
 \label{ssse:life}
+
+In a recent study performing PET imaging repeated in three years time, volunteers aged 30-60 with no symptoms of dementia when the study began were divided into two groups: 34 people ate a Mediterranean diet (high fruits, vegetables, lean protein) and 36 people ate a Western diet (high in saturated fats and refined sugar). Researchers reported that at the onset of the study, people that ate Western diet already had more beta-amyloid deposits than those who ate a Mediterranean diet. The follow up scans showed an even greater difference in beta-amyloid deposits in the two groups, controlling for sex, age and genotype factors \cite{berti2018mediterranean}.
+
+AD leads to metabolic impairment which is visible in reductions in cerebral glucose uptake. The early detection of decline in brain glucose metabolism could be of interest as a potential therapeutic intervention of AD. Since hypometabolism precedes clinical symptoms of AD, enhancing glucose uptake \cite{duran2016glucose}, for example with ketone bodies \cite{gasior2006neuroprotective}, could have a neuroprotective effects. The ketogenic diet (high in animal fat and low in carbohydrates) is an clinically established nonpharmacological treatment for epilepsy \cite{vining1998multicenter}. It is plausible that neuroprotective effects (enahnced cell energetics) observed in epilepsy could be of use in the treatment of neurodegenerative diseases, protecting against neuronal death through antioxidant and anti-inflammatory actions. From a biochemical standpoint, replacing glucose by ketone bodies can be seen as a sensible choice, there is  research that reports improvement in cognitive functioning in older adults with memory disorders followed by increases of plasma ketone body via the administration of medium chain triglycerides (MCTs) \cite{reger2004effects}. However, the  downstream costs associated with the adherence to strict ketogenic nutritional recommendations are not fully understood. 
+
 % Food
 Figure \ref{fig:food} depicts the type of food consumption as reported by the subjects in a questionnaire. $84\%$ of subjects consume olive oil $6/7$ days a week, $74\%$ bread, $44\%$ vegetables and $29\%$ report consuming sweets $6/7$ days a week.
 
@@ -358,35 +371,13 @@ Figure \ref{fig:food} depicts the type of food consumption as reported by the su
 \end{figure}
 
 %Diet
-Figure \ref{fig:diet} depicts the type diet based on the reported weekly food consumption. We distinguish between three different diets: diet with a strong glucemic component(carbs, sweets), diet with a strong proteic component (red meat, eggs, fish) and the Mediterranean diet (fruit, fish, vegetables) and we calculate an score for each diet based on REF-Miguel.
+Figure \ref{fig:diet} depicts the type diet based on the reported weekly food consumption. We distinguish between three different diets: diet with a strong glucemic component(carbs, sweets), diet with a strong proteic component or ketogenic (red meat, eggs, fish) and Mediterranean diet (fruit, fish, vegetables). We calculate an score for each diet based on REF-Miguel.
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/Fig_diet}
         \caption{Histogram of type of diet based on weekly food consumption as reported by the subjects in the first visit. The x-axis of each chart represents the score for each type of diet, the larger the score the most prevalent the main component of the diet is in the subject's diet. For example, a subject with a score of 12 in the glucemic diet will likely consume more sweets than a subject a score of 6, by the same token a subject with a large score in the Mediterranean diet will likely consume more fruit and vegetables than a subject with a lower score.} 
         \label{fig:diet}
-\end{figure}
-
-Obesity (Higher midlife BMI) is related to higher risk of dementia and AD, independently of obesity-related risk factors and co-morbidities \cite{tolppanen2014midlife}, \cite{nepal2014rising}. 
-The distribution of the BMI in our population is particularly interesting $(\mu_{BMI}=27.3, \sigma_{BMI}=3.6)$. $26.8\%$ of the population have a healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$). 
-The majority of subjects report to have hypertension $53\%$ vs $47\%$, this is in line with larger studies, for example in \cite{grau2011cardiovascular} 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ of men and $39\%$ of women, in \cite{lacruz2015prevalence}.
-$27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
-
-Figure \ref{fig:cardio} features related to cardiovascular health in the \emph{Vallecas Project}.
- %total cholesterol ≥ 250 mg/dL (43% and 40%, respectively), 
- %obesity (29% and 29%, respectively), tobacco use (33% and 21%, respectively), and diabetes (16% and 11%, respectively). Total cholesterol ≥ 190 and ≥ 250 mg/dL were the respective minimum and maximum coefficients of variation (7%-24% in men, 7%-26% in women). Average concordance in lipid measurements between laboratories was excellent. 
-%of note the self reported hypertension is inferior to population studies in which the blood pressure is actually measured mean systolic $\geq140$ mmHg and/or diastolic BP (DBP) $\geq90$ mmHg and/or use of antihypertensive medication \cite{lacruz2015prevalence}. 
-
-%https://www.brightfocus.org/alzheimers/article/weight-risk-factor-alzheimers-disease
-
-%https://www.isglobal.org/en/new/-/asset_publisher/JZ9fGljXnWpI/content/cardiopatia-isquemica-demencias-e-ictus-se-situan-como-las-principales-causas-de-muerte-en-espana
-
-%YS: change arrythmia in pic for stroke 3 top
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_cardio}
-        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), body mass index, heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intollerance to carbs}), hypertension, ictus history (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}). } 
-        \label{fig:cardio}
 \end{figure}
 
 %PhysicalExercise_s ['ejfre', 'ejminut']
@@ -404,8 +395,9 @@ Figure \ref{fig:phys} depicts features related to physical exercise. The subject
 \end{figure}
 
 %EngagementExternalWorld_s ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13', 'a14']
+% social bonding
 
-Figure \ref{fig:engage} depicts features related to engagement with the external world of the subject. In particular, doing creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, reading habits (books, newspaper, magazines), and use of the Internet and IT.
+Psychosocial factors such as a rich social network, social engagement and mentally stimulating activities are commonly held as protective factors against dementia/AD. Loneliness, depression, living alone are psychosocial stressors that can increase the risk of developing AD \cite{johansson2013common}, \cite{sindi2015advances}. Figure \ref{fig:engage} depicts features related to engagement with the external world of the subject. In particular, doing creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, reading habits (books, newspaper, magazines), and use of the Internet and information technologies.
 %EngagementExternalWorld_s ['a03' amigos, 'a04' travel, 'a05' ong, 'a06' church, 'a08' cine, 'a09' sport, 'a10' music, 'a11' tv, 'a12' read, 'a13' internet] 
 Of interest, church goers are a minority in our population, $75\%$ never go to church, $17\%$ that go a few times and $8\%$ go often. $86\%$ habitually watches the TV or listens to the radio, $68\%$ read books or magazines often and only $29\%$ use the Internet often.
 
@@ -416,27 +408,52 @@ Of interest, church goers are a minority in our population, $75\%$ never go to c
         \label{fig:engage}
 \end{figure}
 
-\subsection{Cardiovascular}
-\label{ssse:cardio}
 
+\subsection{Cardiovascular and cerebrovascular pathologies}
+\label{ssse:cardio}
 % Cardiovascular_s ['hta', 'hta_ini', 'glu', 'lipid', 'tabac', 'tabac_cant', 'tabac_fin', 'tabac_ini', 'sp', 'cor', 'cor_ini', 'arri', 'arri_ini', 'card', 'card_ini', 'tir', 'ictus', 'ictus_num', 'ictus_ini', 'ictus_secu']
-Figure \ref{fig:cardio} depicts features related to the cardiovascular health self reported in our population. The subjects were asked whether they suffer hypertension, angina and heart attack, glucose metabolism disorders, dyslipidemia (an abnormal amount of lipids in the blood), arrhythmias, and if they smoke. 
+
+A recent genome-wide study has been able to identify genetic variants that confer risk of both cardiovascular disease and Alzheimer's disease \cite{broce2019dissecting}. Vascular risk factors for AD such as diabetes, heart failure, stroke, hypertension and smoking among others could be involved in cerebrovascular dysfunction and AD pathology. Cardiovascular risk factors and their associated brain mechanisms are believed to play a role in the onset of AD. 
+A better understanding of the interplay between cardiovascular disorders is not only beneficial from a clinical perspective but also from a prevention point of view, suggesting behavioral interventions (smoking cessation, healthy diet etc. ) in early adult life \cite{de2010cardiac}.  
+
 Thyroid hormones have a significant impact on cardiac function and structure (excess thyroid hormone affects cardiovascular \cite{klein2007thyroid}), subjects also reported whether they suffer from hyper(hipo)thyroidism.
 Stroke is a risk factor for coronary heart disease and subjects were asked if they had in the past hemorrhagic or ischemic cerebral ictus. Ischemic stroke and AD share pathophysiological mechanisms such as inflammation, immune exhaustion and neurovascular damage \cite{lucke2015common}. 
 The causality between AD and hemorrhagic stroke seems to be reversed (AD causes X, rather than the usual search of factor X that causes AD), patients who had Alzheimer's disease are at the highest risk of hemorrhagic stroke \cite{wang2014newly}.
+
+Figure \ref{fig:cardio} depicts features related to the cardiovascular health self reported in our population. The subjects were asked whether they suffer hypertension, angina and heart attack, glucose metabolism disorders, dyslipidemia (an abnormal amount of lipids in the blood), arrhythmias and smoking habits. The majority of subjects report to have hypertension $53\%$ vs $47\%$, this is in line with larger studies, for example in \cite{grau2011cardiovascular} 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ of men and $39\%$ of women, in \cite{lacruz2015prevalence}.
+$27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
+
+
+ %total cholesterol ≥ 250 mg/dL (43% and 40%, respectively), 
+ %obesity (29% and 29%, respectively), tobacco use (33% and 21%, respectively), and diabetes (16% and 11%, respectively). Total cholesterol ≥ 190 and ≥ 250 mg/dL were the respective minimum and maximum coefficients of variation (7%-24% in men, 7%-26% in women). Average concordance in lipid measurements between laboratories was excellent. 
+%of note the self reported hypertension is inferior to population studies in which the blood pressure is actually measured mean systolic $\geq140$ mmHg and/or diastolic BP (DBP) $\geq90$ mmHg and/or use of antihypertensive medication \cite{lacruz2015prevalence}. 
+
+%https://www.brightfocus.org/alzheimers/article/weight-risk-factor-alzheimers-disease
+
+%https://www.isglobal.org/en/new/-/asset_publisher/JZ9fGljXnWpI/content/cardiopatia-isquemica-demencias-e-ictus-se-situan-como-las-principales-causas-de-muerte-en-espana
+
+%YS: change arrythmia in pic for stroke 3 top
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_cardio}
+        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), body mass index, heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intollerance to carbs}), hypertension, ictus history (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}). } 
+        \label{fig:cardio}
+\end{figure}
+
 % Pass on sp (you think you are overweighted?) and use If your BMI is 25.0 to <30, it falls within the overweight range. If your BMI is 30.0 or higher, it falls within the obese range
 
-\subsection{Traumatic brain injury}
-\label{ssse:tbe}
+%\subsection{Traumatic brain injury}
+%\label{ssse:tbe}
 %TraumaticBrainInjury_s ['tce', 'tce_con', 'tce_ini', 'tce_num', 'tce_secu']
-Figure \ref{fig:tce} shows the distribution of episodes (at least one) of traumatic brain injury. 
+
+Traumatic brain injury (TBI) is associated with long-term and acute disorders whose onset and ethiology are insufficiently understood. Violent head displacements in vulnerable brains is a precursor of dementia. A plausible mechanism of transmission is the propagation of abnormal proteins along damaged white matter pathways. Furthermore, TBI can initiate cerebrovascular pathology, which in turn could mediate in neurodegeneration including AD-like dementias \cite{ramos2018traumatic}. See \cite{mendez2017relationship} for a summary of recent research on the TBI-dementia link. Figure \ref{fig:tce} shows the distribution of episodes (at least one) of traumatic brain injury in the \emph{Vallecas} cohort. 
+
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_tce}
         \caption{Histogram of traumatic brain injury. $20\%$ of subjects declared to have suffered in the past an episode of traumatic brain injury of unspecified seriousness.} 
         \label{fig:tce}
 \end{figure}
-
 
 \section{Exploratory Data Analysis longitudinal variables}
 \label{se:eda_long}
