@@ -106,20 +106,27 @@
 \begin{document}
 %IDENTIFICACIÓN DE FACTORES DE RIESGO EN DETERIORO COGNITIVO LEVE CON APRENDIZAJE AUTOMÁTICO: HACIA UNA AYUDA AL DIAGNÓSTICO MULTIFACTORIAL Y  AUTOINFORMADA
 
-\title{ \normalsize \textsc{\emph{Proyecto Vallecas} Seven years longitudinal study in healthy aging}
+\title{ \normalsize \textsc{\emph{Proyecto Vallecas} Six years longitudinal study in healthy aging}
     \\ [2.0cm]
     \HRule{0.5pt} \\
-    \LARGE \textbf{\uppercase{Exploratory Data Analysis in \emph{Proyecto Vallecas}: a seven years longitudinal study in brain healthy aging}}
+    \LARGE \textbf{\uppercase{Exploratory Data Analysis in \emph{Proyecto Vallecas}: a six years longitudinal study in brain healthy aging}}
     \HRule{2pt} \\ [0.5cm]
     \normalsize \today \vspace*{5\baselineskip}}
 
 \date{ }
+%\author{
+%    Jaime G\'omez-Ram\'irez, Marina \'Avila Villanueva, Bel\'en Frades Payo, Teodoro del Ser Quijano,\\ Meritxell Valent\'i Soler, María Ascensi\'on Zea Sevilla and Miguel \'Angel Fern\'andez-Bl\'azquez   \\  \\
+%    \textbf{\large{Fundaci\'on Reina Sof\'ia}} \\
+%    Centre for Research in Neurodegenarative Diseases
+%    \\ \emph{Valderrebollo, 5, 28031 Madrid}
+% }
 \author{
-    Jaime G\'omez-Ram\'irez, Marina \'Avila Villanueva, Bel\'en Frades Payo, Teodoro del Ser Quijano,\\ Meritxell Valent\'i Soler, María Ascensi\'on Zea Sevilla and Miguel \'Angel Fern\'andez-Bl\'azquez   \\  \\
-    \textbf{\large{Fundaci\'on Reina Sof\'ia}} \\
-    Centre for Research in Neurodegenarative Diseases
+    textbf{\large{Big Data Research and Analytics Unit}}   \\  \\
+    \large{Fundaci\'on Reina Sof\'ia} \\
+    Centre for Research in Neurodegenarative Diseases (Fundaci\'on CIEN)
     \\ \emph{Valderrebollo, 5, 28031 Madrid}
  }
+
 
 \maketitle
 \begin{center}
@@ -210,32 +217,32 @@ We will also study the distribution of the most significant features of all type
 \label{ssse:ant}
 
 % features_dict['Demographics_s'] == ['edad', 'edad_visita7']
-The major risk of developing AD is age. Figure \ref{fig:ages} shows the age of the participants at the inception of the project and the age of the participants that came to the seventh visit.
+The major risk of developing AD is age. Figure \ref{fig:ages} shows the age of the participants at the inception of the project and the age of the participants that came to their sixth visit.
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.6\linewidth]{figures/Fig_ages}
-        \caption{Histogram of the age of the participants in the first and last years of the \emph{Proyecto Vallecas} dataset. The youngest and the oldest participant in year 1 were 69 and 86 years old respectively. In year 7, the minimum and maximum ages are 76 and 89 respectively.} 
+        \caption{Histogram of the age of the participants in the first and last years of the \emph{Proyecto Vallecas} dataset. The youngest and the oldest participant in year 1 were 69 and 86 years old respectively. In year 6, the minimum and maximum ages were 76 and 89 respectively.} 
         \label{fig:ages}
 \end{figure}
 
 %Amyloid beta ($A\beta$) plaques is one of the two hallmarks of AD, the other is tau neurofibrillary tangles
-Human apolipoprotein E (APOE) is a cholesterol carrier that supports lipid transport protein coded by the polymorphic APOE gene. The APOE gene has three major alleles: $\epsilon2, \epsilon3 and \epsilon4$ \cite{mahley2000apolipoprotein}, \cite{hauser2011apolipoprotein}. The presence of the $\epsilon4$ allele is thought to be one of the greatest risk factor for developing sporadic AD. Carriers of one copy of the  $\epsilon4$ allele (heterozygotes) have an increased risk of 3-4 times of developing sporadic AD and carriers of two copies of the $\epsilon4$ allele (homozygotes) have an increased risk of 8-12 times of developing the disease \cite{heffernan2016neurobiology}. 
+Human apolipoprotein E (APOE) is a cholesterol carrier that supports lipid transport protein coded by the polymorphic APOE gene. The APOE gene has three major alleles: $\epsilon2$, $\epsilon3$ and $\epsilon4$ \cite{mahley2000apolipoprotein}, \cite{hauser2011apolipoprotein}. The presence of the $\epsilon4$ allele is thought to be one of the major risk factor for developing sporadic AD. Carriers of one copy of the  $\epsilon4$ allele (heterozygotes) have an increased risk of 3-4 times of developing sporadic AD, and carriers of two copies of the $\epsilon4$ allele (homozygotes) have an increased risk of 8-12 times of developing the disease \cite{heffernan2016neurobiology}. 
 
 The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD). This risk, however, varies by demographic factors such as sex and ethnicity. For instance, Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but at the same time AD is apparently less frequent in Nigerians than in other populations \cite{sepehrnia1989genetic}.
 
-The estimated worldwide human allele frequencies of APO$\epsilon4$ allele in the normal population is between $10-15\%$\cite{myers1996apolipoprotein} ($13.7\%$ for "Caucasian"\footnote{We use the term "Caucasian" as it is used in the referred work, however this labeling can be meaningless due to the large heterogeneity and non specificity in the population that the label is supposed to name \cite{bhopal1998white}} populations \cite{corder1994protective}). 
+The estimated worldwide human allele frequencies of the APO$\epsilon4$ allele in the normal population is between $10-15\%$\cite{myers1996apolipoprotein} ($13.7\%$ for "Caucasian"\footnote{We use the term "Caucasian" as it is used in the referred work, however this labeling can be meaningless due to the large heterogeneity and non specificity in the population that the label is supposed to name \cite{bhopal1998white}} populations \cite{corder1994protective}). 
 %APOE allele frequencies were: e2, 8.3%; e3, 78%; e4, 13.7% comparable to those reported for Caucasian populations (Corder et al., 1994
 On the other hand, $40–65\%$ of subjects diagnosed with AD have one or two copies of the $APO\epsilon4$ allele \cite{saunders1993association}. 
 %But why would such a seemingly deleterious allele survive in the population?
 
-Figure \ref{fig:apoe} shows the APOE Genotyping, classifying the subjects in three groups depending on whether they lack a copy of the APO$\epsilon4$ allele, have one copy of APO$\epsilon4$ (heterozygotes) or have two copies of APO$\epsilon4$ (homozygotes) \cite{farrer1997effects}. In our population, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ heterozygotes and $1\%$ APO$\epsilon4$ homozygotes. 
+Figure \ref{fig:apoe} shows the APOE Genotyping in \emph{The Vallecas Project}, classifying the subjects in three groups depending on whether they lack any copy of the APO$\epsilon4$ allele, have one copy of APO$\epsilon4$ (heterozygotes) or have two copies of APO$\epsilon4$ (homozygotes) \cite{farrer1997effects}. In this cohort, $82\%$ were APO$\epsilon4$ negative, $17\%$ APO$\epsilon4$ heterozygotes and $1\%$ APO$\epsilon4$ homozygotes. 
 %DO p(AD|+ in apoe)
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_apoe}
-        \caption{APOE Genotyping testing in \emph{Proyecto Vallecas} dataset. $17\%$ of subjects carry at least one copy of the $\epsilon4$, slightly higher than the worldwide estimates in Caucasian population ($13.7\%$) indicated in \cite{farrer1997effects}} 
+        \caption{APOE Genotyping testing in \emph{Proyecto Vallecas} dataset. $17\%$ of subjects carry at least one copy of the $\epsilon4$, slightly higher than the worldwide estimates in Caucasian population ($13.7\%$) \cite{farrer1997effects}} 
         \label{fig:apoe}
 \end{figure}
 
@@ -254,36 +261,39 @@ Figure \ref{fig:apoe} shows the APOE Genotyping, classifying the subjects in thr
 % \end{minipage}}
 
 People with a higher body mass index (BMI) in midlife are more likely to develop dementia. This conclusion was achieved in a study that pooled BMI data from a total of 1.3 million subjects in a period of up to 38 years from the original measurement of their BMI \cite{kivimaki2018body}. 
-The relationship between MBI and developing dementia is however complicated, the study found that the people who developed dementia tended to have a lower than average BMI in the years leading up to a diagnosis. 
-Nevertheless, the causal link between BMI and dementia is debatable, the reported relationship between BMI and dementia could be a product of the early stages of the disease rather than a risk factor. Any causal statement relies upon the occurrence of events in time and since the onset of dementia is unknown, we must be very cautious about establishing causal links, for example between BMI and the diagnosis of AD.   
+The relationship between MBI and developing dementia is however complicated, the study found that people who developed dementia tend to have a lower than average BMI in the years leading up to the diagnosis. 
+Nevertheless, the causal link between BMI and dementia is debatable, the reported relationship between BMI and dementia could be a product of the early stages of the disease rather than a risk factor. 
+
+Any causal statement relies upon the occurrence of events in time and since the onset of dementia is unknown, we must be very cautious about establishing causal links between, in this case, BMI and the diagnosis of AD.   
 %Higher midlife body mass index (BMI) is suggested to increase the risk of dementia, but weight loss during the preclinical dementia phase may mask such effects.
-With the caveat in mind that higher BMI in midlife (our sample is composed of elder subjects) 
-could be a risk of dementia but at the same time preclinical (undetected) stages of the disease could trigger weight loss and mask this effect, we show the distribution of anthropometric variables: BMI, abdominal perimeter, weight and height, measured in the first visit (Figure \ref{fig:anthro}). 
+We must thus keep in mind the caveat that while higher BMI in midlife (our sample is composed of elder subjects) 
+could be a risk factor for dementia, preclinical (undetected) stages of the disease could also produce weight loss and mask this effect. 
+
+Figure \ref{fig:anthro} shows the distribution of anthropometric variables: BMI, abdominal perimeter, weight and height, measured in the first visit. 
 %BMI is calculated by dividing your weight in kilograms by your height in meters squared. 
 %https://www.alzheimersresearchuk.org/high-bmi-linked-increased-risk-dementia-later-life/
-According to the BMI metrics ($25.0—29.9$ overweight, $>30.0$ obese) our population is overweight (right tail is longer than left tail in the top left histogram in Figure \ref{fig:anthro}. A recent meta-analysis \cite{winter2014bmi} found not association between overweight and an increased risk of mortality, on the other hand the study found an increased risk for those at the lower end (BMI $< 23.0$). If we pay attention to this results, weight loss would seem an appropriate feature to monitor in older age.
-Obesity (Higher midlife BMI) is related to higher risk of dementia and AD, independently of obesity-related risk factors and co-morbidities \cite{tolppanen2014midlife}, \cite{nepal2014rising}. 
-The distribution of the BMI in our population is particularly interesting $(\mu_{BMI}=27.3, \sigma_{BMI}=3.6)$. $26.8\%$ of the population have a healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$). 
+According to the BMI metrics ($25.0—29.9$ overweight, $>30.0$ obese) our population is overweight (right tail is longer than left tail in the top left histogram. Obesity (Higher midlife BMI) is related to higher risk of dementia and AD, independently of obesity-related risk factors and co-morbidities \cite{tolppanen2014midlife}, \cite{nepal2014rising}. However, a recent meta-analysis \cite{winter2014bmi} found not association between overweight and an increased risk of mortality, on the other hand, the study found an increased risk for those at the lower end (BMI $< 23.0$). If we pay attention to this results, weight loss is an useful feature to monitor in older age.
 
 %CODE
 %dataframe['imc'].skew(). pd.qcut(dataframe['imc'],4)
-
-\cite{winter2014bmi}
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/Fig_anthro}
-        \caption{Histogram of anthropometric variables measured in year 1 of \emph{Proyecto Vallecas} dataset. Clockwise, Body Mass Index (min=16.95, max=41.93), abdominal perimeter (min=57cm, max=134cm), weight (min=41kg, max=118kg) and height (min=134cm, max=193cm). Skewness, a measure of the asymmetry of the probability distribution, in BMI, weight and height is positive (0.37,0.49, 0.29).} 
+        \caption{Histogram of anthropometric variables measured in year 1 of \emph{Proyecto Vallecas} dataset. Clockwise, Body Mass Index (min=16.95, max=41.93), abdominal perimeter (min=57cm, max=134cm), weight (min=41kg, max=118kg) and height (min=134cm, max=193cm). 
+        The mean and standard deviation of the BMI in our population is $\mu_{BMI}=27.3$ and $\sigma_{BMI}=3.6$. $26.8\%$ of the population have a healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$). 
+        Skewness, a measure of the asymmetry of the probability distribution, in BMI, weight and height is positive (0.37,0.49, 0.29).} 
         \label{fig:anthro}
 \end{figure}
 
-Although there are gender-specific risk factors for AD a convincing account of how brain structure and function, may vary by sex is missing \cite{mielke2014clinical}. Epidemiological studies show that after age, the main risk factor for developing AD  is sex \cite{vina2010women}, \cite{mazure2016sex}. While it is well known that the incidence of the disease is higher in women, it is far from clear that this can be entirely attributed to the higher longevity of women versus men. Mitochondria of younger women are better protected against amyloid-beta toxicity, but this advantage lessens with age. Estrogenic therapies to deal with mitochondrial damage in AD have failed so far. A 2014 cohort study reports that women with the APO$\epsilon4$ allele are at greater risk of developing AD than are men with this allele \cite{altmann2014sex}. The same study argues that the inconsistency of previous findings about this allele could be motivated by researchers overlooking the APO$\epsilon4$-sex interaction.
-Women and men seem to have different clinical presentations, according to \cite{sinforiani2010impact} men tend to show more aggressive behaviours and more comorbidity, while and women would present more affective symptoms and disability but longer survival times. These behavioral differences would indicate sex-based neuropathologies in need of clarification. A report from the MIRIAD dataset -a database of volumetric MRI brain-scans of Alzheimer's sufferers and healthy elderly people- suggest that hippocampal atrophy in subjects with patients with probable AD has a faster rate in women as compared to men, making female sex a risk factor for faster descent into AD.
+Although there are gender-specific risk factors for AD a convincing account of how brain structure and function  may vary by sex is missing \cite{mielke2014clinical}. Epidemiological studies show that after age, the main risk factor for developing AD  is sex \cite{vina2010women}, \cite{mazure2016sex}. While it is well known that the incidence of the disease is higher in women, it is far from clear that this can be entirely attributed to the higher longevity of women versus men. 
+
+Mitochondria of younger women are better protected against amyloid-beta toxicity, but this advantage lessens with age. Estrogenic therapies to deal with mitochondrial damage in AD have failed so far. A 2014 cohort study reports that women with the APO$\epsilon4$ allele are at greater risk of developing AD than are men with this allele \cite{altmann2014sex}. The same study argues that the inconsistency of previous findings about this allele could be motivated by researchers overlooking the APO$\epsilon4$-sex interaction.
+
+Women and men seem to have different clinical presentations, according to \cite{sinforiani2010impact} men tend to show more aggressive behaviours and more comorbidity, while women would present more affective symptoms and disability but longer survival times. These behavioral differences would indicate sex-based neuropathologies in need of clarification. A report from the MIRIAD dataset \cite{malone2013miriad} -a database of volumetric MRI brain-scans of Alzheimer's sufferers and healthy elderly people- suggest that hippocampal atrophy in subjects with patients with probable AD has a faster rate in women as compared to men, making female sex a risk factor for faster descent into AD \cite{ardekani2016analysis}.
 
 %laterality
 %https://www.awakeningfromalzheimers.com/what-being-right-or-left-handed-says-about-alzheimers-risk/
-$6.2\%$ of \emph{The Vallecas Project} cohort is not right handed. A 1986 study reported that compared to right handers, left handers are less vulnerable to the cognitive problems associated with AD \cite{de1986reduced}. However, hand laterality seems play a very marginal role, if any, in AD, in fact, research relating handedness preference and memory function have been abandoned since the early pre-MRI years.   
-
-Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality in the \emph{Vallecas} cohort..
+$6.2\%$ of \emph{The Vallecas Project} cohort is not right-handed. A 1986 study reported that compared to right handers, left handers are less vulnerable to the cognitive problems associated with AD \cite{de1986reduced}. However, hand laterality seems play a very marginal role, if any, in AD. In fact, research relating handedness preference and memory function have been abandoned since the early pre-MRI years. Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality in the \emph{Vallecas} cohort.
 %Change this figure
 \begin{figure}[H]
         \centering
@@ -292,14 +302,9 @@ Figure \ref{fig:sexlat} shows the histogram for sex and hand laterality in the \
         \label{fig:sexlat}
 \end{figure}
 
-A 2018 study using data data on cognition from the 2000 and 2010 Health and Retirement Study, found that people with more education have lower prevalence of dementia and more years of cognitively healthy life \cite{crimmins2018educational}. In a postmortem study of 86 brains found an associations between number of children and neuropathology of AD for women only \cite{beeri2009number}. Researchers argue that this difference may be due to  sex-specific mechanisms (e.g. estrogen) rather socio economic differences present in both men and women. However, in addition to the limitations of the study (women were older than men) the ways in which motherhood affect AD risk are more complex, producing inconsistent results. A 3.5 thousands women study \cite{jang2018differential} found that women who give birth to five or more children may be more likely to develop Alzheimer's disease than women who have fewer births, furthermore, incomplete pregnancy was associated with low risk of AD in late life.
-But in a study with 14.5 thousands women presented at the 2018 Alzheimer’s Association International Conference in Chicago, researchers reported that women with three or more children had a 12 percent lower risk of dementia compared to women with one child.
-%https://qz.com/1335298/a-new-study-found-a-link-between-pregnancy-and-alzheimers-disease/ \cite{}.
-%also  with three or more children had a 12 percent lower risk of dementia compared to women with one child
-Loneliness is a risk factor in AD. A 2007 longitudinal study with up to 4 years of in-home follow up 
-reported a positive association between loneliness and an increased risk of late-life dementia \cite{wilson2007loneliness}.
-%https://jamanetwork.com/journals/jamapsychiatry/fullarticle/482179
-%Social isolation, as evidenced by objective indicators such as having a small social network,1 being unmarried,2,3 participating in few activities with others,4-6 or some combination of these,7,8 has been associated with increased risk of dementia and cognitive decline in several prospective studies. 
+A 2018 study using data data on cognition from the 2000 and 2010 Health and Retirement Study \cite{crimmins2018educational}, found that people with more education have lower prevalence of dementia and more years of cognitively healthy life. In a postmortem study of 86 brains, researchers found an associations between number of children and neuropathology of AD for women only \cite{beeri2009number}. Researchers argue that this difference may be due to sex-specific mechanisms (e.g. estrogen) rather socio economic differences present in both men and women. However, in addition to the limitations of the study (women were older than men) the ways in which motherhood affect AD risk are more complex, even producing inconsistent results. A 3.5 thousands women study \cite{jang2018differential} found that women who give birth to five or more children may be more likely to develop Alzheimer's disease than women who have fewer births, furthermore, incomplete pregnancy was associated with lower risk of AD in late life. But in a study with 14.5 thousands women presented at the 2018 Alzheimer’s Association International Conference in Chicago, researchers reported that women with three or more children had a 12 percent lower risk of dementia compared to women with one child \cite{AAIC2018}.
+
+Social isolation and loneliness is believed to be a risk factor in AD (\cite{holmen1992loneliness}, \cite{fratiglioni2000influence}, \cite{shankar2013social}, \cite{holwerda2014feelings}, \cite{evans2018social}). A 2007 longitudinal study with up to 4 years of in-home follow up, reported a positive association between loneliness and an increased risk of late-life dementia \cite{wilson2007loneliness}. 
 
 Figure \ref{fig:demo} depicts demographic variables including: educational attainment, number of sons, years of work as an employee, self-assessed economic status, marital status and the number of people living at home.
 \begin{figure}[H]
@@ -310,11 +315,12 @@ Figure \ref{fig:demo} depicts demographic variables including: educational attai
 \end{figure}
 
 %['renta', 'nivelrenta', 'educrenta', 'municipio', 'barrio', 'distrito', 'sexo', 'nivel_educativo', 'anos_escolaridad', 'familial_ad', 'sdestciv', 'sdhijos', 'numhij', 'sdvive', 'sdocupac', 'sdresid', 'sdtrabaja', 'sdeconom', 'sdatrb']
-We close the section of demographic variables with census income estimate based on the ZIP code. Lifestyle factors affect the susceptibility to developing AD and these factors are in many ways related to the level of personal income. \emph{Ceteris paribus}, higher income subjects have better opportunities for education, rich and varied diet, leisure and health-care facilities than residents of lower income areas.
-The influence of the income level on AD mortality is uncertain. Nevertheless, the variation of income-related modifiable lifestyle risk factors (diet, physical exercise, social life, job) across life span, makes it very difficult if not impossible to suggest a clear association \cite{stkepkowski2015correlation}, \cite{ferri2017dementia}.  
-Stress is a coping mechanism for taxing changes impinged upon us in our environment. In particular, allostasis is the adaptive mechanism put in place by the body in anticipation for departures from homeostatic equilibrium triggered by stressful situations \cite{ellis2014beyond}. However not all the stressors are detrimental, stressors can also have beneficial effects. The duration and cyclicity of the stress is particularly important, chronic stress is unequivocally detrimental. The accumulative impact of neuroendocrine responses to chronic stressors might impair homeoastic mechanisms, setting the basis for depression, neurodegenerative disorders and other pathogenic conditions \cite{bisht2018chronic}. Financially stressed individuals with recurrent difficulties to making ends meet suffer from psychological stress that in turn may lead to cellular damage due to inflammation and oxidative damage \cite{hayashi2015conversion}. 
+We close the section of demographic variables with census income estimate based on the ZIP code. Lifestyle factors affect the susceptibility to developing AD and these factors are in many ways related to the level of personal income. \emph{Ceteris paribus}, higher income subjects have better opportunities for education, rich and varied diet, leisure and health-care facilities than residents of lower income areas. The influence of the income level on AD mortality is, however, uncertain. Nevertheless, the variation of income-related modifiable lifestyle risk factors (diet, physical exercise, social life, job) across life span, makes it very difficult if not impossible to suggest a clear association between income level and risk of developing dementia \cite{stkepkowski2015correlation}, \cite{ferri2017dementia}.
 
-Figure \ref{fig:incomeresidency} shows the home residency and the income distribution of the subjects estimated based on their home residency. 
+Stress is a coping mechanism for taxing changes impinged upon us in our environment. In particular, allostasis is the adaptive mechanism put in place by the body in anticipation for departures from homeostatic equilibrium triggered by stressful situations \cite{ellis2014beyond}. However, not all the stressors are detrimental, stressors can also have beneficial effects. 
+The duration and cyclicity of the stress is particularly important and chronic stress is unequivocally detrimental. The accumulative impact of neuroendocrine responses to chronic stressors might impair homeoastic mechanisms, setting the basis for depression, neurodegenerative disorders and other pathogenic conditions \cite{bisht2018chronic}. Financially stressed individuals with recurrent difficulties to making ends meet, suffer from psychological stress that in turn may lead to cellular damage due to inflammation and oxidative damage \cite{hayashi2015conversion}. 
+
+Figure \ref{fig:incomeresidency} shows the income distribution of the subjects estimated based on their home residency. 
 
 %A more in detail representation of the home residency is shown in figure \ref{fig:resid_detail}
 
@@ -337,13 +343,13 @@ Figure \ref{fig:incomeresidency} shows the home residency and the income distrib
 \subsection{Sleep}
 \label{ssse:sleep}
 
-A recent study shows that excessive amounts of tau in the cerebral spinal fluid and spinal cord of extremely sleep-deprived adults. The increase in tau surpassed the 30 percent increase in the Amyloid beta peptide. Thus, the two most important hallmarks of AD are affected by sleep \cite{holth2019sleep}.
+Animal studies show that the concentration of Amyloid beta decreases drastically during sleep, suggesting that the removal of metabolic debris could take place during sleep \cite{kang2009amyloid}, \cite{xie2013sleep}. Poor sleep is linked to AD, in particular, the sleep–wake cycle has an effect on levels of amyloid-beta in the brain \cite{ju2014sleep}. In a study that measured the association between amyloid-beta burden, relative to baseline, and sleep deprivation in 20 healthy controls \cite{shokri2018beta}, researchers reported that one night of sleep deprivation is sufficient for a significant increase in amyloid-beta in the right hippocampus and thalamus. This is in line with previous mouse studies that showed that brain levels of beta-amyloid decrease during sleep \cite{xie2013sleep}. Tau protein is also affected in altered sleep cycles, a recent study \cite{holth2019sleep} shows that excessive amounts of tau in the cerebral spinal fluid and spinal cord in extremely sleep-deprived adults. The increase in tau surpassed a $30\%$ increase in the Amyloid beta peptide. 
 
-Understanding the sleep-wake cycle is particularly important, animal studies show that the concentration of Amyloid beta decreases drastically during sleep, suggesting that during sleep removing of metabolic debris could take place \cite{kang2009amyloid}, \cite{xie2013sleep}. However, the causal link sleep-AD is unclear; Does lack of sleep causes AD or is the pathology responsible for disrupting the sleeping cycle?
-This chicken-and-egg problem can not be solved with correlational studies neither with meta analysis \cite{bubu2016sleep}.
+The two most important hallmarks of AD -amyloid plaques and tau aggregates- are thus, affected by sleep. 
+However, the causal link sleep-AD is unclear; Does lack of sleep causes AD or is the pathology responsible for disrupting the sleeping cycle? This chicken-and-egg problem can not be solved with correlational neither with meta-analysis studies. Nevertheless, meta analysis \cite{bubu2016sleep} have confirmed the association between sleep deprivation and cognitive impairment or AD, and can furthermore approximate an "average" magnitude of effect. More importantly, sleep-wake cycles can be approached as a modifiable risk factor of interest in the prevention of AD. 
 %https://www.sciencenews.org/article/sleep-brain-alzheimers-plaques-protein
-
-Figure \ref{fig:sleep} depicts features related to sleep patterns of the subjects. Daily naps are less common than what it could be expected from a Spaniard population aged 70 or more. $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects ($60\%$) report to snore during sleep. 
+ 
+Figure \ref{fig:sleep} depicts features related to sleep patterns in the \emph{Vallecas} cohort. Daily naps are less common than what it could be expected from a Spaniard population aged 70 or more. $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects ($60\%$) report to snore during sleep. 
 % YS remove TBI of charts
 \begin{figure}[H]
         \centering
@@ -358,15 +364,15 @@ Figure \ref{fig:sleep} depicts features related to sleep patterns of the subject
 
 In a recent study performing PET imaging repeated in three years time, volunteers aged 30-60 with no symptoms of dementia when the study began were divided into two groups: 34 people ate a Mediterranean diet (high fruits, vegetables, lean protein) and 36 people ate a Western diet (high in saturated fats and refined sugar). Researchers reported that at the onset of the study, people that ate Western diet already had more beta-amyloid deposits than those who ate a Mediterranean diet. The follow up scans showed an even greater difference in beta-amyloid deposits in the two groups, controlling for sex, age and genotype factors \cite{berti2018mediterranean}.
 
-AD leads to metabolic impairment which is visible in reductions in cerebral glucose uptake. The early detection of decline in brain glucose metabolism could be of interest as a potential therapeutic intervention of AD. Since hypometabolism precedes clinical symptoms of AD, enhancing glucose uptake \cite{duran2016glucose}, for example with ketone bodies \cite{gasior2006neuroprotective}, could have a neuroprotective effects. The ketogenic diet (high in animal fat and low in carbohydrates) is an clinically established nonpharmacological treatment for epilepsy \cite{vining1998multicenter}. It is plausible that neuroprotective effects (enahnced cell energetics) observed in epilepsy could be of use in the treatment of neurodegenerative diseases, protecting against neuronal death through antioxidant and anti-inflammatory actions. From a biochemical standpoint, replacing glucose by ketone bodies can be seen as a sensible choice, there is  research that reports improvement in cognitive functioning in older adults with memory disorders followed by increases of plasma ketone body via the administration of medium chain triglycerides (MCTs) \cite{reger2004effects}. However, the  downstream costs associated with the adherence to strict ketogenic nutritional recommendations are not fully understood. 
+AD leads to metabolic impairment which is visible in reductions in cerebral glucose uptake. The early detection of decline in brain glucose metabolism could be of interest as a potential therapeutic intervention of AD. Since hypometabolism precedes clinical symptoms of AD, enhancing glucose uptake \cite{duran2016glucose}, for example with ketone bodies \cite{gasior2006neuroprotective}, could have a neuroprotective effects. The ketogenic diet (high in animal fat and low in carbohydrates) is a clinically established nonpharmacological treatment for epilepsy \cite{vining1998multicenter}. It is plausible that neuroprotective effects (enhanced cell energetics) observed in epilepsy could be of use in the treatment of neurodegenerative diseases, protecting against neuronal death through antioxidant and anti-inflammatory actions. From a biochemical standpoint, replacing glucose by ketone bodies can be seen as a sensible choice and there is research reporting an improvement in cognitive functioning in older adults with memory disorders followed by increases of plasma ketone body via the administration of medium chain triglycerides (MCTs) \cite{reger2004effects}. However, the potential downstream costs associated with the adherence to strict ketogenic nutritional recommendations are not fully understood. 
 
 % Food
-Figure \ref{fig:food} depicts the type of food consumption as reported by the subjects in a questionnaire. $84\%$ of subjects consume olive oil $6/7$ days a week, $74\%$ bread, $44\%$ vegetables and $29\%$ report consuming sweets $6/7$ days a week.
+Figure \ref{fig:food} depicts the type of food consumption as reported by the subjects in a questionnaire.
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_food}
-        \caption{Histogram of type of weekly food consumption reported by the subjects in the first visit. The x-axis of each chart represents how many days a week they consume which type of food. The large majority of subjects report a daily consumption of bread, milk and olive oil.}
+        \caption{Histogram of type of weekly food consumption reported by the subjects in the first visit. The x-axis of each chart represents how many days a week they consume which type of food. The large majority of subjects report a daily consumption of bread, milk and olive oil. $84\%$ of subjects consume olive oil $6/7$ days a week, $74\%$ bread, $44\%$ vegetables and $29\%$ report consuming sweets $6/7$ days a week.}
         \label{fig:food}
 \end{figure}
 
@@ -382,7 +388,7 @@ Figure \ref{fig:diet} depicts the type diet based on the reported weekly food co
 
 %PhysicalExercise_s ['ejfre', 'ejminut']
 %YS: fig left, cambio 1,2 por dias a la semana
-Studies have shown a beneficial effect of physical exercise in the ageing brain, reporting increasing executive functioning and reduction in the expected decline of white and grey tissue density with increased fitness \cite{colcombe2003aerobic}. The effects of physical exercise in white matter of the ageing brain are particularly interesting. Overall, white matter volume variations seems to be more contained than grey matter volume variation during healthy ageing \cite{bartzokis2003white}. However, white matter decline is better observed with DTI-based measures rather than conventional T1-weighted imaging \cite{giorgio2010age}.
+Studies have shown a beneficial effect of physical exercise in the aging brain, reporting increasing executive functioning and reduction in the expected with age decline of white and gray tissue density with increased fitness \cite{colcombe2003aerobic}. The effects of physical exercise in white matter of the aging brain are particularly interesting. Overall, white matter volume variations seems to be more contained than gray matter volume variation during healthy aging \cite{bartzokis2003white}. However, white matter decline is better observed with DTI-based measures rather than conventional T1-weighted imaging \cite{giorgio2010age}.
 %Although there is variation among brain regions, it is thought that  We will explore this hypothesis in the future when we have available the segmentation of all the years.
 %YS yes!!
 
@@ -390,7 +396,7 @@ Figure \ref{fig:phys} depicts features related to physical exercise. The subject
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_phys}
-        \caption{Histogram of features related to physical exercise. On the left days/week that subjects report to practice physical exercise, and on the right the average duration of the sessions (\emph{less than 30 minutes, less than one hour, between one and tow hours, more than two hours})} 
+        \caption{Histogram of features related to physical exercise. On the left days/week that subjects report to practice physical exercise, and on the right the average duration of the sessions (\emph{less than 30 minutes, less than one hour, between one and two hours and more than two hours})} 
         \label{fig:phys}
 \end{figure}
 
@@ -413,14 +419,15 @@ Of interest, church goers are a minority in our population, $75\%$ never go to c
 \label{ssse:cardio}
 % Cardiovascular_s ['hta', 'hta_ini', 'glu', 'lipid', 'tabac', 'tabac_cant', 'tabac_fin', 'tabac_ini', 'sp', 'cor', 'cor_ini', 'arri', 'arri_ini', 'card', 'card_ini', 'tir', 'ictus', 'ictus_num', 'ictus_ini', 'ictus_secu']
 
-A recent genome-wide study has been able to identify genetic variants that confer risk of both cardiovascular disease and Alzheimer's disease \cite{broce2019dissecting}. Vascular risk factors for AD such as diabetes, heart failure, stroke, hypertension and smoking among others could be involved in cerebrovascular dysfunction and AD pathology. Cardiovascular risk factors and their associated brain mechanisms are believed to play a role in the onset of AD. 
+A recent genome-wide study has been able to identify genetic variants that confer a risk of both cardiovascular disease and Alzheimer's disease \cite{broce2019dissecting}. Vascular risk factors for AD such as diabetes, heart failure, stroke, hypertension and smoking among others could be involved in cerebrovascular dysfunction and AD pathology. Cardiovascular risk factors and their associated brain mechanisms are believed to play a role in the onset of AD. 
 A better understanding of the interplay between cardiovascular disorders is not only beneficial from a clinical perspective but also from a prevention point of view, suggesting behavioral interventions (smoking cessation, healthy diet etc. ) in early adult life \cite{de2010cardiac}.  
 
-Thyroid hormones have a significant impact on cardiac function and structure (excess thyroid hormone affects cardiovascular \cite{klein2007thyroid}), subjects also reported whether they suffer from hyper(hipo)thyroidism.
+Thyroid hormones have a significant impact on the cardiac system (excess thyroid hormone affects cardiovascular function \cite{klein2007thyroid}).
+%, subjects also reported whether they suffer from hyper(hipo)thyroidism 
 Stroke is a risk factor for coronary heart disease and subjects were asked if they had in the past hemorrhagic or ischemic cerebral ictus. Ischemic stroke and AD share pathophysiological mechanisms such as inflammation, immune exhaustion and neurovascular damage \cite{lucke2015common}. 
-The causality between AD and hemorrhagic stroke seems to be reversed (AD causes X, rather than the usual search of factor X that causes AD), patients who had Alzheimer's disease are at the highest risk of hemorrhagic stroke \cite{wang2014newly}.
+The causality narrative between AD and hemorrhagic stroke seems to be reversed (AD causes X, rather than the usual search of factor X that causes AD), patients who had Alzheimer's disease are at the highest risk of hemorrhagic stroke \cite{wang2014newly}.
 
-Figure \ref{fig:cardio} depicts features related to the cardiovascular health self reported in our population. The subjects were asked whether they suffer hypertension, angina and heart attack, glucose metabolism disorders, dyslipidemia (an abnormal amount of lipids in the blood), arrhythmias and smoking habits. The majority of subjects report to have hypertension $53\%$ vs $47\%$, this is in line with larger studies, for example in \cite{grau2011cardiovascular} 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ of men and $39\%$ of women, in \cite{lacruz2015prevalence}.
+Figure \ref{fig:cardio} depicts features related to the cardiovascular health self reported in the \emph{Vallecas} cohort. The subjects were asked whether they suffer hypertension, angina and heart attack, glucose metabolism disorders, dyslipidemia (an abnormal amount of lipids in the blood), arrhythmias and smoking habits. The majority of subjects report to have hypertension $53\%$ vs $47\%$, this is in line with larger studies, for example in \cite{grau2011cardiovascular} 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ of men and $39\%$ of women, in \cite{lacruz2015prevalence}.
 $27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 
 
@@ -446,7 +453,9 @@ $27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 %\label{ssse:tbe}
 %TraumaticBrainInjury_s ['tce', 'tce_con', 'tce_ini', 'tce_num', 'tce_secu']
 
-Traumatic brain injury (TBI) is associated with long-term and acute disorders whose onset and ethiology are insufficiently understood. Violent head displacements in vulnerable brains is a precursor of dementia. A plausible mechanism of transmission is the propagation of abnormal proteins along damaged white matter pathways. Furthermore, TBI can initiate cerebrovascular pathology, which in turn could mediate in neurodegeneration including AD-like dementias \cite{ramos2018traumatic}. See \cite{mendez2017relationship} for a summary of recent research on the TBI-dementia link. Figure \ref{fig:tce} shows the distribution of episodes (at least one) of traumatic brain injury in the \emph{Vallecas} cohort. 
+Traumatic brain injury (TBI) is associated with long-term and acute disorders whose onset and ethiology are insufficiently understood. Violent head displacements in vulnerable brains is a precursor of dementia. A plausible mechanism of transmission is the propagation of abnormal proteins along damaged white matter pathways. Furthermore, TBI can initiate cerebrovascular pathology, which in turn could mediate in neurodegeneration including AD-like dementias \cite{ramos2018traumatic}. See \cite{mendez2017relationship} for a summary of recent research on the TBI-dementia link. 
+
+Figure \ref{fig:tce} shows the distribution of episodes (at least one) of traumatic brain injury in the \emph{Vallecas} cohort. 
 
 \begin{figure}[H]
         \centering
@@ -458,7 +467,7 @@ Traumatic brain injury (TBI) is associated with long-term and acute disorders wh
 \section{Exploratory Data Analysis longitudinal variables}
 \label{se:eda_long}
 %'CognitivePerformance', 'Diagnoses', 'Neuropsychiatric', 'QualityOfLife', 'Genetics_s', 'SCD', 'Demographics', 'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
-The longitudinal variables are MRI, cognitive performance, Neuropsychiatric, QualityOfLife, and SCD.
+The longitudinal variables are MRI, cognitive performance, neuropsychiatric, quality of life, and subjective cognitive decline.
 
 \subsection{MRI}
 \label{sse:mri}
@@ -569,38 +578,38 @@ Figure \ref{fig:kde_subcortical} shows the histogram and the Kernel Density Esti
         \label{fig:kde_subcortical}
 \end{figure}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cognitive Performance}
 \label{sse:cogper}
-Figures \ref{fig:cogperyears} and \ref{fig:cogperyears} plot the evolution of four measures related to cognitive performance. Figure \ref{fig:cogperyears}, clockwise and starting in the top left chart: score for the number of words that start by the letter p in one minute, score for the number of animals that the subject can recall in one minute, score of speed processing of symbols and the score in the mini-mental examination (MMSE). 
+Figure \ref{fig:cogperyears} plots the evolution of four cognitive performance tests. Clockwise and starting on  the top left chart: number of words that start by the letter "p" in one minute, number of animals recalled in one minute, score of speed processing of symbols and the score in the mini-mental examination (MMSE). 
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
         \includegraphics[height=2.1in]{figures/p_visita}
-        \caption{Histograms of number of words that start by the letter p for each year.}
+        \caption{Histograms of the score of the number of words starting by a letter for each year's test.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
         \includegraphics[height=2.1in]{figures/animales_visita}
-        \caption{Histograms of number of animals recalled each year.}
+        \caption{Histograms of number of animals recalled each year's test.}
     \end{subfigure}%\quad
     
      \begin{subfigure}[t]{0.4\textwidth}
         \centering
         \includegraphics[height=2.1in]{figures/cn_visita}
-        \caption{Histograms of score of speed processing of symbols for each year.}
+        \caption{Histograms of score of speed processing of symbols for each year's test.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
         \includegraphics[height=2.1in]{figures/mmse_visita}
-        \caption{Histograms of score of the MMSE test score for each year.}
+        \caption{Histograms of score of the MMSE test score for each year's test.}
     \end{subfigure}%\quad
    
-    \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the seven years of \emph{Vallecas Project}. From left to right and top to bottom: number of words that start by letter p, number of animals, speed processing of symbols and MMSE.}
+    \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the years of \emph{Vallecas Project}. From left to right and top to bottom: number of words that start by letter p, number of animals, speed processing of symbols and MMSE.}
     \label{fig:cogperyears}
 \end{figure}
 

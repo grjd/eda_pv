@@ -16,15 +16,126 @@ import pandas as pd
 import importlib
 import sys
 
-sys.path.append('/Users/jaime/github/code/tensorflow/production')
-import descriptive_stats as pv
+#sys.path.append('/Users/jaime/github/code/tensorflow/production')
+#import descriptive_stats as pv
 #sys.path.append('/Users/jaime/github/papers/EDA_pv/code')
 import warnings
 from subprocess import check_output
-import area_under_curve 
+#import area_under_curve 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+def vallecas_features_dictionary(dataframe):
+	"""vallecas_features_dictionary: builds a dictionary with the feature clusters of PV
+	NOTE: hardcoded y1 yo year 6, same function in descriptive_stats.py to year7. 
+	YS: do a btter version of this function not hardcoded, with number of years as option
+	Args: None
+	Output: cluster_dict tpe is dict
+	""" 
+	cluster_dict = {'Demographics':['edad_visita1','edad_visita2', 'edad_visita3', 'edad_visita4', 'edad_visita5', \
+	'edad_visita6', 'edad_visita7', 'edadinicio_visita1', 'edadinicio_visita2', 'edadinicio_visita3',\
+	'edadinicio_visita4', 'edadinicio_visita5', 'edadinicio_visita6'],'Demographics_s':\
+	['renta','nivelrenta','educrenta', 'municipio', 'barrio','distrito','sexo','nivel_educativo',\
+	'anos_escolaridad','familial_ad','sdestciv','sdhijos', 'numhij','sdvive','sdocupac', 'sdresid', \
+	'sdtrabaja','sdeconom','sdatrb'],'SCD':['scd_visita1', \
+	'scd_visita2', 'scd_visita3', 'scd_visita4', 'scd_visita5', 'scd_visita6', \
+	'scdgroups_visita1', 'scdgroups_visita2', 'scdgroups_visita3', 'scdgroups_visita4', \
+	'scdgroups_visita5', 'scdgroups_visita6', 'peorotros_visita1', \
+	'peorotros_visita2', 'peorotros_visita3', 'peorotros_visita4', 'peorotros_visita5', \
+	'peorotros_visita6', 'preocupacion_visita1', 'preocupacion_visita2',\
+	'preocupacion_visita3', 'preocupacion_visita4', 'preocupacion_visita5', 'preocupacion_visita6',\
+	'eqm06_visita1', 'eqm06_visita2', 'eqm06_visita3', 'eqm06_visita4', \
+	'eqm06_visita5', 'eqm06_visita6', 'eqm07_visita1', 'eqm07_visita2', \
+	'eqm07_visita3', 'eqm07_visita4', 'eqm07_visita5','eqm81_visita1', 'eqm81_visita2', \
+	'eqm81_visita3', 'eqm81_visita4', 'eqm81_visita5', 'eqm82_visita1', 'eqm82_visita2', \
+	'eqm82_visita3', 'eqm82_visita4', 'eqm82_visita5', 'eqm83_visita1', 'eqm83_visita2', \
+	'eqm83_visita3', 'eqm83_visita4', 'eqm83_visita5', 'eqm84_visita1', 'eqm84_visita2', \
+	'eqm84_visita3', 'eqm84_visita4', 'eqm84_visita5', 'eqm85_visita1', 'eqm85_visita2', \
+	'eqm85_visita3', 'eqm85_visita4', 'eqm85_visita5', 'eqm86_visita1', 'eqm86_visita2', \
+	'eqm86_visita3', 'eqm86_visita4', 'eqm86_visita5','eqm09_visita1', 'eqm09_visita2', \
+	'eqm09_visita3', 'eqm09_visita4', 'eqm09_visita5', 'eqm10_visita1', 'eqm10_visita2',\
+	'eqm10_visita3', 'eqm10_visita4', 'eqm10_visita5', 'eqm10_visita6', \
+	'act_aten_visita1', 'act_aten_visita2', 'act_aten_visita3', 'act_aten_visita4', \
+	'act_aten_visita5', 'act_aten_visita6','act_orie_visita1',\
+	'act_orie_visita2', 'act_orie_visita3', 'act_orie_visita4', 'act_orie_visita5',\
+	'act_orie_visita6','act_mrec_visita1', 'act_mrec_visita2', \
+	'act_mrec_visita3', 'act_mrec_visita4', 'act_mrec_visita5', 'act_mrec_visita6',\
+	'act_expr_visita1', 'act_expr_visita2', 'act_expr_visita3', \
+	'act_expr_visita4', 'act_expr_visita5', 'act_expr_visita6', \
+	'act_memt_visita1', 'act_memt_visita2', 'act_memt_visita3', 'act_memt_visita4', \
+	'act_memt_visita5', 'act_memt_visita6', 'act_prax_visita1', \
+	'act_prax_visita2', 'act_prax_visita3', 'act_prax_visita4', 'act_prax_visita5', \
+	'act_prax_visita6','act_ejec_visita1', 'act_ejec_visita2', \
+	'act_ejec_visita3', 'act_ejec_visita4', 'act_ejec_visita5', 'act_ejec_visita6',\
+	'act_comp_visita1', 'act_comp_visita2', 'act_comp_visita3', \
+	'act_comp_visita4', 'act_comp_visita5', 'act_comp_visita6', \
+	'act_visu_visita1', 'act_visu_visita2', 'act_visu_visita3', 'act_visu_visita4', \
+	'act_visu_visita5', 'act_visu_visita6'],'Neuropsychiatric':\
+	['act_ansi_visita1', 'act_ansi_visita2', 'act_ansi_visita3', 'act_ansi_visita4',\
+	'act_ansi_visita5', 'act_ansi_visita6','act_apat_visita1',\
+	'act_apat_visita2', 'act_apat_visita3', 'act_apat_visita4', 'act_apat_visita5', \
+	'act_apat_visita6','act_depre_visita1', 'act_depre_visita2',\
+	'act_depre_visita3', 'act_depre_visita4', 'act_depre_visita5', 'act_depre_visita6',\
+	'gds_visita1', 'gds_visita2', 'gds_visita3', 'gds_visita4', \
+	'gds_visita5', 'gds_visita6', 'stai_visita1', 'stai_visita2', \
+	'stai_visita3', 'stai_visita4', 'stai_visita5', 'stai_visita6'],\
+	'CognitivePerformance':['animales_visita1', 'animales_visita2', 'animales_visita3', \
+	'animales_visita4','animales_visita5','animales_visita6',\
+	'p_visita1', 'p_visita2', 'p_visita3', 'p_visita4','p_visita5','p_visita6',\
+	'mmse_visita1', 'mmse_visita2', 'mmse_visita3', 'mmse_visita4','mmse_visita5', 'mmse_visita6', \
+	'reloj_visita1', 'reloj_visita2','reloj_visita3', 'reloj_visita4', 'reloj_visita5', 'reloj_visita6', \
+	#'faq_visita1', 'faq_visita2', 'faq_visita3', 'faq_visita4', 'faq_visita5', 'faq_visita6','faq_visita7',\
+	'fcsrtlibdem_visita1', 'fcsrtlibdem_visita2', 'fcsrtlibdem_visita3', \
+	'fcsrtlibdem_visita4', 'fcsrtlibdem_visita5', 'fcsrtlibdem_visita6', \
+	'fcsrtrl1_visita1', 'fcsrtrl1_visita2', 'fcsrtrl1_visita3', 'fcsrtrl1_visita4', 'fcsrtrl1_visita5',\
+	'fcsrtrl1_visita6', 'fcsrtrl2_visita1', 'fcsrtrl2_visita2', 'fcsrtrl2_visita3',\
+	'fcsrtrl2_visita4', 'fcsrtrl2_visita5', 'fcsrtrl2_visita6', 'fcsrtrl3_visita1', \
+	'fcsrtrl3_visita2', 'fcsrtrl3_visita3', 'fcsrtrl3_visita4', 'fcsrtrl3_visita5', 'fcsrtrl3_visita6', \
+	'cn_visita1', 'cn_visita2', 'cn_visita3', 'cn_visita4','cn_visita5', 'cn_visita6',\
+	#'cdrsum_visita1', 'cdrsum_visita2', 'cdrsum_visita3', 'cdrsum_visita4', 'cdrsum_visita5','cdrsum_visita6', 'cdrsum_visita7'
+	],'QualityOfLife':['eq5dmov_visita1', 'eq5dmov_visita2', 'eq5dmov_visita3',\
+	'eq5dmov_visita4', 'eq5dmov_visita5', 'eq5dmov_visita6','eq5dcp_visita1', 'eq5dcp_visita2',\
+	'eq5dcp_visita3', 'eq5dcp_visita4', 'eq5dcp_visita5', 'eq5dcp_visita6','eq5dact_visita1',\
+	'eq5dact_visita2', 'eq5dact_visita3', 'eq5dact_visita4', 'eq5dact_visita5', 'eq5dact_visita6',\
+	'eq5ddol_visita1', 'eq5ddol_visita2', 'eq5ddol_visita3', 'eq5ddol_visita4', 'eq5ddol_visita5', 'eq5ddol_visita6', \
+	'eq5dans_visita1', 'eq5dans_visita2', 'eq5dans_visita3', 'eq5dans_visita4', 'eq5dans_visita5',\
+	'eq5dans_visita6',  'eq5dsalud_visita1', 'eq5dsalud_visita2', 'eq5dsalud_visita3', \
+	'eq5dsalud_visita4', 'eq5dsalud_visita5', 'eq5dsalud_visita6', 'eq5deva_visita1', \
+	'eq5deva_visita2', 'eq5deva_visita3', 'eq5deva_visita4', 'eq5deva_visita5', 'eq5deva_visita6', \
+	'valcvida2_visita1', 'valcvida2_visita2', 'valcvida2_visita3', 'valcvida2_visita4',\
+	'valcvida2_visita6', 'valsatvid2_visita1', 'valsatvid2_visita2', 'valsatvid2_visita3',\
+	'valsatvid2_visita4', 'valsatvid2_visita5', 'valsatvid2_visita6', 'valfelc2_visita1',\
+	'valfelc2_visita2', 'valfelc2_visita3', 'valfelc2_visita4', 'valfelc2_visita5', 'valfelc2_visita6' \
+	],'SocialEngagement_s':['relafami', 'relaamigo','relaocio_visita1','rsoled_visita1'],'PhysicalExercise_s':['ejfre', 'ejminut'], 'Diet_s':['alaceit', 'alaves', 'alcar', \
+	'aldulc', 'alemb', 'alfrut', 'alhuev', 'allact', 'alleg', 'alpan', 'alpast', 'alpesblan', 'alpeszul', \
+	'alverd','dietaglucemica', 'dietagrasa', 'dietaproteica', 'dietasaludable'],'EngagementExternalWorld_s':\
+	['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13', 'a14'],\
+	'Cardiovascular_s':['hta', 'hta_ini','glu','lipid','tabac', 'tabac_cant', 'tabac_fin', 'tabac_ini',\
+	'sp', 'cor','cor_ini','arri','arri_ini','card','card_ini','tir','ictus','ictus_num','ictus_ini','ictus_secu'],\
+	'PsychiatricHistory_s':['depre', 'depre_ini', 'depre_num', 'depre_trat','ansi', 'ansi_ini', 'ansi_num', 'ansi_trat'],\
+	'TraumaticBrainInjury_s':['tce', 'tce_con', 'tce_ini', 'tce_num', 'tce_secu'],'Sleep_s':['sue_con', 'sue_dia', 'sue_hor',\
+	'sue_man', 'sue_mov', 'sue_noc', 'sue_pro', 'sue_rec', 'sue_ron', 'sue_rui', 'sue_suf'],'Anthropometric_s':['lat_manual',\
+	'pabd','peso','talla','audi','visu', 'imc'],'Genetics_s':['apoe', 'apoe2niv'],'Diagnoses':['conversionmci','dx_corto_visita1', \
+	'dx_corto_visita2', 'dx_corto_visita3', 'dx_corto_visita4', 'dx_corto_visita5', 'dx_corto_visita6', 'dx_corto_visita7',\
+	'dx_largo_visita1', 'dx_largo_visita2', 'dx_largo_visita3', 'dx_largo_visita4', 'dx_largo_visita5', 'dx_largo_visita6',\
+	'dx_largo_visita7', 'dx_visita1', 'dx_visita2', 'dx_visita3', 'dx_visita4', 'dx_visita5', 'dx_visita6', 'dx_visita7',\
+	'ultimodx','edad_conversionmci', 'edad_ultimodx','tpo1.2', 'tpo1.3', 'tpo1.4', 'tpo1.5', 'tpo1.6', 'tpo1.7', \
+	'tpoevol_visita1', 'tpoevol_visita2', 'tpoevol_visita3', 'tpoevol_visita4', 'tpoevol_visita5', 'tpoevol_visita6',\
+	'tpoevol_visita7','tiempodementia', 'tiempomci']}
+	#check thatthe dict  exist in the dataset
+	for key,val in cluster_dict.items():
+		print('Checking if {} exists in the dataframe',key)
+		if set(val).issubset(dataframe.columns) is False:
+			print('ERROR!! some of the dictionary:{} are not column names!! \n', key)
+			print(dataframe[val])
+			#return None
+		else:
+			print('		Found the cluster key {} and its values {} in the dataframe columns\n',key, val)
+	# remove features do not need
+	#dataset['PhysicalExercise'] = dataset['ejfre']*dataset['ejminut']
+	#list_feature_to_remove = []
+	#dataframe.drop([list_feature_to_remove], axis=1,  inplace=True)
+	return cluster_dict
 
 def plot_figures_static_of_paper(dataframe):
 	"""plot figures of EDA paper
@@ -202,7 +313,7 @@ def plot_figures_static_of_paper(dataframe):
 	tce_list = ['tce']
 	newdf = dataframe2plot.groupby('tce')['tce'].agg(['count'])
 	if newdf.ix[9]['count'] >0: newdf = newdf.ix[0:9-1] #newdf[0:-1]	
-	newdf.plot(ax=axes,kind='bar', color='indianred')
+	newdf.plot(ax=axes,kind='bar', color='tan')
 	axes.set_title(r'suffered TBI', color='C0')
 	axes.set_xticklabels([r'No',r'Yes'])
 	axes.set_ylabel('# subjects')
@@ -251,8 +362,8 @@ def plot_figures_static_of_paper(dataframe):
 	axes[0,1].set_xlabel('')
 	#axes[1].set_ylabel('# subjects')
 	axes[0,1].set_title(r'BMI', color='C0')
-	axes[0,1].axvline(x=25, color="red", linestyle='--')
-	axes[0,1].axvline(x=30, color="red", linestyle='--')
+	#axes[0,1].axvline(x=25, color="red", linestyle='--')
+	#axes[0,1].axvline(x=30, color="red", linestyle='--')
 	#axes[0,1].set_xticklabels([r'0-1/2h',r'1/2-1h',r'1-2h',r'2-3h'])
 	# cor angina
 	newdf = dataframe2plot.groupby('cor')['cor'].agg(['count'])
@@ -440,7 +551,6 @@ def plot_figures_static_of_paper(dataframe):
 	axes[2,2].set_xlabel(' ')
 	plt.tight_layout()
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
-	pdb.set_trace()
 	return
 
 def compare_OLS_models(regs_list, model_names):
@@ -1623,6 +1733,160 @@ def compute_contingency_table(df, labelx, labely):
 	oddsratio, pvalue = stats.fisher_exact(ctable.values)
 	return [oddsratio, pvalue ]
 
+def plot_ts_figures_of_paper(dataframe, features_dict):
+	"""plot_ts_figures_of_paper calls to plot_figures_longitudinal_timeseries_of_paper
+	"""
+	print('plotting time series QoL longitudinal features with mean and sigma \n\n')
+	matching_features = [s for s in features_dict['QualityOfLife'] if "eq5dmov_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	matching_features = [s for s in features_dict['QualityOfLife'] if "eq5ddol_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	matching_features = [s for s in features_dict['QualityOfLife'] if "eq5dsalud_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	matching_features = [s for s in features_dict['QualityOfLife'] if "valfelc2_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	# do not plot time series of neuropsychiatric bnecause they are z-transform
+	#matching_features = [s for s in features_dict['Neuropsychiatric'] if "gds_" in s]
+	#plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	#matching_features = [s for s in features_dict['Neuropsychiatric'] if "stai_" in s]
+	#plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	print('plotting time series CogPerf longitudinal features with mean and sigma \n\n')
+	matching_features = [s for s in features_dict['CognitivePerformance'] if "animales_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	matching_features = [s for s in features_dict['CognitivePerformance'] if "p_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	matching_features = [s for s in features_dict['CognitivePerformance'] if "cn_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	matching_features = [s for s in features_dict['CognitivePerformance'] if "mmse_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	# matching_features = [s for s in features_dict['CognitivePerformance'] if "bus_int" in s]
+	# plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	# matching_features = [s for s in features_dict['CognitivePerformance'] if "bus_sum" in s]
+	# plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	# matching_features = [s for s in features_dict['CognitivePerformance'] if "bus_meana" in s]
+	# plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	matching_features = [s for s in features_dict['CognitivePerformance'] if "fcsrtlibdem_" in s]
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	return 
+
+def plot_figures_longitudinal_timeseries_of_paper(dataframe):
+	""" plot_figures_longitudinal_timeseries_of_paper
+	Args:
+	Output:
+	"""
+	figures_dir ='/Users/jaime/github/papers/EDA_pv/figures'
+	fig  = plt.figure(figsize=(8,6))
+	cols = dataframe.columns
+	fig_filename = cols[0] +'_years'
+	nb_years = len(cols)
+	x = np.linspace(1, nb_years,nb_years)
+	mu_years = [0] * nb_years
+	std_years = [0] * nb_years
+	title = cols[0][:-1]+'1-'+str(nb_years)
+	ylabel = '$\\mu$ +- $\\sigma$'
+	for ix, name in enumerate(cols):
+		mu_years[ix] = dataframe[name].mean()
+		std_years[ix] = dataframe[name].std()
+		if cols[0].find('dx_corto_') > -1:
+			mu_years[ix] = float(np.sum(dataframe[name]>0))/dataframe[name].count()
+			std_years[ix] = mu_years[ix]
+			ylabel = 'Ratio subjects with MCI/AD diagnose in each year'
+		elif cols[0].find('dx_largo_') > -1:
+			#plot scd, scd plus and mci
+			print('plot healthy, scd, scd plus, mci and ad') 
+			mu_years[ix] = float(np.sum(dataframe[name]==2))/dataframe[name].count()
+			std_years[ix] = mu_years[ix]
+			ylabel = 'Ratio subjects with SCD + diagnose in each year'
+			title = 'SCD Plus visits 1,7'
+
+		#textlegend[ix] = (mu_years[ix],std_years[ix])
+	mu_years = np.asarray(mu_years)
+	std_years = np.asarray(std_years)
+	fill_max, fill_min = mu_years-std_years, mu_years+std_years
+	plt.plot(x, mu_years, 'k-')
+	# if cols[0].find('stai_') ==0:
+	# 	stai_yrs = []
+	# 	for i in range(1,nb_years+1):stai_yrs.append('stai_visita'+str(i))
+	# 	# stai is a z transform -2, 4
+	# 	fill_max, fill_min = dataframe[stai_yrs].max().max(), dataframe[stai_yrs].min().min()
+	# 	plt.ylim(top=fill_max+0.2, bottom=fill_min-0.2)
+	# else:
+	plt.ylim(top=np.max(mu_years)+ np.max(std_years), bottom=0)
+
+	if cols[0].find('dx_') <= -1:plt.fill_between(x, fill_max, fill_min, facecolor='papayawhip', interpolate=True)
+	plt.ylabel(ylabel)
+	plt.xlabel('years')
+	plt.title(title)
+	#plt.text(x, mu_years, textlegend, fontdict=font)
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	plt.show()
+
+def plot_histograma_one_longitudinal(df, longit_pattern=None):
+	""" plot_histogram_pair_variables: plot histograma for each year of a longitudinal variable
+	Args: Pandas dataframe , regular expression pattern eg mmse_visita """
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures'
+	if type(longit_pattern) is list:
+		longit_status_columns = longit_pattern
+	else:
+		longit_status_columns = [x for x in df.columns if (longit_pattern.match(x))]
+	fig_filename = longit_status_columns[0][:-1]
+	df[longit_status_columns].head(10)
+	# plot histogram for longitudinal pattern
+
+	nb_rows, nb_cols = 2, 3 #for 7 years :: 2,4  and row,col = int(i/(2**nb_rows)), int(i%(nb_cols))
+	fig, ax = plt.subplots(nb_rows, nb_cols, sharey=False, sharex=False)
+	fig.set_size_inches(15,10)
+	rand_color = np.random.rand(3,)
+	for i in range(len(longit_status_columns)):
+		# for 7 years
+		#row,col = int(i/(2**nb_rows)), int(i%(nb_cols))
+		row,col = int(i/nb_cols), int(i%(nb_cols))
+		histo  = df[longit_status_columns[i]].value_counts()
+		min_r, max_r =df[longit_status_columns[i]].min(), df[longit_status_columns[i]].max()
+		#sns.distplot(df[longit_status_columns[i]], color='g', bins=None, hist_kws={'alpha': 0.4})
+		ax[row,col].bar(histo.index, histo, align='center', color=rand_color)
+		ax[row,col].set_xticks(np.arange(int(min_r),int(max_r+1)))
+		ax[row,col].set_xticklabels(np.arange(int(min_r),int(max_r+1)),fontsize=8, rotation='vertical')
+		ax[row,col].set_title(longit_status_columns[i])
+	plt.tight_layout(pad=3.0, w_pad=0.5, h_pad=1.0)
+	#remove axis for 8th year plot
+	#ax[-1, -1].axis('off')
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	plt.show()
+
+def plot_figures_longitudinal_of_paper(dataframe, features_dict):
+	"""plot_figures_longitudinal_of_paper plot longitudinal figures of EDA paper
+	Args: list of clusters, the actual features to plot are hardcoded 
+	Output : 0
+	"""
+	# dataframe2plot remove 9s no sabe no contesta
+	print('Plotting longitudional features....\n')
+	list_clusters = features_dict.keys()
+	for ix in list_clusters:
+		print('Longitudinal histogram of group:{}',format(ix))
+		list_longi = features_dict[ix]
+		type_of_tests = []
+		if ix is 'CognitivePerformance':
+			type_of_tests = ['bus_int_', 'bus_sum_','bus_meana_','fcsrtlibdem_','p_', 'cn_', 'animales_', 'mmse_']
+			type_of_tests=type_of_tests[3:]
+		elif ix is 'Neuropsychiatric':
+			#type_of_tests = ['stai_','gds_', 'act_ansi_', 'act_depre_']
+			type_of_tests = ['gds_','stai_']
+		elif ix is 'QualityOfLife':
+			type_of_tests = ['eq5dmov_','eq5ddol_','eq5dsalud_','valfelc2_']
+		#elif ix is 'Diagnoses':
+		#	type_of_tests = ['dx_corto_', 'dx_largo_']
+		#elif ix is 'SCD':
+		#dificultad orientarse  86, 84 toma decisiones, 10 perdida memo afecta su vida
+		#	type_of_tests = ['scd_','peorotros_', 'preocupacion_', 'eqm86_','eqm84_','eqm10_']
+		if len(type_of_tests) > 0:
+			for jj in type_of_tests:
+				longi_items_per_group = filter(lambda k: jj in k, list_longi)
+				df_longi = dataframe[longi_items_per_group]
+				plot_histograma_one_longitudinal(df_longi, longi_items_per_group)
+	print('DONE...plot_figures_longitudinal_of_paper Exiting\n')
+	return 0	
 
 def main():
 	# Open csv with MRI data
@@ -1635,11 +1899,26 @@ def main():
 	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
 	dataframe_orig = dataframe.copy()
 	print('Build dictionary with features ontology and check the features are in the dataframe\n') 
-	features_dict = pv.vallecas_features_dictionary(dataframe)
+	#features_dict is the list of clusters, the actual features to plot are hardcoded
+	features_dict = vallecas_features_dictionary(dataframe)
+	##########################################
 
-	# plot charts for EDA paper
-	plot_figures_static_of_paper(dataframe)
+	print('Plotting histograms for static variables \n\n')
+	#plot_figures_static_of_paper(dataframe)
+
+	##########################################
+	
+	##########################################
+	print('Plotting histograms for longitudinal variables \n\n')
+	plot_figures_longitudinal_of_paper(dataframe, features_dict)
+	print('Plotting time series long variables mean + std \n\n')
+	plot_ts_figures_of_paper(dataframe, features_dict)
 	pdb.set_trace()
+	# select rows with 5 visits
+	df_loyals = dataframe[['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']].notnull()
+	rows_loyals = df_loyals.all(axis=1)
+	##########################################
+
 	# only study rows with conversionmci to some value
 	dataframe_conv = dataframe[dataframe['conversionmci'].notnull()]
 	
