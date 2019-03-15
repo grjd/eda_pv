@@ -863,9 +863,9 @@ Figure \ref{fig:diag1} plots the time series for the diagnoses administered to s
 %YS do normality gaussan tests and compare with risk book taleb mandelbrot
 % take ntes on it
 
-In the previous sections we studied the dataset unidimensionally, that is, we plot distributions and compute statistics one variable at a time. Here we perform correlational analysis, that is, two or more dimensions, in order to study the effect of some variables upon others. Thus, the aim here is to try to come to grips with the mechanisms that could have generated the data, this is the realms of inferential statistics and is different from descriptive statistics and data visualization. Inferential statistics relies on models, so in this section we will plot not only data but fitting of the model to the observed data.
+In the previous sections we studied the dataset unidimensionally, that is, we plot distributions and compute statistics one variable at a time. Here we perform correlational analysis, that is, two or more dimensions, in order to study the effect of some variables upon others. Thus, the aim here is to try to come to grips with the mechanisms that could have generated the data, this is the realms of inferential statistics and is different from descriptive statistics and data visualization. Inferential statistics relies on models, so in this section we will plot not only data but the fitting a model to the observed data.
 
-We exhaustively go through each category of features () to first perform a visual inspection of whether the features affect the rate of conversion. The contingency table will gives us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect shown in the contingency table  using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. If the p-value is small enough to be considered relevant we additionally study if the feature has an effect in brain capacity and cognitive reserve measured with brain structure volumes and the Buschke test scores respectively.
+We exhaustively go through each category of features to first perform a visual inspection of whether the features affect the rate of conversion to MCI. The contingency table will gives us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect shown in the contingency table  using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. If the p-value is small enough to be considered relevant we additionally study if the feature has an effect in brain capacity and cognitive reserve measured with brain structure volumes and the Buschke test scores respectively.
 This process of discovery of features is shown in Figure \ref{fig:anovachi}.
 %previous check for ANOVA assumption-normality
 
@@ -1054,8 +1054,6 @@ Figure \ref{fig:groupby_tbi_mci} shows the results of grouping \emph{Conversion 
         \label{fig:groupby_tbi_mci}
 \end{figure}
 
-
-
 \paragraph{Brain subcortical structures}
 
 Figures \ref{fig:groupby_HipAmyAcc_mciQuart} and \ref{fig:groupby_cardio_mci} show the results of grouping \emph{Conversion to MCI} by the segmented size of subcortical structures. 
@@ -1097,6 +1095,8 @@ Figure \ref{fig:scatternative} shows the results of brain extraction size (the f
 %Compare posterior year n year n+1 for a bunch of feature, the HO is that they don't change , if they change, diff posterior, can be because that feature changes with time(at the light of our data) or because the effect of those that left, to investigate take within year n the two groups remain and left and do Bayesian posterior if Ho true then tej feature changes in time naturally.
 %At the end we can get the list of features that we expect to change in time at different lags and those that not.
 
+
+
 \subsection{Normality test}
 \label{sse:normal}
 The assumptions of ANOVa are: samples are independent, normality (this is not the case more often than what it thought) to test for normality we can use QQ plot or use normality tests. To test whether a dataset is drawn from a particular distribution (e.g. normal or Gaussian) there is a number of tests: Anderson-Darling, Kolmogorov-Smirnov, Shapiro-Wilk, Ryan-Joiner and others. 
@@ -1110,10 +1110,7 @@ For example, the human height is not normal, it cant be because it is bounded, i
 Instead of asking whether data comes from a distribution, the good question is can you tell whether a distribution is a good model for a dataset?
  And the best approach is to create a visualization that compares the data and the model eg. plot the CDF (or the QQ plot) of the model (known distributions I know the parameters as well) and the data in the same axes. If you know the family of distribution but do not the parameters you can estimate the parameters, and then compare the estimated distribution to the data.
 
-
-
-
-
+%YS this maye while we justify if we use _loyals time serie sor not
 \subsection{Leavers and remainers. Are they different?}
 \label{sse:res}
 ii. 1-way anova to test if a continuous (longitudinal) features changes across time, so here we study who are the leavers and the remainers, and if the population substantially changes across time. The null hypothesis is that the mean of features is the same for all the years. For example, the mean of the size of the hipppocampus is the same every year. The problem with this is (a part from the fact we still don't have brain data for y2 to yN) is that subjects drop every year so previous to draw any conclusion from this or other test we have to know first if the leavers are different from the remainers, that is, is there a systematic change in the population that is being observed from year 1 to year N?
@@ -1249,6 +1246,9 @@ Now, we need a distribution for the means, since they are real valued we use Nor
 
 Having fully specified our probabilistic model (all the parameters, mu, precision and dimensions) we can compute the comparisons, we compute the difference of means,difference of stds and rthe ffect size (difference of means divided by the squared root of the pooled estimates of the std).
 Finally, we can fit the model and evaluate its output
+
+\subsection{Time series clustering}
+\label{se:res}
 
 \section{Results}
 \label{se:res}

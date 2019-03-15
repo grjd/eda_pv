@@ -146,6 +146,7 @@ def plot_figures_static_of_paper(dataframe):
 	figures_dir ='/Users/jaime/github/papers/EDA_pv/figures'
 
 	fig_filename = 'Fig_visits.png'
+
 	print('Plotting Figure 1 (Fig_visits.png): number of visits in 7 years')
 	nb_visits= [np.sum(dataframe['mmse_visita1']>0), np.sum(dataframe['mmse_visita2']>0), np.sum(dataframe['mmse_visita3']>0),\
 	np.sum(dataframe['mmse_visita4']>0), np.sum(dataframe['mmse_visita5']>0), np.sum(dataframe['mmse_visita6']>0),np.sum(dataframe['mmse_visita7']>0)]
@@ -1733,18 +1734,18 @@ def compute_contingency_table(df, labelx, labely):
 	oddsratio, pvalue = stats.fisher_exact(ctable.values)
 	return [oddsratio, pvalue ]
 
-def plot_ts_figures_of_paper(dataframe, features_dict):
+def plot_ts_figures_of_paper(dataframe, features_dict, figname=None):
 	"""plot_ts_figures_of_paper calls to plot_figures_longitudinal_timeseries_of_paper
 	"""
 	print('plotting time series QoL longitudinal features with mean and sigma \n\n')
 	matching_features = [s for s in features_dict['QualityOfLife'] if "eq5dmov_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)	
 	matching_features = [s for s in features_dict['QualityOfLife'] if "eq5ddol_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)	
 	matching_features = [s for s in features_dict['QualityOfLife'] if "eq5dsalud_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)	
 	matching_features = [s for s in features_dict['QualityOfLife'] if "valfelc2_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)	
 	# do not plot time series of neuropsychiatric bnecause they are z-transform
 	#matching_features = [s for s in features_dict['Neuropsychiatric'] if "gds_" in s]
 	#plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
@@ -1752,13 +1753,13 @@ def plot_ts_figures_of_paper(dataframe, features_dict):
 	#plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
 	print('plotting time series CogPerf longitudinal features with mean and sigma \n\n')
 	matching_features = [s for s in features_dict['CognitivePerformance'] if "animales_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)	
 	matching_features = [s for s in features_dict['CognitivePerformance'] if "p_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)
 	matching_features = [s for s in features_dict['CognitivePerformance'] if "cn_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)
 	matching_features = [s for s in features_dict['CognitivePerformance'] if "mmse_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)
 	# matching_features = [s for s in features_dict['CognitivePerformance'] if "bus_int" in s]
 	# plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
 	# matching_features = [s for s in features_dict['CognitivePerformance'] if "bus_sum" in s]
@@ -1766,10 +1767,10 @@ def plot_ts_figures_of_paper(dataframe, features_dict):
 	# matching_features = [s for s in features_dict['CognitivePerformance'] if "bus_meana" in s]
 	# plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
 	matching_features = [s for s in features_dict['CognitivePerformance'] if "fcsrtlibdem_" in s]
-	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])
+	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)
 	return 
 
-def plot_figures_longitudinal_timeseries_of_paper(dataframe):
+def plot_figures_longitudinal_timeseries_of_paper(dataframe, figname=None):
 	""" plot_figures_longitudinal_timeseries_of_paper
 	Args:
 	Output:
@@ -1778,6 +1779,10 @@ def plot_figures_longitudinal_timeseries_of_paper(dataframe):
 	fig  = plt.figure(figsize=(8,6))
 	cols = dataframe.columns
 	fig_filename = cols[0] +'_years'
+	if figname is not None:
+		fig_filename= fig_filename + figname
+	#if sum(dataframe[['tpo1.2','tpo1.3']].notnull().all(axis=1)==False) == 0 is True:
+	#	fig_filename = fig_filename +'_loyals'
 	nb_years = len(cols)
 	x = np.linspace(1, nb_years,nb_years)
 	mu_years = [0] * nb_years
@@ -1821,7 +1826,7 @@ def plot_figures_longitudinal_timeseries_of_paper(dataframe):
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 	plt.show()
 
-def plot_histograma_one_longitudinal(df, longit_pattern=None):
+def plot_histograma_one_longitudinal(df, longit_pattern=None, figname=None):
 	""" plot_histogram_pair_variables: plot histograma for each year of a longitudinal variable
 	Args: Pandas dataframe , regular expression pattern eg mmse_visita """
 	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures'
@@ -1852,10 +1857,14 @@ def plot_histograma_one_longitudinal(df, longit_pattern=None):
 	#remove axis for 8th year plot
 	#ax[-1, -1].axis('off')
 	plt.tight_layout()
+	if figname is not None:
+		fig_filename = fig_filename + figname
+	#if sum(df[['tpo1.2','tpo1.3']].notnull().all(axis=1)==False) == 0 is True:
+	#	fig_filename = fig_filename+'_loyals'
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 	plt.show()
 
-def plot_figures_longitudinal_of_paper(dataframe, features_dict):
+def plot_figures_longitudinal_of_paper(dataframe, features_dict, figname=None):
 	"""plot_figures_longitudinal_of_paper plot longitudinal figures of EDA paper
 	Args: list of clusters, the actual features to plot are hardcoded 
 	Output : 0
@@ -1884,9 +1893,23 @@ def plot_figures_longitudinal_of_paper(dataframe, features_dict):
 			for jj in type_of_tests:
 				longi_items_per_group = filter(lambda k: jj in k, list_longi)
 				df_longi = dataframe[longi_items_per_group]
-				plot_histograma_one_longitudinal(df_longi, longi_items_per_group)
+				plot_histograma_one_longitudinal(df_longi, longi_items_per_group, figname)
 	print('DONE...plot_figures_longitudinal_of_paper Exiting\n')
 	return 0	
+
+def select_rows_all_visits(dataframe, visits):
+	"""select_rows_all_visits
+	Args:
+	Output: df with the rows of subjects with all visits
+	"""
+	
+	#df2,df3,df4,df5,df6 = dataframe[['tpo1.2']].notnull(),dataframe[['tpo1.3']].notnull(),dataframe[['tpo1.4']].notnull(),dataframe[['tpo1.5']].notnull(),dataframe[['tpo1.6']].notnull()
+	#print('Visits per year 2..6:',np.sum(df2)[0], np.sum(df3)[0],np.sum(df4)[0],np.sum(df5)[0],np.sum(df6)[0])
+	df_loyals = dataframe[visits].notnull()
+	#y4 749 visits[:-2] y5 668 visits[:-1]
+
+	rows_loyals = df_loyals.all(axis=1)
+	return dataframe[rows_loyals]
 
 def main():
 	# Open csv with MRI data
@@ -1896,6 +1919,12 @@ def main():
 	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-10March2019.csv'
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures/'
 	dataframe = pd.read_csv(csv_path)
+	#testing here cut paste
+	# select rows with 5 visits
+	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
+	df_loyals = select_rows_all_visits(dataframe, visits)
+	
+	#########################
 	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
 	dataframe_orig = dataframe.copy()
 	print('Build dictionary with features ontology and check the features are in the dataframe\n') 
@@ -1910,13 +1939,17 @@ def main():
 	
 	##########################################
 	print('Plotting histograms for longitudinal variables \n\n')
-	plot_figures_longitudinal_of_paper(dataframe, features_dict)
+	#plot_figures_longitudinal_of_paper(df_loyals, features_dict, '_loyals')
+	#plot_figures_longitudinal_of_paper(dataframe, features_dict)
+	
 	print('Plotting time series long variables mean + std \n\n')
+	plot_ts_figures_of_paper(df_loyals, features_dict, '_loyals')
 	plot_ts_figures_of_paper(dataframe, features_dict)
 	pdb.set_trace()
 	# select rows with 5 visits
-	df_loyals = dataframe[['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']].notnull()
-	rows_loyals = df_loyals.all(axis=1)
+	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
+	df_loyals = select_rows_all_visits(dataframe, visits)
+	pdb.set_trace()
 	##########################################
 
 	# only study rows with conversionmci to some value
@@ -1980,9 +2013,6 @@ def main():
 	'R_Puta_visita1':[],'R_Thal_visita1':[]}
 	df_nooutliers, outliers_dictio = identify_outliers(dataframe[lst], dictio_s)
 	
-
-
-
 	###########
 	lst2plotgroup = mri_subcortical_cols + ['conversionmci']
 	plot_histograma_T1_categorical(df_nooutliers[lst2plotgroup], 'conversionmci')
