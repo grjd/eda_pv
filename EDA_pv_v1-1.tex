@@ -121,7 +121,7 @@
 %    \\ \emph{Valderrebollo, 5, 28031 Madrid}
 % }
 \author{
-    textbf{\large{Big Data Research and Analytics Unit}}   \\  \\
+    \textbf{\large{Big Data Research and Brain Analytics Unit}}   \\  \\
     \large{Fundaci\'on Reina Sof\'ia} \\
     Centre for Research in Neurodegenarative Diseases (Fundaci\'on CIEN)
     \\ \emph{Valderrebollo, 5, 28031 Madrid}
@@ -464,9 +464,48 @@ Figure \ref{fig:tce} shows the distribution of episodes (at least one) of trauma
         \label{fig:tce}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Exploratory Data Analysis longitudinal variables}
 \label{se:eda_long}
 %'CognitivePerformance', 'Diagnoses', 'Neuropsychiatric', 'QualityOfLife', 'Genetics_s', 'SCD', 'Demographics', 'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
+
+%check if subjects go away have a profile
+Just line in any other longitudinal study, drop out is an important concern. The causes for missing visits can be related to first and foremost the voluntary and non remunerated design of the project and the age of the subjects (70 at the inception). The discontinued participation can also be caused by the diagnosis of dementia (possibly in the study clinical assessment).
+
+There are methods to handle drop out effects \cite{hogan2004handling}, however since the attrition rate is severe (1180 to 500 in year 6) we opt first to investigate whether the sample changes according to specific patterns, in which case we would not attempt to complete the missing data and we would rather select the subset of subjects that did not miss any visit (471 subjects did not miss any visit from year 1 to year 6).
+
+Table \ref{tab:testloyals} shows the statistical test to study whether the subjects that drop out are significantly different than those that remain in the study. While for home residencey or APOE there is no evidence of difference between the "remainers" and the "leavers", for a number of other features such as age, educational level or familal AD we find significant differences between the tweo groups. Note that we perform a t test comparing the subjects were present at year 1 and year k $(k=2..6)$ versus subjects present at year 1 but missed year k.
+
+%feature | y12 .... y16
+% pvalue
+%Table \ref{tab:buskl}
+\begin{center}
+\captionof{tab:testloyals}{T-test for the means of two independent samples scores in year 1 for subjects that participated in year $k, (k=2..6)$, versus those that missed their $k-th$ visit.}
+\begin{tabular}{cccccc} \toprule
+    {Feature} & {${Y1-Y2}$} & {${Y1-Y3}$} & {${Y1-Y4}$} & {${Y1-Y5}$} & {${Y1-Y6}$} \\ \midrule
+    {feature1}  & & & & & \\
+    {${Y2}$}  & & & & & \\ %\midrule
+    {${Y3}$}  & & & & & \\  
+    {${Y4}$}  & & & & & \\ 
+    {${Y5}$}  & & & & & \\
+    {featureN}  & & & & & \\ \bottomrule
+\end{tabular}
+%\caption{tab:testloyals}
+\end{center}  
+
+
+
+Figure \ref{fig:abuelos} depicts the drop-out handling the \emph{Vallecas} longitudinal study longitudinal study. For example, to test  the drop out in year 2 we compare the means between the two groups: $(1,2,3,4,5,6,7)$ and $(2,3,4,5,6,7($ because subject 1 drop the study in year 2.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio,width=0.9\linewidth]{figures/abuelos}
+        \caption{Sketch of the drop out handling in the \emph{Vallecas} longitudinal study. Only the subjects that did not miss any of their six visits are considered for the longitudinal analysis described in this section.} 
+        \label{fig:tce}
+\end{figure}
+
+
+
 The longitudinal variables are MRI, cognitive performance, neuropsychiatric, quality of life, and subjective cognitive decline.
 
 \subsection{MRI}

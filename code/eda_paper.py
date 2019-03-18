@@ -1911,6 +1911,34 @@ def select_rows_all_visits(dataframe, visits):
 	rows_loyals = df_loyals.all(axis=1)
 	return dataframe[rows_loyals]
 
+def drop_out_handling(dataframe, feature=None):
+	"""drop_out_handling: investigate the drop out 
+	Args:
+	Output
+	"""
+	from scipy.stats import ttest_ind
+	if feature is None:
+		feature = 'nivelrenta'# 'educrenta', 'barrio', 'distrito', 'nivel_educativo', 'edad_visita1'
+	yini, yend = 1, 6
+	dictio = {}
+	for yy in np.arange(2, yend + 1):
+		#select subjects[y1][feature] vs subjects[yend][feature]
+		tini, tend = 'tpo1.'+ str(yini), 'tpo1.'+ str(yy) 
+		# group 1: yini notnull==True and yend. group2 yini and not yend notnull==False
+		indices = dataframe[tend].notnull()
+		t_ixs = indices.where(indices == True)
+		f_ixs = indices.where(indices == False)
+		# select g1 (visitini and visitend) g2 (visitinit and not visitend)
+		g1 = dataframe[feature].loc[t_ixs.notnull()]
+		g2 = dataframe[feature].loc[t_ixs.isnull()]
+		print('Comparing groups of sizes:', g1.shape[0], ' and ', g2.shape[0])
+		# statistical test g1, g2
+		pstat, pval = ttest_ind(g1.dropna(), g2.dropna())
+		dictio[tini, tend, feature] = pval
+		print('ttest yini:', str(yini), ' yend:', str(yy),' feature: ', feature, ' p=', pval, '\n\n')
+		
+	return dictio
+
 def main():
 	# Open csv with MRI data
 	plt.close('all')
@@ -1923,7 +1951,11 @@ def main():
 	# select rows with 5 visits
 	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
 	df_loyals = select_rows_all_visits(dataframe, visits)
-	
+	#### compare drop out
+	features = ['numero_barrio', 'numero_distrito', 'nivelrenta', 'educrenta', 'nivel_educativo', 'edad_visita1', 'apoe', 'familial_ad','ultimodx', 'p_visita1', 'a13', 'dietasaludable']
+	for feat in features:
+		drop_out_handling(dataframe,feat)
+	pdb.set_trace()
 	#########################
 	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
 	dataframe_orig = dataframe.copy()
