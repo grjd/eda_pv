@@ -227,7 +227,7 @@ The major risk of developing AD is age. Figure \ref{fig:ages} shows the age of t
 \end{figure}
 
 %Amyloid beta ($A\beta$) plaques is one of the two hallmarks of AD, the other is tau neurofibrillary tangles
-Human apolipoprotein E (APOE) is a cholesterol carrier that supports lipid transport protein coded by the polymorphic APOE gene. The APOE gene has three major alleles: $\epsilon2$, $\epsilon3$ and $\epsilon4$ \cite{mahley2000apolipoprotein}, \cite{hauser2011apolipoprotein}. The presence of the $\epsilon4$ allele is thought to be one of the major risk factor for developing sporadic AD. Carriers of one copy of the  $\epsilon4$ allele (heterozygotes) have an increased risk of 3-4 times of developing sporadic AD, and carriers of two copies of the $\epsilon4$ allele (homozygotes) have an increased risk of 8-12 times of developing the disease \cite{heffernan2016neurobiology}. 
+Human apolipoprotein $\3epsilon$ (APO$\epsilon$) is a cholesterol carrier that supports lipid transport protein coded by the polymorphic APOE gene. The APOE gene has three major alleles: $\epsilon2$, $\epsilon3$ and $\epsilon4$ \cite{mahley2000apolipoprotein}, \cite{hauser2011apolipoprotein}. The presence of the $\epsilon4$ allele is thought to be one of the major risk factor for developing sporadic AD. Carriers of one copy of the  $\epsilon4$ allele (heterozygotes) have an increased risk of 3-4 times of developing sporadic AD, and carriers of two copies of the $\epsilon4$ allele (homozygotes) have an increased risk of 8-12 times of developing the disease \cite{heffernan2016neurobiology}. 
 
 The APO$\epsilon4$ variant is the largest known genetic risk factor for late-onset sporadic Alzheimer's disease (AD). This risk, however, varies by demographic factors such as sex and ethnicity. For instance, Nigerian blacks have the highest observed frequency of the APO$\epsilon4$ allele in world populations, but at the same time AD is apparently less frequent in Nigerians than in other populations \cite{sepehrnia1989genetic}.
 
@@ -297,7 +297,7 @@ $6.2\%$ of \emph{The Vallecas Project} cohort is not right-handed. A 1986 study 
 %Change this figure
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=.4\linewidth]{figures/Fig_sexlat}
+        \includegraphics[keepaspectratio, width=.6\linewidth]{figures/Fig_sexlat}
         \caption{Histogram of hand laterality (left) and sex (right). There is majority of females, 753 versus 427 males. The right handed are 1106, left 19, ambidextrous 39 and 16 were forced right about born left,  $6.2\%$ of non-right-handers versus $93.8\%$ of right-handers.} 
         \label{fig:sexlat}
 \end{figure}
@@ -326,7 +326,7 @@ Figure \ref{fig:incomeresidency} shows the income distribution of the subjects e
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/incomeresidency}
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/incomeresidency}
         \caption{On the left, distribution of home residency by districts of \emph{Proyecto Vallecas} volunteers. All districts of the city of Madrid are represented. Note that there are 156 subjects of a total of 1180 that are not residents in the city of Madrid and are not included here. On the right, we plot the income distribution as estimated based on the home residency, 251 subjects live in low income areas, 769 in medium income areas and 160 in high income neighborhoods of Madrid.
         } \label{fig:incomeresidency}
 \end{figure}
@@ -459,7 +459,7 @@ Figure \ref{fig:tce} shows the distribution of episodes (at least one) of trauma
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_tce}
+        \includegraphics[keepaspectratio, width=0.4\linewidth]{figures/Fig_tce}
         \caption{Histogram of traumatic brain injury. $20\%$ of subjects declared to have suffered in the past an episode of traumatic brain injury of unspecified seriousness.} 
         \label{fig:tce}
 \end{figure}
@@ -469,44 +469,54 @@ Figure \ref{fig:tce} shows the distribution of episodes (at least one) of trauma
 \section{Exploratory Data Analysis longitudinal variables}
 \label{se:eda_long}
 %'CognitivePerformance', 'Diagnoses', 'Neuropsychiatric', 'QualityOfLife', 'Genetics_s', 'SCD', 'Demographics', 'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
+In this section we study the evolution of the variables measured in the \emph{Vallecas} study. We dedicate the first section \ref{sse:miss} to comment on the method employed to deal with data missing to next discuss the evolution of the variable. 
+We will study the progression of the longitudinal variables for those subjects that did not miss any visit of their 6 visits (complete-case-analysis). Thus, from an initial number of 1180 subjects that came to their first visit, we will study the time series for the subset of subjects that came to all their visits from year 1 to year 6, which makes a total of 457 subjects span over a 6 year period.
+The adjustment methods for missing data used here is complete-case analysis, that is, participants with missing data are simply excluded from the analysis. It ought to be noted that this is a methodological choice and other strategies are also possible, see \cite{national2010prevention} for a recent report with recommendations for missing data in clinical trials published by the National Research Council (NRC). 
 
+The longitudinal variables are studied as time series of length 6 (number of yearly visits) with 457 observations for each time point.  MRI data is shown in section \ref{sse:mri}, neuropsychiatric features in section \ref{sse:neupsy}, quality of life in section \ref{sse:qol}, cognitive performance tests are shown in section \ref{sse:cogper} and the evolution of the diagnosis in section \ref{sse:diagn}.
+
+\subsection{Treatment of missing imputation}
+\label{sse:miss}
 %check if subjects go away have a profile
-Just line in any other longitudinal study, drop out is an important concern. The causes for missing visits can be related to first and foremost the voluntary and non remunerated design of the project and the age of the subjects (70 at the inception). The discontinued participation can also be caused by the diagnosis of dementia (possibly in the study clinical assessment).
+Just like in any other longitudinal study, drop out is an important concern. The causes for missing visits can be related to first and foremost the voluntary and non remunerated design of the project and the age of the subjects (70 at the inception). The discontinued participation can also be caused by the diagnosis of dementia, possibly in the study clinical assessment.
 
-There are methods to handle drop out effects \cite{hogan2004handling}, however since the attrition rate is severe (1180 to 500 in year 6) we opt first to investigate whether the sample changes according to specific patterns, in which case we would not attempt to complete the missing data and we would rather select the subset of subjects that did not miss any visit (471 subjects did not miss any visit from year 1 to year 6).
+Missing data compromises statistical inference and represents a serious limitation for drawing conclusions \cite{little2012prevention}. 
+Although there are different methods for completion of missing data e.g. Maximum likelihood, Bayesian and multiple imputation \cite{hogan2004handling}, the effectiveness of a statistical method relies upon the plausibility of its assumptions. Thus, it is desirable to have evidence of the mechanisms leading to missing data. There are two major possible scenarios: data missing are completely random and data missing are not at random. The first case is less stringent because it could be possible to infer that the outcomes of participants that dropped out are not significantly different from those that did not drop out. In the second case, data are missing not at random, outcomes are likely to be different from those of similar participants who did not drop out. In the latter case, statistical model need to make additional assumptions. 
 
-Table \ref{tab:testloyals} shows the statistical test to study whether the subjects that drop out are significantly different than those that remain in the study. While for home residencey or APOE there is no evidence of difference between the "remainers" and the "leavers", for a number of other features such as age, educational level or familal AD we find significant differences between the tweo groups. Note that we perform a t test comparing the subjects were present at year 1 and year k $(k=2..6)$ versus subjects present at year 1 but missed year k.
+There are several statistical methods to handle drop out effects \cite{hogan2004handling}, however since the attrition rate is severe (1180 to 491 in year 6) we opt first to investigate whether the sample changes according to specific patterns, in which case we would not attempt to complete the missing data and we would rather select the subset of subjects that did not miss any visit (471 subjects did not miss any visit from year 1 to year 6).
 
-%feature | y12 .... y16
-% pvalue
-%Table \ref{tab:buskl}
-\begin{center}
-\captionof{tab:testloyals}{T-test for the means of two independent samples scores in year 1 for subjects that participated in year $k, (k=2..6)$, versus those that missed their $k-th$ visit.}
-\begin{tabular}{cccccc} \toprule
-    {Feature} & {${Y1-Y2}$} & {${Y1-Y3}$} & {${Y1-Y4}$} & {${Y1-Y5}$} & {${Y1-Y6}$} \\ \midrule
-    {feature1}  & & & & & \\
-    {${Y2}$}  & & & & & \\ %\midrule
-    {${Y3}$}  & & & & & \\  
-    {${Y4}$}  & & & & & \\ 
-    {${Y5}$}  & & & & & \\
-    {featureN}  & & & & & \\ \bottomrule
-\end{tabular}
-%\caption{tab:testloyals}
-\end{center}  
-
-
-
-Figure \ref{fig:abuelos} depicts the drop-out handling the \emph{Vallecas} longitudinal study longitudinal study. For example, to test  the drop out in year 2 we compare the means between the two groups: $(1,2,3,4,5,6,7)$ and $(2,3,4,5,6,7($ because subject 1 drop the study in year 2.
+%avatars 
+%https://www.123rf.com/photo_54326404_stock-vector-set-of-characters-in-a-flat-style-older-people-in-different-costumes-grandparents-in-cartoon-flat-st.html?fromid=eDZxWk1FN08rcnBqencvNDlIVlZ2dz09
+Figure \ref{fig:abuelos} depicts the drop-out handling the \emph{Vallecas} longitudinal study longitudinal study. For example, to test  the drop out in year 2 we compare the means between the two groups: $(1)$ and $(2,3,4,5,6,7)$ because subject 1 drop the study in year 2, to test the drop out in year 4 referred to year 1 we compare between the groups: $(1,3)$ and $(2,4,5,6,7)$. 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio,width=0.9\linewidth]{figures/abuelos}
+        \includegraphics[keepaspectratio,width=0.95\linewidth]{figures/abuelos}
         \caption{Sketch of the drop out handling in the \emph{Vallecas} longitudinal study. Only the subjects that did not miss any of their six visits are considered for the longitudinal analysis described in this section.} 
         \label{fig:tce}
 \end{figure}
 
+Table \ref{tab:testloyals} shows the statistical test to study whether the subjects that drop out are significantly different than those that remain in the study. While for home residency or APOE there is no evidence of difference between the "remainers" and the "leavers", for a number of other features such as age, educational level or familal AD we find significant differences between the two  groups. Note that we perform a two samples t-test comparing the subjects were present at year 1 and year k $(k=2..6)$ versus subjects present at year 1 but missed year k. The actual size of the groups is indicated in the second row, for example 689 missed their 6th visit and 491 came to their 6th visit. 
 
+\begin{table}
+  \centering
+\begin{tabular}{cccccc} \toprule
+    {Feature}   & {${Y1-Y2}$} & {${Y1-Y3}$} & {${Y1-Y4}$} & {${Y1-Y5}$} & {${Y1-Y6}$} \\ 
+                & N={${964,216}$} & N={${865,315}$} & N={${773,407}$} & N={${704,476}$} & N={${491,689}$} \\  \midrule
+    {feature1}  & & & & &  \\
+    {${Y2}$}    & & & & &  \\ %\midrule
+    {${Y3}$}    & & & & &  \\  
+    {${Y4}$}    & & & & &  \\ 
+    {${Y5}$}    & & & & &  \\
+    {featureN}  & & & & &  \\ \bottomrule
+\end{tabular}
+\caption{T-test for the means of two independent samples scores in year 1 for subjects that participated in year $k, (k=2,...,6)$, versus those that missed their \emph{k-th} visit.}\label{tab:testloyals}
+\end{table} 
+The complete-case analysis followed here to handle missing longitudinal data is justified on the basis of the non randomness of the missing data. As table \ref{tab:testloyals} tries to convey, outcomes (e.g. age, educational level, familal AD) are likely to be different from those of similar participants who did not drop out. 
 
-The longitudinal variables are MRI, cognitive performance, neuropsychiatric, quality of life, and subjective cognitive decline.
+Note that we opt for complete-case analysis for longitudinal data, that is, an entire missing visits, but 
+we used the much less stringent Multiple Imputation (MI) \cite{buuren2010mice} approach for dealing with missing data within a subject's visit.
+%Models that are based on the assumption that the data are not missing at random must make further assumptions about the effect of such possibilities.
+%The assumption that analysis methods can com- pensate for such missing data are not justified
 
 \subsection{MRI}
 \label{sse:mri}
@@ -620,35 +630,35 @@ Figure \ref{fig:kde_subcortical} shows the histogram and the Kernel Density Esti
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cognitive Performance}
 \label{sse:cogper}
-Figure \ref{fig:cogperyears} plots the evolution of four cognitive performance tests. Clockwise and starting on  the top left chart: number of words that start by the letter "p" in one minute, number of animals recalled in one minute, score of speed processing of symbols and the score in the mini-mental examination (MMSE). 
+Figure \ref{fig:cogperyears} plots the evolution of four cognitive performance tests. Clockwise and starting on  the top left chart: number of words that start by the letter "p" in one minute, number of animals recalled in one minute, score of speed processing of symbols and the score in the mini-mental examination (MMSE).
 
+% _loyals only subset of six visits figaname for entire dataset longitudinal
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/p_visita}
+        \includegraphics[height=2.1in]{figures/p_visita_loyals}
         \caption{Histograms of the score of the number of words starting by a letter for each year's test.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/animales_visita}
+        \includegraphics[height=2.1in]{figures/animales_visita_loyals}
         \caption{Histograms of number of animals recalled each year's test.}
     \end{subfigure}%\quad
     
      \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/cn_visita}
+        \includegraphics[height=2.1in]{figures/cn_visita_loyals}
         \caption{Histograms of score of speed processing of symbols for each year's test.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/mmse_visita}
+        \includegraphics[height=2.1in]{figures/mmse_visita_loyals}
         \caption{Histograms of score of the MMSE test score for each year's test.}
     \end{subfigure}%\quad
-   
-    \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the years of \emph{Vallecas Project}. From left to right and top to bottom: number of words that start by letter p, number of animals, speed processing of symbols and MMSE.}
+    \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the six years of \emph{Vallecas Project} (no missing visits). The scores from left to right and top to bottom refer to: number of words that start by letter p, number of animals, speed processing of symbols and MMSE.}
     \label{fig:cogperyears}
 \end{figure}
 
@@ -658,33 +668,33 @@ Figure \ref{fig:cogper4} plots the time series for four measures related to cogn
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/p_visita1_years}
-        \caption{Time series (indexed in years) of the  number of words that start by the letter p that subjects can recall in one minute. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=13.44, \sigma_{1}=7.02$, $\mu_{2}=14.16, \sigma_{2}=4.96$, $\mu_{3}=14.30, \sigma_{3}=4.94$, $\mu_{4}=14.21, \sigma_{4}=4.94$,$\mu_{5}=14.71,\sigma_{5}=4.92$.}
+        \includegraphics[height=2.5in]{figures/p_visita1_years_loyals}
+        \caption{Time series (indexed in years) of the  number of words that start by the letter p that subjects can recall in one minute. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=14.01, \sigma_{1}=4.39$, $\mu_{2}=14.16, \sigma_{2}=4.91$, $\mu_{3}=14.91, \sigma_{3}=4.95$, $\mu_{4}=14.71, \sigma_{4}=4.85$,$\mu_{5}=17.07,\sigma_{5}=4.91$, $\mu_{6}=15.43,\sigma_{5}=5.04$.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/animales_visita1_years}
-        \caption{Time series the  number of animals that subjects can recall in one minute. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=18.21, \sigma_{1}=8.71$, $\mu_{2}=17.76, \sigma_{2}=5.12$, $\mu_{3}=18.48, \sigma_{3}=5.40$, $\mu_{4}=18.29, \sigma_{4}=5.54$,$\mu_{5}=18.32,\sigma_{5}=5.50$.}
+        \includegraphics[height=2.5in]{figures/animales_visita1_years_loyals}
+        \caption{Time series the  number of animals that subjects can recall in one minute. The statistics for years 1 to 6: $\mu_{1}=14.01, \sigma_{1}=4.4$, $\mu_{2}=14.96, \sigma_{2}=4.90$, $\mu_{3}=18.48, \sigma_{3}=5.40$, $\mu_{4}=18.29, \sigma_{4}=5.54$,$\mu_{5}=18.32,\sigma_{5}=5.50$.}
     \end{subfigure}%\quad
     
      \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/cn_visita1_years}
+        \includegraphics[height=2.5in]{figures/cn_visita1_years_loyals}
         \caption{Time series of feature \emph{cn} which measures the speed processing of symbols in a task (attention and velocity). This measure tends to be more stable than other eg Buschke. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=18.71, \sigma_{1}=7.60$, $\mu_{2}=18.70, \sigma_{2}=7.47$, $\mu_{3}=18.81, \sigma_{3}=7.55$, $\mu_{4}=18.54, \sigma_{4}=7.67$,$\mu_{5}=18.05,\sigma_{5}=7.35$.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/mmse_visita1_years}
-        \caption{Time series of the score of the minimental examination test MMSE. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=28.40, \sigma_{1}=1.78$, $\mu_{2}=28.44, \sigma_{2}=1.80$, $\mu_{3}=28.23, \sigma_{3}=2.00$, $\mu_{4}=28.11, \sigma_{4}=2.28$,$\mu_{5}=27.94,\sigma_{5}=2.45$.}
+        \includegraphics[height=2.5in]{figures/mmse_visita1_years_loyals}
+        \caption{Time series of the score of the minimental examination test MMSE. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): $\mu_{1}=28.71, \sigma_{1}=1.40$, $\mu_{2}=28.76, \sigma_{2}=1.51$, $\mu_{3}=28.23, \sigma_{3}=2.00$, $\mu_{4}=28.11, \sigma_{4}=2.28$,$\mu_{5}=27.94,\sigma_{5}=2.45$, $\mu_{6}=28.29,\sigma_{5}=2.03$.}
     \end{subfigure}%\quad
    
-    \caption{Time series of cognitive performance across the seven years of \emph{Vallecas Project} of features related to cognitive performance. The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}.}
+    \caption{Time series of cognitive performance across the seven years of \emph{Vallecas Project} of features related to cognitive performance. The x-axis are years from year 1 to year 6 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}.}
     \label{fig:cogper4}
 \end{figure}
 
-
+%YS: Falta hacere esto
 Figure \ref{fig:cogperyearsbus}, clockwise and starting in the top left chart: Buschke delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details).
 
 \begin{figure}[H]
@@ -717,7 +727,6 @@ Figure \ref{fig:cogperyearsbus}, clockwise and starting in the top left chart: B
     Buschke delayed recall score, Buschke arithmetic mean, Buschke sum and \emph{Buschke Integral}.}
     \label{fig:cogperyearsbus}
 \end{figure}
-
 
 Figure \ref{fig:busper4} plots the time series for four measures related to cognitive performance measured using the Buschke test. Clockwise starting top left chart: delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details).
 
@@ -760,23 +769,24 @@ Figure \ref{fig:busper4} plots the time series for four measures related to cogn
 %Neuropsychiatric includes 'act_ansi_visita1', 'act_ansi_visita2', 'act_ansi_visita3', 'act_ansi_visita4','act_ansi_visita5', 'act_ansi_visita6', 'act_ansi_visita7','act_apat_visita1',\'act_apat_visita2', 'act_apat_visita3', 'act_apat_visita4', 'act_apat_visita5', 'act_apat_visita6', 'act_apat_visita7','act_depre_visita1', 'act_depre_visita2',\'act_depre_visita3', 'act_depre_visita4', 'act_depre_visita5', 'act_depre_visita6',\'act_depre_visita7','gds_visita1', 'gds_visita2', 'gds_visita3', 'gds_visita4', \'gds_visita5', 'gds_visita6', 'gds_visita7','stai_visita1', 'stai_visita2', \'stai_visita3', 'stai_visita4', 'stai_visita5', 'stai_visita6', 'stai_visita7'
 %gds: 0,14 stai: real numbers
 
-Figure \ref{fig:neuropsylong} plots the evolution of features related to neuropsychiatric disorders, specifically the Geriatric Depression Scale (GDS) and the State and Trait Anxiety Scores (STAI). 
+Figure \ref{fig:neuropsylong} plots the evolution of features related to neuropsychiatric disorders, specifically the Geriatric Depression Scale (GDS) \cite{yesavage1988geriatric} and the State and Trait Anxiety Scores (STAI) \cite{spielberger1985anxiety}, \cite{julian2011measures}. 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/gds_visita}
-        \caption{Histogram of Geriatric Depression Scale (GDS) score. Larger values indicate a depressive profile. For normally distributed data, the skewness should be about 0, the GDS distribution is clearly right tailed, the skew is 1.93 for year 1 and goes to 1.78 for year 5.}%stats.skew(dataframe['gds_visita5'],nan_policy='omit')
+        \includegraphics[height=2.5in]{figures/gds_visita_loyals}
+        \caption{Histogram of Geriatric Depression Scale (GDS) score. Larger values indicate a depressive profile. For normally distributed data, the skewness should be about 0, the GDS distribution is clearly right tailed, and the skewness grows in time, 1.96 for year 1 and up to 2.34 for year 6.}%stats.skew(dataframe['gds_visita5'],nan_policy='omit')
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/stai_visita}
-        \caption{Histogram of the State and Trait Anxiety Scores (STAI) scores represented as Z-scores. Negative values (left tailed) indicate an anxious profile. For normally distributed data, the skewness should be about 0, the STAI distribution is right tailed, the skew is 0.67 for year 1 and goes to 0.73 year 5.} %stats.skew(dataframe['stai_visita5'],nan_policy='omit')
+        \includegraphics[height=2.5in]{figures/stai_visita_loyals}
+        \caption{Histogram of the State and Trait Anxiety Scores (STAI) scores represented as Z-scores. Negative values (left tailed) indicate an anxious profile. For normally distributed data, the skewness should be about 0. The STAI distribution is right tailed, the skew is 0.84 for year 1 and decreases to 0.50 year 5.} %stats.skew(dataframe['stai_visita5'],nan_policy='omit')
     \end{subfigure}%\quad
     \caption{Histograms of Geriatric Depression Scale (GDS) and the State and Trait Anxiety Scores (STAI) z-score across the seven years of \emph{Vallecas Project}.} 
     \label{fig:neuropsylong}
 \end{figure}
+%YS Do gds stai time series
 
 % \begin{figure}[H]
 %     \centering
@@ -799,35 +809,34 @@ Figure \ref{fig:neuropsylong} plots the evolution of features related to neurops
 \label{sse:qol}
 %'QualityOfLife':['eq5dmov_visita1' (movilidad hoy) 'eq5dcp_visita1' (cuidado perso hoy)'eq5dact_visita1' (act quoti hoy),'eq5ddol_visita1' (dolor hoy), 'eq5dans_visita1' (feeling depre anxi hoy), 'eq5dsalud_visita1' (salud comparado last year), 'eq5deva_visita1','valcvida2_visita1' (como valora su qofl) 'valsatvid2_visita1' (como valora su vida) , 'valfelc2_visita1' (cual es su grado de satisf)]
 
-Figure \ref{fig:qollong} plots the evolution of the quality of life self-assessed by the participants in \emph{Vallecas Project}.
+Figure \ref{fig:qollong} plots the evolution of features related to the quality of life, self-assessed by the participants in the \emph{Vallecas Project}.
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/eq5dmov_visita}
+        \includegraphics[height=2.1in]{figures/eq5dmov_visita_loyals}
         \caption{Histograms of the personal mobility self assessed by the subjects.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/eq5ddol_visita}
+        \includegraphics[height=2.1in]{figures/eq5ddol_visita_loyals}
         \caption{Histograms of pain feeling for each year}
     \end{subfigure}%\quad
     
      \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/eq5dsalud_visita}
+        \includegraphics[height=2.1in]{figures/eq5dsalud_visita_loyals}
         \caption{Histograms of self assessment of health compared with the previous year.}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[height=2.1in]{figures/valfelc2_visita}
+        \includegraphics[height=2.1in]{figures/valfelc2_visita_loyals}
         \caption{Histograms of the life satisfaction for each year.}
     \end{subfigure}%\quad
-   
-    \caption{Histograms showing the evolution of features related to the quality of life of the subjects across the seven years of \emph{Vallecas Project}.}
+    \caption{Histograms showing the evolution of features related to the quality of life of the subjects across the six years of \emph{Vallecas Project} (no missing visits).}
     \label{fig:qollong}
 \end{figure}
 
@@ -837,34 +846,34 @@ Figure \ref{fig:qol4} plots the time series for four measures related to quality
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/eq5dmov_visita1_years}
-        \caption{Time series of the score of personal mobility self assessed by the subjects. The statistics for years 1 to 5 (years 6 and 7 are still ongoing):.}
+        \includegraphics[height=2.5in]{figures/eq5dmov_visita1_years_loyals}
+        \caption{Time series of the score of personal mobility, self assessed by the subjects with 6 time points, one for for each visit.}
     \end{subfigure}
     \hfill 
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/eq5ddol_visita1_years}
-        \caption{Time series of pain feeling. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): .}
+        \includegraphics[height=2.5in]{figures/eq5ddol_visita1_years_loyals}
+        \caption{Time series of pain feelings, self assessed by the subjects with 6 time points, one for for each visit.}
     \end{subfigure}%\quad
     
      \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/eq5dsalud_visita1_years}
-        \caption{Time series of self assessment of health compared with the previous year. This measure tends to be more stable than other eg Buschke. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): .}
+        \includegraphics[height=2.5in]{figures/eq5dsalud_visita1_years_loyals}
+        \caption{Time series of self assessment of health status compared with the previous year.}
+        %This measure tends to be more stable than other eg Buschke.
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=2.5in]{figures/valfelc2_visita1_years}
-        \caption{Time series of the score of life satisfaction. The statistics for years 1 to 5 (years 6 and 7 are still ongoing) are: .}
+        \includegraphics[height=2.5in]{figures/valfelc2_visita1_years_loyals}
+        \caption{Time series of the score of life satisfaction, self assessed by the subjects with 6 time points, one for for each visit.}
     \end{subfigure}%\quad
-   
-    \caption{Time series of auto-informed scores of quality of life across the seven years of \emph{Vallecas Project}. The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}.}
+    \caption{Time series of auto-informed scores of quality of life across the six years of \emph{Vallecas Project} (no missing visits). The x-axis are time points, from year 1 to year 6 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across six years.}
     \label{fig:qol4}
 \end{figure}
 
 \subsection{Diagnoses}
-\label{sse:scd}
+\label{sse:diagn}
 
 %0 = Control 1= SCD 2 = SCD-Plus 3 = MCI 4 = Dementia
 %\subsubsection{Diagnoses}
@@ -872,30 +881,13 @@ Figure \ref{fig:qol4} plots the time series for four measures related to quality
 Figure \ref{fig:diag1} plots the time series for the diagnoses administered to subjects for each year's visit. The diagnosis includes 5 categories: Healthy, Subjective Cognitive Decline (SCD), Subjective Cognitive Decline Plus (SCD +), Mild Cognitive Impairment (MCI) and Alzheimer's disease (AD).
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/conversion_years}
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/conversion_years_loyals}
         \caption{Ratio of subjects diagnosed as Healthy, Subjective Cognitive Decline (SCD), Subjective Cognitive Decline Plus (SCD +), Mild Cognitive Impairment (MCI) and Alzheimer's disease (AD) across the seven years of \emph{Vallecas Project}.} 
         \label{fig:diag1}
 \end{figure}
-% SCD only
-% \begin{figure}[H]
-%     \centering
-%     \begin{subfigure}[t]{0.45\textwidth}
-%         \centering
-%         \includegraphics[height=2.5in]{figures/dx_largo_SCD_visita1_years}
-%         \caption{Time series (indexed in years) of the number of subjects with subjective cognitive decline. The statistics for years 1 to 5 (years 6 and 7 are still ongoing) are: .}
-%     \end{subfigure}
-%     %~ 
-%     \hfill
-%     \begin{subfigure}[t]{0.45\textwidth}
-%         \centering
-%         \includegraphics[height=2.5in]{figures/dx_largo_PLUS_visita1_years}
-%         \caption{Time series (indexed in years) of the number of subjects with subjective cognitive decline plus. The statistics for years 1 to 5 (years 6 and 7 are still ongoing): }
-%     \end{subfigure}%\quad
-%     \caption{Time series (indexed in years) of the number of subjects with subjective cognitive decline . The x-axis are years from year 1 to year 7 and the y-axis the score. Each plot represents the mean (bold line) and the dispersion or standard deviation (shaded region) across the seven years of \emph{Vallecas Project}} 
-%     \label{fig:scd2}
-% \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Correlation analysis}
 \label{se:met}

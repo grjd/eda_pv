@@ -137,6 +137,46 @@ def vallecas_features_dictionary(dataframe):
 	#dataframe.drop([list_feature_to_remove], axis=1,  inplace=True)
 	return cluster_dict
 
+def plot_diagnoses_years(dataframe, figname=None):
+	"""plot_diagnoses_years : plot ratio of subjects for each condition 0, SCD,SCD+ MCI and AD
+	Args:dataframe
+	"""
+	figures_dir ='/Users/jaime/github/papers/EDA_pv/figures'
+	fig_filename = 'conversion_years'
+	fig1, ax1 = plt.subplots()
+	if figname is not None:
+		fig_filename = fig_filename + figname #'_loyals'
+	nb_years = 6
+	x = np.linspace(1, nb_years,nb_years)
+	cols = ['dx_largo_visita1','dx_largo_visita2','dx_largo_visita3','dx_largo_visita4',\
+	'dx_largo_visita5','dx_largo_visita6']
+	controls = [0] * nb_years
+	scd = [0] * nb_years
+	scdplus = [0] * nb_years
+	mci = [0] * nb_years
+	ad = [0] * nb_years
+	for ix, name in enumerate(cols):
+		controls[ix] = float(np.sum(dataframe[name]==0))/dataframe[name].count()
+		scd[ix] = float(np.sum(dataframe[name]==1))/dataframe[name].count()
+		scdplus[ix] = float(np.sum(dataframe[name]==2))/dataframe[name].count()
+		mci[ix] = float(np.sum(dataframe[name]==3))/dataframe[name].count()
+		ad[ix] = float(np.sum(dataframe[name]==4))/dataframe[name].count()
+	ratios = [controls, scd, scdplus, mci,ad]
+	plt.plot(x, controls, 'g-', label='Control')
+	plt.plot(x, scd, 'b-', label='SCD')
+	plt.plot(x, scdplus, 'b+-', label='SCD +')
+	plt.plot(x, mci, 'm-', label='MCI')
+	plt.plot(x, ad, 'r-', label='AD')
+	plt.ylabel('ratio subjects')
+	plt.xlabel('years')
+	plt.title('Ratio of diagnose H,SCD,SCD+,MCI,AD /Total subjects year')
+	#plt.text(x, mu_years, textlegend, fontdict=font)
+	plt.legend()
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	
+	plt.show() 
+	return ratios
+
 def plot_figures_static_of_paper(dataframe):
 	"""plot figures of EDA paper
 	"""
@@ -1737,6 +1777,10 @@ def compute_contingency_table(df, labelx, labely):
 def plot_ts_figures_of_paper(dataframe, features_dict, figname=None):
 	"""plot_ts_figures_of_paper calls to plot_figures_longitudinal_timeseries_of_paper
 	"""
+	#matching_features = [s for s in features_dict['Diagnoses'] if "dx_corto_" in s]
+	#plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)
+	#matching_features = [s for s in features_dict['Diagnoses'] if "dx_largo_" in s]
+	#plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)
 	print('plotting time series QoL longitudinal features with mean and sigma \n\n')
 	matching_features = [s for s in features_dict['QualityOfLife'] if "eq5dmov_" in s]
 	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)	
@@ -1746,7 +1790,7 @@ def plot_ts_figures_of_paper(dataframe, features_dict, figname=None):
 	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)	
 	matching_features = [s for s in features_dict['QualityOfLife'] if "valfelc2_" in s]
 	plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features], figname)	
-	# do not plot time series of neuropsychiatric bnecause they are z-transform
+	# do not plot time series of neuropsychiatric because they are z-transform
 	#matching_features = [s for s in features_dict['Neuropsychiatric'] if "gds_" in s]
 	#plot_figures_longitudinal_timeseries_of_paper(dataframe[matching_features])	
 	#matching_features = [s for s in features_dict['Neuropsychiatric'] if "stai_" in s]
@@ -1803,7 +1847,6 @@ def plot_figures_longitudinal_timeseries_of_paper(dataframe, figname=None):
 			std_years[ix] = mu_years[ix]
 			ylabel = 'Ratio subjects with SCD + diagnose in each year'
 			title = 'SCD Plus visits 1,7'
-
 		#textlegend[ix] = (mu_years[ix],std_years[ix])
 	mu_years = np.asarray(mu_years)
 	std_years = np.asarray(std_years)
@@ -1817,7 +1860,6 @@ def plot_figures_longitudinal_timeseries_of_paper(dataframe, figname=None):
 	# 	plt.ylim(top=fill_max+0.2, bottom=fill_min-0.2)
 	# else:
 	plt.ylim(top=np.max(mu_years)+ np.max(std_years), bottom=0)
-
 	if cols[0].find('dx_') <= -1:plt.fill_between(x, fill_max, fill_min, facecolor='papayawhip', interpolate=True)
 	plt.ylabel(ylabel)
 	plt.xlabel('years')
@@ -1872,6 +1914,7 @@ def plot_figures_longitudinal_of_paper(dataframe, features_dict, figname=None):
 	# dataframe2plot remove 9s no sabe no contesta
 	print('Plotting longitudional features....\n')
 	list_clusters = features_dict.keys()
+	#list_clusters = [list_clusters[2]]
 	for ix in list_clusters:
 		print('Longitudinal histogram of group:{}',format(ix))
 		list_longi = features_dict[ix]
@@ -1936,7 +1979,7 @@ def drop_out_handling(dataframe, feature=None):
 		pstat, pval = ttest_ind(g1.dropna(), g2.dropna())
 		dictio[tini, tend, feature] = pval
 		print('ttest yini:', str(yini), ' yend:', str(yy),' feature: ', feature, ' p=', pval, '\n\n')
-		
+		pdb.set_trace()
 	return dictio
 
 def main():
@@ -1947,22 +1990,39 @@ def main():
 	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-10March2019.csv'
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures/'
 	dataframe = pd.read_csv(csv_path)
-	#testing here cut paste
-	# select rows with 5 visits
-	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
-	df_loyals = select_rows_all_visits(dataframe, visits)
-	#### compare drop out
-	features = ['numero_barrio', 'numero_distrito', 'nivelrenta', 'educrenta', 'nivel_educativo', 'edad_visita1', 'apoe', 'familial_ad','ultimodx', 'p_visita1', 'a13', 'dietasaludable']
-	for feat in features:
-		drop_out_handling(dataframe,feat)
-	pdb.set_trace()
-	#########################
 	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
 	dataframe_orig = dataframe.copy()
 	print('Build dictionary with features ontology and check the features are in the dataframe\n') 
 	#features_dict is the list of clusters, the actual features to plot are hardcoded
 	features_dict = vallecas_features_dictionary(dataframe)
-	##########################################
+
+	#testing here cut paste###
+	# select rows with 5 visits
+	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
+	df_loyals = select_rows_all_visits(dataframe, visits)
+	#print('Plotting histograms for longitudinal variables \n\n')
+	#plot_figures_longitudinal_of_paper(dataframe, features_dict)
+	#plot_figures_longitudinal_of_paper(df_loyals, features_dict, '_loyals')
+	#skewnes:: #df_loyals[feature].skew()
+	# plot ratio of diagnoses
+	#ratios = plot_diagnoses_years(dataframe)
+	#print("Ratio of Healthy/year is {}".format(ratios[0]), '\n',"Ratio of SCD/year is {}".format(ratios[1]),'\n',"Ratio of SCD+/year is {}".format(ratios[2]),'\n',"Ratio of MCI/year is {}".format(ratios[3]),'\n',"Ratio of AD/year is {}".format(ratios[4]))
+	#ratios_loyals = plot_diagnoses_years(df_loyals, '_loyals')
+
+	print('Plotting time series long variables mean + std \n\n')
+	plot_ts_figures_of_paper(df_loyals, features_dict, '_loyals')
+	pdb.set_trace()
+	plot_ts_figures_of_paper(dataframe, features_dict)
+	
+
+	#end testing here cut paste###
+
+	#### compare drop out
+	features = ['numero_barrio', 'numero_distrito', 'nivelrenta', 'educrenta', 'nivel_educativo', 'edad_visita1', 'apoe', 'familial_ad','ultimodx', 'p_visita1', 'a13', 'dietasaludable']
+	for feat in features:
+		drop_out_handling(dataframe,feat)
+	pdb.set_trace()
+
 
 	print('Plotting histograms for static variables \n\n')
 	#plot_figures_static_of_paper(dataframe)
@@ -2067,8 +2127,6 @@ def main():
 	for type_of_group in types_of_groups:
 		plot_histograma_bygroup_categorical(dataframe, type_of_group, target_variable)
 	# group by brain structure size	
-
-
 
 	### boxplot of brain size
 	plt_boxplot_brain_volumes(dataframe, mri_brain_cols[1:3] )
