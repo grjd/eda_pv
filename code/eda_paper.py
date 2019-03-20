@@ -1746,34 +1746,6 @@ def anova_tests_paper(dataframe_conv, features_dict):
 	print aov_table_suenoc
 	return
 
-def compute_contingency_table(df, labelx, labely):
-	"""compute_contingency_table : computes contingency table and Chi2 or fisher test (2x2 table)
-	"""
-	#https://docs.scipy.org/doc/scipy-0.16.1/reference/generated/scipy.stats.fisher_exact.html
-	import scipy.stats as stats
-
-	#df['mci'] = df[labelx].astype('category')
-	df[labelx] = df[labelx].astype('int')
-	ctable = pd.crosstab(index=df[labelx], columns=df[labely])
-
-	ctable.index = df[labelx].unique()# ["died","survived"]
-	ctable.columns= df[labely].unique()
-	
-
-	if ctable.shape[0] != 2 or ctable.shape[1] != 2: 
-		print('contingency table is not 2x2. Chi2 test...\n')
-		c, p, dof, expected = stats.chi2_contingency(ctable.values)
-		return [c, p, dof, expected]
-		
-	#A 2x2 contingency table. Elements should be non-negative integers.
-	print('Computing Fisher test in 2x2 contingency table \n')
-	#P-value, the probability of obtaining a distribution at least as extreme as the one that was actually observed, 
-	#assuming that the null hypothesis is true.
-	#prior odds ratio and not a posterior estimate
-	#https://www.statsmodels.org/stable/contingency_tables.html
-	oddsratio, pvalue = stats.fisher_exact(ctable.values)
-	return [oddsratio, pvalue ]
-
 def plot_ts_figures_of_paper(dataframe, features_dict, figname=None):
 	"""plot_ts_figures_of_paper calls to plot_figures_longitudinal_timeseries_of_paper
 	"""
@@ -1982,6 +1954,34 @@ def drop_out_handling(dataframe, feature=None):
 		pdb.set_trace()
 	return dictio
 
+def compute_contingency_table(df, labelx, labely):
+	"""compute_contingency_table : computes contingency table and Chi2 or fisher test (2x2 table)
+	Args: df, labelx='conversionmci', labely: categorical feature to tst the effect on convrsionmci
+	Output: if ctable 2x2 perform Fisher exact test if niot Chi square (c, p, dof, expected)
+	"""
+	#https://docs.scipy.org/doc/scipy-0.16.1/reference/generated/scipy.stats.fisher_exact.html
+	import scipy.stats as stats
+
+	#df['mci'] = df[labelx].astype('category')
+	x_series = df[labelx].dropna().astype('int')
+	y_series = df[labely].dropna().astype('int')
+	ctable = pd.crosstab(index=x_series, columns=y_series)
+	ctable.index = x_series.unique()
+	ctable.columns= y_series.unique()
+	if ctable.shape[0] != 2 or ctable.shape[1] != 2: 
+		print('Contingency table is not 2x2. Chi2 test...\n')
+		c, p, dof, expected = stats.chi2_contingency(ctable.values)
+		return [ctable, c, p, dof, expected]
+		
+	#A 2x2 contingency table. Elements should be non-negative integers.
+	print('Computing Fisher test in 2x2 contingency table \n')
+	#P-value, the probability of obtaining a distribution at least as extreme as the one that was actually observed, 
+	#assuming that the null hypothesis is true.
+	#prior odds ratio and not a posterior estimate
+	#https://www.statsmodels.org/stable/contingency_tables.html
+	oddsratio, pvalue = stats.fisher_exact(ctable.values)
+	return [ctable, oddsratio, pvalue]
+
 def main():
 	# Open csv with MRI data
 	plt.close('all')
@@ -1995,11 +1995,24 @@ def main():
 	print('Build dictionary with features ontology and check the features are in the dataframe\n') 
 	#features_dict is the list of clusters, the actual features to plot are hardcoded
 	features_dict = vallecas_features_dictionary(dataframe)
-
-	#testing here cut paste###
 	# select rows with 5 visits
 	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
 	df_loyals = select_rows_all_visits(dataframe, visits)
+
+	#testing here cut paste###
+	labelx, labely = 'conversionmci', 'familial_ad'
+	ctable_res = compute_contingency_table(df_loyals, labelx, labely)
+	if len(ctable_res)==5:
+		print('Results of Chi square test for:', labely, ' ~ ',labelx ,'\n')		
+	else:
+		print('Results of Fishers exact test for:', labely, ' ~ ',labelx ,'\n')
+	print('p value==', ctable_res[2], '\n')
+	print('CTABLE is:',ctable_res[0])
+	 	
+	pdb.set_trace()
+
+
+
 	#print('Plotting histograms for longitudinal variables \n\n')
 	#plot_figures_longitudinal_of_paper(dataframe, features_dict)
 	#plot_figures_longitudinal_of_paper(df_loyals, features_dict, '_loyals')

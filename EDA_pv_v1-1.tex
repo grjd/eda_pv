@@ -879,6 +879,7 @@ Figure \ref{fig:qol4} plots the time series for four measures related to quality
 %\subsubsection{Diagnoses}
 %\label{sse:diag}
 Figure \ref{fig:diag1} plots the time series for the diagnoses administered to subjects for each year's visit. The diagnosis includes 5 categories: Healthy, Subjective Cognitive Decline (SCD), Subjective Cognitive Decline Plus (SCD +), Mild Cognitive Impairment (MCI) and Alzheimer's disease (AD).
+
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/conversion_years_loyals}
@@ -886,45 +887,43 @@ Figure \ref{fig:diag1} plots the time series for the diagnoses administered to s
         \label{fig:diag1}
 \end{figure}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Correlation analysis}
 \label{se:met}
-%YS do normality gaussan tests and compare with risk book taleb mandelbrot
+%YS do normality gaussian tests and compare with risk book taleb mandelbrot
 % take ntes on it
 
 In the previous sections we studied the dataset unidimensionally, that is, we plot distributions and compute statistics one variable at a time. Here we perform correlational analysis, that is, two or more dimensions, in order to study the effect of some variables upon others. Thus, the aim here is to try to come to grips with the mechanisms that could have generated the data, this is the realms of inferential statistics and is different from descriptive statistics and data visualization. Inferential statistics relies on models, so in this section we will plot not only data but the fitting a model to the observed data.
 
-We exhaustively go through each category of features to first perform a visual inspection of whether the features affect the rate of conversion to MCI. The contingency table will gives us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect shown in the contingency table  using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. If the p-value is small enough to be considered relevant we additionally study if the feature has an effect in brain capacity and cognitive reserve measured with brain structure volumes and the Buschke test scores respectively.
-This process of discovery of features is shown in Figure \ref{fig:anovachi}.
+In what follows, we exhaustively go through each category of (static) features previously described in Section (\ref{sse:eda}) to first perform a visual inspection of whether the features affect the rate of conversion to MCI. The contingency table \cite{everitt1992analysis} will gives us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect indicated in the contingency table, using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. If the p-value is small enough to be considered relevant then we study whether the feature (e.g. familial AD) has an effect in brain capacity and cognitive reserve measured with brain structure volumes and the Buschke test scores respectively.
+This discovery process is described in Figure \ref{fig:anovachi}.
 %previous check for ANOVA assumption-normality
-
-%iii. Assuming that the assumptions of ANOVA hold (independence, normality and homogeneity of variance) we can do N-ANOVA tests to study the effect of categorical features (factors) on continuous features .e.g brain sizes. For example familial, apoe and brain size or diet, physical exercise and others and brain size.
+%iii. Assuming that the assumptions of ANOVA hold (independence, normality and homogeneity of variance) we can do N-ANOVA tests to study the effect of categorical features (factors) on continuous features .e.g brain sizes. For example familial, apoe, diet ~ and brain size or diet or physical exercise and others ~ brain size or buschke test. Left size the C var , right side the discrete vars..
 
 % figure explaining this: categorical :mci, categorical 2: familial Ad, fisher test if p small then anova
 %compute_contingency_table(df, labelx, labely)
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth, frame]{figures/anovachi2}
-        \caption{The figure shows the process followed to study whether there is an effect on conversion to MCI for the different categorical features studied in \emph{Proyecto Vallecas}. The contingency table is a tool to quantify relationships via frequency counts between two categorical variables, e.g. conversion to MCI and familial AD. Significance tests eg (Fisher, Chi$^2$) perform hypotheses testing about distributions of categorical data. For example, Is the distribution of converters different for familial AD versus non familial AD? Finally, for the categorical data with small p-values we analyze the differences among group means for variables related to Brain capacity and Cognitive reserve. For example, Is the mean of the hippocampus size/Buschke Integral score different for familial AD?
+        \caption{The figure shows the process followed to study whether there is an effect on conversion to MCI for the different categorical features studied in \emph{Proyecto Vallecas}. A contingency table is a tool to quantify relationships via frequency counts between two categorical variables, e.g. conversion to MCI and familial AD. Significance tests (e.g. Fisher's exact test \cite{fisher1937design}or Chi$^2$) perform hypotheses testing about distributions of categorical data. For example, Is the distribution of converters different for familial AD versus non familial AD? Finally, for the categorical data with small p-values we analyze the differences among group means for variables related to \emph{brain capacity} and \emp{cognitive reserve}. For example, Is the mean of the hippocampus size/Buschke Integral score different for familial AD?
         } 
         \label{fig:anovachi}
 \end{figure}
 
 %For example, computing the conditional distribution of conversion to MCI and certain life style, demographics or subcortical structure volume.
 
-\paragraph*{Genetic, Anthropometric, Demographic}
+\subsection{Genetic, Anthropometric, Demographic}
 
-Figure \ref{fig:genfami} shows the results of grouping by \emph{Conversion to MCI} relative to the genetics profile and familial AD. In essence what we do is to split the data into groups depending on the variable APOE4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 heterozygotes, 2:two copies of APO$\epsilon$4) and familial AD (0: non familial Ad and 1: familial AD).
-For each chart, on the left the grouping is shown in absolute numbers and on the right in relative numbers which is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars for each of the right sided charts must sum 1 and a frequentist could interpreted this function as a probability. 
+Figure \ref{fig:genfami} shows the results of grouping by \emph{Conversion to MCI} relative to the genetics profile and familial AD. In essence what we do is to split the data into groups depending on the variable APO$\epsilon$4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 (heterozygotes), 2:two copies of APO$\epsilon$4 (homozygotes)) and familial AD (0: non familial AD and 1: familial AD).
+For each chart, on the left the grouping is shown in absolute numbers and on the right in relative numbers which is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars on the right sided chart must sum 1 (a frequentist could interpreted this as a probability function). 
 % makes more sense the var you can observe in the y-axis, the inferred var (converson better in the x-acis)
 
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_mci_genetics}
-        \caption{APO$\epsilon4$ and conversion to MCI in the future represented as genetic profile conditioned to conversion, $p(MCI|APO\epsilon4)$. Grouping by conversion to MCI relative to the genetic profile of the subjects. A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.45, p(MCI=1|APOE=2)=0.55$, thus, for those with homozygotic APOE4, $APOE4=2$, the converters to MCI are majority.} 
+        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_mci_genetics}
+        \caption{APO$\epsilon4$ and conversion to MCI in the future, represented as genetic profile conditioned to conversion. Grouping by conversion to MCI relative to the genetic profile of the subjects we obtain $p(MCI|APO\epsilon4)$. A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.45, p(MCI=1|APOE=2)=0.55$. Thus, only for homozygotic APO$\epsilon4$, $APO\epsilon4=2$, the converters to MCI are majority.} 
         \label{fig:groupby_mci_genetics}
 \end{figure}
 
@@ -1002,15 +1001,63 @@ Figure \ref{fig:groupby_Demosmci} shows the results of grouping by \emph{Convers
 \hline
 Conversion&Single&Married&Widow&Divorced \\
 \hline
-No&58($0.82\%$)&484($0.87\%$)&206($0.89\%$)&68($0.92\%$)\\
-Yes&13($0.18\%$)&72($0.13\%$)&26($0.11\%$)&6($0.08\%$)\\
+NoMCI&58($0.82\%$)&484($0.87\%$)&206($0.89\%$)&68($0.92\%$)\\
+MCI&13($0.18\%$)&72($0.13\%$)&26($0.11\%$)&6($0.08\%$)\\
 %Mary Johnson&4&5&&\\
 \hline
 \label{tab:marital}
 \end{tabular}
 \end{table}%
 
-\paragraph*{Sleep}
+
+\paragraph*{Statistical tests for Genetic, Anthropometric, Demographic and MCI}
+%contingency table anf Fisher's exact test APOE ~MCI
+The contingency table displaying the frequency distribution of APOE and MCI is shown in \ref{tab:apoemci}. The significance of the difference between the proportion levels is assessed using $\tilde{\chi}^2$  test.
+
+\begin{table}[ht]
+\centering
+\caption{Contingency table showing the proportion of conversion to MCI conditioned to APO$\epsilon$ (lack of allele, heterozygote, homozygote).}
+\begin{tabular}[t]{lccc}
+\hline
+Conversion&APO$\epsilon=0$&APO$\epsilon=1$&APO$\epsilon=2$ \\
+\hline
+NoMCI&334&51&3\\
+MCIs&28&13&2\\
+\hline
+\label{tab:apoemci}
+\end{tabular}
+\end{table}%
+The statistical test, $\tilde{\chi}^2 = 0.0006567806819847495$
+
+%contingency table anf Fisher's exact test familialAD ~MCI
+The contingency table displaying the frequency distribution of familial AD and MCI is shown in \ref{tab:famimci}. The significance of the difference between the proportion levels is assessed using the Fisher's exact test.
+
+\begin{table}[ht]
+\centering
+\caption{Contingency table showing the proportion of conversion to MCI conditioned to familial AD.}
+\begin{tabular}[t]{lcc}
+\hline
+Conversion&{$FamilialAD=0$}&{$FamilialAD=1$} \\
+\hline
+No MCI&265&135\\
+MCI&20&23\\
+\hline
+\label{tab:apoemci}
+\end{tabular}
+\end{table}%
+The statistical test, $F = 0.018823596850710535$
+
+%sex and hand laterality
+
+%educ level, marital status, sons, renta
+
+%suff sleep, rem dreams, moves, snores, noise, tingling
+% diet no
+%phys ex d/w
+%psychosocial fig12
+%fig 13
+
+\subsection{Sleep}
 
 Figure \ref{fig:groupby_sleep_mci} shows the results of grouping by \emph{Conversion to MCI} relative to information about the sleep patterns. A quick visual inspection seems to indicate that remembering dreams, sleep with movement, sleep with tingling are less frequent in converters while the opposite happens for snoring and noises while sleeping. No converters for any subject that sleeps more than 2 hours during the day, there is neither converter that sleeps more than 10 hours by night.
 
@@ -1021,8 +1068,11 @@ Figure \ref{fig:groupby_sleep_mci} shows the results of grouping by \emph{Conver
         \label{fig:groupby_sleep_mci}
 \end{figure}
 
+\paragraph*{Statistical tests for Sleep and MCI}
 
-\paragraph*{Life style}
+
+
+\subsection{Life style}
 Here we study the grouping by \emph{Conversion to MCI} relative to information about life style patterns. Life style is a quite vague  category where completeness is certainly unwarranted. Nevertheless, \emph{The Vallecas Project} makes available a representative set of factors including, food consumption and diet, physical exercise and social life.
 
 Figure \ref{fig:groupby_food_mci} shows the results of grouping by \emph{Conversion to MCI} relative to food consumption in weekly basis. We outline four group foods: fruits, vegetables, red meat and sweets. A visual inspection shows no effect of food consumption on conversion to MCI. %As for all the charts in this section each coloured bar must sum one. 
@@ -1063,8 +1113,9 @@ Figure \ref{fig:groupby_social_mci} shows the results of grouping by \emph{Conve
         \label{fig:groupby_social_mci}
 \end{figure}
 
+\paragraph*{Statistical tests for Life style and MCI}
 
-\paragraph*{Cardiovascular}
+\subsection{Cardiovascular}
 Figure \ref{fig:groupby_cardio_mci} shows the results of grouping \emph{Conversion to MCI} by activities to the cardiovascular health of the subjects. A quick visual inspection seems to indicate a higher conversion ratio for subjects with heart problems (e.g. infarction) but not for overweight or smokers.
 
 \begin{figure}[H]
@@ -1074,8 +1125,9 @@ Figure \ref{fig:groupby_cardio_mci} shows the results of grouping \emph{Conversi
         \label{fig:groupby_cardio_mci}
 \end{figure}
 
+\paragraph*{Statistical tests for Cardiovascular and MCI}
 
-\paragraph*{Traumatic brain injury}
+\subsection{Traumatic brain injury}
 Figure \ref{fig:groupby_tbi_mci} shows the results of grouping \emph{Conversion to MCI} by episodes of traumatic brain injury. A quick visual inspection seems to indicate a higher conversion ratio for subjects a history of TBI incidents
 
 \begin{figure}[H]
