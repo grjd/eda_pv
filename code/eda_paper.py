@@ -1218,6 +1218,24 @@ def plot_histograma_demographics_categorical(df, target_variable=None):
 	"""
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
 	d, p= pd.Series([]), pd.Series([])
+	# sex and laterality
+	df['sexo'] = df['sexo'].astype('category').cat.rename_categories(['M', 'F'])
+	df['lat_manual'] = df['lat_manual'].astype('category').cat.rename_categories(['R', 'L', 'B', 'LC'])
+
+	fig, ax = plt.subplots(1,2)
+	fig.set_size_inches(6,5)
+	d = df.groupby([target_variable, 'sexo']).size().unstack(level=1)
+	d = d / d.sum()
+	p = d.plot(kind='bar', ax=ax[0])
+
+	d = df.groupby([target_variable, 'lat_manual']).size().unstack(level=1)
+	d = d / d.sum()
+	p = d.plot(kind='bar', ax=ax[1])
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_path, 'groupby_sexolat.png'), dpi=240)
+	return
+
+
 
 	df['nivel_educativo'] = df['nivel_educativo'].astype('category').cat.rename_categories(['~Pr', 'Pr', 'Se', 'Su'])
 	
@@ -1611,7 +1629,6 @@ def anova_test_2groups(dataframe, ed, ing):
 def anova_tests_paper(dataframe_conv, features_dict):
 	"""
 	"""
-	features_dict 
 	list_clusters, list_features =  features_dict.keys(), features_dict.values()
 	static_topics = filter(lambda k: '_s' in k, list_clusters)
 	longitudinal_topics = [a for a in list_clusters if (a not in static_topics)]
@@ -1963,11 +1980,15 @@ def compute_contingency_table(df, labelx, labely):
 	import scipy.stats as stats
 
 	#df['mci'] = df[labelx].astype('category')
+	# remove no sabe no contesta
+	if labely in ['sue_rec','sue_suf', 'sue_pro', 'sue_ron', 'sue_mov', 'sue_rui', 'sue_hor','sdestciv', 'arri', 'cor', 'glu', 'hta', 'ictus', 'lipid', 'tir', 'nivel_educativo', 'tce']: 
+		df[labely] = df[labely][df[labely] !=9]
 	x_series = df[labelx].dropna().astype('int')
 	y_series = df[labely].dropna().astype('int')
 	ctable = pd.crosstab(index=x_series, columns=y_series)
 	ctable.index = x_series.unique()
-	ctable.columns= y_series.unique()
+	ctable.columns = y_series.unique()
+	ctable.columns = np.sort(y_series.unique())
 	if ctable.shape[0] != 2 or ctable.shape[1] != 2: 
 		print('Contingency table is not 2x2. Chi2 test...\n')
 		c, p, dof, expected = stats.chi2_contingency(ctable.values)
@@ -1981,6 +2002,35 @@ def compute_contingency_table(df, labelx, labely):
 	#https://www.statsmodels.org/stable/contingency_tables.html
 	oddsratio, pvalue = stats.fisher_exact(ctable.values)
 	return [ctable, oddsratio, pvalue]
+
+
+def compute_contingencytable_lifestyle(df, target_variable=None):
+	"""
+	"""	
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures'
+	lista_engag_ext_w = ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', \
+	'a10', 'a11', 'a12', 'a13', 'a14']
+	list_cardio=['hta', 'glu', 'lipid', 'tabac', 'sp', 'cor', 'arri', 'card', 'tir', 'ictus']
+	#physical activities 1, creative 2, go out with friends 3,travel 4, ngo 5,church 6, social club 7,
+	# cine theater 8,sport 9, listen music 10, tv-radio (11), books (12), internet (13), manualidades(14)
+	for labely in list_cardio:
+		if labely is 'a10':
+			# error in a10 remove 0s
+			df[labely] = df[labely][df[labely] !=0]
+		if labely is 'ictus':
+			#remove 23 too few 
+			df[labely] = df[labely][df[labely] !=2]
+		if labely in ['arri', 'sp', 'cor', 'card', 'glu', 'hta', 'ictus', 'lipid', 'tir', 'nivel_educativo', 'tce']:
+			df[labely] = df[labely][df[labely] !=9]
+
+		ctable_res = compute_contingency_table(df, target_variable, labely)
+		if len(ctable_res)==5:
+			print('Results of Chi square test for:', labely, ' ~ ',target_variable ,'\n')		
+		else:
+			print('Results of Fishers exact test for:', labely, ' ~ ',target_variable ,'\n')
+		print('p value ==', ctable_res[2], '\n')
+		print('CTABLE is:',ctable_res[0])
+
 
 def main():
 	# Open csv with MRI data
@@ -2000,14 +2050,24 @@ def main():
 	df_loyals = select_rows_all_visits(dataframe, visits)
 
 	#testing here cut paste###
-	labelx, labely = 'conversionmci', 'familial_ad'
+	#plot_histograma_demographics_categorical(dataframe, 'conversionmci')
+
+	#'sdestciv', 'nivel_educativo', 'nivelrenta'
+	# 'sexo' 'lat_manual' 'sue_suf', 'sue_pro' 'sue_ron' 'sue_mov' 'sue_rui' sue_hor' sue_rec'
+	# Chi/Fisher for all life style in fig. 12
+	compute_contingencytable_lifestyle(df_loyals, 'conversionmci')
+	pdb.set_trace()
+	labelx, labely = 'conversionmci', 'sue_rui' #'nivelrenta'
 	ctable_res = compute_contingency_table(df_loyals, labelx, labely)
+	ctable_res2 = compute_contingency_table(dataframe, labelx, labely)
 	if len(ctable_res)==5:
 		print('Results of Chi square test for:', labely, ' ~ ',labelx ,'\n')		
 	else:
 		print('Results of Fishers exact test for:', labely, ' ~ ',labelx ,'\n')
-	print('p value==', ctable_res[2], '\n')
-	print('CTABLE is:',ctable_res[0])
+	print('p value Loyals==', ctable_res[2], '\n')
+	print('CTABLE Loyals is:',ctable_res[0])
+	print('p value 2 visits==', ctable_res2[2], '\n')
+	print('CTABLE 2 visists is:',ctable_res2[0])
 	 	
 	pdb.set_trace()
 
