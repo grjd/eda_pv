@@ -15,7 +15,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[utf8]{luainputenc}
 %\usepackage{floatrow}
-
+\usepackage{multirow, booktabs}
+\usepackage[table]{xcolor}
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
 %\usepackage[T1]{fontenc}
 %\usepackage{pgffor}
 %\usepackage{lipsum}
@@ -121,7 +124,7 @@
 %    \\ \emph{Valderrebollo, 5, 28031 Madrid}
 % }
 \author{
-    \textbf{\large{Big Data Research and Brain Analytics Unit}}   \\  \\
+    \textbf{\large{Data Research and Brain Analytics Unit}}   \\  \\
     \large{Fundaci\'on Reina Sof\'ia} \\
     Centre for Research in Neurodegenarative Diseases (Fundaci\'on CIEN)
     \\ \emph{Valderrebollo, 5, 28031 Madrid}
@@ -903,11 +906,15 @@ In the previous sections we studied the dataset unidimensionally, that is, we pl
 %Inferential statistics relies on models, so in this section we will plot not only data but the fitting a model to the observed data.
 
 In what follows we go through each category of (static) features previously described in Section (\ref{sse:eda}) to via a visual inspection, investigate whether the features affect the rate of conversion to MCI. The contingency table \cite{everitt1992analysis} will gives us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect indicated in the contingency table, using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. 
-We compute the Fisher's exact test when the contingency table is $2 \times 2$ and the Chi test otherwise \cite{scipy2010}. If the independent variable is defined in the Reals (e.g. weight) we perform a one way ANOVA.
+We compute the Fisher's exact test when the contingency table is $2 \times 2$ and the Chi test otherwise \cite{scipy2010}. If the independent variable is not categorical (e.g. weight, defined in $\mathbb{R}$) we perform a one way ANOVA.
 If the p-value is small enough to be considered relevant then we study whether the feature (e.g. familial AD) has an effect in brain capacity and cognitive reserve measured with brain structure volumes and the Buschke test scores respectively.
-This discovery process is described in Figure \ref{fig:anovachi}.
+This discovery process is described in Figure \ref{fig:anovachi}. 
+
+The reader can go straight to the results of the statistical tests. Table \ref{tab:fischiall} shows the p-values to asses the effect of categorical variables on conversion to MCI, using Fisher's and $\tilde{\chi}^2$ tests (Fisher's test if the contingency matrix is $2x2$  and $\tilde{\chi}^2$ test otherwise). Table \ref{tab:anovascont} asses the effect of non-categorical variables using one-way ANOVA, providing the p-values, the OLS estimator for $\beta$ and the effect size.
+
+
 %previous check for ANOVA assumption-normality
-%iii. Assuming that the assumptions of ANOVA hold (independence, normality and homogeneity of variance) we can do N-ANOVA tests to study the effect of categorical features (factors) on continuous features .e.g brain sizes. For example familial, apoe, diet ~ and brain size or diet or physical exercise and others ~ brain size or buschke test. Left size the C var , right side the discrete vars..
+%iii. Assuming that the assumptions of ANOVA hold (independence, normality and homogeneity of variance) we can do N-ANOVA tests to study the effect of categorical features (factors) on continuous features .e.g brain sizes. For example familial, apoe, diet ~ and brain size or diet or physical exercise and others ~ brain size or buschke test. Left size the C var , right side the discrete vars.
 %if fisher pvalue <0.05  conclude that our observed imbalance is statistically significant; whales prefer the Atlantic while sharks prefer the Indian ocean.
 
 % figure explaining this: categorical :mci, categorical 2: familial Ad, fisher test if p small then anova
@@ -926,16 +933,23 @@ This discovery process is described in Figure \ref{fig:anovachi}.
 
 %sex and hand laterality
 
-Figure \ref{fig:groupby_sexolat} shows the results of grouping by \emph{Conversion to MCI} relative to the sex.
+Figure \ref{fig:groupby_sexolat} shows the results of grouping by \emph{Conversion to MCI} relative to the \emph{sex} and \emph{hand laterality}. The contingency tables are shown in \ref{tab:sexomci} and \ref{tab:handmci}, respectively.
+The likelihood, via p-values, that a relationship between these two variables and conversion to MCI is caused by something other than chance are shown \ref{tab:fischiall}. The p-values are computed for two different scenarios: for subjects that have at least 2 visits (920 subjects) and for subjects that came to all their 6 visits (471 subjects).
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_sexolat}
-        \caption{Frequency of sex and hand laterality related conversion to MCI in the future.} 
+        \caption{Frequency of sex and hand laterality related conversion to MCI in the future(for subjects with at least 2 visits).} 
         \label{fig:groupby_sexolat}
 \end{figure}
 
-The contingency tables displaying the frequency distribution of sex and MCI and hand laterality and MCI are shown in \ref{tab:sexomci} and \ref{tab:handmci} respectively. The significance of the difference between the proportion levels of sex is assessed using the Fisher's exact test and  $\tilde{\chi}^2$ for hand laterality.
+\paragraph*{Statistical tests for sex and hand laterality}
+%contingency table and Fisher's exact test APOE ~MCI
+
+The contingency tables displaying the frequency distribution of \emph{sex} and \emph{MCI} and \emph{hand laterality} and \emph{MCI} are shown in \ref{tab:sexomci} and \ref{tab:handmci} respectively. The significance of the difference between the proportion levels of sex is assessed using the Fisher's exact test and  $\tilde{\chi}^2$ for hand laterality.
+
+No statistical significance is observed between these variables and conversion to MCI. 
+%Statistical significance is the likelihood that a relationship between two or more variables is caused by something other than chance.
 
 \begin{minipage}[b]{.40\textwidth}
    \centering
@@ -946,9 +960,9 @@ The contingency tables displaying the frequency distribution of sex and MCI and 
     No MCI&165&265\\
     MCI&15&28\\
     \hline
-    \label{tab:sexomci}
+    %\label{tab:sexomci}
   \end{tabular}
-   \captionof{table}{Contingency table proportion of conversion to MCI conditioned and sex. The statistical test, $F = 0.416307178710994$.}
+   \captionof{table}{Contingency table proportion of conversion to MCI conditioned and sex.}
    \label{tab:sexomci}
 \end{minipage}\qquad
 \begin{minipage}[b]{.40\textwidth}
@@ -960,27 +974,28 @@ The contingency tables displaying the frequency distribution of sex and MCI and 
     No MCI&365&7&14&7\\
     MCI&38&1&1&1\\
     \hline
-    \label{tab:handmci}
+    %\label{tab:handmci}
   \end{tabular}
-   \captionof{table}{Contingency table proportion of conversion to MCI conditioned and hand laterality. The statistical test, $\tilde{\chi}^2 = 0.05430944$.}
+   \captionof{table}{Contingency table: proportion of conversion to MCI conditioned to sex and hand laterality.}
    \label{tab:handmci}
 \end{minipage}
 
+Figure \ref{fig:groupby_mci_genetics} shows the results of grouping by \emph{conversion to MCI} relative to the genetics profile. In essence what we do is to split the data into groups depending on the variable APO$\epsilon$4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 (heterozygotes), 2:two copies of APO$\epsilon$4 (homozygotes)). 
 
-Figure \ref{fig:groupby_mci_genetics} shows the results of grouping by \emph{Conversion to MCI} relative to the genetics profile. In essence what we do is to split the data into groups depending on the variable APO$\epsilon$4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 (heterozygotes), 2:two copies of APO$\epsilon$4 (homozygotes)). 
-Figure \ref{fig:groupby_mci_fami}  shows the results of grouping by \emph{Conversion to MCI} relative to familial AD (0: non familial AD and 1: familial AD).
+Figure \ref{fig:groupby_mci_fami} shows the results of grouping by \emph{conversion to MCI} relative to \emph{familial AD} (0: non familial AD and 1: familial AD).å
 
-For each chart, on the left the grouping is in absolute numbers and on the right side in relative numbers which is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars on the right sided chart must sum 1 (a frequentist could interpreted this as a probability function). 
-% makes more sense the var you can observe in the y-axis, the inferred var (converson better in the x-acis)
-
-
+Note that for each chart in Figures \ref{fig:groupby_mci_genetics} and  \ref{fig:groupby_mci_fami}, on the left side the grouping is in absolute numbers and on the right side in relative numbers, the latter is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars on the right sided charts must sum 1 (a frequentist could interpreted this as a probability function) \cite{Gomez-ramirez_limitations_2013}. 
+%Grouping by conversion to MCI relative to the genetic profile of the subjects we obtain $p(MCI|APO\epsilon4)$.
+% makes more sense the var you can observe in the y-axis, the inferred var (converson better in the x-axis)
+%A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.45, p(MCI=1|APOE=2)=0.55$. Thus, only for homozygotic APO$\epsilon4$, $APO\epsilon4=2$, the converters to MCI are majority.
+%$p(MCI=0|fAD=0)=.88, p(MCI=1|fAD=0)=0.12, p(MCI=0|fAD=1)=0.86, p(MCI=1|fAD=1)=0.14$
+%YS: haceer cuentas de bayesian si pb de convertir es 10 q pasa si tgo un sistema que predice esto 99 de bien y me encuentro uno y me dice la maquina q convuerte
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_mci_genetics}
-        \caption{APO$\epsilon4$ and conversion to MCI in the future, represented as genetic profile conditioned to conversion. Grouping by conversion to MCI relative to the genetic profile of the subjects we obtain $p(MCI|APO\epsilon4)$.} 
+        \caption{APO$\epsilon4$ and conversion to MCI in the future(for subjects with at least 2 visits), represented as the genetic profile (APO$\epsilon4$) conditioned to conversion.} 
         \label{fig:groupby_mci_genetics}
 \end{figure}
-%A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.45, p(MCI=1|APOE=2)=0.55$. Thus, only for homozygotic APO$\epsilon4$, $APO\epsilon4=2$, the converters to MCI are majority.
 
 \begin{figure}[H]
         \centering
@@ -988,15 +1003,16 @@ For each chart, on the left the grouping is in absolute numbers and on the right
         \caption{Grouping of conversion to MCI conditioned by familial AD.} 
         \label{fig:groupby_mci_fami}
 \end{figure}
-%$p(MCI=0|fAD=0)=.88, p(MCI=1|fAD=0)=0.12, p(MCI=0|fAD=1)=0.86, p(MCI=1|fAD=1)=0.14$
 
 \paragraph*{Statistical tests for genetic profile and MCI}
 %contingency table and Fisher's exact test APOE ~MCI
-The contingency table displaying the frequency distribution of APOE and MCI is shown in Table \ref{tab:apoemci}. The significance of the difference between the proportion levels is assessed using the $\tilde{\chi}^2$ test, $\tilde{\chi}^2 = 0.00065$, the imbalance is thus statistically significant and homozygotic APOE subjects have a larger conversion rate to MCI.
+
+The contingency table displaying the frequency distribution of APOE and MCI is shown in Table \ref{tab:apoemci}. The significance of the difference between the proportion levels is assessed using the $\tilde{\chi}^2$ test. The imbalance observed in Table \ref{tab:apoemci} is thus statistically significant and homozygotic APOE subjects have a larger conversion rate to MCI. Note that the frequency count for the homozygote cells(last column in Table \ref{tab:apoemci}) are very small (3 and 2). 
+%This is related to the problem of underrepresentation of the converter to MCI class. 
 
 \begin{table}[ht]
 \centering
-\caption{Contingency table showing the proportion of conversion to MCI conditioned to APO$\epsilon$ (lack of allele, heterozygote, homozygote). The statistical test, $\tilde{\chi}^2 = 0.00065$}
+\caption{Contingency table showing the proportion of conversion to MCI conditioned to APO$\epsilon$ (lack of allele, heterozygote, homozygote) for subjects with all their 6 visits.}
 \begin{tabular}[t]{lccc}
 \hline
 Conversion&APO$\epsilon=0$&APO$\epsilon=1$&APO$\epsilon=2$ \\
@@ -1009,12 +1025,12 @@ MCI&28&13&2\\
 \end{table}%
 
 %contingency table anf Fisher's exact test familialAD ~MCI
-The contingency table displaying the frequency distribution of familial AD and MCI is shown in Table \ref{tab:famimci}. The significance of the difference between the proportion levels is assessed using the Fisher's exact test, $F = 0.01882$ which means that the probability that we would observe this or an even more imbalanced ratio in familial AD related to MCI by chance is about $2\%$.
+The contingency table displaying the frequency distribution of familial AD and MCI is shown in Table \ref{tab:famimci}. The significance of the difference between the proportion levels is assessed using the Fisher's exact test, $F = 0.01882$ which means that the probability that we would observe this or an even more imbalanced ratio in familial AD related to MCI by chance is about $2\%$. Nevertheless, when the test if performed for a longer N (subjects that came to at least two visits) we find a p-value above the $5\%$(Table \ref{tab:fischiall}).
 %the imbalance is statistically significant for a significance level is $5\%$. 
 
 \begin{table}[ht]
 \centering
-\caption{Contingency table showing the proportion of conversion to MCI conditioned to familial AD. The Fisher's statistical test, $F = 0.01882$}
+\caption{Contingency table showing the proportion of conversion to MCI conditioned to familial AD for subjects with all their 6 visits.}
 \begin{tabular}[t]{lcc}
 \hline
 Conversion&{$FamilialAD=0$}&{$FamilialAD=1$} \\
@@ -1027,33 +1043,34 @@ MCI&20&23\\
 \end{table}%
 
 %Anthro. bmi, abdo, weight, height
-Figure \ref{fig:groupby_anthropometric_mci} shows the results of grouping by \emph{Conversion to MCI} relative to anthropometric features, i.e: BMI, abdominal perimeter, weight and height. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending depending on the body mass index and related variables. The split is performed using the four quartiles of each variable as described in the legend.
+Figure \ref{fig:groupby_anthropometric_mci} shows the results of grouping by \emph{conversion to MCI} relative to anthropometric features, i.e: \emph{BMI, abdominal perimeter, weight} and \emph{height}. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending depending on the body mass index and related variables. The split is performed using the four quartiles of each variable as described in the figure's legend .
 %YS : hacer esto con 1 way anova or ttest
-We do not observe any relevant conditioning of these variables on conversion to MCI.
+A one way ANOVa is performed for each variables separately, not observing any relevant conditioning of any these variables on conversion to MCI. Although the p-value of BMI is below the $5\%$ (only for subjects that came to at least 2 visits and not for those that came to all their visits), but the effect is very small, $<0.1$). See Table \ref{tab:anovascont}.
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_anthropometric_mci}
-        \caption{The figure shows the grouping by conversion to MCI relative to the body mass index, abdominal perimeter, weight and height, all in relative numbers to acknowledge the fact that the dataset is unbalanced (the ratio non converters converters is 9 to 1).} 
-        \label{fig:groupby_genetics_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to the body mass index, abdominal perimeter, weight and height (quartiles), all in relative numbers to acknowledge the fact that the dataset is unbalanced (the ratio non converters converters is 9 to 1).} 
+        \label{fig:groupby_anthropometric_mci}
 \end{figure}
 
 %Demographics
-Figure \ref{fig:groupby_Demosmci} shows the results of grouping by \emph{Conversion to MCI} relative to demographics information such as education level, family size and residence, marital status, self perceived socioeconomic status and work experience. Interestingly, within a frequentist interpretation, the probability to convert to MCI being single is larger than being married which is larger than being widowed which in turn is larger than convert to MCI being a divorcee (See Table \ref{tab:marital} for the specifics). 
+Figure \ref{fig:groupby_Demosmci} shows the results of grouping by \emph{conversion to MCI} relative to demographics information such as education level, family size, residence, marital status, self perceived socioeconomic status and work experience. 
+%Interestingly, within a frequentist interpretation, the probability to convert to MCI being single is larger than being married which is larger than being widowed which in turn is larger than convert to MCI being a divorcee (See Table \ref{tab:marital} for the specifics). 
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_Demosmci}
-        \caption{The figure shows the grouping by conversion to MCI relative to demographics information. From up left to bottom right: conversion conditioned to educational level, number of sons, years of work as an employee, self perceived socioeconomic status, marital status, number of people living at home } 
+        \caption{The figure shows the grouping by conversion to MCI relative to demographics information(for subjects with at least 2 visits). From up left to bottom right: conversion conditioned to educational level, number of sons, years of work as an employee, self perceived socioeconomic status, marital status, number of people living at home } 
         \label{fig:groupby_Demosmci}
 \end{figure}
 
 The contingency tables displaying the frequency distribution of MCI and marital status is shown in \ref{tab:maritmci}. The significance of the difference between the proportion levels of marital status (single, married, widow, divorced) is assessed using the Fisher's exact test.
-We do not observe any relevant conditioning of marital status on conversion to MCI.
+We do not observe relevant conditioning of marital status on conversion to MCI (Table \ref{tab:fischiall}).
 
 \begin{table}[ht]
   \centering
-  \caption{Contingency table showing the proportion of conversion to MCI and marital status. The statistical test, $\tilde{\chi}^2 = 0.95909$}
+  \caption{Contingency table showing the proportion of conversion to MCI and marital status for subjects with all their 6 visits.}
   \begin{tabular}[t]{lcccc}
   \hline
   Conversion&{$Single$}&{$Married$}&{$Widow$}&{$Divorced$} \\
@@ -1067,7 +1084,7 @@ We do not observe any relevant conditioning of marital status on conversion to M
 
 %educ level, marital status, sons, renta
 The contingency tables displaying the frequency distribution of education level and MCI and wealth relative to MCI are shown in \ref{tab:edumci} and \ref{tab:rentamci}, respectively. The significance of the difference between the proportion levels of educational level is assessed using the Fisher's exact test and $\tilde{\chi}^2$ for wealth.
-We do not observe any relevant conditioning of educational level or wealth (residency) on conversion to MCI.
+We do not observe any relevant conditioning of educational level or wealth (residency) on conversion to MCI (Table \ref{tab:fischiall}).
 
 \begin{minipage}[b]{.40\textwidth}
    \centering
@@ -1078,7 +1095,7 @@ We do not observe any relevant conditioning of educational level or wealth (resi
     No MCI&112&126&57&96\\
     MCI&11&12&5&13\\
     \hline
-    \label{tab:sexomci}
+    %\label{tab:sexomci}
   \end{tabular}
    \captionof{table}{Contingency table proportion of conversion to MCI and educational level. The statistical test, $\tilde{\chi}^2 = 0.5303475$.}
    \label{tab:edumci}
@@ -1092,17 +1109,16 @@ We do not observe any relevant conditioning of educational level or wealth (resi
     No MCI&82&243&66\\
     MCI&5&31&7\\
     \hline
-    \label{tab:rentamci}
+    %\label{tab:rentamci}
   \end{tabular}
-   \captionof{table}{Contingency table proportion of conversion to MCI and wealth. The statistical test, $\tilde{\chi}^2 = 0.3162510$}
-   \label{tab:handmci}
+   \captionof{table}{Contingency table proportion of conversion to MCI and wealth estimation based on residency.}
+   \label{tab:rentamci}
 \end{minipage}
-
-%phys ex d/w
 
 \subsection{Sleep}
 %suff sleep, rem dreams, moves, snores, noise, tingling
-Figure \ref{fig:groupby_sleep_mci} shows the results of grouping by \emph{Conversion to MCI} relative to information about the sleep patterns. A quick visual inspection seems to indicate that remembering dreams, sleep with movement, sleep with tingling are less frequent in converters while the opposite happens for snoring and noises while sleeping. No converters for any subject that sleeps more than 2 hours during the day, there is neither converter that sleeps more than 10 hours by night.
+Figure \ref{fig:groupby_sleep_mci} shows the results of grouping by \emph{conversion to MCI} relative to information about sleep patterns self-reported by the subjects. 
+%A quick visual inspection seems to indicate that remembering dreams, sleep with movement, sleep with tingling are less frequent in converters while the opposite happens for snoring and noises while sleeping. No converters for any subject that sleeps more than 2 hours during the day, there is neither converter that sleeps more than 10 hours by night.
 
 \begin{figure}[H]
         \centering
@@ -1114,6 +1130,9 @@ Figure \ref{fig:groupby_sleep_mci} shows the results of grouping by \emph{Conver
 %\paragraph*{Statistical tests for Sleep and MCI}
 %categorical deep sleep, suff sleep remember dreams moves, snore tingling, noises
 % relas: number hours night and day
+The contingency tables displaying the frequency distribution of \emph{deep sleep} and MCI and \emph{remember dreams} and MCI are shown in \ref{tab:deepsleep} and \ref{tab:remdreams}, respectively. 
+We do not observe any relevant effect of sleep related variables on conversion to MCI (Table \ref{tab:fischiall}).
+
 
 \begin{minipage}[b]{.40\textwidth}
    \centering
@@ -1153,11 +1172,14 @@ Figure \ref{fig:groupby_food_mci} shows the results of grouping by \emph{Convers
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_food_mci}
-        \caption{The figure shows the grouping by conversion to MCI relative to food consumption in weekly basis. From up left to bottom right: fruits, vegetables, red meat and sweets.  Curiously, the highest rate of conversion is when subjects report 6-7 days/week consumption (red bars) in any of the four groups of food depicted. The majority of subjects,$63\%$, claims to eat fruit 6-7 days/week, $35\%$ vegetables, only $4\%$ red ,eat and $24\%$ claim to eat sweets 6-7 days/week.} 
+        \caption{The figure shows the grouping by conversion to MCI relative to food consumption in weekly basis. From up left to bottom right: fruits, vegetables, red meat and sweets. The majority of subjects,$63\%$, claims to eat fruit 6-7 days/week, $35\%$ vegetables, only $4\%$ red ,eat and $24\%$ claim to eat sweets 6-7 days/week.} 
         \label{fig:groupby_food_mci}
+        %Curiously, the highest rate of conversion is when subjects report 6-7 days/week consumption (red bars) in any of the four groups of food depicted. 
 \end{figure}
 
-Figure \ref{fig:groupby_diet_mciQuart} shows the results of grouping by \emph{Conversion to MCI} relative to diet. We distinguish between four types of diets baaed on food consumption, high in sugar diet, high in proteins diet, high in fruits and vegetables (Mediterranean) diet and high in fats diet. A visual inspection shows no effect of the type of diet on conversion to MCI with the exception of the bottom right plot (diet high in fats) with shows a very high rate of converters ($50\%$), however this is a very small group of only 10 subjects of a total of 1180 that fall into the quartile of no fat consumption. 
+Figure \ref{fig:groupby_diet_mciQuart} shows the results of grouping by \emph{conversion to MCI} relative to diet. We distinguish between four types of diets based on food consumption: high in sugar, high in proteins, high in fruits and vegetables (Mediterranean) and high in fats. A visual inspection shows no effect of the type of diet on conversion to MCI with the exception of the bottom right plot (diet high in fats) which shows a very high rate of converters ($50\%$). This appreciation is confirmed when we perform 1 way ANOVA tests(Table \ref{tab:anovascont}), we obtain values bellow $1\%$, however the effect size is too small ($<0.01$). 
+%However this is a very small group of only 10 subjects that fall into the quartile of no fat consumption. 
+%YS Plot contingency table of fattos
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_diet_mciQuart}
@@ -1166,17 +1188,18 @@ Figure \ref{fig:groupby_diet_mciQuart} shows the results of grouping by \emph{Co
 \end{figure}
 
 %physical exercise
-Figure \ref{fig:groupby_physex_mci} shows the results of grouping by \emph{Conversion to MCI} physical exercise. The physical activity in minutes of physical exercise per week. % computed as the product of the number of sessions per week and the average minutes per session.
+Figure \ref{fig:groupby_physex_mci} shows the results of grouping by \emph{Conversion to MCI} physical exercise. The physical activity is computed as the product of the number of sessions per week and the average minutes per session.
+We do not observe relevant conditioning of physical exercise on conversion to MCI (Table \ref{tab:anovascont}).
 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.4\linewidth]{figures/groupby_physex_mci}
-        \caption{The figure shows the grouping by conversion to MCI relative to physical exercise computed as the product of the number of number of sessions/week and minutes per session that yields the estimated total minutes of physical exercise per week.} 
-        \label{fig:groupby_sleep_mci}
+        \caption{The figure shows the grouping by conversion to MCI relative to physical exercise (minutes of physical exercise per week).} 
+        \label{fig:groupby_physex_mci}
 \end{figure}
 
 %engagement external world
-Figure \ref{fig:groupby_social_mci} shows the results of grouping by \emph{Conversion to MCI} activities referred to social life and the subject's engagement with the external world. A quick visual inspection seems to indicate a lesser conversion ratio for regular users of the Internet and new technologies and those that often go to the movie theater and to sport events.
+Figure \ref{fig:groupby_social_mci} shows the results of grouping by \emph{conversion to MCI} relative to activities referred to social life and the subject's engagement with the external world. A quick visual inspection seems to indicate a lesser conversion ratio for regular users of the Internet and new technologies and those that often go to the movie theater and to sport events, the opposite if observed for church goers.
 
 \begin{figure}[H]
         \centering
@@ -1186,24 +1209,23 @@ Figure \ref{fig:groupby_social_mci} shows the results of grouping by \emph{Conve
         \label{fig:groupby_social_mci}
 \end{figure}
 
-\paragraph*{Statistical tests for Life style and MCI}
+%\paragraph*{Statistical tests for Life style and MCI}
 The statistical tests for life style features are included in Table \ref{tab:fischiall}.
-We observe relevant conditioning on conversion to MCI for going to church and also for going to the movie theater.
-Using the internet is relevant for subjects with at least 2 visits (not when all the 6 visits are accounted for) and the reverse occurs for traveling, significant for visits coming to all their vists not for those that come to at least 2.
-%YS whuy is this??
+We observe relevant conditioning on conversion to MCI for going to church and also for going to the movie theater and using the Internet and IT.
+Using the Internet is relevant for subjects with at least 2 visits (not when all the 6 visits are accounted for) and the reverse occurs for traveling, significant for visits coming to all their vists not for those that come to at least 2.
+%YS why is this??
 
 \subsection{Cardiovascular and cerebrovascular pathologies}
-Figure \ref{fig:groupby_cardio_mci} shows the results of grouping \emph{Conversion to MCI} by activities to the cardiovascular health of the subjects. A quick visual inspection seems to indicate a higher conversion ratio for subjects with heart problems (e.g. infarction) but not for overweight or smokers.
-
-
+Figure \ref{fig:groupby_cardio_mci} shows the results of grouping by \emph{conversion to MCI} relative to the cardiovascular health and cerebrovascular of the subjects. A quick visual inspection seems to indicate a higher conversion ratio for subjects with heart problems (e.g. infarction) but not for overweight or smokers.
+This observation is not confirmed when we perform statistical tests (Table \ref{tab:fischiall}).
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_cardio_mci}
-        \caption{The figure shows the grouping by conversion to MCI relative to the cardiovascular health of the subjects. From up left to bottom right: blood preassure (\emph{Normal blood preassure, hypertension}), diabetes (\emph{No diabetic, diabetes mellitus, intollerance to carbs}),Smoke (\emph{Non smoker, Smoker, Ex-smoker}), body mass index (\emph{No overweight, overweight}) ,cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}),arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), heart stroke (\emph{No past strokes, Angina, Stroke}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}), ictus (\emph{No, Ischemic, Hemorrhagic}).}
+        \caption{The figure shows the grouping by conversion to MCI relative to the cardiovascular health of the subjects. From up left to bottom right: blood pressure (\emph{Normal blood preassure, hypertension}), diabetes (\emph{No diabetic, diabetes mellitus, intolerance to carbs}),Smoke (\emph{Non smoker, Smoker, Ex-smoker}), body mass index (\emph{No overweight, overweight}) ,cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}),arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), heart stroke (\emph{No past strokes, Angina, Stroke}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}), ictus (\emph{No, Ischemic, Hemorrhagic}).}
         \label{fig:groupby_cardio_mci}
 \end{figure}
 
-Figure \ref{fig:groupby_tbi_mci} shows the results of grouping \emph{Conversion to MCI} by episodes of traumatic brain injury. A quick visual inspection seems to indicate a higher conversion ratio for subjects a history of TBI incidents
+Figure \ref{fig:groupby_tbi_mci} shows the results of grouping \emph{Conversion to MCI} by episodes of traumatic brain injury. A quick visual inspection seems to indicate a higher conversion ratio for subjects a history of TBI incidents which is not confirmed when we perform statistical tests (Table \ref{tab:fischiall}).
 
 \begin{figure}[H]
         \centering
@@ -1212,21 +1234,22 @@ Figure \ref{fig:groupby_tbi_mci} shows the results of grouping \emph{Conversion 
         \label{fig:groupby_tbi_mci}
 \end{figure}
 
-\paragraph*{Statistical tests for Cardiovascular and cerebrovascular pathologies}
-The statistical tests for cardiovascular and cerebrovascular features are included in Table \ref{tab:fischiall}. We observe relevant conditioning on conversion to MCI for xyz
+%\paragraph*{Statistical tests for Cardiovascular and cerebrovascular pathologies}
+The statistical tests for cardiovascular and cerebrovascular features are included in Table \ref{tab:fischiall}. We do not observe relevant conditioning of cardiovascular and cerebrovascular pathologies on conversion to MCI with the exemption of thyroid disorders (Table \ref{tab:anovascont}).
 
 
-%%%%% Table Loyals  visits %%%%%%%%%
-%%%%%  %%%%%%%%%
-%%%%%  %%%%%%%%%
-Table \ref{tab:fischiall} with statistical tests for both a population of the subjects with 6 visits and also in the second column for subjects that came to at least two visits.
+\paragraph*{Fisher and $\tilde{\chi}^2$ tests }
+
+Table \ref{tab:fischiall} with statistical tests for both a population of the subjects with 6 visits and also in the second column for subjects that came to at least 2 visits.
 
 \begin{table}[ht]
-\caption{Statistical test for subjects with all their 6 visits and for subjects with at least 2 visits.}
+\caption{Statistical tests to study whether an hypothetical observed imbalance of conversion to MCI is statistically significant.
+The first column shows the variable used to compute its effect upon conversion, second column shows the p-value for the test performed for those subjects that came at all their 6 visits ($N=471$), the third column contains the p-value for those subjects that came at least to 2 visits ($N=960$) and fourth column indicates type of test performed (Fisher's when contingency matrix is $2 \times 2$ and $\tilde{\chi}^2$ otherwise.) }
 \centering
-\begin{tabular}{ |p{3cm}||p{1cm}|p{1cm}|p{1cm}|  }
- \hline
- \multicolumn{4}{|c|} { }\\
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{.7cm}|  }
+
+ %\hline
+ \multicolumn{4}{c} { }\\
  \hline
  Feature & All 6 visits & At least 2 visits &Test\\
  \hline
@@ -1234,10 +1257,6 @@ Table \ref{tab:fischiall} with statistical tests for both a population of the su
  Familial AD &  *  & 0.372  & F\\
  Sex    & 0.4163& 0.7545& F\\
  Hand Lat& 0.0543& 0.7420& $\tilde{\chi}^2$\\
- BMI    & & & A\\
- Weight & & & A\\
- Height & & & A\\
- Abdo. perim.&  &  &A\\
  Marital status & 0.9590  & 0.2769 & $\tilde{\chi}^2$\\
  Education & 0.5303 & 0.2950 & $\tilde{\chi}^2$\\
  Wealth(residency) & 0.3162 & 0.6742 & $\tilde{\chi}^2$\\
@@ -1272,18 +1291,41 @@ Table \ref{tab:fischiall} with statistical tests for both a population of the su
  Stroke &0.5698 & 0.48274 & $\tilde{\chi}^2$\\  %cor
  Cholesterol & 0.6156 & 0.9667 & $\tilde{\chi}^2$\\
  Card. dis. & &0.32429&F\\
- 
-
  \hline
 \end{tabular}
 \label{tab:fischiall}
 \end{table}
 
 
+\begin{table}[ht]
+\caption{Statistical tests (ANOVA) for non categorical variables. 
+The first column shows the variable used to compute its effect upon conversion, second, third and fourth columns show the p-value, the coefficient regression ($\beta$) and the effect size($\omega^2$) for those subjects that came at all their 6 visits ($N=471$), similarly for the last three columns, now for those subjects that came at least to 2 visits ($N=960$.}
+\centering
+\begin{tabular}{ |p{2.6cm}||p{1.3cm}|p{1.3cm}|p{1.5cm}||p{1.3cm}|p{1.3cm}|p{1.5cm}|  }
+ \hline
+ 1-ANOVA&\multicolumn{3}{c} {All 6 visits} &\multicolumn{3}{c|}{At least 2 visits}\\
+ \hline
+ %\multicolumn{7}{|c|} { }\\
+ %\hline
+ Feature & p-val & $\beta$ & $\omega^2$& p-val & $\beta$ & $\omega^2$\\
+ \hline
+ BMI       & 0.7687 & 0.0013 & -0.0021 & * & -0.0066 & 0.0041\\%0.7687 & 0.0013 & -0.0021 & (*)0.0282 & -0.0066 & 0.0041
+ Weight    & 0.8271 & 0.0003 & -0.0021 & 0.123 & -0.0015 & 0.0015 \\
+ Height    & 0.899  & -0.0002 & -0.0022& 0.639 & 0.0002 & -0.0010 \\
+ Perim.abd.& 0.308  & 0.0015 & 0.00009 & 0.143 & -0.0003 & -0.0009 \\
+ Diet Gluc.& * & -0.0054 & 0.00132& 0.065 & 0.0065 & 0.00053 \\%(*)0.011 & -0.0054 & 0.00132& 0.065 & 0.0065 & 0.00053
+ Diet Fats & **& -0.0113 & 0.0011 & ** & -0.0054 & -0.0004 \\%(**)0.010& -0.0113 & 0.0011 & (**)0.003 & -0.0054 & -0.0004 
+ Diet Med. & 0.8689 & -0.0009 & -0.0022& 0.086 & -0.0009 & -0.00103 \\
+ Diet Prot.& * & -0.0030 & -0.0017& *& 0.0017 & 0.00016 \\%(*)0.038 & -0.0030 & -0.0017& (*)0.029 & 0.0017 & 0.00016
+ Phys. Exercise. & 0.160 & -0.0002 & 0.00224& 0.680 & $0.0000$ & -0.0009 \\
+ \hline
+\end{tabular}
+\label{tab:anovascont}
+\end{table}
 
 \subsection{Normality test}
 \label{sse:normal}
-The assumptions of ANOVa are: samples are independent, normality (this is not the case more often than what it thought) to test for normality we can use QQ plot or use normality tests. To test whether a dataset is drawn from a particular distribution (e.g. normal or Gaussian) there is a number of tests: Anderson-Darling, Kolmogorov-Smirnov, Shapiro-Wilk, Ryan-Joiner and others. 
+The assumptions of ANOVA are: samples are independent, normality (this is not the case more often than what it thought) to test for normality we can use QQ plot or use normality tests. To test whether a dataset is drawn from a particular distribution (e.g. normal or Gaussian) there is a number of tests: Anderson-Darling, Kolmogorov-Smirnov, Shapiro-Wilk, Ryan-Joiner and others. 
 %http://allendowney.blogspot.com/2013/08/are-my-data-normal.html
 But as Downly points out what people in reality wants to figure out is whether a particular distribution is a good model for a dataset, note that this  is not a statistical test but a model decision. The reason is that real world data never match an analytic distribution perfectly, so when you perform a test there are 2 possible outcomes:
 1. You have a ton of data, so the p value is low and you rightly conclude that the data did not come from the analytic distribution, but this does not tell much because the analytic model could still be a good model. 2. you do not have enough data so p is high, and you conclude there is not enough evidence to reject the null hypothesis, but again it does not tell you whether the model is good or not, it just tells you that you don't have enough data. Thus, a statistical tell can not answer your question is model m good enough for data d?
@@ -1431,7 +1473,7 @@ Now, we need a distribution for the means, since they are real valued we use Nor
 Having fully specified our probabilistic model (all the parameters, mu, precision and dimensions) we can compute the comparisons, we compute the difference of means,difference of stds and rthe ffect size (difference of means divided by the squared root of the pooled estimates of the std).
 Finally, we can fit the model and evaluate its output
 
-\subsection{Time series clustering}
+\section{Time series clustering}
 \label{se:res}
 
 \section{Results}

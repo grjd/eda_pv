@@ -1588,9 +1588,10 @@ def Anova1way(df, feature):
 def anova_test_2groups(dataframe, ed, ing):
 	"""
 	anova_tests_paper: anova_tests_paper with statsmodel , this is better than with sciopy.stats.f_oneway
-	#the egression (GLM) mode used in statsmodel does very easily for you the post-hoc, that is, of there is a difference
-	where is that difference eg we foan effect in smoking and conversion, but were is it, in the snoker or the nonsmoker or in the exsmoker?
-	Args:ed, ing laberls, ed the factor that affect to ing, eg ed=smoke and ing conversionmci
+	#the regression (GLM) mode used in statsmodel does very easily for you the post-hoc, that is, of there is
+	#a difference where is that difference eg we foan effect in smoking and conversion, but were is it, 
+	#in the snoker or the nonsmoker or in the exsmoker?
+	Args:ed, ing labels, ed the factor that affect to ing, eg ed=smoke and ing conversionmci
 	Output
 	"""
 	import scipy.stats as stats
@@ -1601,6 +1602,10 @@ def anova_test_2groups(dataframe, ed, ing):
 	#dataframe[ing].replace({0: 'no', 1: 'hete', 2: 'homo'}, inplace= True)
 	#olsmodelstr = ing + ' ~ ' + 'C('+ed+')'
 	olsmodelstr = ing + ' ~ ' + ed
+	dataframe = dataframe[[ed,ing]]
+	ingix = dataframe[ing].notnull()
+	dataframe[ed] = dataframe[ed][ingix]
+	dataframe[ing] = dataframe[ing][ingix]
 	print olsmodelstr
 	mod = ols(olsmodelstr, data=dataframe).fit()
 	print mod.summary()
@@ -1614,16 +1619,17 @@ def anova_test_2groups(dataframe, ed, ing):
 	aov_table['eta_sq'] = aov_table[:-1]['sum_sq']/sum(aov_table['sum_sq'])
 	aov_table['omega_sq'] = (aov_table[:-1]['sum_sq']-(aov_table[:-1]['df']*aov_table['mean_sq'][-1]))/(sum(aov_table['sum_sq'])+aov_table['mean_sq'][-1])
 	print aov_table
-
 	#Tukeys HSD Post-hoc comparison:ukey HSD post-hoc comparison test controls for type I error 
 	#and maintains the familywise error rate at 0.05.
 	#the reject column states whether or not the null hypothesis should be rejected
-	mc = MultiComparison(dataframe[ing].dropna(), dataframe[ed])
+	# subjects with diagnosis (at least 3 or all, six depemnding on the df passed)
+
+	mc = MultiComparison(dataframe[ing], dataframe[ed])
 	mc_results = mc.tukeyhsd()
-	print(mc_results)
+	#print(mc_results)
 	# qq plot of the linear model fit with ols
-	res = mod.resid 
-	fig = sm.qqplot(res, line='s')
+	#res = mod.resid 
+	#fig = sm.qqplot(res, line='s')
 	return  aov_table
 	
 def anova_tests_paper(dataframe_conv, features_dict):
@@ -2050,6 +2056,13 @@ def main():
 	df_loyals = select_rows_all_visits(dataframe, visits)
 
 	#testing here cut paste###
+	print('Anova test 2 groups for static feature affect conversion (ed=smoke, ing=conversionmci)\n\n')
+	#['dietaglucemica', 'dietagrasa', 'dietaproteica', 'dietasaludable']
+	#dataframe['phys_total'] = dataframe['ejfre']*dataframe['ejminut']
+	#df_loyals['phys_total'] = df_loyals['ejfre']*df_loyals['ejminut']
+	aov_table = anova_test_2groups(dataframe, ed='imc', ing='conversionmci')
+	aov_table = anova_test_2groups(df_loyals, ed='imc', ing='conversionmci')
+	pdb.set_trace()
 	#plot_histograma_demographics_categorical(dataframe, 'conversionmci')
 
 	#'sdestciv', 'nivel_educativo', 'nivelrenta'
