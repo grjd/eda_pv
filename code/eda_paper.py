@@ -822,7 +822,7 @@ def plot_scatter_brain(dataframe, x,y,colors=None, title=None, figname=None, cma
 	#dataframe[y] = dataframe[y].values.astype(int)
 
 	if cmap is None:
-		dataframe.plot.scatter(x, y,c=colors, title =title,alpha=0.2)
+		dataframe.plot.scatter(x, y, c=colors, title =title,alpha=0.2)
 	else:
 		dataframe.plot.scatter(x, y,c=colors, title =title,alpha=0.2, cmap=cmap)
 	plt.savefig(os.path.join(figures_dir, figname), dpi=240)
@@ -2037,6 +2037,93 @@ def compute_contingencytable_lifestyle(df, target_variable=None):
 		print('p value ==', ctable_res[2], '\n')
 		print('CTABLE is:',ctable_res[0])
 
+def plot_scatter_atrophy(df):
+	"""plot_scatter_atrophy
+	"""
+	import re
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures' 
+	cols = df.columns
+	# sublist containing atrophy
+	ath_cols = [x for x in cols if re.match(r'atrophy_\w',x)]
+	yi, ye = ath_cols[0][-2], ath_cols[0][-1] 
+	yy = yi + ye
+	#colors = df.conversionmci.map({0:'g', 1:'r'})
+	colors = {0: 'b', 1: 'r'}
+	for i in range(0,len(ath_cols),2):
+		sub = ath_cols[i:i+2][0].split('_')[2]
+		figname = 'atrophy_' + sub + '_'+ yy +'.png'
+		#pdb.set_trace()
+		plot_scatter_brain(df, ath_cols[i], ath_cols[i+1], colors=[colors[r] for r in df['conversionmci'].dropna()], title='Atrophy ' + ath_cols[i:i+2][0].split('_')[2] + ':yy:'+ yy, figname=figname, cmap=None)
+		print('Subjets with MRI in ', sub, ' :', df[ath_cols[i]].shape[0], ' / ' , df[ath_cols[i]].dropna().shape[0])
+		plt.figure()
+		ax = sns.distplot(df[ath_cols[i]].dropna(), label='L')
+		ax = sns.distplot(df[ath_cols[i+1]].dropna(), label='R') 
+		ax.set(xlabel= 'Vol. atrophy:'+ sub +' $mm^3$')
+		figname = 'dist_atrophy_' + sub + '.png'
+		plt.savefig(os.path.join(figures_dir, figname), dpi=240)
+		fig, ax = plt.subplots(nrows=1, ncols=2)
+		sns.violinplot('conversionmci', ath_cols[i], data=df, palette=["lightblue", "lightpink"], ax=ax[0]);
+		sns.violinplot('conversionmci', ath_cols[i+1], data=df, palette=["lightblue", "lightpink"], ax=ax[1]);
+
+		
+
+
+
+
+	pdb.set_trace()
+
+def compute_atrophy(df, yi, ye):
+	"""compute_atrophy: calculate the atrophy of subc brain structures between 2 years
+	Args: df: dataframe containing segementation strcutres, yi: 1 ye:6
+	Output: df with added columns 'ath_$str_$y1$ye' 
+	"""
+	sub_ini, sub_end, atro, title_bar = [], [], [], []
+	subcortical = ['Thal', 'Puta','Amyg','Pall','Caud','Hipp','Accu']
+	for sub in subcortical:
+		labeliL = 'L_' + sub + '_visita' + str(yi); sub_ini.append(labeliL)
+		labeliR = 'R_' + sub + '_visita' + str(yi); sub_ini.append(labeliR)
+		labeleL = 'L_' + sub + '_visita' + str(ye); sub_end.append(labeleL)
+		labeleR = 'R_' + sub + '_visita' + str(ye); sub_end.append(labeleR)
+		atrophyL = 'atrophy_L_' + sub + '_visita' +  str(yi) + str(ye); atro.append(atrophyL)
+		atrophyR = 'atrophy_R_' + sub + '_visita' +  str(yi) + str(ye); atro.append(atrophyR)
+		df[atrophyL] = df[labeliL] - df[labeleL]
+		df[atrophyR] = df[labeliR] - df[labeleR]
+		title_bar.append('L_' + sub)
+		title_bar.append('R_' + sub)
+
+	others = ['conversionmci', 'ultimodx'] 	
+	subs = sub_ini + sub_end + atro + others
+	df_sub = df[subs]
+	df_sub.describe()
+	# count + and - atrophy
+	dictioNegPos = {}
+	for ant in atro:
+		posis = sum(df[ant]>0)
+		negas = sum(df[ant]<0)
+		dictioNegPos[ant] = [posis, negas]
+		print('Atrophy ', ant,' +/- is==', posis, ' / ', negas, '% no atrophy==', 100*float(negas)/float(posis) )
+		#plot dictio bars +/-
+		#with sns.axes_style(style='ticks'):
+			# g = sns.factorplot('conversionmci', ant, data=df, kind="box")
+			# g.set_axis_labels("MCI", ant);
+			# g = sns.factorplot('sexo', ant, data=df, kind="box")
+			# g.set_axis_labels("sex", ant);
+	# plot dioctio
+	plt.figure()
+	valuesL = list(dictioNegPos.values())
+	
+	x = np.array(map(lambda x: x[0], valuesL))
+	ind = np.arange(len(x))
+	y = map(lambda x: x[1], valuesL)
+	y = np.array(y)
+	p1 = plt.bar(ind, x, 0.35, yerr=np.std(x))
+	p2 = plt.bar(ind, y, 0.35,bottom=x, yerr=np.std(y))
+	pdb.set_trace()
+	plt.xticks(ind, title_bar)
+	#plt.bar(range(len(dictioNegPos)),x,y , align='center')
+	#plt.xticks(range(len(dictioNegPos)), list(dictioNegPos.keys()))
+	return df_sub
+
 
 def main():
 	# Open csv with MRI data
@@ -2044,6 +2131,7 @@ def main():
 	csv_path = '/Users/jaime/Downloads/test_code/PV7years_T1vols.csv'
 	csv_path = '~/vallecas/data/BBDD_vallecas/PVDB_pve_sub.csv'
 	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-10March2019.csv'
+	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-Vols1567-1April2019.csv'
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures/'
 	dataframe = pd.read_csv(csv_path)
 	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
@@ -2056,6 +2144,13 @@ def main():
 	df_loyals = select_rows_all_visits(dataframe, visits)
 
 	#testing here cut paste###
+	print('Calculate the brain atropy between two years: yini~yend \n')
+	df_atrophy = compute_atrophy(df_loyals, yi=1, ye=6)
+	pdb.set_trace()
+	plot_scatter_atrophy(df_atrophy)
+
+
+
 	print('Anova test 2 groups for static feature affect conversion (ed=smoke, ing=conversionmci)\n\n')
 	#['dietaglucemica', 'dietagrasa', 'dietaproteica', 'dietasaludable']
 	#dataframe['phys_total'] = dataframe['ejfre']*dataframe['ejminut']
@@ -2157,8 +2252,13 @@ def main():
 	mri_subcortical_cols = ['L_Thal_visita1','R_Thal_visita1','L_Puta_visita1','R_Puta_visita1','L_Amyg_visita1',\
 	'R_Amyg_visita1', 'L_Pall_visita1','R_Pall_visita1', 'L_Caud_visita1','R_Caud_visita1','L_Hipp_visita1',\
 	'R_Hipp_visita1','L_Accu_visita1','R_Accu_visita1','BrStem_visita1']
+	mri_subcortical_cols_y6 = ['L_Thal_visita6','R_Thal_visita6','L_Puta_visita6','R_Puta_visita6',\
+	'L_Amyg_visita6','R_Amyg_visita6', 'L_Pall_visita6','R_Pall_visita6', 'L_Caud_visita6',\
+	'R_Caud_visita6','L_Hipp_visita6','R_Hipp_visita6','L_Accu_visita6','R_Accu_visita6','BrStem_visita6']
 	# remove BrStem because there are many 0 (error when segmentation) 
 	mri_subcortical_cols = mri_subcortical_cols[:-1]
+	mri_subcortical_cols_y1 = mri_subcortical_cols[:-1]
+	mri_subcortical_cols_y6 = mri_subcortical_cols_y6[:-1]
 	
 	mri_tissue_cols = ['csf_volume_visita1', 'gm_volume_visita1', 'wm_volume_visita1']
 	buschke_features = ['fcsrtlibdem_visita1', 'fcsrtlibdem_visita2', 'fcsrtlibdem_visita3', 'fcsrtlibdem_visita4', \

@@ -1473,8 +1473,8 @@ Now, we need a distribution for the means, since they are real valued we use Nor
 Having fully specified our probabilistic model (all the parameters, mu, precision and dimensions) we can compute the comparisons, we compute the difference of means,difference of stds and rthe ffect size (difference of means divided by the squared root of the pooled estimates of the std).
 Finally, we can fit the model and evaluate its output
 
-\section{Time series clustering}
-\label{se:res}
+\section{Brain reserve (Atrophy)}
+\label{se:atro}
 
 \section{Results}
 \label{se:res}
@@ -1487,7 +1487,24 @@ Finally, we can fit the model and evaluate its output
 \section{Conclusions}
 \label{se:con}
 
-\paragraph{Brain subcortical structures}
+%-------------------------------------------------------------------------------
+% REFERENCES
+%-------------------------------------------------------------------------------
+\newpage
+\addcontentsline{toc}{section}{References}
+
+% BibTeX users please use
+\bibliographystyle{apalike}
+\bibliography{../bibliography-jgr/bibliojgr}
+
+\end{document}
+%-------------------------------------------------------------------------------
+% APPENDIX & MISCELLANEOUS
+%-------------------------------------------------------------------------------
+\section{Appendix}
+\label{se:appbusint}
+
+\subsection{GroupBy Brain subcortical structures}
 
 Figures \ref{fig:groupby_HipAmyAcc_mciQuart} and \ref{fig:groupby_cardio_mci} show the results of grouping \emph{Conversion to MCI} by the segmented size of subcortical structures. 
 A quick visual inspection seems to indicate exists the possibility that the size of the left hippocampus and the right accumbens could have a positive effect in the conversion rate.
@@ -1527,12 +1544,42 @@ Figure \ref{fig:scatternative} shows the results of brain extraction size (the f
 
 %Compare posterior year n year n+1 for a bunch of feature, the HO is that they don't change , if they change, diff posterior, can be because that feature changes with time(at the light of our data) or because the effect of those that left, to investigate take within year n the two groups remain and left and do Bayesian posterior if Ho true then tej feature changes in time naturally.
 %At the end we can get the list of features that we expect to change in time at different lags and those that not.
-%-------------------------------------------------------------------------------
-% REFERENCES
-%-------------------------------------------------------------------------------
-\newpage
-\section{Appendix. The \emph{Buschke Integral} score}
-\label{se:appbusint}
+
+\subsection{Time series}
+\label{se:res}
+Time series Clustering, characterization and Prediction (and regime shift).
+%https://johncarlosbaez.wordpress.com/2015/11/25/regime-shift/
+Regime shifts are abrupt substantial changes in complex systems. Phase transition is a easier concept and canonical concept to understand (it does not require a complex system). For regime shift systems do not need to be in thermal equilibrium, while phase transition is how varying the parameters affects the thermal equilibrium. So, whatever a regime is, it’s not a thermodynamic phase. For the case of the brain we are talking about regime shift no phase transitions because it is all about the rupture of feedback loops and no feedback loops are conceived in the phase transition picture, just a balance of forces.
+%Planet Earth experienced a global climate shift in the late 1980s on an unprecedented scale, fueled by anthropogenic warming and a volcanic eruption, according to new research.
+
+Baez lit. Phase transition means something pretty specific: you have system whose thermal equilibrium state depends on a some parameters, and as you adjust the parameters, observable quantities vary smoothly except at certain points in the parameter space, which usually lying on hypersurfaces called ‘phase transitions’. The complement of these surfaces has connected components called ‘phases’. There are also more specific concepts like ‘first-order phase transition’ and ‘second-order phase transition’.
+A ‘regime’ of a complex system like an ecosystem or the entire Earth is something much more elusive; such systems aren’t in thermal equilibrium, they’re always changing, but sometimes they change more dramatically than others. A ‘regime shift’ is a period of time when they’re changing in a significant, rapid and persistent way.
+
+Wiki lit.In ecology, regime shifts are large, abrupt, persistent changes in the structure and function of a system. A regime is a characteristic behavior of a system which is maintained by mutually reinforced processes or feedbacks.The change of regimes, or the shift, usually occurs when a smooth change in an internal process (feedback) or a single disturbance (external shocks) triggers a completely different system behavior. Crucially, the concept of ‘feedback’ is largely absent from the concept of thermodynamic phase, because feedback typically involves flow around loops, while in thermal equilibrium the principle of detailed balance prohibits flow around loops.
+
+%https://www.beringclimate.noaa.gov/regimes/
+Methodology to look for trends: The STARS method (Rodionov, 2004; Rodionov  Overland, 2005) tests whether the end of one period (regime) of a certain length is different from a subsequent period (new regime). The cumulative sum of normalized deviations from the hypothetical mean level of the new regime is calculated, and then compared with the mean level of the preceding regime. A shift year is detected if the difference in the mean levels is statistically significant according to a Student’s t-test.
+
+%https://www.youtube.com/watch?v=MP-jMMOgdjQ
+ML of time series:
+
+-Minimum bias optimization (convex optimization). To produce a complete graph relate all securities to each other we need to calculate N(N+1)/2 covariance estimations, will not be robust, because unless you have stable correlations for the past eg 5 years, your covariance matrix (day by day) is going to change very widely. For example, my covariance matrix for the previous 6 years, maybe for the next seventh year is going to be very different,. YS: check this out.
+Problems to invert the cov matrix: The inverse covariance matrix, commonly referred to as the precision matrix displays information about the partial correlations of variables. A partial correlation describes the correlation between variable i and j, once you condition on all other variables. 
+ML allows to go around the cov matrix inverse problem exploiting the hierarchical relationships between the securities, as a consequence the estimate are more robust because rather than having to estimate N(N+1)/2 we just need N-1 estimates.
+
+-Structural Breaks
+
+ML models are particularly good at detecting change: prob. that the observation belongs to past observed clusters, the goal here is to derive a prob of shit and not a point prediction. Thus, probability of regime shift (new obs is not in the dictionary) rather than predict a price. (YS: for this surely will need long time series which i do not have for this study). A ML methodology for regime shift is SADF; Does the series exhibit bubble-like patterns? if this is the case mean reverting models must be avoided. The idea is not to predict when the bubble will pop but that there is a bubble in formation.
+
+-Bet sizing
+
+Precision - Recall
+One algorithm with High P and low R and then a second algo that does the opposite so you get a good F1 score, the second algo is not saying to buy or sell but to tell you if you should go or not for the bet.
+Which are the truly relevant variables? to predict X? for example tell to newton that what matter for the force of attraction between two bodies are mass and distance not the shape or color. The ML will never gives us a closed form solution, but nevertheless it assist by telling us what are the variables (input) that are relevant.
+In a high dimensional space, the relationship between features can be extremely complex, however ML can tell us which are the ones that matter.
+
+
+\subsection{The \emph{Buschke Integral} score}
 
 The Buschke memory test with free and cued recall is commonly used to assessing cognitive functioning. The Buchske test is of easy realization and can be performed by participants with different levels of impairment and clinical conditions \cite{o200212}, \cite{leitner2017comparison}. The test was originally designed to asses long-term storage (LTS), retrieval from long-term storage (LTR), and recall from short-term storage (STR) \cite{buschke1973selective}.
 
@@ -1587,22 +1634,10 @@ where $\beta_0$ is the intercept of the linear trend in the y-axis, $\beta_i$ ar
 The most common technique to estimate the parameters is the OLS, an OLs model is solved by finding the parameters that minimize the sum of squared residuals, $min_{\hat{\beta}}\sum_{i=1}^{n} \hat{u}_{i}^{2}$, where u is the difference between the observation and the pediction $u_i = y_i - X_i\beta$.
 
 
-
-\newpage
-\addcontentsline{toc}{section}{References}
-
-
-% BibTeX users please use
-\bibliographystyle{apalike}
-\bibliography{../bibliography-jgr/bibliojgr}
-
-
-
-\end{document}
 %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%
-Miscellaneous
+\subsection{Miscellaneous}
 
 \begin{figure}[H]
     \centering
@@ -1644,3 +1679,4 @@ Miscellaneous
 Figure \ref{fig:genfami} gives an excellent opportunity to discuss the perils of reaching to conclusions without a good understanding of probability theory. 
 Figure \ref{fig:genfami}-a) shows that for those with $APO\epsilon4=2$, https://jeremykun.com/2013/01/12/the-fundamental-group-a-primer/the probability to convert is larger than to no convert,$p(MCI=1|APO\epsilon4=2) > p(MCI=0|APO\epsilon4=2)$. On the other hand, for heterozygotes and non APOE4,$APO\epsilon4=0,1$, the reverse happens, there are more non converters than converters if the subject is not carrier of homozygote $APO\epsilon4$. 
 However, Figure \ref{fig:genfami}-b) the homozygotic APOE are a very small number ($11/1181 = 0.093\%$), so for those that are converters to MCI only the $0.05\%$ are homozygotic $APO\epsilon4$, $p(APOE=2|MCI=1)=0.05$.
+
