@@ -521,115 +521,6 @@ we used the much less stringent Multiple Imputation (MI) \cite{buuren2010mice} a
 %Models that are based on the assumption that the data are not missing at random must make further assumptions about the effect of such possibilities.
 %The assumption that analysis methods can com- pensate for such missing data are not justified
 
-\subsection{MRI}
-\label{sse:mri}
-Here we show the automated segmentation of all subjects with MRI in the first year, so far we present the results for brain extraction for the first year. We plan to show segmentation of subcortical structure for all the years in the short future. Of note, the imaging data has not been stored, let alone preprocessed, with the minimum quality requirements for a project of of such volume and complexity. This is delaying and the work that we intend to show here.
-
-The segmentation goes through the following stages:
-\begin{enumerate}  
-  %0 The input image is copied in .anat and renamed {T1}.nii.gz (-t T1,T2,PD), we work with T1 now
-  \item \textbf{Reorientation} to the standard (MNI) orientation
-  %, \emph{fslreorient2std} it swaps axes around maintaining the correct left-right relationships so that x=left-right, y=anterior-posterior and z=superior-inferior. 
-  %size T1 < T1_orig== T1_fullfov, T1 reoriented and cropped is small in size than the original image because we cut the neck. e. T1.nii.gz is the averaged and aligned image file. 
-  \item \textbf{Cropping} to remove the neck, this is a necessary step prior to brain extraction. 
-  %\emph{robustfov} looks at axial slices in the superior direction (starting at the edge of the volume and moving towards the centre) and determines whether a slice contains only noise or signal plus noise. Once it finds the first consecutive slices that contain signal plus noise it then takes that as the position of the top of the head and then extracts a fixed size of FOV in the superior-inferior direction down from the top of the head, which should cover the brain but stop short of the jaw and neck
-  \item \textbf{Bias field correction} 
-  %  I used strongbias = no good if the field is not strong which is good for 1-5T. 
-    %For high-field or multi-coil array is better to use strongfield=yes. 
-    %For my MRI, 3T and not multi-coil what to use?
-  %The bias-corrected version of the image is called T1_biascorr
-  \item \textbf{Registration} to standard space computing both linear registration (FLIRT algorithm) and non-linear registration (FNIRT algorithm)
-  %do_nonlinreg=yes call to [fnirt], [flirt] is always run also for non linear registration
-  %creates the images: T1_to_MNI_lin (the result of the linear reg), T1_to_MNI_nonlin(the result of the non linear reg)
-  %T1_to_MNI_nonlin_field (non-linear warp field) , T1_to_MNI_nonlin_jac (Jacobian of the non-linear warp field)
-  %and T1_vols.txt containing a scaling factor and brain volumes, based on skull-constrained registration, suitable for head-size normalisation (as the scaling is based on the skull size, not the brain size). 
-  \item \textbf{Brain Extraction} in two steps. First, the BET algorithm obtains a brain mask which can be coarse to then perform the brain extraction transforming standard-space mask to the input image using the FNIRT (non-linear) registration.
-  %This step can be interactive changing the threshold : You must adjust the threshold for the extraction (-f) to assure that the skull is removed while the cortical surface is left in tact. This will require running BET multiple times to assure that it is satisfactory. 
-  %run $FSLDIR/bin/bet ${T1} ${T1}_initfast2_brain -m -f 0.1 (by default betfparam=0.1)
-  % 0.1 is overincusive, it will get a very rough brain which means it will likely get portions of the skull(the larger the f eg 0.8 the most brain restricted) but we use 0.1 because we refibne after with FNRIT
-  %produces: T1_biascorr_brain and T1_biascorr_brain_mask
-  \item \textbf{Tissue Segmentation} (FAST algorithm)
-  %produces: T1_biascorr - refined again in this stage, (CSF) T1_fast_pve_0, (Gray) T1_fast_pve_1, (White)T1_fast_pve_2 - partial volume segmentations (CSF, GM, WM respectively) and T1_fast_pveseg - a summary image showing the tissue with the greatest partial volume fraction per voxel
-  \item \textbf{Subcortical Segmentation} (FIRST algorithm)
-  %T1_subcort_seg - summary image of all subcortical segmentations, T1_biascorr_to_std_sub.mat - a transformation matrix of the subcortical optimised MNI registration
-  %All the other ouputs in first_results subdir: T1_first_all_fast_firstseg == T1_subcort_seg and btk, vbars for each region, need to be converted to .nii
-\end{enumerate}
-
-We show the results for brain extraction, tissue segmentation (CSF, white and gray matter) and subcortical segmentation (thalamus, putamen, hippocampus, accumbens, pallidum, caudate, amygdala) for a total of 979 MRIs in the first year. 
-
-\paragraph*{Brain extraction}
-
-Research shows that the growth rate of the brain slowly declines declines from the first year of birth (it increases dramatically during), brain volume reaches its maximum at the age of 40 years to then decline by $5\%$ per decade, the decline is thought to accelerate at around 70 years \cite{peters2006ageing}.
-
-Figure \ref{fig:boxbet} shows the results of the brain extraction algorithm. First, the BET algorithm obtains a brain mask to then perform the brain extraction transforming standard-space mask to the input image using a non-linear registration algorithm.
-
-The brain's size is expressed in mm${^3}$ in native space (left) and scaled in MNI space (right). The average brain size is around 1,000 cm${^3}$ or 1000,000 mm${^3}$ which reflects the age and the gender unbalance of the sample.
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/boxplot_Nonebrain}
-        \caption{The figure shows the box plot of the size of the brain in mm${^3}$ both in native space (left) and in the normalized MNI space (right).} 
-        \label{fig:boxbet}
-\end{figure}
-
-\paragraph*{Segmentation of brain tissue}
-%fsleyes T1_fast_restore.nii.gz T1_fast_pve_0.nii.gz -cm green -dr 0.5 1 T1_fast_pve_1.nii.gz -cm blue-lightblue -dr 0.5 1 T1_fast_pve_2.nii.gz -cm red-yellow -dr 0.5 1
-Figure \ref{fig:tissueseg} shows the segmentation based on tissue (CSF (green), Gray matter(blue); White matter (red-yellow)) of one subject of the \emph{Vallecas Project}.
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/tissueseg}
-        \caption{Example of tissue based segmentation of one subject in her first visit. } 
-        \label{fig:tissueseg}
-\end{figure}
-%fsleyes ../T1_fast_restore.nii.gz T1_first_all_fast_firstseg.nii.gz -cm Red-Yellow -dr 0 118
-
-Figure \ref{fig:boxtissue} shows the boxplot of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. CSF volume on the left, gray matter center and white matter on the right. All volumes are expressed in mm${^3}$.
-
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierstissue}
-        \caption{Boxplot of volume in mm${^3}$ for the tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
-        \label{fig:boxtissue}
-\end{figure}
-
-Figure \ref{fig:kde_3_tissues} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_3_tissues}
-        \caption{Histogram and KDE in cm${^3}$ for tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
-        \label{fig:kde_3_tissues}
-\end{figure}
-
-
-\paragraph*{Segmentation of brain subcortical structures}
-
-Figure \ref{fig:subcorseg} shows the segmentation based of the subcortical structures: Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala and Brain stem of one subject of the \emph{Vallecas Project}. The statistical analysis of all the subjects in the first year visit  will be ready very SOON! 
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/subcorseg}
-        \caption{Segmentation of subcortical structures Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala of one subject of the \emph{Vallecas Project}. } 
-        \label{fig:subcorseg}
-\end{figure}
-
-Figure \ref{fig:boxsubcor} shows the boxplot of the segmentation of subcortical structures of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierssubcortical}
-        \caption{Boxplot of volume in mm${^3}$ of the bilateral subcortical segmentation for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm. The subcortical structures represented are Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala.} 
-        \label{fig:boxsubcor}
-\end{figure}
-
-Figure \ref{fig:kde_subcortical} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of subcortical structures of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_subcortical}
-        \caption{Boxplot of volume in mm${^3}$ of the bilateral subcortical segmentation for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm. The subcortical structures represented are Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala.} 
-        \label{fig:kde_subcortical}
-\end{figure}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cognitive Performance}
 \label{sse:cogper}
@@ -1475,6 +1366,136 @@ Finally, we can fit the model and evaluate its output
 
 \section{Brain reserve (Atrophy)}
 \label{se:atro}
+The term brain reserve refers to the capacity of the brain to cope with age-related and pathological changes in the absence clear clinical symptoms \cite{fratiglioni2007brain}. The idea behind this concept is that the brain has a threshold for that once is reached clinical manifestations emerge.. Epidemiological studies have pointed out to 
+a number of factors including education, social bonding, diet and others that may have an effect on the brain's capacity to endure insult.
+
+Here we investigate the neuroanatomical basis of the brain reserve by means of quantifying the brain atrophy. Thus, we estimate the loss volume in the brain (tissues and subcortical structures) taken place the first and the last visit, six years later. Section \ref{sse:mri} describes the automated segmentation, the results fi the segmentation are shown in Section \ref{sse:segementa}.   
+
+
+\subsection{Automatic Segmentation of Brain Structures}
+\label{sse:mri}
+
+The segmentation pipeline used the FMRIB Software Library \cite{fsl60}, \cite{jenkinson2012fsl} and goes through the following stages:
+%FSL FMRIB Software Library (FSL5.0) is a comprehensive library of analysis tools for MRI brain imaging data (http:// fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSL). FSL comprises two tools for subcortical GM segmentation: FMRIB’s Integrated Registration and Segmentation Tool (FIRST) and FSL_Anat.
+\cite{hannoun2018automatic}
+\begin{enumerate}  
+  %0 The input image is copied in .anat and renamed {T1}.nii.gz (-t T1,T2,PD), we work with T1 now
+  \item \textbf{Reorientation} to the standard (MNI) orientation
+  %, \emph{fslreorient2std} it swaps axes around maintaining the correct left-right relationships so that x=left-right, y=anterior-posterior and z=superior-inferior. 
+  %size T1 < T1_orig== T1_fullfov, T1 reoriented and cropped is small in size than the original image because we cut the neck. e. T1.nii.gz is the averaged and aligned image file. 
+  \item \textbf{Cropping} to remove the neck, this is a necessary step prior to brain extraction. 
+  %\emph{robustfov} looks at axial slices in the superior direction (starting at the edge of the volume and moving towards the centre) and determines whether a slice contains only noise or signal plus noise. Once it finds the first consecutive slices that contain signal plus noise it then takes that as the position of the top of the head and then extracts a fixed size of FOV in the superior-inferior direction down from the top of the head, which should cover the brain but stop short of the jaw and neck
+  \item \textbf{Bias field correction} 
+  %  I used strongbias = no good if the field is not strong which is good for 1-5T. 
+    %For high-field or multi-coil array is better to use strongfield=yes. 
+    %For my MRI, 3T and not multi-coil what to use?
+  %The bias-corrected version of the image is called T1_biascorr
+  \item \textbf{Registration} to standard space computing both linear registration (FLIRT algorithm) and non-linear registration (FNIRT algorithm)
+  %do_nonlinreg=yes call to [fnirt], [flirt] is always run also for non linear registration
+  %creates the images: T1_to_MNI_lin (the result of the linear reg), T1_to_MNI_nonlin(the result of the non linear reg)
+  %T1_to_MNI_nonlin_field (non-linear warp field) , T1_to_MNI_nonlin_jac (Jacobian of the non-linear warp field)
+  %and T1_vols.txt containing a scaling factor and brain volumes, based on skull-constrained registration, suitable for head-size normalisation (as the scaling is based on the skull size, not the brain size). 
+  \item \textbf{Brain Extraction} in two steps. First, the BET algorithm obtains a brain mask which can be coarse to then perform the brain extraction transforming standard-space mask to the input image using the FNIRT (non-linear) registration.
+  %This step can be interactive changing the threshold : You must adjust the threshold for the extraction (-f) to assure that the skull is removed while the cortical surface is left in tact. This will require running BET multiple times to assure that it is satisfactory. 
+  %run $FSLDIR/bin/bet ${T1} ${T1}_initfast2_brain -m -f 0.1 (by default betfparam=0.1)
+  % 0.1 is overincusive, it will get a very rough brain which means it will likely get portions of the skull(the larger the f eg 0.8 the most brain restricted) but we use 0.1 because we refibne after with FNRIT
+  %produces: T1_biascorr_brain and T1_biascorr_brain_mask
+  \item \textbf{Tissue Segmentation} (FAST algorithm)
+  %produces: T1_biascorr - refined again in this stage, (CSF) T1_fast_pve_0, (Gray) T1_fast_pve_1, (White)T1_fast_pve_2 - partial volume segmentations (CSF, GM, WM respectively) and T1_fast_pveseg - a summary image showing the tissue with the greatest partial volume fraction per voxel
+  \item \textbf{Subcortical Segmentation} (FIRST algorithm)
+  %T1_subcort_seg - summary image of all subcortical segmentations, T1_biascorr_to_std_sub.mat - a transformation matrix of the subcortical optimised MNI registration
+  %All the other ouputs in first_results subdir: T1_first_all_fast_firstseg == T1_subcort_seg and btk, vbars for each region, need to be converted to .nii
+\end{enumerate}
+
+\subsection{Brain atrophy estimates (year 1 $~$ year 6) }
+\label{sse:segementa}
+
+We show the volume estimates for brain extraction, tissue segmentation (CSF, white and gray matter) and subcortical segmentation (thalamus, putamen, hippocampus, accumbens, pallidum, caudate, amygdala) for a total of 314 subjects for both year 1 and year 6, (total $314 \times 2 = 628$)
+
+\paragraph*{Brain extraction}
+
+Research shows that the growth rate of the brain slowly declines declines from the first year of birth (it increases dramatically during), brain volume reaches its maximum at the age of 40 years to then decline by $5\%$ per decade, the decline is thought to accelerate at around 70 years \cite{peters2006ageing}.
+
+Figure \ref{fig:boxbet} shows the results of the brain extraction algorithm for years 1 and year 6. The brain's size is expressed in mm${^3}$ in native space (left) and scaled in MNI space (right). 
+The average brain size is around 1,000 cm${^3}$ or 1000,000 mm${^3}$ which reflects the age and the gender unbalance of the sample.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/boxplot_Nonebrain}
+        \caption{The figure shows the box plot of the size of the brain in mm${^3}$ both in native space (left) and in the normalized MNI space (right).} 
+        \label{fig:boxbet}
+\end{figure}
+
+
+
+
+\paragraph*{Segmentation of brain tissue}
+%fsleyes T1_fast_restore.nii.gz T1_fast_pve_0.nii.gz -cm green -dr 0.5 1 T1_fast_pve_1.nii.gz -cm blue-lightblue -dr 0.5 1 T1_fast_pve_2.nii.gz -cm red-yellow -dr 0.5 1
+Figure \ref{fig:tissueseg} shows the segmentation based on tissue (CSF (green), Gray matter(blue); White matter (red-yellow)) of one subject of the \emph{Vallecas Project}.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/tissueseg}
+        \caption{Example of tissue based segmentation of one subject in her first visit. } 
+        \label{fig:tissueseg}
+\end{figure}
+%fsleyes ../T1_fast_restore.nii.gz T1_first_all_fast_firstseg.nii.gz -cm Red-Yellow -dr 0 118
+
+Figure \ref{fig:boxtissue} shows the boxplot of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. CSF volume on the left, gray matter center and white matter on the right. All volumes are expressed in mm${^3}$.
+
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierstissue}
+        \caption{Boxplot of volume in mm${^3}$ for the tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
+        \label{fig:boxtissue}
+\end{figure}
+
+Figure \ref{fig:kde_3_tissues} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_3_tissues}
+        \caption{Histogram and KDE in cm${^3}$ for tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
+        \label{fig:kde_3_tissues}
+\end{figure}
+
+
+\paragraph*{Segmentation of brain subcortical structures}
+
+Figure \ref{fig:subcorseg} shows the segmentation based of the subcortical structures: Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala and Brain stem of one subject of the \emph{Vallecas Project}. The statistical analysis of all the subjects in the first year visit  will be ready very SOON! 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/subcorseg}
+        \caption{Segmentation of subcortical structures Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala of one subject of the \emph{Vallecas Project}. } 
+        \label{fig:subcorseg}
+\end{figure}
+
+Figure \ref{fig:boxsubcor} shows the boxplot of the segmentation of subcortical structures of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierssubcortical}
+        \caption{Boxplot of volume in mm${^3}$ of the bilateral subcortical segmentation for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm. The subcortical structures represented are Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala.} 
+        \label{fig:boxsubcor}
+\end{figure}
+
+Figure \ref{fig:kde_subcortical} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of subcortical structures of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_subcortical}
+        \caption{Boxplot of volume in mm${^3}$ of the bilateral subcortical segmentation for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm. The subcortical structures represented are Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala.} 
+        \label{fig:kde_subcortical}
+\end{figure}
+
+
+
+Here we show the automated segmentation of all subjects with MRI in the first year, 
+
+%so far we present the results for brain extraction for the first year. We plan to show segmentation of subcortical structure for all the years in the short future. Of note, the imaging data has not been stored, let alone preprocessed, with the minimum quality requirements for a project of of such volume and complexity. This is delaying and the work that we intend to show here.
+
+
+
+
 
 \section{Results}
 \label{se:res}

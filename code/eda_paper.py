@@ -24,6 +24,7 @@ from subprocess import check_output
 #import area_under_curve 
 import matplotlib.pyplot as plt
 import seaborn as sns
+from mpl_toolkits.mplot3d import Axes3D
 
 def vallecas_features_dictionary(dataframe):
 	"""vallecas_features_dictionary: builds a dictionary with the feature clusters of PV
@@ -694,32 +695,47 @@ def compute_buschke_integral_df(dataframe, features_dict=None):
 	return dataframe
 
 
-def identify_outliers(df, dictio):
-	"""identify_outliers: 
-	Args: dictionary of keys - tissues (3) or subcortical (9)
-	Output: df with rows of outliers eliminated dictionary {'L_Accu_visita1':[[list too small ixs],[too large ixs]]
+
+def identify_outliers_columns(df, cols, quantiles=None):
 	"""
-
-	n = 3 #number of std deviations
+	"""
 	df_noout = df.copy()
-
-	quantiles = [0.01, 0.99] #1%, 99% and Maximum
-	for col in dictio.keys():
-		statcol = df[col].describe()
-		#statcol['mean']/100
-		#statcol['mean'] + n*statcol['std']
-		lower_limit = df[col].quantile([quantiles[0], quantiles[1]])[quantiles[0]]
-		upper_limit = df[col].quantile([quantiles[0], quantiles[1]])[quantiles[1]]
-		print('Outliers for ', col, 'lower:', lower_limit,'upper_limit:',upper_limit, 'Max:', statcol['max'])
-		listlow= df.index[df[col] < lower_limit].tolist()
-		listhigh = df.index[df[col] > upper_limit].tolist()
+	df_noout.set_index('idpv', inplace=True)
+	#1%, 99% and Maximum
+	#union = True
+	#intersection = not union
+	listofoutliers = []
+	if quantiles is None:
+		quantiles = [0.01, 0.99] 
+	for col in cols:
+		statcol = df_noout[col].describe()
+		lower_limit = df_noout[col].quantile([quantiles[0], quantiles[1]])[quantiles[0]]
+		upper_limit = df_noout[col].quantile([quantiles[0], quantiles[1]])[quantiles[1]]
+		print('Outliers for ', col, 'lower:', lower_limit,'upper_limit:',upper_limit, 'Abs Min/Max:', statcol['min'], '/',statcol['max'])
+		# for ix in df_noout.index:
+		# 	print(ix,'-',df_noout.loc[ix,col],'-',lower_limit )
+		# 	if df_noout.loc[ix,col] < lower_limit:
+		# 		listlow.append(ix)	
+		listlow = df_noout.index[df_noout[col] < lower_limit].tolist()
+		listhigh = df_noout.index[df_noout[col] > upper_limit].tolist()
+		listofoutliers.append(listlow); listofoutliers.append(listhigh)
 		print('Index of outliers lower bound:', listlow,'upper bound:', listhigh)
-		dictio[col] =  [listlow, listhigh]
-		#pdb.set_trace()
-		df_noout[col] = df_noout[col].loc[~df_noout[col].index.isin(listlow)]
-		df_noout[col] = df_noout[col].loc[~df_noout[col].index.isin(listhigh)]
+		out_indices = listlow + listhigh
+		# intersection lst3 = [value for value in listlow if value in listhigh]
+		for ixo, ixh in zip(listlow, listhigh):
+			if df_noout.index.contains(ixo) is True:
+				print('Removing too low vol. pvid:', ixo)
+				df_noout.drop(ixo, inplace=True)
+			if df_noout.index.contains(ixh) is True:
+				print('Removing too high vol. pvid:', ixh)
+				df_noout.drop(ixh, inplace=True)
+		#df_noout.drop(out_indices, inplace=True)
+		#df_noout[col] = df_noout[col].loc[~df_noout[col].index.isin(listlow)]
+		#df_noout[col].loc[~df_noout[col].index.isin(listhigh)]
+		#df_noout[col] = df_noout[col].loc[~df_noout[col].index.isin(listhigh)]
 	print('df original shape:', df.shape, 'df outliers 1-99$\\%$ extreme values removed shape:', df_noout.shape)	
-	return df_noout, dictio
+	flattened_list = [y for x in listofoutliers for y in x]
+	return df_noout, flattened_list
 
 def plt_boxplot_brain_volumes(df, cols, title=None ):
 	"""plt_boxplot_brain_volumes: boxplot of brain volumes
@@ -2037,48 +2053,188 @@ def compute_contingencytable_lifestyle(df, target_variable=None):
 		print('p value ==', ctable_res[2], '\n')
 		print('CTABLE is:',ctable_res[0])
 
-def plot_scatter_atrophy(df):
+def plot_scatter_atrophy(df, typeof):
 	"""plot_scatter_atrophy
+	Args: dataframe containing atrophy_ columns
 	"""
 	import re
 	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures' 
 	cols = df.columns
 	# sublist containing atrophy
 	ath_cols = [x for x in cols if re.match(r'atrophy_\w',x)]
+
+	if typeof == 'sub':
+		plot_scatter_atrophy_sub(df, ath_cols)
+	elif typeof == 'brain':
+		plot_scatter_atrophy_betbrain(df, ath_cols)
+	elif typeof == 'tissue':
+		plot_scatter_atrophy_tissue(df, ath_cols)
+
+def plot_scatter_atrophy_tissue(df, ath_cols):
+	"""
+	"""
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures' 
+	yi, ye = ath_cols[0][-2], ath_cols[0][-1] 
+	yy = yi + ye
+	#colors = df.conversionmci.map({0:'g', 1:'r'})
+	colors = {0: 'b', 1: 'r'}
+	for i in range(0,len(ath_cols)):
+		# brain vol and tissue to get the meaningful part (scaling2MNI etc)
+		sub = ath_cols[i].split('_')[-3]
+
+		figname = 'atrophyKDE_' + sub + '_'+ yy +'.png'
+		# scatter in one dimension!!!
+		plt.figure()
+		ax = sns.distplot(df[ath_cols[i]].dropna(), label=sub)
+		ax.set(xlabel= 'Vol. ${\\%}$ atrophy:'+ sub) 
+		figname = 'atrophy_dist_' + sub + '.png'
+		plt.savefig(os.path.join(figures_dir, figname), dpi=240)
+		fig, ax = plt.subplots(nrows=1, ncols=1)
+		sns.violinplot('conversionmci', ath_cols[i], data=df, palette=["lightblue", "lightpink"], ax=ax)
+		figname = 'atrophy_violin_' + sub + '.png'
+		plt.savefig(os.path.join(figures_dir, figname), dpi=240)
+	
+	print('Potting Scatter3D tissues')	
+	fig = plt.figure()
+	ax = fig.gca(projection='3d')
+	#ax.set_aspect("equal")
+	ax.scatter3D(df[ath_cols[0]], df[ath_cols[1]], df[ath_cols[2]], c=df[ath_cols[2]], cmap='Greens')
+	plt.title("Tissue segmentation $\\Delta$")
+	ax.set_xlabel("CSF"); ax.set_ylabel("GM"); ax.set_zlabel('WM')
+	pdb.set_trace()
+
+
+
+def plot_scatter_atrophy_betbrain(df, ath_cols):
+	"""
+	"""
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures' 
+	yi, ye = ath_cols[0][-2], ath_cols[0][-1] 
+	yy = yi + ye
+	#colors = df.conversionmci.map({0:'g', 1:'r'})
+	colors = {0: 'b', 1: 'r'}
+	for i in range(0,len(ath_cols)):
+		# brain vol and tissue to get the meaningful part (scaling2MNI etc)
+		sub = ath_cols[i].split('_')[-2]
+
+		figname = 'atrophyKDE_' + sub + '_'+ yy +'.png'
+		# scatter in one dimension!!!
+		plt.figure()
+		ax = sns.distplot(df[ath_cols[i]].dropna(), label=sub)
+		ax.set(xlabel= 'Vol. ${\\%}$ atrophy:'+ sub) 
+		figname = 'atrophy_dist_' + sub + '.png'
+		plt.savefig(os.path.join(figures_dir, figname), dpi=240)
+		fig, ax = plt.subplots(nrows=1, ncols=1)
+		sns.violinplot('conversionmci', ath_cols[i], data=df, palette=["lightblue", "lightpink"], ax=ax)
+		figname = 'atrophy_violin_' + sub + '.png'
+		plt.savefig(os.path.join(figures_dir, figname), dpi=240)
+
+def plot_scatter_atrophy_sub(df, ath_cols):
+	"""plot_scatter_atrophy_sub plot atrophy for subcortical structures
+	"""
+
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures' 
 	yi, ye = ath_cols[0][-2], ath_cols[0][-1] 
 	yy = yi + ye
 	#colors = df.conversionmci.map({0:'g', 1:'r'})
 	colors = {0: 'b', 1: 'r'}
 	for i in range(0,len(ath_cols),2):
 		sub = ath_cols[i:i+2][0].split('_')[2]
-		figname = 'atrophy_' + sub + '_'+ yy +'.png'
-		#pdb.set_trace()
+		figname = 'atrophy_scatter_' + sub + '_'+ yy +'.png'
 		plot_scatter_brain(df, ath_cols[i], ath_cols[i+1], colors=[colors[r] for r in df['conversionmci'].dropna()], title='Atrophy ' + ath_cols[i:i+2][0].split('_')[2] + ':yy:'+ yy, figname=figname, cmap=None)
 		print('Subjets with MRI in ', sub, ' :', df[ath_cols[i]].shape[0], ' / ' , df[ath_cols[i]].dropna().shape[0])
 		plt.figure()
-		ax = sns.distplot(df[ath_cols[i]].dropna(), label='L')
-		ax = sns.distplot(df[ath_cols[i+1]].dropna(), label='R') 
-		ax.set(xlabel= 'Vol. atrophy:'+ sub +' $mm^3$')
-		figname = 'dist_atrophy_' + sub + '.png'
+		ax = sns.distplot(df[ath_cols[i]].dropna(), label='Left $\\Delta$')
+		ax = sns.distplot(df[ath_cols[i+1]].dropna(), label='Right $\\Delta$')
+		plt.legend()
+		ax.set(xlabel= 'Bilateral Vol. ${\\%}$ atrophy:'+ sub)
+		figname = 'atrophy_dist_' + sub + '.png'
 		plt.savefig(os.path.join(figures_dir, figname), dpi=240)
-		fig, ax = plt.subplots(nrows=1, ncols=2)
+		fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(8,6), sharex=True, sharey=True)
+		figname = 'atrophy_violin_' + sub + '.png'
 		sns.violinplot('conversionmci', ath_cols[i], data=df, palette=["lightblue", "lightpink"], ax=ax[0]);
 		sns.violinplot('conversionmci', ath_cols[i+1], data=df, palette=["lightblue", "lightpink"], ax=ax[1]);
+		plt.savefig(os.path.join(figures_dir, figname), dpi=240)
 
-		
-
-
-
-
-	pdb.set_trace()
-
-def compute_atrophy(df, yi, ye):
+def compute_atrophy(df, yi, ye, typeof):
 	"""compute_atrophy: calculate the atrophy of subc brain structures between 2 years
 	Args: df: dataframe containing segementation strcutres, yi: 1 ye:6
 	Output: df with added columns 'ath_$str_$y1$ye' 
 	"""
+	if typeof is 'brain':
+		return compute_atrophy_betbrain(df, yi, ye)
+	elif typeof is 'tissue':
+		return compute_atrophy_tissue(df, yi, ye)
+	elif typeof is 'sub':
+		return compute_atrophy_subcort(df, yi, ye)
+
+def compute_atrophy_betbrain(df, yi, ye):
+	"""compute_atrophy_betbrain: 
+	"""
+	delta = 0.6
+	standarize = True
+	bvols, atro = [], []
+	brains = ['scaling2MNI','volume_bnative','volume_bMNI']	
+	print('df shape PRE removal:', df.shape)
+	for bv in brains:
+		labeli = bv + '_visita' + str(yi); bvols.append(labeli)
+		labele = bv + '_visita' + str(ye); bvols.append(labele)
+		atrophy = 'atrophy_' + bv + '_visita' +  str(yi) + str(ye); atro.append(atrophy)
+		df[atrophy] = df[labeli] - df[labele]
+		if standarize is True:
+			df[atrophy] = df[atrophy]/ df[labeli]
+		print('Computing Max and Min bet brain for security cleaning\n')
+		minix = df[atrophy].idxmin(); minval = df.loc[minix, atrophy]
+		maxix = df[atrophy].idxmax(); maxval = df.loc[maxix, atrophy]
+		print('IX Min / Max =', bv,'  ', minix,'/', maxix, ' Val. min / Max = ', minval, '/', maxval)
+		if (np.abs(minval) > delta) and (standarize == True):
+			print('Removing the minimum index:', minix, ' is a ', delta, ' smaller.')
+			df.drop(minix, inplace=True)
+		if 	(np.abs(maxval) > delta) and (standarize == True):
+			print('Removing the maximum index:', maxix, ' is a ', str(delta), ' larger')
+			df.drop(maxix, inplace=True)
+	print('df shape POST removal:', df.shape)
+	return df	
+	
+
+def compute_atrophy_tissue(df, yi, ye):
+	"""compute_atrophy_betbrain
+	"""
+	delta = 0.6
+	standarize = True
+	tvols, atro = [], []
+	tissues = ['csf_volume', 'gm_volume', 'wm_volume']
+	print('df shape PRE removal:', df.shape)
+	for ti in tissues:
+		labeli = ti + '_visita' + str(yi); tvols.append(labeli)
+		labele = ti + '_visita' + str(ye); tvols.append(labele)
+		atrophy = 'atrophy_' + ti + '_visita' +  str(yi) + str(ye); atro.append(atrophy)
+		df[atrophy] = df[labeli] - df[labele]
+		if standarize is True:
+			df[atrophy] = df[atrophy]/ df[labeli]
+		print('Computing Max and Min List values Tissue security cleaning\n')
+		#minix = df[atrophy].idxmin(); minval = df.loc[minix, atrophy]
+		#maxix = df[atrophy].idxmax(); maxval = df.loc[maxix, atrophy]
+		#print('IX Min / Max =', ti,'  ', minix,'/', maxix, ' Val. min / Max = ', minval, '/', maxval)
+		minixlist = df.index[df[atrophy] < -delta].tolist()
+		maxixlist =df.index[df[atrophy] > delta].tolist()
+		print('Removing the minimum index:', minixlist, ' is a ', delta, ' smaller.')
+		df.drop(minixlist, inplace=True)
+		print('Removing the maximum index:', maxixlist, ' is a ', str(delta), ' larger')
+		df.drop(maxixlist, inplace=True)
+	print('df shape POST removal:', df.shape)
+	return df
+			
+def compute_atrophy_subcort(df, yi, ye):	
+	"""compute_atrophy_subcort: calculate the atrophy of subc brain structures between 2 years
+	Args: df: dataframe containing segementation structures, yi: 1 ye:6
+	Output: df with added columns 'ath_$str_$y1$ye' and removed outliers
+	"""
+	delta = 0.6
+	standarize = True
 	sub_ini, sub_end, atro, title_bar = [], [], [], []
 	subcortical = ['Thal', 'Puta','Amyg','Pall','Caud','Hipp','Accu']
+	print('df shape PRE removal:', df.shape)
 	for sub in subcortical:
 		labeliL = 'L_' + sub + '_visita' + str(yi); sub_ini.append(labeliL)
 		labeliR = 'R_' + sub + '_visita' + str(yi); sub_ini.append(labeliR)
@@ -2086,45 +2242,52 @@ def compute_atrophy(df, yi, ye):
 		labeleR = 'R_' + sub + '_visita' + str(ye); sub_end.append(labeleR)
 		atrophyL = 'atrophy_L_' + sub + '_visita' +  str(yi) + str(ye); atro.append(atrophyL)
 		atrophyR = 'atrophy_R_' + sub + '_visita' +  str(yi) + str(ye); atro.append(atrophyR)
+		# standarize
 		df[atrophyL] = df[labeliL] - df[labeleL]
 		df[atrophyR] = df[labeliR] - df[labeleR]
-		title_bar.append('L_' + sub)
-		title_bar.append('R_' + sub)
+		if standarize is True:
+			df[atrophyL] = df[atrophyL]/ df[labeliL]; #df[atrophyL] = df[atrophyL].round(decimals=3)
+			df[atrophyR] = df[atrophyR]/ df[labeliR]; #df[atrophyR] = df[atrophyR].round(decimals=3)	
+		minixlist = df.index[df[atrophyL] < -delta].tolist() + df.index[df[atrophyR] < -delta].tolist()
+		maxixlist = df.index[df[atrophyL] > delta].tolist() + df.index[df[atrophyR] > delta].tolist()
+		print('Removing the minimum index:', minixlist, ' is ', delta, ' times smaller.')
+		df.drop(minixlist, inplace=True)
+		print('Removing the maximum index:', maxixlist, ' is ', str(delta), ' times larger')
+		df.drop(maxixlist, inplace=True)
 
-	others = ['conversionmci', 'ultimodx'] 	
-	subs = sub_ini + sub_end + atro + others
-	df_sub = df[subs]
-	df_sub.describe()
-	# count + and - atrophy
-	dictioNegPos = {}
-	for ant in atro:
-		posis = sum(df[ant]>0)
-		negas = sum(df[ant]<0)
-		dictioNegPos[ant] = [posis, negas]
-		print('Atrophy ', ant,' +/- is==', posis, ' / ', negas, '% no atrophy==', 100*float(negas)/float(posis) )
-		#plot dictio bars +/-
-		#with sns.axes_style(style='ticks'):
-			# g = sns.factorplot('conversionmci', ant, data=df, kind="box")
-			# g.set_axis_labels("MCI", ant);
-			# g = sns.factorplot('sexo', ant, data=df, kind="box")
-			# g.set_axis_labels("sex", ant);
-	# plot dioctio
-	plt.figure()
-	valuesL = list(dictioNegPos.values())
+	print('df shape POST removal:', df.shape)	
+	return df
+
+def get_brain_columns(df, yy):
+	"""get_brain_columns return list of features related to brain automated segmentation
+	Args: dataframe, year visit e.g. (df_loyals, 1)
+	Output: [[mri_brain_cols], [mri_tissue_cols], [mri_subcortical_cols]
+	"""
+	# select colums. for brain 
+	bvols, tvols, subvols = [], [], []
+	brains = ['scaling2MNI','volume_bnative','volume_bMNI']
+	subcortical = ['Thal', 'Puta','Amyg','Pall','Caud','Hipp','Accu']
+	tissues = ['csf_volume', 'gm_volume', 'wm_volume']
 	
-	x = np.array(map(lambda x: x[0], valuesL))
-	ind = np.arange(len(x))
-	y = map(lambda x: x[1], valuesL)
-	y = np.array(y)
-	p1 = plt.bar(ind, x, 0.35, yerr=np.std(x))
-	p2 = plt.bar(ind, y, 0.35,bottom=x, yerr=np.std(y))
-	pdb.set_trace()
-	plt.xticks(ind, title_bar)
-	#plt.bar(range(len(dictioNegPos)),x,y , align='center')
-	#plt.xticks(range(len(dictioNegPos)), list(dictioNegPos.keys()))
-	return df_sub
+	for bv in brains:
+		label = bv + '_visita' + str(yy); bvols.append(label)
+	
+	for ti in tissues:
+		label = ti + '_visita' + str(yy); tvols.append(label)
 
+	for sub in subcortical:
+		labeliL = 'L_' + sub + '_visita' + str(yy); subvols.append(labeliL)
+		labeliR = 'R_' + sub + '_visita' + str(yy); subvols.append(labeliR)
+	braincols = [bvols, tvols, subvols]
+	flattened_list = [y for x in braincols for y in x]
+	print df[flattened_list].describe()	
+	return braincols
 
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
+##################################################################################
 def main():
 	# Open csv with MRI data
 	plt.close('all')
@@ -2142,12 +2305,59 @@ def main():
 	# select rows with 5 visits
 	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
 	df_loyals = select_rows_all_visits(dataframe, visits)
-
+	##########################
 	#testing here cut paste###
-	print('Calculate the brain atropy between two years: yini~yend \n')
-	df_atrophy = compute_atrophy(df_loyals, yi=1, ye=6)
+	##########################
+	
+
+	# column names: brain bcols_y1[0], tissue  bcols_y1[0], subcortical bcols_y1[0]
+	bcols_y1 = get_brain_columns(df_loyals, 1)
+	bcols_y6 = get_brain_columns(df_loyals, 6)
+	### identify and remove quantiles e. 1-99 pc extreme values
+	quantiles = [0.01,0.99] #[0.01, 0.99]
+	print('Computing outliers for year 1...\n')
+	df_nooutliers_b, brain_outliers = identify_outliers_columns(df_loyals, bcols_y1[0], quantiles)
+	df_nooutliers_t, tissue_outliers = identify_outliers_columns(df_loyals, bcols_y1[1], quantiles)
+	df_nooutliers_s, sub_outliers = identify_outliers_columns(df_loyals, bcols_y1[2], quantiles)	
+	print('Computing outliers for year 6...\n')
+	df_nooutliers_b6, brain_outliers6 = identify_outliers_columns(df_loyals, bcols_y6[0], quantiles)
+	df_nooutliers_t6, tissue_outliers6 = identify_outliers_columns(df_loyals, bcols_y6[1], quantiles)
+	df_nooutliers_s6, sub_outliers6 = identify_outliers_columns(df_loyals, bcols_y6[2], quantiles)	
+	
+	print('Calculate the brain atrophy between two years: yini~yend \n')
+	typeimg = ['b', 't', 's']
+	# Find the index of ouliers for brain,, tissue and subcortical
+	# indices that contain outliers in year 1 for brain vol, tissue and subcortical strctures
+	idx1_b, idx1_t, idx1_s = df_nooutliers_b.index,  df_nooutliers_t.index, df_nooutliers_s.index
+	# indices that contain outliers in year 6 for brain vol, tissue and subcortical strctures
+	idx2_b, idx2_t, idx2_s = df_nooutliers_b6.index, df_nooutliers_t6.index, df_nooutliers_s6.index
+	# intersection of indices free of outliers
+	ix_noout_b = idx1_b.intersection(idx2_b)
+	ix_noout_t = idx1_t.intersection(idx2_t)
+	# intersection 88 ONLY left
+	ix_noout_s = idx1_s.intersection(idx2_s)
+	#ix_noout_s = idx1_s
+	#df_loyals.loc[idx1]
+	# Plotting for brain vol.
+
+	print('Adding atrophy column in df (idx to exclude the outlier) \n')
+	df_atrophy_b = compute_atrophy(df_loyals.loc[ix_noout_b], yi=1, ye=6, typeof = 'brain')
+	print('Plotting scatter of Atrophy per type of segmentation:brain vol, tissue or subcortical \n')
+	plot_scatter_atrophy(df_atrophy_b.loc[ix_noout_b], typeof = 'brain')
+	# Plotting for tissue
+	df_atrophy_t = compute_atrophy(df_loyals.loc[ix_noout_t], yi=1, ye=6, typeof ='tissue')
+	print('Plotting scatter of tissue (removed outliers)) \n')
+	plot_scatter_atrophy(df_atrophy_t.loc[ix_noout_t], typeof = 'tissue')
+	
+	# Plotting for subcortical strctures (fix too stringent)
+	df_atrophy_s = compute_atrophy(df_loyals.loc[ix_noout_s], yi=1, ye=6, typeof ='sub')
+	print('Plotting scatter of subcortical structures (removed outliers)) \n')
+	
+	plot_scatter_atrophy(df_atrophy_s.loc[ix_noout_s], typeof = 'sub')
+	#plot_scatter_atrophy(df_loyals, typeof = 'sub')
 	pdb.set_trace()
-	plot_scatter_atrophy(df_atrophy)
+
+
 
 
 
