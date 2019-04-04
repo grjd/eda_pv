@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 import importlib
 import sys
+import statsmodels.api as sm
 
 #sys.path.append('/Users/jaime/github/code/tensorflow/production')
 #import descriptive_stats as pv
@@ -2104,6 +2105,119 @@ def plot_scatter_atrophy_tissue(df, ath_cols):
 	pdb.set_trace()
 
 
+def plot_violin_tissue(df, yi, ye):
+	"""plot_violin_tissue
+	"""
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures' 
+	
+	print('Print violin plot for Vol. yi - ye \n')
+	csf_atr= 'atrophy_csf_volume_visita'+ str(yi) + str(ye)
+	wm_atr = 'atrophy_wm_volume_visita' + str(yi) + str(ye)
+	gm_atr = 'atrophy_gm_volume_visita' + str(yi) + str(ye)
+	
+	gm_i = 'gm_volume_visita' +str(yi); gm_e = 'gm_volume_visita' +str(ye)
+	wm_i = 'wm_volume_visita' +str(yi); wm_e = 'wm_volume_visita' +str(ye)
+	csf_i = 'csf_volume_visita' +str(yi); csf_e = 'csf_volume_visita' +str(ye)
+	df2 = df[[csf_i, csf_e, gm_i, gm_e,wm_i,wm_e]]/1000
+	plt.figure(figsize=(9, 6))
+	ax = sns.violinplot(data=df2, palette="Set3")
+	ax.set_title('Tissue vol. $cm^3$ yy:'+str(yi) + str(ye))
+	ax.set_ylabel('$cm^3$')
+	plt.grid(True, alpha=0.8)
+	plt.axvline(x=1.5); plt.axvline(x=3.5)
+	plt.tight_layout()
+	fig_filename = 'tissues_violin.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	
+	# Atrophy G~C, G~W
+	g = (sns.jointplot(df[gm_atr], df[wm_atr], kind="reg")).set_axis_labels("$GM \\Delta$", "GM \\Delta$")#kind="hex"
+	g.fig.set_size_inches(6,6)
+	plt.tight_layout()
+	fig_filename = 'tissuesgm_joint.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	g2 = (sns.jointplot(df[gm_atr], df[csf_atr], kind="reg")).set_axis_labels("$GM \\Delta$", "CSF \\Delta$")
+	g2.fig.set_size_inches(6,6)
+	plt.tight_layout()
+	fig_filename = 'tissuesgc_joint.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	
+	# jointplot tissue yy ~ye
+	#gc = (sns.jointplot(df2[csf_i], df2[csf_e], kind="reg")).set_axis_labels("CSF y"+ str(yi)+" $cm^3$", "CSF y"+ str(ye)+" $cm^3$")#kind="hex"
+	gc = (sns.jointplot(df2[csf_i], df2[csf_e], kind="reg").plot_joint(sns.kdeplot, zorder=0, n_levels=6)).set_axis_labels("CSF y"+ str(yi)+" $cm^3$", "CSF y"+ str(ye)+" $cm^3$")
+	gc.fig.set_size_inches(6,6)
+	plt.tight_layout()
+	fig_filename = 'tissuescsf16_joint.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	#gg = (sns.jointplot(df2[gm_i], df2[gm_e], kind="reg")).set_axis_labels("GM y"+ str(yi)+" $cm^3$", "GM y"+ str(ye)+" $cm^3$")
+	gg = (sns.jointplot(df2[gm_i], df2[gm_e], kind="reg").plot_joint(sns.kdeplot, zorder=0, n_levels=6)).set_axis_labels("GM y"+ str(yi)+" $cm^3$", "GM y"+ str(ye)+" $cm^3$")
+
+
+	gg.fig.set_size_inches(6,6)
+	plt.tight_layout()
+	fig_filename = 'tissuesgm16_joint.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	#gw = (sns.jointplot(df2[wm_i], df2[wm_e], kind="reg")).set_axis_labels("WM y"+ str(yi)+" $cm^3$", "WM y"+ str(ye)+" $cm^3$")
+	gw = (sns.jointplot(df2[wm_i], df2[wm_e], kind="reg").plot_joint(sns.kdeplot, zorder=0, n_levels=6)).set_axis_labels("WM y"+ str(yi)+" $cm^3$", "WM y"+ str(ye)+" $cm^3$")
+	gw.fig.set_size_inches(6,6)
+	plt.tight_layout()
+	fig_filename = 'tissueswm16_joint.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+def plot_violin_betbrain(df, yi, ye):
+	"""plot_violin_betbrain plot violin type for brain size years and atrophy
+	"""
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures' 
+	
+	y = 'volume_bnative_visita' + str(yi)
+	y2 = 'volume_bnative_visita' + str(ye)
+	
+	plt.figure(figsize=(6, 4))
+	#
+	print('Print violin plot for Volume yi - ye \n')
+	df2 = df[[y,y2]]/1000
+	#df2 = df.melt(var_name='groups', value_name='vals')
+	ax = sns.violinplot(data=df2)
+	ax.set_title('Brain vol. (nat.) $cm^3$')
+	ax.set_ylabel('Vol. $cm^3$')
+	plt.grid(True, alpha=0.8)
+	plt.tight_layout()
+	fig_filename = 'bnative_violin.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+	plt.figure(figsize=(6, 4))
+	y = 'atrophy_volume_bnative_visita' + str(yi) + str(ye)
+	print('Print Atrophy violin plot for Volume yi - ye \n')
+	ax = sns.violinplot(x='conversionmci', y=y, hue="sexo",data=df, palette="Set2", split=True,scale="count", inner="quartile")
+	ax.set_title('Brain vol. atrophy $(\\%)$ yy:'+str(yi) +'-' + str(ye))
+	ax.set_ylabel('Vol. atrophy $(\\%)$')
+	plt.grid(True, alpha=0.8)
+	plt.tight_layout()
+	fig_filename = 'atrophy_volume_bnative_x_violin.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+	plt.figure(figsize=(6, 4))
+	y = 'atrophy_volume_bnative_visita' + str(yi) + str(ye)
+	print('Print Atrophy violin plot for Volume yi - ye \n')
+	ax = sns.violinplot(x='conversionmci', y=y, hue="familial_ad",data=df, palette="Set2", split=True,scale="count", inner="quartile")
+	ax.set_title('Brain vol. atrophy $(\\%)$ yy:'+str(yi) +'-' + str(ye))
+	ax.set_ylabel('Vol. atrophy $(\\%)$')
+	plt.grid(True, alpha=0.8)
+	plt.tight_layout()
+	fig_filename = 'atrophy_volume_bnative_fam_violin.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+	# fig, ax = plt.subplots(1,2)
+	# #ax[-1, -1].axis('off')
+	# fig.set_size_inches(8,6)
+	# sns.violinplot(x='conversionmci', y=y, hue="sexo",data=df, palette="Set2", split=True,scale="count", inner="quartile", ax=ax[0])
+	# #sns.violinplot(x='conversionmci', y=y, hue="nivelrenta",data=df, palette="Set2", split=False,scale="count", inner="quartile", ax=ax[0,1])
+	# sns.violinplot(x='conversionmci', y=y, hue="familial_ad",data=df, palette="Set2", split=True,scale="count", inner="quartile", ax=ax[1])
+	# #sns.violinplot(x='conversionmci', y=y, hue="apoe",data=df, palette="Set2", split=False,scale="count", inner="quartile", ax=ax[1,1])
+	# plt.tight_layout()
+	# fig_filename = 'atrophy_bnative_hues_violin.png'
+	# plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+
 
 def plot_scatter_atrophy_betbrain(df, ath_cols):
 	"""
@@ -2309,12 +2423,12 @@ def main():
 	#testing here cut paste###
 	##########################
 	
-
+	# Brain fsl_anat Analysis
 	# column names: brain bcols_y1[0], tissue  bcols_y1[0], subcortical bcols_y1[0]
 	bcols_y1 = get_brain_columns(df_loyals, 1)
 	bcols_y6 = get_brain_columns(df_loyals, 6)
 	### identify and remove quantiles e. 1-99 pc extreme values
-	quantiles = [0.01,0.99] #[0.01, 0.99]
+	quantiles = [0.05,0.95] #[0.01, 0.99]
 	print('Computing outliers for year 1...\n')
 	df_nooutliers_b, brain_outliers = identify_outliers_columns(df_loyals, bcols_y1[0], quantiles)
 	df_nooutliers_t, tissue_outliers = identify_outliers_columns(df_loyals, bcols_y1[1], quantiles)
@@ -2323,27 +2437,40 @@ def main():
 	df_nooutliers_b6, brain_outliers6 = identify_outliers_columns(df_loyals, bcols_y6[0], quantiles)
 	df_nooutliers_t6, tissue_outliers6 = identify_outliers_columns(df_loyals, bcols_y6[1], quantiles)
 	df_nooutliers_s6, sub_outliers6 = identify_outliers_columns(df_loyals, bcols_y6[2], quantiles)	
-	
-	print('Calculate the brain atrophy between two years: yini~yend \n')
-	typeimg = ['b', 't', 's']
 	# Find the index of ouliers for brain,, tissue and subcortical
-	# indices that contain outliers in year 1 for brain vol, tissue and subcortical strctures
+	# indices that contain outliers in year 1 for brain vol, tissue and subcortical structures
 	idx1_b, idx1_t, idx1_s = df_nooutliers_b.index,  df_nooutliers_t.index, df_nooutliers_s.index
-	# indices that contain outliers in year 6 for brain vol, tissue and subcortical strctures
+	# indices that contain outliers in year 6 for brain vol, tissue and subcortical structures
 	idx2_b, idx2_t, idx2_s = df_nooutliers_b6.index, df_nooutliers_t6.index, df_nooutliers_s6.index
-	# intersection of indices free of outliers
+	# indices free of outliers
 	ix_noout_b = idx1_b.intersection(idx2_b)
 	ix_noout_t = idx1_t.intersection(idx2_t)
 	# intersection 88 ONLY left
 	ix_noout_s = idx1_s.intersection(idx2_s)
-	#ix_noout_s = idx1_s
-	#df_loyals.loc[idx1]
-	# Plotting for brain vol.
 
-	print('Adding atrophy column in df (idx to exclude the outlier) \n')
+	print('Calculate the BRAIN atrophy between two years: yini~yend. Adding atrophy column in df (idx to exclude the outlier) \n')
 	df_atrophy_b = compute_atrophy(df_loyals.loc[ix_noout_b], yi=1, ye=6, typeof = 'brain')
+	plot_violin_betbrain(df_atrophy_b.loc[ix_noout_b], 1, 6)
+	#plot_scatter_atrophy(df_atrophy_b.loc[ix_noout_b], typeof = 'brain')
+	print('Calculate the TISSUE atrophy between two years: yini~yend. Adding atrophy column in df (idx to exclude the outlier) \n')
+	df_atrophy_t = compute_atrophy(df_loyals.loc[ix_noout_t], yi=1, ye=6, typeof ='tissue')
+	plot_violin_tissue(df_atrophy_t.loc[ix_noout_b], 1, 6)
+	pdb.set_trace()
+	plot_scatter_atrophy(df_atrophy_t.loc[ix_noout_t], typeof = 'tissue')
+
+
+
+
+
+
+
+
+
+
+
 	print('Plotting scatter of Atrophy per type of segmentation:brain vol, tissue or subcortical \n')
 	plot_scatter_atrophy(df_atrophy_b.loc[ix_noout_b], typeof = 'brain')
+	
 	# Plotting for tissue
 	df_atrophy_t = compute_atrophy(df_loyals.loc[ix_noout_t], yi=1, ye=6, typeof ='tissue')
 	print('Plotting scatter of tissue (removed outliers)) \n')
