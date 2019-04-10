@@ -3,7 +3,7 @@
 #Description	: fsl_postprocessing.py
 #Args           : postprocessing of fsl_anat. 
 #				  Computes stats of tissue segmentation and subcortical segmentation    
-#				  Creates the csv file with brain segmentation columns created	                                                                                    
+#				  Creates the csv file with brain segmentation columns 	                                                                                    
 #Author       	: Jaime Gomez-Ramirez                                               
 #Email         	: jd.gomezramirez@gmail.com 
 #######################################################

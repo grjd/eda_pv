@@ -1407,7 +1407,7 @@ The segmentation pipeline used the FMRIB Software Library \cite{fsl60}, \cite{je
   %All the other ouputs in first_results subdir: T1_first_all_fast_firstseg == T1_subcort_seg and btk, vbars for each region, need to be converted to .nii
 \end{enumerate}
 
-\subsection{Brain atrophy estimates (year 1 $~$ year 6) }
+\subsection{Brain atrophy estimates (year 1, year 6) }
 \label{sse:segementa}
 
 We show the volume estimates for brain extraction, tissue segmentation (CSF, white and gray matter) and subcortical segmentation (thalamus, putamen, hippocampus, accumbens, pallidum, caudate, amygdala) for a total of 314 subjects for both year 1 and year 6, (total $314 \times 2 = 628$)
@@ -1416,51 +1416,139 @@ We show the volume estimates for brain extraction, tissue segmentation (CSF, whi
 
 Research shows that the growth rate of the brain slowly declines declines from the first year of birth (it increases dramatically during), brain volume reaches its maximum at the age of 40 years to then decline by $5\%$ per decade, the decline is thought to accelerate at around 70 years \cite{peters2006ageing}.
 
-Figure \ref{fig:boxbet} shows the results of the brain extraction algorithm for years 1 and year 6. The brain's size is expressed in mm${^3}$ in native space (left) and scaled in MNI space (right). 
+Figure \ref{fig:brainviolin} shows the results of the brain extraction algorithm for years 1 and year 6. The brain's size is expressed in mm${^3}$ in native space (left) and scaled in MNI space (right). 
 The average brain size is around 1,000 cm${^3}$ or 1000,000 mm${^3}$ which reflects the age and the gender unbalance of the sample.
 
+%CODE
+% df_atrophy_b = compute_atrophy(df_loyals.loc[ix_noout_b], yi=1, ye=6, typeof = 'brain')
+% plot_violin_betbrain(df_atrophy_b.loc[ix_noout_b], 1, 6)
+%mean variation df_atrophy_b['volume_bnative_visita6'].mean()/df_atrophy_b['volume_bnative_visita1'].mean()
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/boxplot_Nonebrain}
-        \caption{The figure shows the box plot of the size of the brain in mm${^3}$ both in native space (left) and in the normalized MNI space (right).} 
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/bnative_violin}
+        \caption{The violin plot shows the brain volume in native space ($cm^3$) for year 1 (left) and year 6 (right). As expected the mean volume decreases from  year 1 to year 6.} 
         \label{fig:boxbet}
 \end{figure}
+%\footnote{A violin plot is a hybrid of a box plot and a kernel density plot.}
 
+We calculate brain atrophy as the difference between the estimated volume at year 1 and the estimated volume at year 6. Figure \ref{fig:braingroupviol} shows the atrophy for MCI converters and non MCI converters, grouped by sex and familial AD.
 
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[height=0.22\textheight, keepaspectratio]{figures/atrophy_volume_bnative_x_violin} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        \label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[height=0.22\textheight, keepaspectratio]{figures/atrophy_volume_bnative_fam_violin}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        \label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{IOn the left, brain atrophy for converters and non converters grouped by familial sex (0:Male, 1:Female) and on the right grouped by familial AD.}
+    \label{fig:braingroupviol}
+\end{figure}
 
 
 \paragraph*{Segmentation of brain tissue}
+
+Figure \ref{fig:tissueseg} shows the segmentation based on tissue (CSF (green), gray matter(blue); white matter (red-yellow)) of the same subject of the \emph{Vallecas Project}, in year 1 (left) and in year 6 (right).
+
+%CODE
+%cd /Users/jaime/Downloads/test_code/y1andy6subject
 %fsleyes T1_fast_restore.nii.gz T1_fast_pve_0.nii.gz -cm green -dr 0.5 1 T1_fast_pve_1.nii.gz -cm blue-lightblue -dr 0.5 1 T1_fast_pve_2.nii.gz -cm red-yellow -dr 0.5 1
-Figure \ref{fig:tissueseg} shows the segmentation based on tissue (CSF (green), Gray matter(blue); White matter (red-yellow)) of one subject of the \emph{Vallecas Project}.
-
-\begin{figure}[H]
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.95\textwidth}
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/tissueseg}
-        \caption{Example of tissue based segmentation of one subject in her first visit. } 
-        \label{fig:tissueseg}
+        \includegraphics[height=0.22\textheight, keepaspectratio]{figures/ti-162y1} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        \label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[height=0.22\textheight, keepaspectratio]{figures/ti-162y6}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        \label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Tissue segmentation of one subject, on the left first year visit and on the right sixth year visit.}
+    \label{fig:braingroupviol}
 \end{figure}
-%fsleyes ../T1_fast_restore.nii.gz T1_first_all_fast_firstseg.nii.gz -cm Red-Yellow -dr 0 118
 
-Figure \ref{fig:boxtissue} shows the boxplot of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. CSF volume on the left, gray matter center and white matter on the right. All volumes are expressed in mm${^3}$.
+%CODE
+% df_atrophy_t = compute_atrophy(df_loyals.loc[ix_noout_t], yi=1, ye=6, typeof ='tissue')
+% plot_violin_tissue(df_atrophy_t.loc[ix_noout_b], 1, 6)
+Figure \ref{fig:violtissues} shows estimated volume for tissue based segmentation across two time points, year 1 and year 6. The volume distribution of CSF (left), gray matter (middle) and white matter(right) are shown. 
+The figure indicates Figure \ref{fig:violtissues} shows an increase in the volume of the CSF and at the same time a decrease in the parenchyma (white and gray matter). 
 
+As the brain ages, it increases its elasticity while keeping constant its porosity \cite{lasheras2007biomechanics}, the concentration of proteins also decreases with age which can be explained by the increment in volume observed here \cite{chen2012influence}. While it has been suggested that cerebrospinal fluid production is reduced in healthy aging \cite{may1990cerebrospinal}, in a more recent study \cite{gideon1994cerebrospinal} researchers argue that differences found in human CSF production rates may be caused by interindividual factors other than age. 
+More uncontroversial is the decrease in cerebrospinal fluid pressure with older Age \cite{fleischman2012cerebrospinal} this would explain the enlargement of the brain ventricles that our estimates show.
+% YS: Freesuerfer size of ventricules
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierstissue}
-        \caption{Boxplot of volume in mm${^3}$ for the tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
-        \label{fig:boxtissue}
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/tissues_violin}
+        \caption{The plot shows the tissue based segmentation results. For each type of tissue we plot the estimated volume in year 1 and year 6. Thus, left csf volume in first and last years, middle gray matter volume in first and last year and right white matter volume for first and last year. } 
+        \label{fig:violtissues}
 \end{figure}
 
-Figure \ref{fig:kde_3_tissues} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
-\begin{figure}[H]
+Figure \ref{fig:jointtissues} shows the relationship between two variables -the atrophy of tissues as well as the profiles of each tissue atrophy in the margins. Thus, on the left the joint plot of gray matter atrophy and white matter atrophy and on the right between gray matter atrophy and CSF atrophy. The figure indicates that there is no linear correlation between the volume atrophy of the brain tissues. 
+
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_3_tissues}
-        \caption{Histogram and KDE in cm${^3}$ for tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
-        \label{fig:kde_3_tissues}
+        \includegraphics[height=0.30\textheight, keepaspectratio]{figures/tissuesgm_joint} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[height=0.30\textheight, keepaspectratio]{figures/tissuesgc_joint}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{On the left, relationship between the variables gray matter atrophy and white matter; on the right, relationship between the variables gray matter atrophy and CSF atrophy.}
+    \label{fig:jointtissues}
+\end{figure}
+
+Figure \ref{fig:jointtissuescont} shows the relationship between the volume of each tissue in year 1 and year 6. As expected there is a strong linear relationship between the estimated volumes at two different time points. This means that healthy aging progresses monotonically and not for example, "catastrophically" in the mathematical interpretation of René Thom \cite{rosen1979catastrophe}, \cite{zeeman1979catastrophe}, \cite{thom2018structural}. Along these lines it would be of interest to investigate the points that fall outside the contour areas shown in the figure.   
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.3\textwidth}
+        \centering
+        \includegraphics[height=0.28\textheight, keepaspectratio]{figures/tissuescsf16_joint} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.3\textwidth}
+        \centering
+        \includegraphics[height=0.28\textheight, keepaspectratio]{figures/tissuesgm16_joint}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.3\textwidth}
+        \centering
+        \includegraphics[height=0.28\textheight, keepaspectratio]{figures/tissueswm16_joint}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Left, relationship between the CSF volume in year 1 (x-axis) and in year 6 (y-axis). Center, relationship between the gray matter volume in year 1 (x-axis) and in year 6 (y-axis). Right, relationship between the white matter volume in year 1 (x-axis) and in year 6 (y-axis). The linear correlation is very strong in all cases (0.93, 0.93 and 0.95).}
+    \label{fig:jointtissuescont}
 \end{figure}
 
 
 \paragraph*{Segmentation of brain subcortical structures}
+%fsleyes ../T1_fast_restore.nii.gz T1_first_all_fast_firstseg.nii.gz -cm Red-Yellow -dr 0 118
 
 Figure \ref{fig:subcorseg} shows the segmentation based of the subcortical structures: Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala and Brain stem of one subject of the \emph{Vallecas Project}. The statistical analysis of all the subjects in the first year visit  will be ready very SOON! 
 
@@ -1701,3 +1789,33 @@ Figure \ref{fig:genfami} gives an excellent opportunity to discuss the perils of
 Figure \ref{fig:genfami}-a) shows that for those with $APO\epsilon4=2$, https://jeremykun.com/2013/01/12/the-fundamental-group-a-primer/the probability to convert is larger than to no convert,$p(MCI=1|APO\epsilon4=2) > p(MCI=0|APO\epsilon4=2)$. On the other hand, for heterozygotes and non APOE4,$APO\epsilon4=0,1$, the reverse happens, there are more non converters than converters if the subject is not carrier of homozygote $APO\epsilon4$. 
 However, Figure \ref{fig:genfami}-b) the homozygotic APOE are a very small number ($11/1181 = 0.093\%$), so for those that are converters to MCI only the $0.05\%$ are homozygotic $APO\epsilon4$, $p(APOE=2|MCI=1)=0.05$.
 
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/boxplot_Nonebrain}
+        \caption{The figure shows the box plot of the size of the brain in mm${^3}$ both in native space (left) and in the normalized MNI space (right).} 
+        \label{fig:boxbet}
+\end{figure}
+
+Figure \ref{fig:boxtissue} shows the boxplot of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. CSF volume on the left, gray matter center and white matter on the right. All volumes are expressed in mm${^3}$.
+
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierstissue}
+        \caption{Boxplot of volume in mm${^3}$ for the tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
+        \label{fig:boxtissue}
+\end{figure}
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/tissueseg}
+        \caption{Example of tissue based segmentation of one subject in her first visit.} 
+        \label{fig:tissueseg}
+\end{figure}
+
+Figure \ref{fig:kde_3_tissues} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
+\begin{figure}[H]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_3_tissues}
+        \caption{Histogram and KDE in cm${^3}$ for tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
+        \label{fig:kde_3_tissues}
+\end{figure}
