@@ -109,10 +109,10 @@
 \begin{document}
 %IDENTIFICACIÓN DE FACTORES DE RIESGO EN DETERIORO COGNITIVO LEVE CON APRENDIZAJE AUTOMÁTICO: HACIA UNA AYUDA AL DIAGNÓSTICO MULTIFACTORIAL Y  AUTOINFORMADA
 
-\title{ \normalsize \textsc{\emph{Proyecto Vallecas} Six years longitudinal study in healthy aging}
+\title{ \normalsize \textsc{\emph{Proyecto Vallecas} Six years longitudinal study in healthy brain aging}
     \\ [2.0cm]
     \HRule{0.5pt} \\
-    \LARGE \textbf{\uppercase{Exploratory Data Analysis in \emph{Proyecto Vallecas}: a six years longitudinal study in brain healthy aging}}
+    \LARGE \textbf{\uppercase{Exploratory Data Analysis in \emph{Proyecto Vallecas}: a six years longitudinal study in healthy brain aging}}
     \HRule{2pt} \\ [0.5cm]
     \normalsize \today \vspace*{5\baselineskip}}
 
@@ -205,10 +205,12 @@ Figure \ref{fig:pv5years} depicts the number of volunteers for the seven years l
 %Section \ref{se:met} shows statistical tests and the correlation analysis paying special attention to the evolution of the longitudinal variables and their underlying relationship with cognitive performance. 
 %This section describes the features that are most strongly related to cognitive decline for both static (measured once) and dynamic variables (measured every year). We extract features from the longitudinal features to build a classifier based on relevant features extracted from time series \cite{christ2018time}. We conclude with the discussion of the results and future works in Section \ref{se:con} connecting our findings with previous populational studies.  
 
-\section{Exploratory Data Analysis static variables}
+\section{Exploratory Data Analysis of cross sectional variables}
 \label{sse:eda}
 %Static as the correlate with conversion
-In this section we perform Exploratory Data Analysis (EDA). The objective of EDA is to build graphical representations that help us make sense of the data. EDA gives us a bird's eye of the dataset aiding at identifying patterns and trends and most importantly, assisting in framing the type of questions we want to ask.
+In this section we perform Exploratory Data Analysis (EDA) for cross-sectional or short variables, that is, variables that are measured only once in the first year of the project. The longitudinal variables, one measurement for each project's visit, are studied in the Section \ref{sse:diagn}.
+
+The objective of EDA is to build graphical representations that help us make sense of the data. EDA gives us a bird's eye of the dataset aiding at identifying patterns and trends and most importantly, assisting in framing the type of questions we want to ask.
 EDA relies upon a careful pre-processing of the dataset. We perform EDA in a succession of steps. We will start with a preliminary data analysis plotting basic information of the dataset such as the age distribution and other demographics of the participants. 
 We will also study the distribution of the most significant features of all type of features indicated in Table \ref{tab:vallecasvars}. Furthermore, we plot the distribution of cognitive decline conditional to other features. This will set the stage for the correlation analysis described in Section \ref{se:res} for both static (one observation) and dynamic variables (time series).
 %YS cambio, now i know i want to do, write this when all done
@@ -245,7 +247,7 @@ Figure \ref{fig:apoe} shows the APOE Genotyping in \emph{The Vallecas Project}, 
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_apoe}
-        \caption{APOE Genotyping testing in \emph{Proyecto Vallecas} dataset. $17\%$ of subjects carry at least one copy of the $\epsilon4$, slightly higher than the worldwide estimates in Caucasian population ($13.7\%$) \cite{farrer1997effects}} 
+        \caption{APOE Genotyping testing in \emph{Proyecto Vallecas} dataset. $17\%$ of subjects carry at least one copy of the allele $\epsilon4$, slightly higher than the worldwide estimates in Caucasian population ($13.7\%$) \cite{farrer1997effects}} 
         \label{fig:apoe}
 \end{figure}
 
@@ -284,7 +286,7 @@ According to the BMI metrics ($25.0—29.9$ overweight, $>30.0$ obese) our popul
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/Fig_anthro}
         \caption{Histogram of anthropometric variables measured in year 1 of \emph{Proyecto Vallecas} dataset. Clockwise, Body Mass Index (min=16.95, max=41.93), abdominal perimeter (min=57cm, max=134cm), weight (min=41kg, max=118kg) and height (min=134cm, max=193cm). 
         The mean and standard deviation of the BMI in our population is $\mu_{BMI}=27.3$ and $\sigma_{BMI}=3.6$. $26.8\%$ of the population have a healthy weight ($BMI \in [18.5, 25]$), $51.8\%$ have over weight ($BMI \in [25,30]$) and $21.4\%$ are obese ($BMI > 30$). 
-        Skewness, a measure of the asymmetry of the probability distribution, in BMI, weight and height is positive (0.37,0.49, 0.29).} 
+        The skewness, a measure of the asymmetry of the probability distribution, is positive in BMI (0.37), weight (0.49) and height (0.29).} 
         \label{fig:anthro}
 \end{figure}
 
@@ -292,7 +294,7 @@ Although there are gender-specific risk factors for AD a convincing account of h
 
 Mitochondria of younger women are better protected against amyloid-beta toxicity, but this advantage lessens with age. Estrogenic therapies to deal with mitochondrial damage in AD have failed so far. A 2014 cohort study reports that women with the APO$\epsilon4$ allele are at greater risk of developing AD than are men with this allele \cite{altmann2014sex}. The same study argues that the inconsistency of previous findings about this allele could be motivated by researchers overlooking the APO$\epsilon4$-sex interaction.
 
-Women and men seem to have different clinical presentations, according to \cite{sinforiani2010impact} men tend to show more aggressive behaviours and more comorbidity, while women would present more affective symptoms and disability but longer survival times. These behavioral differences would indicate sex-based neuropathologies in need of clarification. A report from the MIRIAD dataset \cite{malone2013miriad} -a database of volumetric MRI brain-scans of Alzheimer's sufferers and healthy elderly people- suggest that hippocampal atrophy in subjects with patients with probable AD has a faster rate in women as compared to men, making female sex a risk factor for faster descent into AD \cite{ardekani2016analysis}.
+Women and men seem to have different clinical presentations of the Alzheimer's disease. According to \cite{sinforiani2010impact} men tend to show more aggressive behaviours and more comorbidity, while women would present more affective symptoms and disability but longer survival times. These behavioral differences would indicate sex-based neuropathologies in need of clarification. A report from the MIRIAD dataset \cite{malone2013miriad} -a database of volumetric MRI brain-scans of Alzheimer's sufferers and healthy elderly people- suggest that hippocampal atrophy in subjects with patients with probable AD has a faster rate in women as compared to men, making female sex a risk factor for faster descent into AD \cite{ardekani2016analysis}.
 
 %laterality
 %https://www.awakeningfromalzheimers.com/what-being-right-or-left-handed-says-about-alzheimers-risk/
@@ -307,7 +309,7 @@ $6.2\%$ of \emph{The Vallecas Project} cohort is not right-handed. A 1986 study 
 
 A 2018 study using data data on cognition from the 2000 and 2010 Health and Retirement Study \cite{crimmins2018educational}, found that people with more education have lower prevalence of dementia and more years of cognitively healthy life. In a postmortem study of 86 brains, researchers found an associations between number of children and neuropathology of AD for women only \cite{beeri2009number}. Researchers argue that this difference may be due to sex-specific mechanisms (e.g. estrogen) rather socio economic differences present in both men and women. However, in addition to the limitations of the study (women were older than men) the ways in which motherhood affect AD risk are more complex, even producing inconsistent results. A 3.5 thousands women study \cite{jang2018differential} found that women who give birth to five or more children may be more likely to develop Alzheimer's disease than women who have fewer births, furthermore, incomplete pregnancy was associated with lower risk of AD in late life. But in a study with 14.5 thousands women presented at the 2018 Alzheimer’s Association International Conference in Chicago, researchers reported that women with three or more children had a 12 percent lower risk of dementia compared to women with one child \cite{AAIC2018}.
 
-Social isolation and loneliness is believed to be a risk factor in AD (\cite{holmen1992loneliness}, \cite{fratiglioni2000influence}, \cite{shankar2013social}, \cite{holwerda2014feelings}, \cite{evans2018social}). A 2007 longitudinal study with up to 4 years of in-home follow up, reported a positive association between loneliness and an increased risk of late-life dementia \cite{wilson2007loneliness}. 
+Social isolation and loneliness is believed to be a risk factor in AD \cite{holmen1992loneliness}, \cite{fratiglioni2000influence}, \cite{shankar2013social}, \cite{holwerda2014feelings}, \cite{evans2018social}. A 2007 longitudinal study with up to 4 years of in-home follow up, reported a positive association between loneliness and an increased risk of late-life dementia \cite{wilson2007loneliness}. 
 
 Figure \ref{fig:demo} depicts demographic variables including: educational attainment, number of sons, years of work as an employee, self-assessed economic status, marital status and the number of people living at home.
 \begin{figure}[H]
@@ -352,7 +354,7 @@ The two most important hallmarks of AD -amyloid plaques and tau aggregates- are 
 However, the causal link sleep-AD is unclear; Does lack of sleep causes AD or is the pathology responsible for disrupting the sleeping cycle? This chicken-and-egg problem can not be solved with correlational neither with meta-analysis studies. Nevertheless, meta analysis \cite{bubu2016sleep} have confirmed the association between sleep deprivation and cognitive impairment or AD, and can furthermore approximate an "average" magnitude of effect. More importantly, sleep-wake cycles can be approached as a modifiable risk factor of interest in the prevention of AD. 
 %https://www.sciencenews.org/article/sleep-brain-alzheimers-plaques-protein
  
-Figure \ref{fig:sleep} depicts features related to sleep patterns in the \emph{Vallecas} cohort. Daily naps are less common than what it could be expected from a Spaniard population aged 70 or more. $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects ($60\%$) report to snore during sleep. 
+Figure \ref{fig:sleep} depicts features related to sleep patterns in the \emph{Vallecas} cohort. Daily naps are less common than what it could be expected from a Spaniard population aged 70 or more; $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects ($60\%$) report to snore during sleep. 
 % YS remove TBI of charts
 \begin{figure}[H]
         \centering
@@ -406,7 +408,9 @@ Figure \ref{fig:phys} depicts features related to physical exercise. The subject
 %EngagementExternalWorld_s ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13', 'a14']
 % social bonding
 
-Psychosocial factors such as a rich social network, social engagement and mentally stimulating activities are commonly held as protective factors against dementia AD. Loneliness, depression, living alone are psychosocial stressors that can increase the risk of developing AD \cite{johansson2013common}, \cite{sindi2015advances}. Figure \ref{fig:engage} depicts features related to engagement with the external world of the subject. In particular, doing creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, reading habits (books, newspaper, magazines), and use of the Internet and information technologies.
+Psychosocial factors such as a rich social network, social engagement and mentally stimulating activities are commonly held as protective factors against dementia AD. Loneliness, depression, living alone are psychosocial stressors that can increase the risk of developing AD \cite{johansson2013common}, \cite{sindi2015advances}. 
+
+Figure \ref{fig:engage} depicts features related to engagement with the external world. In particular, doing creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, reading habits (books, newspaper, magazines), and use of the Internet and information technologies.
 %EngagementExternalWorld_s ['a03' amigos, 'a04' travel, 'a05' ong, 'a06' church, 'a08' cine, 'a09' sport, 'a10' music, 'a11' tv, 'a12' read, 'a13' internet] 
 Of interest, church goers are a minority in our population, $75\%$ never go to church, $17\%$ that go a few times and $8\%$ go often. $86\%$ habitually watches the TV or listens to the radio, $68\%$ read books or magazines often and only $29\%$ use the Internet often.
 
@@ -416,7 +420,6 @@ Of interest, church goers are a minority in our population, $75\%$ never go to c
         \caption{Histogram of features that reflect engagement with the external world from the part of the subject. From top down and left to right the charts depict the number of subjects that get involve in creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TVradio , how often reads (books, newspaper, magazines), how often uses the internet.} 
         \label{fig:engage}
 \end{figure}
-
 
 \subsection{Cardiovascular and cerebrovascular pathologies}
 \label{ssse:cardio}
@@ -446,7 +449,7 @@ $27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_cardio}
-        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), body mass index, heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intollerance to carbs}), hypertension, ictus history (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}). } 
+        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), body mass index, heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intolerance to carbs}), hypertension, ictus history (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}). } 
         \label{fig:cardio}
 \end{figure}
 
@@ -462,7 +465,7 @@ Figure \ref{fig:tce} shows the distribution of episodes (at least one) of trauma
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.4\linewidth]{figures/Fig_tce}
+        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_tce}
         \caption{Histogram of traumatic brain injury. $20\%$ of subjects declared to have suffered in the past an episode of traumatic brain injury of unspecified seriousness.} 
         \label{fig:tce}
 \end{figure}
@@ -472,58 +475,71 @@ Figure \ref{fig:tce} shows the distribution of episodes (at least one) of trauma
 \section{Exploratory Data Analysis longitudinal variables}
 \label{se:eda_long}
 %'CognitivePerformance', 'Diagnoses', 'Neuropsychiatric', 'QualityOfLife', 'Genetics_s', 'SCD', 'Demographics', 'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
-In this section we study the evolution of the variables measured in the \emph{Vallecas} study. We dedicate the first section \ref{sse:miss} to comment on the method employed to deal with data missing to next discuss the evolution of the variable. 
-We will study the progression of the longitudinal variables for those subjects that did not miss any visit of their 6 visits (complete-case-analysis). Thus, from an initial number of 1180 subjects that came to their first visit, we will study the time series for the subset of subjects that came to all their visits from year 1 to year 6, which makes a total of 457 subjects span over a 6 year period.
-The adjustment methods for missing data used here is complete-case analysis, that is, participants with missing data are simply excluded from the analysis. It ought to be noted that this is a methodological choice and other strategies are also possible, see \cite{national2010prevention} for a recent report with recommendations for missing data in clinical trials published by the National Research Council (NRC). 
+In this section we study the evolution of the variables measured in the \emph{Vallecas} study. We dedicate the first section \ref{sse:miss} to comment on the method employed to deal with data missing. 
+We will study the progression of the longitudinal variables for those subjects that did not miss any visit of their 6 visits (complete-case-analysis). Thus, from an initial number of 1180 subjects that came to their first visit, we will study the time series for those subjects that came to all their visits from year 1 to year 6, which makes a total of 457 subjects spanned over a 6 year period. See Figure \ref{fig:abuelos} for a quick  representation of the procedure.
+The adjustment methods for missing data used here is complete-case analysis, that is, participants with missing data are excluded from the analysis. It ought to be noted that this is one methodological choice among other, see \cite{national2010prevention} for a recent report with recommendations for missing data in clinical trials published by the National Research Council. 
 
-The longitudinal variables are studied as time series of length 6 (number of yearly visits) with 457 observations for each time point.  MRI data is shown in section \ref{sse:mri}, neuropsychiatric features in section \ref{sse:neupsy}, quality of life in section \ref{sse:qol}, cognitive performance tests are shown in section \ref{sse:cogper} and the evolution of the diagnosis in section \ref{sse:diagn}.
+The longitudinal variables are studied as time series of length 6 (number of yearly visits) with 457 observations for each time point. Neuropsychiatric features in section \ref{sse:neupsy}, quality of life in section \ref{sse:qol}, cognitive performance tests are shown in section \ref{sse:cogper} and the evolution of the diagnosis in section \ref{sse:diagn} and MRI data including a description of the segmentation procedure is shown in section \ref{sse:mri}. 
 
 \subsection{Treatment of missing imputation}
 \label{sse:miss}
 %check if subjects go away have a profile
-Just like in any other longitudinal study, drop out is an important concern. The causes for missing visits can be related to first and foremost the voluntary and non remunerated design of the project and the age of the subjects (70 at the inception). The discontinued participation can also be caused by the diagnosis of dementia, possibly in the study clinical assessment.
+Just like in any other longitudinal study, drop out is an important concern. The causes for missing visits can be related to first and foremost the voluntary and non remunerated design of the project and the age of the subjects, 70 at the inception. The discontinued participation can also be caused by the diagnosis of dementia, possibly in the clinical assessment performed in the study.
 
 Missing data compromises statistical inference and represents a serious limitation for drawing conclusions \cite{little2012prevention}. 
-Although there are different methods for completion of missing data e.g. Maximum likelihood, Bayesian and multiple imputation \cite{hogan2004handling}, the effectiveness of a statistical method relies upon the plausibility of its assumptions. Thus, it is desirable to have evidence of the mechanisms leading to missing data. There are two major possible scenarios: data missing are completely random and data missing are not at random. The first case is less stringent because it could be possible to infer that the outcomes of participants that dropped out are not significantly different from those that did not drop out. In the second case, data are missing not at random, outcomes are likely to be different from those of similar participants who did not drop out. In the latter case, statistical model need to make additional assumptions. 
+Although there are different methods for completion of missing data e.g. Maximum likelihood, Bayesian and multiple imputation \cite{hogan2004handling}, it is worth reminding that the effectiveness of any statistical method relies upon the plausibility of its assumptions. Thus, it is desirable to have evidence of the mechanisms leading to missing data. There are two major possible scenarios: data missing are completely random and data missing are not at random. The first case is less stringent: the outcomes of participants that dropped out are not significantly different from those that did not drop out
+In the second case, data are missing not at random, outcomes are likely to be different from those of similar participants who did not drop out. In the latter case, the statistical inferential model needs to incorporate additional assumptions. 
 
-There are several statistical methods to handle drop out effects \cite{hogan2004handling}, however since the attrition rate is severe (1180 to 491 in year 6) we opt first to investigate whether the sample changes according to specific patterns, in which case we would not attempt to complete the missing data and we would rather select the subset of subjects that did not miss any visit (471 subjects did not miss any visit from year 1 to year 6).
+For our dataset, since the attrition rate is severe (1180 to 491 in year 6) we opt first to investigate whether the sample changes according to specific patterns, in which case we would not attempt to complete the missing data and we would rather select the subset of subjects that did not miss any visit (471 subjects did not miss any visit from year 1 to year 6). Table \ref{tab:testloyals} indicates that this is the case, remainers and the leavers are different $(p <0.05)$ for some variables. 
 
 %avatars 
 %https://www.123rf.com/photo_54326404_stock-vector-set-of-characters-in-a-flat-style-older-people-in-different-costumes-grandparents-in-cartoon-flat-st.html?fromid=eDZxWk1FN08rcnBqencvNDlIVlZ2dz09
-Figure \ref{fig:abuelos} depicts the drop-out handling the \emph{Vallecas} longitudinal study longitudinal study. For example, to test  the drop out in year 2 we compare the means between the two groups: $(1)$ and $(2,3,4,5,6,7)$ because subject 1 drop the study in year 2, to test the drop out in year 4 referred to year 1 we compare between the groups: $(1,3)$ and $(2,4,5,6,7)$. 
+Figure \ref{fig:abuelos} depicts the drop-out handling the \emph{Vallecas} longitudinal study longitudinal study. For example, to test the drop out in year 2 we compare the means between the two groups: $(1)$ and $(2,3,4,5,6,7)$ because subject 1 drop the study in year 2, to test the drop out in year 4 referred to year 1 we compare between the groups: $(1,3)$ and $(2,4,5,6,7)$ because subjects 1 and 3 drop the study in year 3. Thus, we compare  "remainers" versus "leaver for each year. In case the two groups are different for any year it would suggest that the data missing not random. 
+
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio,width=0.95\linewidth]{figures/abuelos}
         \caption{Sketch of the drop out handling in the \emph{Vallecas} longitudinal study. Only the subjects that did not miss any of their six visits are considered for the longitudinal analysis described in this section.} 
-        \label{fig:tce}
+        \label{fig:abuelos}
 \end{figure}
 
-Table \ref{tab:testloyals} shows the statistical test to study whether the subjects that drop out are significantly different than those that remain in the study. While for home residency or APOE there is no evidence of difference between the "remainers" and the "leavers", for a number of other features such as age, educational level or familal AD we find significant differences between the two  groups. Note that we perform a two samples t-test comparing the subjects were present at year 1 and year k $(k=2..6)$ versus subjects present at year 1 but missed year k. The actual size of the groups is indicated in the second row, for example 689 missed their 6th visit and 491 came to their 6th visit. 
+Table \ref{tab:testloyals} shows the statistical tests to study whether the subjects that drop out are significantly different than those that remain in the study. %While for home residency or APOE there is no evidence of difference between the "remainers" and the "leavers", for a number of other features such as age, educational level or familal AD we find significant differences between the two  groups. 
+Note that we perform a two samples t-test comparing the subjects were present at year 1 and year k $(k=2..6)$ versus subjects present at year 1 but missed year k. The actual size of the groups is indicated in the second row, for example 689 missed their 6th visit and 491 came to their 6th visit. 
 
 \begin{table}
   \centering
 \begin{tabular}{cccccc} \toprule
     {Feature}   & {${Y1-Y2}$} & {${Y1-Y3}$} & {${Y1-Y4}$} & {${Y1-Y5}$} & {${Y1-Y6}$} \\ 
                 & N={${964,216}$} & N={${865,315}$} & N={${773,407}$} & N={${704,476}$} & N={${491,689}$} \\  \midrule
-    {feature1}  & & & & &  \\
-    {${Y2}$}    & & & & &  \\ %\midrule
-    {${Y3}$}    & & & & &  \\  
-    {${Y4}$}    & & & & &  \\ 
-    {${Y5}$}    & & & & &  \\
-    {featureN}  & & & & &  \\ \bottomrule
+    {APOE}           & $>.05$ & $>.05$ & $>.05$ & $>.05$ & $>.05$ \\
+    {Familial AD}    & ** & ** & ** & ** & ** \\ %\midrule
+    {Education}      & ** & ** & ** & ** & ** \\
+    {Wealth}         & $>.05$  & *  & *  & * & $>.05$ \\ 
+    {Internet}       & ** & ** & ** & ** & ** \\ 
+    {Church}         & $>.05$ & $>.05$ & $>.05$ & $>.05$ & $>.05$  \\
+    {Diagnosis (last)} & $>.05$ & $>.05$ & $>.05$ & $>.05$ & *  \\
+    {Thyroiditis}    & $>.05$ & $>.05$ & $>.05$ & $>.05$ & $>.05$  \\ \bottomrule
 \end{tabular}
-\caption{T-test for the means of two independent samples scores in year 1 for subjects that participated in year $k, (k=2,...,6)$, versus those that missed their \emph{k-th} visit.}\label{tab:testloyals}
+\caption{T-test for the means of two independent samples scores: 
+group of subjects that were present at year 1 and year k $(k=2..6)$ versus subjects present that missed their \emph{k-th} visit. Since there groups are different for at least one variable (the subjects drop out is not random), it is advisable to pursue a complete-case longitudinal analysis.}
+\label{tab:testloyals}
 \end{table} 
-The complete-case analysis followed here to handle missing longitudinal data is justified on the basis of the non randomness of the missing data. As table \ref{tab:testloyals} tries to convey, outcomes (e.g. age, educational level, familal AD) are likely to be different from those of similar participants who did not drop out. 
 
-Note that we opt for complete-case analysis for longitudinal data, that is, an entire missing visits, but 
-we used the much less stringent Multiple Imputation (MI) \cite{buuren2010mice} approach for dealing with missing data within a subject's visit.
+To conclude this section, the complete-case analysis followed here to handle missing longitudinal data is justified on the basis of the non randomness of the missing data. As table \ref{tab:testloyals} tries to convey, outcomes are likely to be different because the pattern of drop out of subjects is not random, that is, the hypothesis that those that remain and those that leave the study are the same is false in at least the variables shown in Table \ref{tab:testloyals} (e.g. educational level, familal AD, internet use).
+
+Note that we opt for complete-case analysis for longitudinal data, that is, an entire missing visits, but we used the much less stringent Multiple Imputation (MI) \cite{buuren2010mice} approach for dealing with missing data within a subject's visit.
 %Models that are based on the assumption that the data are not missing at random must make further assumptions about the effect of such possibilities.
 %The assumption that analysis methods can com- pensate for such missing data are not justified
+
+The complete-case analysis i.e. drop-out removal previously discussed will be used in Section \ref{se:met} when we study the correlation analysis. 
+The rest of the section deals with the evolution of the longitudinal variables. 
+
+%for all the subjects, that is, including the drop-outs. The rationale is to make use of all the available data for descriptive and exploratory analysis, for inferential analysis we will restrict the data to the complete-case schema sketched in Figure \ref{fig:abuelos}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cognitive Performance}
 \label{sse:cogper}
+
 Figure \ref{fig:cogperyears} plots the evolution of four cognitive performance tests. Clockwise and starting on  the top left chart: number of words that start by the letter "p" in one minute, number of animals recalled in one minute, score of speed processing of symbols and the score in the mini-mental examination (MMSE).
 
 % _loyals only subset of six visits figaname for entire dataset longitudinal
@@ -591,6 +607,7 @@ Figure \ref{fig:cogper4} plots the time series for four measures related to cogn
 %YS: Falta hacere esto
 Figure \ref{fig:cogperyearsbus}, clockwise and starting in the top left chart: Buschke delayed recalled score, mean, sum and the Buschke Integral score which is explained in a forthcoming paper. We address the reader to the Appendix section for more details).
 
+%YS Buschke onlyn plot 6 years, remove 7th year 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.4\textwidth}
@@ -663,6 +680,7 @@ Figure \ref{fig:busper4} plots the time series for four measures related to cogn
 %Neuropsychiatric includes 'act_ansi_visita1', 'act_ansi_visita2', 'act_ansi_visita3', 'act_ansi_visita4','act_ansi_visita5', 'act_ansi_visita6', 'act_ansi_visita7','act_apat_visita1',\'act_apat_visita2', 'act_apat_visita3', 'act_apat_visita4', 'act_apat_visita5', 'act_apat_visita6', 'act_apat_visita7','act_depre_visita1', 'act_depre_visita2',\'act_depre_visita3', 'act_depre_visita4', 'act_depre_visita5', 'act_depre_visita6',\'act_depre_visita7','gds_visita1', 'gds_visita2', 'gds_visita3', 'gds_visita4', \'gds_visita5', 'gds_visita6', 'gds_visita7','stai_visita1', 'stai_visita2', \'stai_visita3', 'stai_visita4', 'stai_visita5', 'stai_visita6', 'stai_visita7'
 %gds: 0,14 stai: real numbers
 
+%change scale in STAI, put all normalize or remove
 Figure \ref{fig:neuropsylong} plots the evolution of features related to neuropsychiatric disorders, specifically the Geriatric Depression Scale (GDS) \cite{yesavage1988geriatric} and the State and Trait Anxiety Scores (STAI) \cite{spielberger1985anxiety}, \cite{julian2011measures}. 
 \begin{figure}[H]
     \centering
@@ -782,6 +800,44 @@ Figure \ref{fig:diag1} plots the time series for the diagnoses administered to s
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Automatic Segmentation of Brain Structures}
+\label{sse:mri}
+
+The segmentation pipeline used the FMRIB Software Library \cite{fsl60}, \cite{jenkinson2012fsl} and goes through the following stages:
+%FSL FMRIB Software Library (FSL5.0) is a comprehensive library of analysis tools for MRI brain imaging data (http:// fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSL). FSL comprises two tools for subcortical GM segmentation: FMRIB’s Integrated Registration and Segmentation Tool (FIRST) and FSL_Anat.
+\cite{hannoun2018automatic}
+\begin{enumerate}  
+  %0 The input image is copied in .anat and renamed {T1}.nii.gz (-t T1,T2,PD), we work with T1 now
+  \item \textbf{Reorientation} to the standard (MNI) orientation
+  %, \emph{fslreorient2std} it swaps axes around maintaining the correct left-right relationships so that x=left-right, y=anterior-posterior and z=superior-inferior. 
+  %size T1 < T1_orig== T1_fullfov, T1 reoriented and cropped is small in size than the original image because we cut the neck. e. T1.nii.gz is the averaged and aligned image file. 
+  \item \textbf{Cropping} to remove the neck, this is a necessary step prior to brain extraction. 
+  %\emph{robustfov} looks at axial slices in the superior direction (starting at the edge of the volume and moving towards the centre) and determines whether a slice contains only noise or signal plus noise. Once it finds the first consecutive slices that contain signal plus noise it then takes that as the position of the top of the head and then extracts a fixed size of FOV in the superior-inferior direction down from the top of the head, which should cover the brain but stop short of the jaw and neck
+  \item \textbf{Bias field correction} 
+  %  I used strongbias = no good if the field is not strong which is good for 1-5T. 
+    %For high-field or multi-coil array is better to use strongfield=yes. 
+    %For my MRI, 3T and not multi-coil what to use?
+  %The bias-corrected version of the image is called T1_biascorr
+  \item \textbf{Registration} to standard space computing both linear registration (FLIRT algorithm) and non-linear registration (FNIRT algorithm)
+  %do_nonlinreg=yes call to [fnirt], [flirt] is always run also for non linear registration
+  %creates the images: T1_to_MNI_lin (the result of the linear reg), T1_to_MNI_nonlin(the result of the non linear reg)
+  %T1_to_MNI_nonlin_field (non-linear warp field) , T1_to_MNI_nonlin_jac (Jacobian of the non-linear warp field)
+  %and T1_vols.txt containing a scaling factor and brain volumes, based on skull-constrained registration, suitable for head-size normalisation (as the scaling is based on the skull size, not the brain size). 
+  \item \textbf{Brain Extraction} in two steps. First, the BET algorithm obtains a brain mask which can be coarse to then perform the brain extraction transforming standard-space mask to the input image using the FNIRT (non-linear) registration.
+  %This step can be interactive changing the threshold : You must adjust the threshold for the extraction (-f) to assure that the skull is removed while the cortical surface is left in tact. This will require running BET multiple times to assure that it is satisfactory. 
+  %run $FSLDIR/bin/bet ${T1} ${T1}_initfast2_brain -m -f 0.1 (by default betfparam=0.1)
+  % 0.1 is overincusive, it will get a very rough brain which means it will likely get portions of the skull(the larger the f eg 0.8 the most brain restricted) but we use 0.1 because we refibne after with FNRIT
+  %produces: T1_biascorr_brain and T1_biascorr_brain_mask
+  \item \textbf{Tissue Segmentation} (FAST algorithm)
+  %produces: T1_biascorr - refined again in this stage, (CSF) T1_fast_pve_0, (Gray) T1_fast_pve_1, (White)T1_fast_pve_2 - partial volume segmentations (CSF, GM, WM respectively) and T1_fast_pveseg - a summary image showing the tissue with the greatest partial volume fraction per voxel
+  \item \textbf{Subcortical Segmentation} (FIRST algorithm)
+  %T1_subcort_seg - summary image of all subcortical segmentations, T1_biascorr_to_std_sub.mat - a transformation matrix of the subcortical optimised MNI registration
+  %All the other ouputs in first_results subdir: T1_first_all_fast_firstseg == T1_subcort_seg and btk, vbars for each region, need to be converted to .nii
+\end{enumerate}
+
+YS: HERE plot time series for brain, tissue and subcortical structure size. Important, use a longitudinal pipeline. 
+Analysis of atrophy volume loss between year 1 and year 6 is done in Section 5.
+
 
 \section{Correlation analysis}
 \label{se:met}
@@ -796,8 +852,8 @@ Figure \ref{fig:diag1} plots the time series for the diagnoses administered to s
 In the previous sections we studied the dataset unidimensionally, that is, we plot distributions and compute statistics one variable at a time. Here we perform correlational analysis, that is, two or more dimensions, in order to study the effect of some variables upon others. Thus, the aim here is to try to come to grips with the mechanisms that could have generated the data, this is the realms of inferential statistics and is different from descriptive statistics and data visualization. 
 %Inferential statistics relies on models, so in this section we will plot not only data but the fitting a model to the observed data.
 
-In what follows we go through each category of (static) features previously described in Section (\ref{sse:eda}) to via a visual inspection, investigate whether the features affect the rate of conversion to MCI. The contingency table \cite{everitt1992analysis} will gives us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect indicated in the contingency table, using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. 
-We compute the Fisher's exact test when the contingency table is $2 \times 2$ and the Chi test otherwise \cite{scipy2010}. If the independent variable is not categorical (e.g. weight, defined in $\mathbb{R}$) we perform a one way ANOVA.
+In what follows we go through each category of (cross-sectional) features previously described in Section \ref{sse:eda} to via a visual inspection, investigate whether the features affect the rate of conversion to MCI. The contingency table \cite{everitt1992analysis} will gives us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect indicated in the contingency table, using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. 
+We compute the Fisher's exact test when the contingency table is $2 \times 2$ and the $\tilde{\chi}^2$ test otherwise \cite{scipy2010}. If the independent variable is not categorical (e.g. weight, defined in $\mathbb{R}$) we perform a one way ANOVA test.
 If the p-value is small enough to be considered relevant then we study whether the feature (e.g. familial AD) has an effect in brain capacity and cognitive reserve measured with brain structure volumes and the Buschke test scores respectively.
 This discovery process is described in Figure \ref{fig:anovachi}. 
 
@@ -813,7 +869,7 @@ The reader can go straight to the results of the statistical tests. Table \ref{t
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth, frame]{figures/anovachi2}
-        \caption{The figure shows the process followed to study whether there is an effect on conversion to MCI for the different categorical features studied in \emph{Proyecto Vallecas}. A contingency table is a tool to quantify relationships via frequency counts between two categorical variables, e.g. conversion to MCI and familial AD. Significance tests (e.g. Fisher's exact test \cite{fisher1937design}or Chi$^2$) perform hypotheses testing about distributions of categorical data. For example, Is the distribution of converters different for familial AD versus non familial AD? Finally, for the categorical data with small p-values we analyze the differences among group means for variables related to \emph{brain capacity} and \emph{cognitive reserve}. For example, Is the mean of the hippocampus size Buschke Integral score different for familial AD?
+        \caption{The figure shows the process followed to study whether there is an effect on conversion to MCI for the different categorical features studied in \emph{Proyecto Vallecas}. A contingency table is a tool to quantify relationships via frequency counts between two categorical variables, e.g. conversion to MCI and familial AD. Significance tests (e.g. Fisher's exact test \cite{fisher1937design}or $\tilde{\chi}^2$) perform hypotheses testing about distributions of categorical data. For example, Is the distribution of converters different for familial AD versus non familial AD? Finally, for the categorical data with small p-values we analyze the differences among group means for variables related to \emph{brain capacity} and \emph{cognitive reserve}. For example, Is the mean of the hippocampus size Buschke Integral score different for familial AD?
         } 
         \label{fig:anovachi}
 \end{figure}
@@ -829,7 +885,7 @@ The likelihood, via p-values, that a relationship between these two variables an
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_sexolat}
+        \includegraphics[keepaspectratio, width=.6\linewidth]{figures/groupby_sexolat}
         \caption{Frequency of sex and hand laterality related conversion to MCI in the future(for subjects with at least 2 visits).} 
         \label{fig:groupby_sexolat}
 \end{figure}
@@ -837,9 +893,9 @@ The likelihood, via p-values, that a relationship between these two variables an
 \paragraph*{Statistical tests for sex and hand laterality}
 %contingency table and Fisher's exact test APOE ~MCI
 
-The contingency tables displaying the frequency distribution of \emph{sex} and \emph{MCI} and \emph{hand laterality} and \emph{MCI} are shown in \ref{tab:sexomci} and \ref{tab:handmci} respectively. The significance of the difference between the proportion levels of sex is assessed using the Fisher's exact test and  $\tilde{\chi}^2$ for hand laterality.
+The contingency tables displaying the frequency distribution of \emph{sex} and \emph{MCI} and \emph{hand laterality} and \emph{MCI} are shown in \ref{tab:sexomci} and \ref{tab:handmci} respectively. The significance of the difference between the proportion levels of sex is assessed using the Fisher's exact test and $\tilde{\chi}^2$ for hand laterality.
 
-No statistical significance is observed between these variables and conversion to MCI. 
+No statistical significance is observed between these variables and conversion to MCI. See Table \ref{tab:fischiall}. 
 %Statistical significance is the likelihood that a relationship between two or more variables is caused by something other than chance.
 
 \begin{minipage}[b]{.40\textwidth}
@@ -855,7 +911,7 @@ No statistical significance is observed between these variables and conversion t
   \end{tabular}
    \captionof{table}{Contingency table proportion of conversion to MCI conditioned and sex.}
    \label{tab:sexomci}
-\end{minipage}\qquad
+\end{minipage} %\hfill
 \begin{minipage}[b]{.40\textwidth}
    \centering
     \begin{tabular}[t]{lcccc}
@@ -867,13 +923,13 @@ No statistical significance is observed between these variables and conversion t
     \hline
     %\label{tab:handmci}
   \end{tabular}
-   \captionof{table}{Contingency table: proportion of conversion to MCI conditioned to sex and hand laterality.}
+    \captionof{table}{Contingency table conversion to MCI conditioned to hand laterality.}
    \label{tab:handmci}
 \end{minipage}
 
-Figure \ref{fig:groupby_mci_genetics} shows the results of grouping by \emph{conversion to MCI} relative to the genetics profile. In essence what we do is to split the data into groups depending on the variable APO$\epsilon$4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 (heterozygotes), 2:two copies of APO$\epsilon$4 (homozygotes)). 
+Figure \ref{fig:groupby_mci_genetics} shows the results of grouping by \emph{conversion to MCI} relative to the genetics profile. In essence, what we do is to split the data into groups depending on the variable APO$\epsilon$4 (0:lack a copy of the APO$\epsilon$4 allele, 1: one copy APO$\epsilon$4 (heterozygotes), 2:two copies of APO$\epsilon$4 (homozygotes)). 
 
-Figure \ref{fig:groupby_mci_fami} shows the results of grouping by \emph{conversion to MCI} relative to \emph{familial AD} (0: non familial AD and 1: familial AD).å
+Figure \ref{fig:groupby_mci_fami} shows the results of grouping by \emph{conversion to MCI} relative to \emph{familial AD} (0: non familial AD and 1: familial AD).
 
 Note that for each chart in Figures \ref{fig:groupby_mci_genetics} and  \ref{fig:groupby_mci_fami}, on the left side the grouping is in absolute numbers and on the right side in relative numbers, the latter is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars on the right sided charts must sum 1 (a frequentist could interpreted this as a probability function) \cite{Gomez-ramirez_limitations_2013}. 
 %Grouping by conversion to MCI relative to the genetic profile of the subjects we obtain $p(MCI|APO\epsilon4)$.
@@ -883,14 +939,14 @@ Note that for each chart in Figures \ref{fig:groupby_mci_genetics} and  \ref{fig
 %YS: haceer cuentas de bayesian si pb de convertir es 10 q pasa si tgo un sistema que predice esto 99 de bien y me encuentro uno y me dice la maquina q convuerte
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_mci_genetics}
+        \includegraphics[keepaspectratio, width=.6\linewidth]{figures/groupby_mci_genetics}
         \caption{APO$\epsilon4$ and conversion to MCI in the future(for subjects with at least 2 visits), represented as the genetic profile (APO$\epsilon4$) conditioned to conversion.} 
         \label{fig:groupby_mci_genetics}
 \end{figure}
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_Familial_mciY}
+        \includegraphics[keepaspectratio, width=.6\linewidth]{figures/groupby_Familial_mciY}
         \caption{Grouping of conversion to MCI conditioned by familial AD.} 
         \label{fig:groupby_mci_fami}
 \end{figure}
@@ -898,7 +954,7 @@ Note that for each chart in Figures \ref{fig:groupby_mci_genetics} and  \ref{fig
 \paragraph*{Statistical tests for genetic profile and MCI}
 %contingency table and Fisher's exact test APOE ~MCI
 
-The contingency table displaying the frequency distribution of APOE and MCI is shown in Table \ref{tab:apoemci}. The significance of the difference between the proportion levels is assessed using the $\tilde{\chi}^2$ test. The imbalance observed in Table \ref{tab:apoemci} is thus statistically significant and homozygotic APOE subjects have a larger conversion rate to MCI. Note that the frequency count for the homozygote cells(last column in Table \ref{tab:apoemci}) are very small (3 and 2). 
+The contingency table displaying the frequency distribution of APOE and MCI is shown in Table \ref{tab:apoemci}. The significance of the difference between the proportion levels is assessed using the $\tilde{\chi}^2$ test. The imbalance observed in Table \ref{tab:apoemci} is thus statistically significant and homozygotic APOE subjects have a larger conversion rate to MCI. Note that the frequency count for the homozygote cells (last column in Table \ref{tab:apoemci}) are very small (3 and 2). 
 %This is related to the problem of underrepresentation of the converter to MCI class. 
 
 \begin{table}[ht]
@@ -916,7 +972,7 @@ MCI&28&13&2\\
 \end{table}%
 
 %contingency table anf Fisher's exact test familialAD ~MCI
-The contingency table displaying the frequency distribution of familial AD and MCI is shown in Table \ref{tab:famimci}. The significance of the difference between the proportion levels is assessed using the Fisher's exact test, $F = 0.01882$ which means that the probability that we would observe this or an even more imbalanced ratio in familial AD related to MCI by chance is about $2\%$. Nevertheless, when the test if performed for a longer N (subjects that came to at least two visits) we find a p-value above the $5\%$(Table \ref{tab:fischiall}).
+The contingency table displaying the frequency distribution of familial AD and MCI is shown in Table \ref{tab:famimci}. The significance of the difference between the proportion levels is assessed using the Fisher's exact test, $F = 0.01882$ which means that the probability that we would observe this or an even more imbalanced ratio in familial AD related to MCI by chance is about $2\%$. Nevertheless, when the test if performed for a longer N (subjects that came to at least two visits) we find a p-value above the $5\%$ (Table \ref{tab:fischiall}).
 %the imbalance is statistically significant for a significance level is $5\%$. 
 
 \begin{table}[ht]
@@ -934,9 +990,9 @@ MCI&20&23\\
 \end{table}%
 
 %Anthro. bmi, abdo, weight, height
-Figure \ref{fig:groupby_anthropometric_mci} shows the results of grouping by \emph{conversion to MCI} relative to anthropometric features, i.e: \emph{BMI, abdominal perimeter, weight} and \emph{height}. In essence what we do is to split the data into two groups (non converter vs converter to MCI) depending depending on the body mass index and related variables. The split is performed using the four quartiles of each variable as described in the figure's legend .
+Figure \ref{fig:groupby_anthropometric_mci} shows the results of grouping by \emph{conversion to MCI} relative to anthropometric features, i.e: \emph{BMI, abdominal perimeter, weight} and \emph{height}. We split the data into two groups (non converter vs converter to MCI) depending on the body mass index and related variables. The split is performed using the four quartiles of each variable as described in the figure's legend.
 %YS : hacer esto con 1 way anova or ttest
-A one way ANOVa is performed for each variables separately, not observing any relevant conditioning of any these variables on conversion to MCI. Although the p-value of BMI is below the $5\%$ (only for subjects that came to at least 2 visits and not for those that came to all their visits), but the effect is very small, $<0.1$). See Table \ref{tab:anovascont}.
+A one way ANOVa is performed for each variable separately, not observing any relevant conditioning of any these variables on conversion to MCI. Although the p-value of BMI is below the $5\%$ (only for subjects that came to at least 2 visits and not for those that came to all their visits), but the effect is very small, $<0.1$). See Table \ref{tab:fischialltab:anovascont}.
 
 \begin{figure}[H]
         \centering
@@ -1062,7 +1118,7 @@ Figure \ref{fig:groupby_food_mci} shows the results of grouping by \emph{Convers
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_food_mci}
+        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_food_mci}
         \caption{The figure shows the grouping by conversion to MCI relative to food consumption in weekly basis. From up left to bottom right: fruits, vegetables, red meat and sweets. The majority of subjects,$63\%$, claims to eat fruit 6-7 days/week, $35\%$ vegetables, only $4\%$ red ,eat and $24\%$ claim to eat sweets 6-7 days/week.} 
         \label{fig:groupby_food_mci}
         %Curiously, the highest rate of conversion is when subjects report 6-7 days/week consumption (red bars) in any of the four groups of food depicted. 
@@ -1073,9 +1129,9 @@ Figure \ref{fig:groupby_diet_mciQuart} shows the results of grouping by \emph{co
 %YS Plot contingency table of fattos
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_diet_mciQuart}
+        \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_diet_mciQuart}
         \caption{The figure shows the grouping by conversion to MCI relative to diet. From up left to bottom right: weekly consumption of fruits, vegetables, red meat and sweets.} 
-        \label{fig:roupby_diet_mciQuart}
+        \label{fig:groupby_diet_mciQuart}
 \end{figure}
 
 %physical exercise
@@ -1133,12 +1189,11 @@ The statistical tests for cardiovascular and cerebrovascular features are includ
 
 Table \ref{tab:fischiall} with statistical tests for both a population of the subjects with 6 visits and also in the second column for subjects that came to at least 2 visits.
 
-\begin{table}[ht]
+\begin{table}[!htb]
 \caption{Statistical tests to study whether an hypothetical observed imbalance of conversion to MCI is statistically significant.
-The first column shows the variable used to compute its effect upon conversion, second column shows the p-value for the test performed for those subjects that came at all their 6 visits ($N=471$), the third column contains the p-value for those subjects that came at least to 2 visits ($N=960$) and fourth column indicates type of test performed (Fisher's when contingency matrix is $2 \times 2$ and $\tilde{\chi}^2$ otherwise.) }
+The first column shows the variable used to compute its effect upon conversion, second column shows the p-value for the test performed for those subjects that came at all their 6 visits ($N=471$), the third column contains the p-value for those subjects that came at least to 2 visits ($N=960$) and fourth column indicates the type of test performed (Fisher's when contingency matrix is $2 \times 2$ and $\tilde{\chi}^2$ otherwise.) }
 \centering
 \begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{.7cm}|  }
-
  %\hline
  \multicolumn{4}{c} { }\\
  \hline
@@ -1187,8 +1242,7 @@ The first column shows the variable used to compute its effect upon conversion, 
 \label{tab:fischiall}
 \end{table}
 
-
-\begin{table}[ht]
+\begin{table}[!htb]
 \caption{Statistical tests (ANOVA) for non categorical variables. 
 The first column shows the variable used to compute its effect upon conversion, second, third and fourth columns show the p-value, the coefficient regression ($\beta$) and the effect size($\omega^2$) for those subjects that came at all their 6 visits ($N=471$), similarly for the last three columns, now for those subjects that came at least to 2 visits ($N=960$.}
 \centering
@@ -1214,210 +1268,20 @@ The first column shows the variable used to compute its effect upon conversion, 
 \label{tab:anovascont}
 \end{table}
 
-\subsection{Normality test}
-\label{sse:normal}
-The assumptions of ANOVA are: samples are independent, normality (this is not the case more often than what it thought) to test for normality we can use QQ plot or use normality tests. To test whether a dataset is drawn from a particular distribution (e.g. normal or Gaussian) there is a number of tests: Anderson-Darling, Kolmogorov-Smirnov, Shapiro-Wilk, Ryan-Joiner and others. 
-%http://allendowney.blogspot.com/2013/08/are-my-data-normal.html
-But as Downly points out what people in reality wants to figure out is whether a particular distribution is a good model for a dataset, note that this  is not a statistical test but a model decision. The reason is that real world data never match an analytic distribution perfectly, so when you perform a test there are 2 possible outcomes:
-1. You have a ton of data, so the p value is low and you rightly conclude that the data did not come from the analytic distribution, but this does not tell much because the analytic model could still be a good model. 2. you do not have enough data so p is high, and you conclude there is not enough evidence to reject the null hypothesis, but again it does not tell you whether the model is good or not, it just tells you that you don't have enough data. Thus, a statistical tell can not answer your question is model m good enough for data d?
 
-\textbf{All statistical tests are based in models and models are based on assumptions(simplifications).}
-For example, the human height is not normal, it cant be because it is bounded, if you collect a sample of human height and ask whether they come from N, the answer is NO, and if (with enough data) do a statistical test will reject the hypothesis that they come from N.
+\newpage
 
-Instead of asking whether data comes from a distribution, the good question is can you tell whether a distribution is a good model for a dataset?
- And the best approach is to create a visualization that compares the data and the model eg. plot the CDF (or the QQ plot) of the model (known distributions I know the parameters as well) and the data in the same axes. If you know the family of distribution but do not the parameters you can estimate the parameters, and then compare the estimated distribution to the data.
+\section{Brain atrophy (year 1 to year 6) }
+\label{se:segementa}
 
-%YS this maye while we justify if we use _loyals time serie sor not
-\subsection{Leavers and remainers. Are they different?}
-\label{sse:res}
-ii. 1-way anova to test if a continuous (longitudinal) features changes across time, so here we study who are the leavers and the remainers, and if the population substantially changes across time. The null hypothesis is that the mean of features is the same for all the years. For example, the mean of the size of the hipppocampus is the same every year. The problem with this is (a part from the fact we still don't have brain data for y2 to yN) is that subjects drop every year so previous to draw any conclusion from this or other test we have to know first if the leavers are different from the remainers, that is, is there a systematic change in the population that is being observed from year 1 to year N?
-We can do a 1 way anova with one continuous static variable and see if the subjects are different for that variable, for example, imc, weight and others. If they had different means (eg tall ones leave the experiment) would not make much sense to do 1 way anova of longitudinal features like buschke or brain size because the population has systematically change in predictable ways.
-Ideally, what we want to do is something like one way anova with a static categorical feature (whats is the equivalent of 1 way anova for non continuous, for example, binomial distribution??) Do Chi square or Fisher test to study binomial response.
-
-
-%https://pythonfordatascience.org/anova-2-way-n-way/
-%\label{sse:leaversremainers}
-In order to asses if the leavers are different from the remainers we perform 1-way ANOVA for N (number of years of the experiment) groups for continuous features, i.e.: imc, weight....and segmentation values.
-Noe that if we had only two groups (2 years) 1way aNOVA is just like a ttest.
-
-\paragraph*{}
-
-A 2 way ANOVA is an extension of the 1 way and is used to study whether features with 2+ classes have an effect on the mean of another continuous (numeric) feature. The independent variables (input features) are called factors and each group is called level.
-For example for the factor conversion to mci, the levels are 0 or 1, familial AD 0,1, factor scd the levels are 0,1 and 2 and for the factor apoe, the levels are 0,1 and 2. Thus, for example we can test whether the factors apoe and familial AD leads to a difference in the size of the left hippocampus.
-But note that just as with a one-way ANOVA, a two-way ANOVA tests if there is a difference between the means, but it does not tell which groups differ. To get this information, one has to conduct post-hoc testing.
-With a N way ANOVa you test all the posible ingteractions eg for factors A,B,C on Y you test effect of A on Y,B on Y,C on Y, AB on Y,BC on Y, and ABC on Y.
-Crucially, it the main interaction (ABC on Y) is significant, the other interactions do not matter as much because the significant main interaction is indicating the the effects of each factor depends on the levels of each other factor. Now, to find out which combinations of the levels are different from other combinations would require post-hoc testing.    
-% If the main interaction is not significant, you remove it from the model and re-run it looking at the lower-level interactions, and so fourth.this should highlight how complex the designs can get very quickly!!
-%The Durban-Watson tests is to detect the presence of autocorrelation, Jarque-Bera tests the assumption of normality, Omnibus tests the assumption of homogeneity of variance, and the Condition Number assess multicollinearity. 
-%Statistical significance does not always translate into a large effect in the world. This is important to consider because everything cost money and time. To see this, we can calculate the effect size.
-
-
-YS: i. Translate figures 30 (change this) onwards with a statistical test that shows the effect on conversion (or other diagnostics) of (categorical) factors. The ANOVA seems can not be directly applied because the dependent variable (conversionmci is binomial rather than normal). We could normalize the binomial into normal (but this works well for large n and p ~0.5 not our case) or find out fitting GLM to binomial?? 
-
-Do this with Chi square or Fisher test for contingency matrix 2x2. For those features that show small p with conversion we can study if they have an effect in the brain capacity (anova with brain size) and cognitive reserve (buschke), so the dependent variable is continuous and the iv are vars that we presume are different for converters vs on converters (eg a13) d.
-
-
-
-
-
-
-%http://davidquigley.com/talks/2015/biostatistics/module_07.1.html
-Chi square for binomial response.
-We collect two categorical variables, eg conversion and sleep, and would like to test whether the distribution of values for one variable was similar across both values of the other variable. We get the two by two contingency table. Like the Binomial test, to perform a Chi-squared test you specify an expected distribution of counts and then compare the expected distribution to what you actually observed. The size of the difference between observed and expected distributions is reflected in the test statistic.
-As the number of degrees of freedom increases, the shape of the chi-squared distribution changes and becomes a closer approximation to a normal distribution (chi df = N ~normal(N,) d)
-
-The chi-squared test makes an approximation to the chi-squared distribution that is more close to exactly correct as the number of observations increases. Assumptions: independence, number of cases per cell: do not use the chi-squared test for two-variable tests if any cell contains fewer than 10 counts. When the chi-squared test is inappropriate due to small sample sizes or highly unequal cell distribution, one can instead use Fisher’s exact test.
-Like the Binomial test, and in contrast to the chi-squared test, Fisher’s exact test provides an exact P value rather than an approximation
-
-------
-
-ANOVA studies how discrete (categorical) factors affect on a continuous variable you want to understand (brain size).
-
-In the previous explore visually the relationship between two groups of variables visually, here we will quantify the interdependence graphically displayed using statistical tests. We will make inferences between the categorical variable \emph{conversionMCI} and other variables, continuous and categorical whose distribution was studied in Section \ref{sse:eda}.
-
-In 2 way ANOVA there are 2 assignable sources of variation, for example sleep and diet, or physical exercise and apoe, having two sources instead of one makes the design more robust. 2 way aNOVA can be used to compared the means of populations that are different in two ways, for example sleep and diet. It also can be used the mean responses in an experiment with two factors (our experiment if figuring out if mci or not is problematic because it is a binomial so it doesnt make much sense talkign about the mean, or does it?). Other "responses" can be the brain size, or the Buschke test score, so the idea is I have two factors (categorical feattures) and I want to see if the mean \footnote{ The mean is of course affected by the variance, that is why we can use ANOVA. } of another numeric features is affected by those two factors contemporarily (note that 1 way ANOVA can not possibly do that). But, in 2 way ANOVA you must have the same number of observations for each category (1 way does not need that). 
-%YS: what does this means, factor must have same number of categories and within same number of cases ?
-
-
-%https://thebittheories.com/data-analysis-and-statistical-inference-a-quick-guide-part-2-anova-87441c5018e5
-In ANOVA we can compare at ease when the number of factors increases, not for a test the number of tests to perform relative to the number of factors is $n!/m!(n-m)!$, thus, for 2 factors classes we need 1 ttest, for 3 factor classes we need 4 ttests, for 4 factor classes 6 ttest and so on.
-A ttest is to comapre the means of a condition(factors) between two groups. ANOVA is aan extension of this because we can compare more than twp conditions (factors) between two groups. ANOVE is an omnibus, test the data as a whole.
-In our case the there is one group of people, but can be characterized beased on different properties(factor9 age, conversion, blood preassure, food consumption etc.)
-%Literal
-Although it can be thought of as an extension of the t-test, in terms of when to use it, mathematically speaking, it’s more of a regression model and is considered a generalized linear model (GLM). The general regression equation is : outcome = b0 + b1group1 + b2group2 + ....+error.
-H0 no difference is the means, H1 difference in the means exist but we dont know where.
-
-The ANOVa assumptions are the same of a linear regression: Normality (if group sizes are equal the F-statistic is robust to violations of normality), Homogeneity of variance (same caveat)and Independent observations. Thus, if possible it is better to have groups of same size. If the assumptions are not meet it is preferable to use other tests eg Kruskal-Wallis than to normalize the data.
-%df['conversion'].groupby(df['filestyle'])
-
-The basic idea is that if the variability between the groups is greater than the variability within the groups, then we have evidence that the differences between the groups is not simply reflecting random noise.
-ANOVA is for comparing differences in means (so doesnt make sense using it in a binomial distribution)
-%The key is that each individual falls into a group described by a (categorical) grouping variable (e.g. hospital or drug group) and for each individual we measure some continuous outcome (e.g. waiting time or blood pressure). d 
-
-%http://www.rebeccabarter.com/blog/2017-02-17-anova/
-If our data satisfies a few parametric assumptions, then we can show that this test statistic follows an F distribution and we can do a straightforward parametric hypothesis test:
-
-ANOVA test computes the F ratio between/within variability, the F ratio of different samples tells about the total variability of different samples.
-The null hypothesis here is : Means of all the the groups taken does not vary significantly i.e. if we have three groups then (mean1 = mean2 = mean3) and alternative hypothesis is that at least one pair of samples is significantly different.
-%Here, if the p-value is greater than 0.05 then we accept the null hypothesis, otherwise we reject the null hypothesis.
-We calculate F for all the factors described above.
-
-
-Two way ANOVA can compare the means of populations that are different in two ways or it can be used to study the variation in the mean responses for an experiment with two factors. Unlike One-Way ANOVA, it enables us to test the effect of two factors at the same time. The only restriction is that the number of observations in each cell has to be equal (there is no such restriction in case of one-way ANOVA).
-
-%use 1 way anova for longitudina \mu_i across years for same static variable
-% two way for groups of feature causing an effect in conversion
-
-%, eta squared is an overestimation of the effect. To get a less biased effect size measure we can use omega squared
-
-The typical question that ANOVa answers is if there is a difference in the mean (average) based on factors, for example is there a difference in the number of tweets based on the days of the week? is there a difference in the mean of a IQ for n different neighborhoods in a city or for 3 kind of diets?
-
-But ANOVA can be used to answers questions of the type: does the presence of another person in the room influence on the amount of time (not this is also a continuous variable, conversion is discrete) a person to help someone in distress (bystander effect, if someone is seeing me do i behave differently?) \cite{darley1968bystander}. The outcome of the experiment is the number of seconds it takes the subject to help the experimenter, the grouping variable is the number of subjects int he room (0,2,4).
-
-
-\subsection{From which distribution do the data come from?}
-\label{sse:leaversremainers}
-%http://allendowney.blogspot.com/2013/08/are-my-data-normal.html
-The standard tests fro assessing whether the data comes from a particular distribution eg : Gaussian are Kolomogorov-Smirnov, Shapiro-Wilks etc. But what we really wan tot know is if the distribution is a good fit for the data and this is not a statistical test but a model decision.
-The normal distribution is a good fit for human height but, make no mistake the human height is not normal, because human height is bounded and the normal distribution goes to infinity in both directions.
-Even if you ignore this 'technicality' (you could because the probability of the non-physical tails are very small), the distribution of human height deviates in systemic ways from the normal distribution.
-"Instead of testing whether a dataset is drawn from a distribution, the right question: how can you tell whether a distribution is a good model for a dataset?" The best approach for this is visual.
-If you want to compare data to a known distribution, the simplest visualization is to plot the CDFs of the model and the data on the same axes. But this is if you know the distribution and the parameters, if you want to use a model but do not know the parameters, you can use the data to estimate the parameters
-A normal probability plot is basically a Q-Q plot. No statistical test that can tell you whether a particular distribution is a good model for your data.  In general, modeling decisions are hard, but I think the visualizations in this article are some of the best tools to guide those decisions.
-
-\subsection{Bayesian inference for hypothesis testing}
-\label{sse:res}
-%
-% OJO Literal +-
-Bayesians take a probabilistic view of the world, the model is a probability distribution that gets adjusted and  refined with the advent of new observed measurements. Thus, a standard regression model $Y = X\beta + \epsilon$ can be rewritten in Bayesian nomenclature as
-$Y ~ N(X \beta, \sigma^2)$ in words we view the random variable Y as random variable (or random vector for more than one dimension) of which each data point is distributed according to a normal distribution (the prior). So what is the difference of these two models? First, in the Bayesian setting we have our priors, that is, we can bring any prior knowledge e.g. if we think it is likely that $\sigma$ is small we can choose a distribution with more probability mass in small value. Second, we quantify uncertainty, rather than getting a single estimate of $\beta$ as in the first model, we instead get a complete posterior distribution about how likely the values the different values of beta are. Foe example, with a few data points we will be getting wide posteriors this encapsulates the idea that we have a lot uncertainty on beta because we have only a few data points.
-Bayesian inference does not give us only one best fitting line (as maximum likelihood does) but rather a whole posterior distribution of likely parameters.
-
-Hierarchical linear regression here to predict \cite{gelman2006data}
-
-
-%https://docs.pymc.io/notebooks/BEST.html
-Bayesian Estimation Supersedes the T-Test
-\cite{kruschke2013bayesian}
-
-%When we are interested about two groups being different from each other we need a statistical model because true differences are usually accompanied by measurement of stochastic noise which prevents us from drawing conclusions simply from differences calculated from the observed data. Thus, statistical test difference are necessary because of noise. There is noise in the measurement (epistemic uncertainty) and noise in the world (aleatoric uncertainty), the latter we cant do anything about it the former can be refined. Uncertainty can be aleatory or epistemic. Epistemic is when the modeler sees an opportunity to tame the uncertainty by gathering more data or by refining the model, that is in epistemic uncertainty the modeler has a say, she can intervene to try to reduce it. In aleatory uncertainty, on the contrary, the modeler does not foresee ways to reduce it. Thus, aleatoric uncertainty is one that is presumed to be related to the intrinsic randomness of the phenomenon, the epistemic uncertainty is caused by a lack of knowledge (or data). Note that parameter uncertainties are strictly epistemic because the uncertainty in the estimation decreases and may asymptotically vanish with increasing quantity and quality of the available observational data.  Measurement error is also epistemic error.
-%Special Workshop on Risk Acceptance and Risk Communication March 26-27, 2007, Stanford University
-
-% ojo literal
-%https://docs.pymc.io/notebooks/BEST.html
-
-%The \emph{de facto} standard for statistically comparing two or more samples is to use statistical test, that is, declare a null hypothesis (e.g. there is no difference between the groups) and using a chosen test statistic to decide whether the distribution of the observed data is plausible under the hypothesis. The rejection occurs when the calculated test statistic is higher than some pre-specified threshold value. The criticism of this approach are both well documented and justified. Setting up a statistical test involves several subjective choices (e.g. statistical test to use, null hypothesis to test, significance level) by the user that are rarely justified based on the problem or decision at hand, but rather, are usually based on "traditional" choices that are entirely arbitrary\cite{aarts2012insignificance}. Furthermore, the evidence that provides is indirect, incomplete and typically overstates the evidence against the null hypothesis \cite{goodman1999toward}.
-%Here we will use a more informative and sound approach for comparing groups, which is based on estimation rather than testing and Bayesian rather than frequentist. The bottom line is that instead of checking if the groups are different under some hardly justified criterion, we estimate how different they are. Note that since we will make estimates we are oblige of include the uncertainty in the estimate. We will distinguish between epistemic uncertainty (lack of knowledge of the model parameters) and aleatory uncertainty (inherent stochasticity of the system).
-
-In practical terms  this is how we perform Bayesian estimation.
-The first step in a Bayesian approach to inference is to specify the full probability model that corresponds to the problem. For example, we can use a t-student distribution, normal etc. to describe the data of each of the two groups. T-student is a robust choice (less sensitive to outliers). T-student has 3 parameters, mean, precision (inverse variance) and degrees of freedom which sets the normality of the distribution, large $\nu$ close to normal, small heavy tails $\nu$. Then, we define the likelihood functions for each group (prob observed data can be drawn from the putative model).
-\begin{equation}
-y_i^{(H)} \sim T(\nu, \mu_1, \sigma_1) \\
-y_i^{(C)} \sim T(\nu, \mu_2, \sigma_2)
-\end{equation}   
-of course we need to have different parameters for mean adn std but for simploicity we assume same degreees of freedom.
-Now, we need a distribution for the means, since they are real valued we use Normal distribution, with mean (from the pooled experimental and twice the pooled empirical std in order to apply diffuse (little) information and do not favor any particular prior).
-\begin{equation}
-\mu_k \sim N(\hat{x}, 2*\sigma)
-\end{equation}
-
-Having fully specified our probabilistic model (all the parameters, mu, precision and dimensions) we can compute the comparisons, we compute the difference of means,difference of stds and rthe ffect size (difference of means divided by the squared root of the pooled estimates of the std).
-Finally, we can fit the model and evaluate its output
-
-\section{Brain reserve (Atrophy)}
-\label{se:atro}
-The term brain reserve refers to the capacity of the brain to cope with age-related and pathological changes in the absence clear clinical symptoms \cite{fratiglioni2007brain}. The idea behind this concept is that the brain has a threshold for that once is reached clinical manifestations emerge.. Epidemiological studies have pointed out to 
-a number of factors including education, social bonding, diet and others that may have an effect on the brain's capacity to endure insult.
-
-Here we investigate the neuroanatomical basis of the brain reserve by means of quantifying the brain atrophy. Thus, we estimate the loss volume in the brain (tissues and subcortical structures) taken place the first and the last visit, six years later. Section \ref{sse:mri} describes the automated segmentation, the results fi the segmentation are shown in Section \ref{sse:segementa}.   
-
-
-\subsection{Automatic Segmentation of Brain Structures}
-\label{sse:mri}
-
-The segmentation pipeline used the FMRIB Software Library \cite{fsl60}, \cite{jenkinson2012fsl} and goes through the following stages:
-%FSL FMRIB Software Library (FSL5.0) is a comprehensive library of analysis tools for MRI brain imaging data (http:// fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSL). FSL comprises two tools for subcortical GM segmentation: FMRIB’s Integrated Registration and Segmentation Tool (FIRST) and FSL_Anat.
-\cite{hannoun2018automatic}
-\begin{enumerate}  
-  %0 The input image is copied in .anat and renamed {T1}.nii.gz (-t T1,T2,PD), we work with T1 now
-  \item \textbf{Reorientation} to the standard (MNI) orientation
-  %, \emph{fslreorient2std} it swaps axes around maintaining the correct left-right relationships so that x=left-right, y=anterior-posterior and z=superior-inferior. 
-  %size T1 < T1_orig== T1_fullfov, T1 reoriented and cropped is small in size than the original image because we cut the neck. e. T1.nii.gz is the averaged and aligned image file. 
-  \item \textbf{Cropping} to remove the neck, this is a necessary step prior to brain extraction. 
-  %\emph{robustfov} looks at axial slices in the superior direction (starting at the edge of the volume and moving towards the centre) and determines whether a slice contains only noise or signal plus noise. Once it finds the first consecutive slices that contain signal plus noise it then takes that as the position of the top of the head and then extracts a fixed size of FOV in the superior-inferior direction down from the top of the head, which should cover the brain but stop short of the jaw and neck
-  \item \textbf{Bias field correction} 
-  %  I used strongbias = no good if the field is not strong which is good for 1-5T. 
-    %For high-field or multi-coil array is better to use strongfield=yes. 
-    %For my MRI, 3T and not multi-coil what to use?
-  %The bias-corrected version of the image is called T1_biascorr
-  \item \textbf{Registration} to standard space computing both linear registration (FLIRT algorithm) and non-linear registration (FNIRT algorithm)
-  %do_nonlinreg=yes call to [fnirt], [flirt] is always run also for non linear registration
-  %creates the images: T1_to_MNI_lin (the result of the linear reg), T1_to_MNI_nonlin(the result of the non linear reg)
-  %T1_to_MNI_nonlin_field (non-linear warp field) , T1_to_MNI_nonlin_jac (Jacobian of the non-linear warp field)
-  %and T1_vols.txt containing a scaling factor and brain volumes, based on skull-constrained registration, suitable for head-size normalisation (as the scaling is based on the skull size, not the brain size). 
-  \item \textbf{Brain Extraction} in two steps. First, the BET algorithm obtains a brain mask which can be coarse to then perform the brain extraction transforming standard-space mask to the input image using the FNIRT (non-linear) registration.
-  %This step can be interactive changing the threshold : You must adjust the threshold for the extraction (-f) to assure that the skull is removed while the cortical surface is left in tact. This will require running BET multiple times to assure that it is satisfactory. 
-  %run $FSLDIR/bin/bet ${T1} ${T1}_initfast2_brain -m -f 0.1 (by default betfparam=0.1)
-  % 0.1 is overincusive, it will get a very rough brain which means it will likely get portions of the skull(the larger the f eg 0.8 the most brain restricted) but we use 0.1 because we refibne after with FNRIT
-  %produces: T1_biascorr_brain and T1_biascorr_brain_mask
-  \item \textbf{Tissue Segmentation} (FAST algorithm)
-  %produces: T1_biascorr - refined again in this stage, (CSF) T1_fast_pve_0, (Gray) T1_fast_pve_1, (White)T1_fast_pve_2 - partial volume segmentations (CSF, GM, WM respectively) and T1_fast_pveseg - a summary image showing the tissue with the greatest partial volume fraction per voxel
-  \item \textbf{Subcortical Segmentation} (FIRST algorithm)
-  %T1_subcort_seg - summary image of all subcortical segmentations, T1_biascorr_to_std_sub.mat - a transformation matrix of the subcortical optimised MNI registration
-  %All the other ouputs in first_results subdir: T1_first_all_fast_firstseg == T1_subcort_seg and btk, vbars for each region, need to be converted to .nii
-\end{enumerate}
-
-\subsection{Brain atrophy estimates (year 1, year 6) }
-\label{sse:segementa}
-
-We show the volume estimates for brain extraction, tissue segmentation (CSF, white and gray matter) and subcortical segmentation (thalamus, putamen, hippocampus, accumbens, pallidum, caudate, amygdala) for a total of 314 subjects for both year 1 and year 6, (total $314 \times 2 = 628$)
+In this section we show the analyze the volume estimates for brain extraction, tissue segmentation (CSF, white and gray matter) and subcortical segmentation (thalamus, putamen, hippocampus, accumbens, pallidum, caudate, amygdala) for a total of 314 subjects for both year 1 and year 6, (total $314 \times 2 = 628$).
 
 \paragraph*{Brain extraction}
 
 Research shows that the growth rate of the brain slowly declines declines from the first year of birth (it increases dramatically during), brain volume reaches its maximum at the age of 40 years to then decline by $5\%$ per decade, the decline is thought to accelerate at around 70 years \cite{peters2006ageing}.
 
-Figure \ref{fig:brainviolin} shows the results of the brain extraction algorithm for years 1 and year 6. The brain's size is expressed in mm${^3}$ in native space (left) and scaled in MNI space (right). 
-The average brain size is around 1,000 cm${^3}$ or 1000,000 mm${^3}$ which reflects the age and the gender unbalance of the sample.
+Figure \ref{fig:brainviolin} shows the results of the brain extraction algorithm for years 1 and year 6. The brain's size is expressed in cm${^3}$ in native space. Left side, brain volume density estimate for year 1 and on the right, for year 6.
+%The average brain size is around 1,000 cm${^3}$ or 1000,000 mm${^3}$ which reflects the age and the gender unbalance of the sample.
 
 %CODE
 % df_atrophy_b = compute_atrophy(df_loyals.loc[ix_noout_b], yi=1, ye=6, typeof = 'brain')
@@ -1426,12 +1290,20 @@ The average brain size is around 1,000 cm${^3}$ or 1000,000 mm${^3}$ which refle
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/bnative_violin}
-        \caption{The violin plot shows the brain volume in native space ($cm^3$) for year 1 (left) and year 6 (right). As expected the mean volume decreases from  year 1 to year 6.} 
-        \label{fig:boxbet}
+        \caption{The violin plot shows the brain volume in native space ($cm^3$) for year 1 (left) and year 6 (right). As expected the mean volume decreases from  year 1 to year 6. The average brain size is around 1,000 cm${^3}$ which reflects the age and the gender unbalance of the sample.} 
+        \label{fig:brainviolin}
 \end{figure}
 %\footnote{A violin plot is a hybrid of a box plot and a kernel density plot.}
 
-We calculate brain atrophy as the difference between the estimated volume at year 1 and the estimated volume at year 6. Figure \ref{fig:braingroupviol} shows the atrophy for MCI converters and non MCI converters, grouped by sex and familial AD.
+Since we have the brain volumes in two time points, we can calculate brain atrophy as the difference between the estimated volume at year 1 and the estimated volume at year 6. 
+The atrophy between year 1 and year N for a volume $V$ is calculated with the expression:
+\begin{equation}
+\Delta = (\hat{V}_1 - \hat{V}_N)/ \hat{V}_1
+\label{eq:atro}
+\end{equation}
+
+
+Figure \ref{fig:braingroupviol} shows the atrophy for MCI converters and non MCI converters, grouped by sex and familial AD.
 
 \begin{figure}[!htb]
     \centering
@@ -1448,7 +1320,7 @@ We calculate brain atrophy as the difference between the estimated volume at yea
         %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
         \label{fig:braingroupviol-b}
     \end{minipage}
-    \caption{IOn the left, brain atrophy for converters and non converters grouped by familial sex (0:Male, 1:Female) and on the right grouped by familial AD.}
+    \caption{On the left, brain atrophy for converters and non converters grouped by familial sex (0:Male, 1:Female) and on the right grouped by familial AD.}
     \label{fig:braingroupviol}
 \end{figure}
 
@@ -1476,69 +1348,46 @@ Figure \ref{fig:tissueseg} shows the segmentation based on tissue (CSF (green), 
         \label{fig:braingroupviol-b}
     \end{minipage}
     \caption{Tissue segmentation of one subject, on the left first year visit and on the right sixth year visit.}
-    \label{fig:braingroupviol}
+    \label{fig:tissueseg}
 \end{figure}
 
 %CODE
 % df_atrophy_t = compute_atrophy(df_loyals.loc[ix_noout_t], yi=1, ye=6, typeof ='tissue')
 % plot_violin_tissue(df_atrophy_t.loc[ix_noout_b], 1, 6)
-Figure \ref{fig:violtissues} shows estimated volume for tissue based segmentation across two time points, year 1 and year 6. The volume distribution of CSF (left), gray matter (middle) and white matter(right) are shown. 
-The figure indicates Figure \ref{fig:violtissues} shows an increase in the volume of the CSF and at the same time a decrease in the parenchyma (white and gray matter). 
+Figure \ref{fig:violtissues} shows the estimated volume for tissue based segmentation across two time points, year 1 and year 6. The volume distribution of CSF (left), gray matter (middle) and white matter(right) are shown. Interestingly, the figure shows an increase in the volume of the CSF and at the same time a decrease in the brain parenchyma (white and gray matter). 
 
 As the brain ages, it increases its elasticity while keeping constant its porosity \cite{lasheras2007biomechanics}, the concentration of proteins also decreases with age which can be explained by the increment in volume observed here \cite{chen2012influence}. While it has been suggested that cerebrospinal fluid production is reduced in healthy aging \cite{may1990cerebrospinal}, in a more recent study \cite{gideon1994cerebrospinal} researchers argue that differences found in human CSF production rates may be caused by interindividual factors other than age. 
-More uncontroversial is the decrease in cerebrospinal fluid pressure with older Age \cite{fleischman2012cerebrospinal} this would explain the enlargement of the brain ventricles that our estimates show.
+More uncontroversial is the decrease in cerebrospinal fluid pressure with older age \cite{fleischman2012cerebrospinal} this would explain the enlargement of the brain ventricles that our estimates show.
 % YS: Freesuerfer size of ventricules
 
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/tissues_violin}
-        \caption{The plot shows the tissue based segmentation results. For each type of tissue we plot the estimated volume in year 1 and year 6. Thus, left csf volume in first and last years, middle gray matter volume in first and last year and right white matter volume for first and last year. } 
+        \includegraphics[keepaspectratio, width=0.8\linewidth]{figures/tissues_violin}
+        \caption{The plot shows the tissue based segmentation results. For each type of tissue we plot the estimated volume in year 1 and year 6. Left CSF volume in first and last years, center gray matter volume in first and last year and right white matter volume for first and last year. } 
         \label{fig:violtissues}
 \end{figure}
 
-Figure \ref{fig:jointtissues} shows the relationship between two variables -the atrophy of tissues as well as the profiles of each tissue atrophy in the margins. Thus, on the left the joint plot of gray matter atrophy and white matter atrophy and on the right between gray matter atrophy and CSF atrophy. The figure indicates that there is no linear correlation between the volume atrophy of the brain tissues. 
+Figure \ref{fig:jointtissuescont} shows the relationship between the volume of each tissue in year 1 and year 6. As expected, there is a strong linear relationship between the estimated volumes at two different time points. This means that healthy aging progresses monotonically and not for example, "catastrophically" in the mathematical interpretation of René Thom \cite{rosen1979catastrophe}, \cite{zeeman1979catastrophe}, \cite{thom2018structural}. Along these lines it would be of interest to investigate the points that fall outside the contour areas shown in the figure.
 
 \begin{figure}[!htb]
     \centering
-    \begin{minipage}{.5\textwidth}
+    \begin{minipage}{.32\textwidth}
         \centering
-        \includegraphics[height=0.30\textheight, keepaspectratio]{figures/tissuesgm_joint} %height=0.15\textheight
+        \includegraphics[height=0.25\textheight, keepaspectratio]{figures/tissuescsf16_joint} %height=0.15\textheight
         %\caption{Brain atrophy for converters and non converters grouped by sex.}
         %\label{fig:braingroupviol-a}
     \end{minipage}%
     \hfill
-    \begin{minipage}{0.5\textwidth}
+    \begin{minipage}{0.32\textwidth}
         \centering
-        \includegraphics[height=0.30\textheight, keepaspectratio]{figures/tissuesgc_joint}
-        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
-        %\label{fig:braingroupviol-b}
-    \end{minipage}
-    \caption{On the left, relationship between the variables gray matter atrophy and white matter; on the right, relationship between the variables gray matter atrophy and CSF atrophy.}
-    \label{fig:jointtissues}
-\end{figure}
-
-Figure \ref{fig:jointtissuescont} shows the relationship between the volume of each tissue in year 1 and year 6. As expected there is a strong linear relationship between the estimated volumes at two different time points. This means that healthy aging progresses monotonically and not for example, "catastrophically" in the mathematical interpretation of René Thom \cite{rosen1979catastrophe}, \cite{zeeman1979catastrophe}, \cite{thom2018structural}. Along these lines it would be of interest to investigate the points that fall outside the contour areas shown in the figure.   
-
-
-\begin{figure}[!htb]
-    \centering
-    \begin{minipage}{.3\textwidth}
-        \centering
-        \includegraphics[height=0.28\textheight, keepaspectratio]{figures/tissuescsf16_joint} %height=0.15\textheight
-        %\caption{Brain atrophy for converters and non converters grouped by sex.}
-        %\label{fig:braingroupviol-a}
-    \end{minipage}%
-    \hfill
-    \begin{minipage}{0.3\textwidth}
-        \centering
-        \includegraphics[height=0.28\textheight, keepaspectratio]{figures/tissuesgm16_joint}
+        \includegraphics[height=0.25\textheight, keepaspectratio]{figures/tissuesgm16_joint}
         %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
         %\label{fig:braingroupviol-b}
     \end{minipage}
     \hfill
-    \begin{minipage}{0.3\textwidth}
+    \begin{minipage}{0.32\textwidth}
         \centering
-        \includegraphics[height=0.28\textheight, keepaspectratio]{figures/tissueswm16_joint}
+        \includegraphics[height=0.25\textheight, keepaspectratio]{figures/tissueswm16_joint}
         %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
         %\label{fig:braingroupviol-b}
     \end{minipage}
@@ -1546,11 +1395,39 @@ Figure \ref{fig:jointtissuescont} shows the relationship between the volume of e
     \label{fig:jointtissuescont}
 \end{figure}
 
+Figure \ref{fig:jointtissues} shows the relationship between the atrophy of tissues as well as the profiles of each tissue atrophy in the margins. Thus, on the left, the joint plot of gray matter atrophy and white matter atrophy, center, between gray matter atrophy and CSF atrophy and on the right between white matter and CSF. The figure indicates that there is no a particularly strong linear correlation between the volume atrophy of the brain tissues. 
+
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.33\textwidth}
+        \centering
+        \includegraphics[height=0.25\textheight, keepaspectratio]{figures/tissuesgm_joint} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.33\textwidth}
+        \centering
+        \includegraphics[height=0.25\textheight, keepaspectratio]{figures/tissuesgc_joint}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.33\textwidth}
+        \centering
+        \includegraphics[height=0.25\textheight, keepaspectratio]{figures/tissueswc_joint}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{On the left, relationship between the gray matter atrophy and white matter atrophy. Center, relationship between gray matter and CSF atrophy. Right, relationship between white matter and CSF atrophy.}
+    \label{fig:jointtissues}
+\end{figure}
+
 
 \paragraph*{Segmentation of brain subcortical structures}
 %fsleyes ../T1_fast_restore.nii.gz T1_first_all_fast_firstseg.nii.gz -cm Red-Yellow -dr 0 118
 
-Figure \ref{fig:subcorseg} shows the segmentation based of the subcortical structures: Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala and Brain stem of one subject of the \emph{Vallecas Project}. The statistical analysis of all the subjects in the first year visit  will be ready very SOON! 
+Figure \ref{fig:subcorseg} shows the segmentation of the subcortical structures: Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate and Amygdala for one subject of the \emph{Vallecas Project}. 
 
 \begin{figure}[H]
         \centering
@@ -1559,32 +1436,160 @@ Figure \ref{fig:subcorseg} shows the segmentation based of the subcortical struc
         \label{fig:subcorseg}
 \end{figure}
 
-Figure \ref{fig:boxsubcor} shows the boxplot of the segmentation of subcortical structures of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
+Figure \ref{fig:subyybars} shows the atrophy calculated as the standarized difference in volume between year 1 and year 6 for the different subcortical structures (Equation \ref{eq:atro}).
+
 \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierssubcortical}
-        \caption{Boxplot of volume in mm${^3}$ of the bilateral subcortical segmentation for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm. The subcortical structures represented are Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala.} 
-        \label{fig:boxsubcor}
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/subcorts_bars}
+        \caption{Mean atrophy estimated between year 1 and year 6 for the subcortical areas bilaterally (Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala). Interestingly, the left hippocampus undergoes the least atrophy on average, the largest atrophy occurs in the Putamen. The mean atrophy has been calculated over a total of 78 subjects, it may be possible to extend this number by using a more lenient policy of outliers removal and of course with alternative segmentation methods.}
+        \label{fig:subyybars}
 \end{figure}
 
-Figure \ref{fig:kde_subcortical} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of subcortical structures of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
-\begin{figure}[H]
+Figures \ref{fig:caudyy}, \ref{fig:putayy}, \ref{fig:pallyy}, \ref{fig:thalyy}, \ref{fig:accuyy}, \ref{fig:amygyy}, \ref{fig:hippyy} show the correlation between the volume in year 1 and volume in year 6 for the Caudate, Putamen, Pallidum, Thalamus, Accumbens, Amygdala and Hippocampus, respectively.
+
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.45\textwidth}
         \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_subcortical}
-        \caption{Boxplot of volume in mm${^3}$ of the bilateral subcortical segmentation for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm. The subcortical structures represented are Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala.} 
-        \label{fig:kde_subcortical}
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/lcaud_yy} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/rcaud_yy}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Linear correlation for the caudate (both sides) volume change in 6 years time.}
+    \label{fig:caudyy}
 \end{figure}
 
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/lputa_yy} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/rputa_yy}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Linear correlation for the putamen (both sides) volume change in 6 years time.}
+    \label{fig:putayy}
+\end{figure}
 
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/lpall_yy} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/rpall_yy}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Linear correlation for the pallidum (both sides) volume change in 6 years time.}
+    \label{fig:pallyy}
+\end{figure}
 
-Here we show the automated segmentation of all subjects with MRI in the first year, 
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/lthal_yy} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/rthal_yy}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Linear correlation for the thalamus (both sides) volume change in 6 years time.}
+    \label{fig:thalyy}
+\end{figure}
 
-%so far we present the results for brain extraction for the first year. We plan to show segmentation of subcortical structure for all the years in the short future. Of note, the imaging data has not been stored, let alone preprocessed, with the minimum quality requirements for a project of of such volume and complexity. This is delaying and the work that we intend to show here.
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/laccu_yy} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/raccu_yy}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Linear correlation for the accumbens (both sides) volume change in 6 years time.}
+    \label{fig:accuyy}
+\end{figure}
 
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/lamyg_yy} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/ramyg_yy}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Linear correlation for the amygdala (both sides) volume change in 6 years time.}
+    \label{fig:amygyy}
+\end{figure}
 
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/lhipp_yy} %height=0.15\textheight
+        %\caption{Brain atrophy for converters and non converters grouped by sex.}
+        %\label{fig:braingroupviol-a}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{figures/rhipp_yy}
+        %\caption{Brain atrophy for converters and non converters grouped by familial AD.}
+        %\label{fig:braingroupviol-b}
+    \end{minipage}
+    \caption{Linear correlation for the hippocampus (both sides) volume change in 6 years time.}
+    \label{fig:hippyy}
+\end{figure}
 
+\newpage
+Figure \ref{fig:subyypearson} shows the Pearson correlation between the atrophy produced between years 1 and 6 in the different subcortical areas. 
+\begin{figure}[!htb]
+        \centering
+        \includegraphics[keepaspectratio, width=\linewidth]{figures/subcorts_heat}
+        \caption{Pearson correlation of the estimated atrophy between year 1 and year 6 for all the studied subcortical areas bilaterally (Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate, Amygdala).} 
+        \label{fig:subyypearson}
+\end{figure}
 
-
+\newpage
 \section{Results}
 \label{se:res}
 
@@ -1592,9 +1597,33 @@ Here we show the automated segmentation of all subjects with MRI in the first ye
 % build the code, calculate the b-integral compare if it is better than indoividual scores or the aggregate score in a rgression o ...
 % /Users/jaime/github/papers/EDA_pv/code/area_under_curve.py
 
+The study presented here compiles a longitudinal analysis of \emph{The Vallecas Project}. Although the idea was to perform an exploratory analysis, it is still possible to draw conclusions and recommendations.
+We will focus on the results shown in Table \ref{tab:fischiall} and Table \ref{tab:anovascont} and in the insights produced by the brain segmentation procedure discussed in Section \ref{se:segementa}.
 
-\section{Conclusions}
-\label{se:con}
+Bivariate analysis of cross sectional variables and conversion to MCI using statistical significance tests (Fisher and $\tilde{\chi}^2$) show a small set of variables with statistical relevance: \emph{APOE, thyroiditis} and variables coding for social activities such as use of new technologies, going to church and participation in cultural events and public entertainment.
+The ANOVA tests for non categorical variables in Table \ref{tab:anovascont} show statistical relevance for MCI conversion in dietary practices, in particular diet with a strong fat component and less so for protein based diets.
+
+Aside from considerations of the profusely documented problems with statistically significance tests \cite{ioannidis2005most}, \cite{simmons2011false}, \cite{veresoglou2015p},\cite{greenland2016statistical},\cite{stupple2019reproducibility},\cite{hurlbert2019coup},  there are at least two important caveats that deserves a comment. First, the classification problem of converters to MCI versus non converters is unbalanced, that is, the class of converters is underrepresented. Second, we are only studying two dimensional relationships, on the other hand, cognitive decline which is the process that conversion to MCI is trying to label is a complex phenomenon involving more complicated patterns than bivariate mapping. 
+
+In a forthcoming study we specifically tackle the feature selection problem using machine learning. Specifically we build a random forest classifier \cite{breiman2001random} from which we will identify the most informative features, we call to this set features the \emph{Vallecas Index}.
+
+It is also possible to draw some interesting conclusions from the brain segmentation results shown in Section \ref{se:segementa}. First, as expected the volume of the brain decreases with aging. Figure \ref{fig:brainviolin} shows a decrease in the mean volume of the brain in year 6 compared to year 1. Furthermore, the kernel density estimation included in the figure indicates a marked difference in the shape of the distributions of each year. The figure suggests that aging makes the brain volume distribution more entropic or more flat. (See the shape of the violin plot in year 6 compared to year 1).
+
+The tissue-based segmentation obtained the volume estimates of cerebrospinal fluid (CSF), gray matter and white matter in the brain for both years 1 and 6 in healthy subjects (diagnosed as healthy in the last year). Figure \ref{fig:violtissues} confirms that aging increases brain cavities which are filled with cerebrospinal fluid, as the figure shows, the volume of CSF increases going from year 1 to year 6. On the other hand, the volume of both white and gray matter goes down as aging progresses. 
+We also plot in Figure \ref{fig:jointtissuescont} the relationship between the tissue volume in year 1 and year 6. In all cases there is strong linear correlation, this can be interpreted as healthy aging progressing monotonically, that is, without big leaps. The more it deviates from linearity the less deterministic or entropic aging would be. This discussion will be expanded and made more clear in a forthcoming work that uses the full time series ($t= 1,2,3,4,5$ and $6$) rather than the first and last time points ($t=1,6$). 
+The atrophy between tissues is calculated as the standardize difference between the volume in year 1 and the volume year 6 (Equation \ref{eq:atro}) is shown in Figure \ref{fig:jointtissues}. The Pearson correlation gives us 0.13 for both $\Delta GM, \Delta WM$ and $\Delta GM, \Delta CSF$ and 0.35 for $\Delta WM, \Delta CSF$.
+
+%Bayesian Statistical Models of Shape and Appearance for Subcortical Brain Segmentation
+Finally, the segmentation of brain subcortical structures including Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate and Amygdala \cite{patenaude2011bayesian} throws some important information to be consider and replicated using alternative segmentation techniques \cite{despotovic2015mri}, \cite{zhang2018fully}. 
+First, the mean atrophy per subcortical structure for subjects diagnosed as healthy in year 6 is shown in Figure \ref{fig:subcorseg}. The left hippocampus is the the structure that has on average the least atrophy ($~4\%$). The Putamen, no the other, both left an right, has the largest atrophy ($~8\%$). According to this result the left hippocampus would be a subcortical structure more stable, in terms of volume loss, than others subcortical areas during healthy aging. Nevertheless, this result must be interpreted with great caution, a different outliers removal procedure and the a different segmentation algorithm could produce modifications in the results. In the future we will test and extend on this result to study the volumetric progression of the hippocampus with alternative segmentation procedures that are able to identify the hippocampal subfields as well. 
+
+The linear correlation for each substructure is also obtained (Figures \ref{fig:caudyy} to \ref{fig:hippyy}). We find a strong linear dependency between subcortical structure volumes  between year 1 and year 6, the rationale behind has been already discussed above -aging is a monotonic process. It might be mentioned that the Pearson correlation of the volume changes in the nucleus accumbens (both sides) and the right amygdala is significantly lower than for the rest of the structures ($p >0.01$). Whether this finding is relevant to brain senescence or a side-effect of the segmentation algorithm used will be investigated using alternative segmentation techniques that take advantage of the scanner spatial resolution, producing amygdala nuclei volume estimates \cite{iglesias2015computational}.  
+
+A cogent understanding of how senescence affects brain function will be incomplete without brain functional data. We will explore changes in brain connectivity using fMRI collected in \emph{Proyecto Vallecas}.
+
+\emph{To Be Continued.}
+%\section{Conclusions}
+%\label{se:con}
 
 %-------------------------------------------------------------------------------
 % REFERENCES
@@ -1607,215 +1636,23 @@ Here we show the automated segmentation of all subjects with MRI in the first ye
 \bibliography{../bibliography-jgr/bibliojgr}
 
 \end{document}
-%-------------------------------------------------------------------------------
-% APPENDIX & MISCELLANEOUS
-%-------------------------------------------------------------------------------
-\section{Appendix}
-\label{se:appbusint}
 
-\subsection{GroupBy Brain subcortical structures}
-
-Figures \ref{fig:groupby_HipAmyAcc_mciQuart} and \ref{fig:groupby_cardio_mci} show the results of grouping \emph{Conversion to MCI} by the segmented size of subcortical structures. 
-A quick visual inspection seems to indicate exists the possibility that the size of the left hippocampus and the right accumbens could have a positive effect in the conversion rate.
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_HipAmyAcc_mciQuart}
-        \caption{The figure shows the grouping by conversion to MCI relative the size of the segmented subcortical structures: Hippocampus, Amygdala and Accumbens both left and right.}
-        \label{fig:groupby_HipAmyAcc_mciQuart}
-\end{figure}
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_ThalCau_mciQuart}
-        \caption{The figure shows the grouping by conversion to MCI relative the size of the segmented subcortical structures: Putamen, Thalamus, Caudate and Pallidum both left and right.}
-        \label{fig:groupby_HipAmyAcc_mciQuart}
-\end{figure}
-
-
-
-Figure \ref{fig:scatternative} shows the results of brain extraction size (the four first steps) in mm${^3}$. 
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/bus-scatterNatxy}
-        \caption{The figure shows the scatter plot of the size of the brain in mm${^3}$ and the \emph{Buschke integral}(See the Appendix for an in detail explanation of this new score). Each dot is one subject of the \emph{Vallecas Project} in year 1, the red dots indicate conversion in the future to MCI, blue dots represent subject that do not convert to MCI.} 
-        \label{fig:scatternative}
-\end{figure}
-% Figure \ref{fig:pairbrain} shows scatter plots of pairs of variables including the size of the brain and the Buschke test. As expected, we don't observe see a significant correlation between the size of the brain and the Buschke scores. We expect, however, to find a correlation between hippocampus size. 
-% The estimation of the parameters of the new measure called \emph{Buschke Integral} (see Appendix) is based on the relationship between the hippocampus size and the \emph{Buschke Integral}. More on this very SOON!
-
-% \begin{figure}[H]
-%         \centering
-%         \includegraphics[keepaspectratio, width=\linewidth]{figures/bus-brainpairplot}
-%         \caption{The figure shows the scatter plot and the histogram of pairs of variables, in particular variables of the Buschke test, the size of the brain and conversion to MCI. The first row shows the size of the brain in $mm^3$, from second to sixth row/column are Buschke tests and the last row/column plots the conversion to MCI. The red dots are converters and the blue dots are healthy subjects. As a curiosity the average volume of a modern human brain is 1300 $cm^3$ to 1500 $cm3$, our subjects are within that range. The mean and the standard deviation of the distribution f the brain size in the first year is $(\mu=1,003cm^3, \sigma=90cm^3)$ (calculated with 765 subjects it should be $+900$. AGHHH!!! Images in f...s.. state!!).} 
-%         \label{fig:pairbrain}
-% \end{figure}
-
-%Compare posterior year n year n+1 for a bunch of feature, the HO is that they don't change , if they change, diff posterior, can be because that feature changes with time(at the light of our data) or because the effect of those that left, to investigate take within year n the two groups remain and left and do Bayesian posterior if Ho true then tej feature changes in time naturally.
-%At the end we can get the list of features that we expect to change in time at different lags and those that not.
-
-\subsection{Time series}
-\label{se:res}
-Time series Clustering, characterization and Prediction (and regime shift).
-%https://johncarlosbaez.wordpress.com/2015/11/25/regime-shift/
-Regime shifts are abrupt substantial changes in complex systems. Phase transition is a easier concept and canonical concept to understand (it does not require a complex system). For regime shift systems do not need to be in thermal equilibrium, while phase transition is how varying the parameters affects the thermal equilibrium. So, whatever a regime is, it’s not a thermodynamic phase. For the case of the brain we are talking about regime shift no phase transitions because it is all about the rupture of feedback loops and no feedback loops are conceived in the phase transition picture, just a balance of forces.
-%Planet Earth experienced a global climate shift in the late 1980s on an unprecedented scale, fueled by anthropogenic warming and a volcanic eruption, according to new research.
-
-Baez lit. Phase transition means something pretty specific: you have system whose thermal equilibrium state depends on a some parameters, and as you adjust the parameters, observable quantities vary smoothly except at certain points in the parameter space, which usually lying on hypersurfaces called ‘phase transitions’. The complement of these surfaces has connected components called ‘phases’. There are also more specific concepts like ‘first-order phase transition’ and ‘second-order phase transition’.
-A ‘regime’ of a complex system like an ecosystem or the entire Earth is something much more elusive; such systems aren’t in thermal equilibrium, they’re always changing, but sometimes they change more dramatically than others. A ‘regime shift’ is a period of time when they’re changing in a significant, rapid and persistent way.
-
-Wiki lit.In ecology, regime shifts are large, abrupt, persistent changes in the structure and function of a system. A regime is a characteristic behavior of a system which is maintained by mutually reinforced processes or feedbacks.The change of regimes, or the shift, usually occurs when a smooth change in an internal process (feedback) or a single disturbance (external shocks) triggers a completely different system behavior. Crucially, the concept of ‘feedback’ is largely absent from the concept of thermodynamic phase, because feedback typically involves flow around loops, while in thermal equilibrium the principle of detailed balance prohibits flow around loops.
-
-%https://www.beringclimate.noaa.gov/regimes/
-Methodology to look for trends: The STARS method (Rodionov, 2004; Rodionov  Overland, 2005) tests whether the end of one period (regime) of a certain length is different from a subsequent period (new regime). The cumulative sum of normalized deviations from the hypothetical mean level of the new regime is calculated, and then compared with the mean level of the preceding regime. A shift year is detected if the difference in the mean levels is statistically significant according to a Student’s t-test.
-
-%https://www.youtube.com/watch?v=MP-jMMOgdjQ
-ML of time series:
-
--Minimum bias optimization (convex optimization). To produce a complete graph relate all securities to each other we need to calculate N(N+1)/2 covariance estimations, will not be robust, because unless you have stable correlations for the past eg 5 years, your covariance matrix (day by day) is going to change very widely. For example, my covariance matrix for the previous 6 years, maybe for the next seventh year is going to be very different,. YS: check this out.
-Problems to invert the cov matrix: The inverse covariance matrix, commonly referred to as the precision matrix displays information about the partial correlations of variables. A partial correlation describes the correlation between variable i and j, once you condition on all other variables. 
-ML allows to go around the cov matrix inverse problem exploiting the hierarchical relationships between the securities, as a consequence the estimate are more robust because rather than having to estimate N(N+1)/2 we just need N-1 estimates.
-
--Structural Breaks
-
-ML models are particularly good at detecting change: prob. that the observation belongs to past observed clusters, the goal here is to derive a prob of shit and not a point prediction. Thus, probability of regime shift (new obs is not in the dictionary) rather than predict a price. (YS: for this surely will need long time series which i do not have for this study). A ML methodology for regime shift is SADF; Does the series exhibit bubble-like patterns? if this is the case mean reverting models must be avoided. The idea is not to predict when the bubble will pop but that there is a bubble in formation.
-
--Bet sizing
-
-Precision - Recall
-One algorithm with High P and low R and then a second algo that does the opposite so you get a good F1 score, the second algo is not saying to buy or sell but to tell you if you should go or not for the bet.
-Which are the truly relevant variables? to predict X? for example tell to newton that what matter for the force of attraction between two bodies are mass and distance not the shape or color. The ML will never gives us a closed form solution, but nevertheless it assist by telling us what are the variables (input) that are relevant.
-In a high dimensional space, the relationship between features can be extremely complex, however ML can tell us which are the ones that matter.
-
-
-\subsection{The \emph{Buschke Integral} score}
-
-The Buschke memory test with free and cued recall is commonly used to assessing cognitive functioning. The Buchske test is of easy realization and can be performed by participants with different levels of impairment and clinical conditions \cite{o200212}, \cite{leitner2017comparison}. The test was originally designed to asses long-term storage (LTS), retrieval from long-term storage (LTR), and recall from short-term storage (STR) \cite{buschke1973selective}.
-
-The Buschke test in the \emph{Vallecas Project} consists in asking the subject to recall a list of words in three occasions separated by distracting periods. First, the experimenter reads a list of 16 words and the subject is immediately asked to recall as many words as possible. Next, the subject is distracted with an interference test to be asked again to recall the original 16 words, the subject is distracted again with another interference test to be asked for the third time to recall the original 16 words.
-
-The score consists in three numbers, each computes the number of words that the subject correctly recalled at each time. In order to asses retrieval from short-term storage both the total number of items and the increase/decrease in the scores need to be considered. Two subjects with identical aggregate score may have very different recall performance. For example, let us say that we perform the Buschke test in two subjects, subject A and subject B. Subject A recalls 12, 14 and 15 words at each time and subject B has a score of 15, 14 and 12. Thus, both subjects have recalled the same total number of items (41) but memory retention is very different. Subject B shows no memory retention (a decrease in the number of recalled items) while subject A does consolidate her memory (an increase in the number of recalled items).
-It is evident, then, that in order to have an unique score from the three scores described we can't just aggregate the scores since we would be missing whether the subjects recalls or forgets which is what the Buschke memory test is essentially testing for. In order to capture this information we need take into account whether the scores increase, decrease or stationary.
-
-We have defined a new metric called \emph{Buschke Integral} that brings together the aggregate of recalled items and the slope of the curve described by the scores at each trial. 
-From calculus we know that the area under a curve between two points can be found by doing a definite integral between the two points. 
-The three scores in the Buschke are defined in the space of the positive integers, $x \in +\mathbb{Z}^3$, the area under the curve $y = f(x)$ between two points $x=a$ and $x=b$ is the integral between the limits of $a$ and $b$ which gives us the area defined by the region $f(x)$ and the boundaries a and b.
-\begin{equation}
-\int_{x=a}^{x=b}f(x)dx
-\label{eq:defint}
-\end{equation}
- 
-Coming back to our original problem we need to calculate not only the area between the interval (a,b) corresponding to the first and the third recall scores, but also the area defined between the first and the second scores $(a,h)$ and between the second and the third scores $(h,b)$.  
-Thus, the quantity $S$ we want to compute is defined as:
-\begin{equation}
-S = \int_{a}^{b}f(x)dx + \int_{a}^{h}(f(x) - f(a))dx + \int_{h}^{b}(f(x)-f(h))dx
-\label{eq:buchske}
-\end{equation}
-where the first term on the right side is the area under the curve which gives us the aggregate of the number of items recall, the second and third terms contrary to the first term which is always positive because $y =f(x), y \in [0,16]$, can be negative if the curve $f(x)$ is decreasing, positive if $f(x)$ is increasing or zero in case $f(x)$ remains constant across trials.
-
-Let us see this with an example, for simplicity's sake we assume that the scores are $[0,1,2]$. Figure \ref{fig:b} shows the value of $S$ in three different examples. In each case the area is identical, 2, for a total maximum of 4 but the \emph{Buschke Integral} $S$ varies with the slope of the learning curve. On the left, figure \ref{fig:b}-a,
-$S$ is strictly equal to the area cover by the curve because the curve is flat, $S=2$. On the middle figure, \ref{fig:b}-b, the score $S$ is larger than the previous case because the curve is increasing (positive slope), $S=2+1/2+1/2=3$. Finally, the figure on the right side, \ref{fig:b}-c, $S=2-1/2-1/2=1$ capturing that the slope is negative and therefore the subject is not consolidating memory.      
-  
-%https://matplotlib.org/gallery/showcase/integral.html#sphx-glr-gallery-showcase-integral-py
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/fig_buschkewitheqs}
-        \caption{The figure shows the computation of the \emph{Buschke Integral} scores in three scenarios. On the left figure (a) there is no learning because the subject recalls the same number of items each time ($f(x)=1, x=[0,1,2], S=2$), on the middle figure (b) the subjects learns ($f(x)=x, x=[0,1,2], S=3$) and on the right figure (c) the subject forgets items ($f(x)=2-x, x=[0,1,2], S=1$). The maximum score not (shown) is $S=4$ that corresponds with the subject recalling all the two items at each time ($f(x)=2, x=[0,1,2], S=4$).} 
-        \label{fig:b}
-\end{figure}
-
-%Figure \ref{fig:b} calculates the surface of the trapezoids, it is also possible to interpolate and calculate the surface defined by the spline within the x and y axis.
-One advantage of the \emph{Buschke Integral} score $S$ defined here is that it gives us a new scale of memory health condensed in one single number. This allows us to parcel the space of subjects in a larger number of meaningful categories beyond the converter versus no converter classification. The new metric upper bound is 32 (max score per trial $(16)\times (3-1)$ number of points -1) and the minimum 0.
-
-
-
-\subsection{Regression Model of Buschke Integral to fit hippocampal volume data}
-We use linear regression to investigate the relationship between the Buschke integral and the hippocampal volume.
-%https://lectures.quantecon.org/py/ols.html
-%NOT REALLY Given the plot, choosing a linear model to describe this relationship seems like a reasonable assumption
-
-We fit the model with the hippocampal size. In our three dimensional model we need to find the optimal set of parameters that best fit the data
-\begin{equation}
-y_i = \beta_0+ \beta_1 x_{1i} + \beta_2 x_{2i} + \beta_3 x_{3i} +  \epsilon
-\end{equation}
-where $\beta_0$ is the intercept of the linear trend in the y-axis, $\beta_i$ are the slopes of the linear trend line in each dimension, representing the marginal effect of each variable $x_i$ on the hippocampal volume and $\epsilon$ is the error term (deviations from observations from the linear model due to factors not included in the model.)
-
-The most common technique to estimate the parameters is the OLS, an OLs model is solved by finding the parameters that minimize the sum of squared residuals, $min_{\hat{\beta}}\sum_{i=1}^{n} \hat{u}_{i}^{2}$, where u is the difference between the observation and the pediction $u_i = y_i - X_i\beta$.
-
-
-%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%
-\subsection{Miscellaneous}
-
-\begin{figure}[H]
-    \centering
-    % \hfill
-    % \begin{subfigure}[t]{0.4\textwidth}
-    %     \centering
-    %     \includegraphics[height=2.1in]{figures/groupby_genetics_mci}
-    %     \caption{Grouping of the genetic profile conditioned by conversion to MCI. A frequentist could state that  $p(APOE=0|MCI=0)=0.84, p(APOE=1|MCI=0)=0.15, p(APOE=2|MCI=0)=0.01,p(APOE=0|MCI=1)=0.67, p(APOE=1|MCI=1)=0.28, p(APOE=2|MCI=1)=0.05$.}
-    % \end{subfigure}%\quad
-    
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_Familial_mciY}
-        \caption{Grouping of conversion to MCI conditioned by familial AD,$p(MCI=0|fAD=0)=.88, p(MCI=1|fAD=0)=0.12, p(MCI=0|fAD=1)=0.86, p(MCI=1|fAD=1)=0.14$. }
-    \end{subfigure}
-    % \hfill
-    % APOE and familial to MCI
-    % \begin{subfigure}[t]{0.4\textwidth}
-    %     \centering
-    %     \includegraphics[height=2.1in]{figures/groupby_Familial_mci}
-    %     \caption{Grouping of familial AD conditioned by conversion to MCI, }
-    % \end{subfigure}%\quad
-    % \begin{subfigure}[t]{0.45\textwidth}
-    %     \centering
-    %     \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_geneticsFamilial_mci}
-    %     \caption{ }
-    %\end{subfigure}
-    % \hfill %YS get chart with conversion in x, and family apoe in y
-    % \begin{subfigure}[t]{0.4\textwidth}
-    %     \centering
-    %     \includegraphics[height=2.1in]{figures/groupby_geneticsFamilial_mci}
-    %     \caption{Grouping of familial AD and genetic profile conditioned by conversion to MCI.}
-    % \end{subfigure}%\quad
-   
-    \caption{a) conversion to MCI in the future and familial AD  represented as familial AD conditioned to conversion, $p(fAD|MCI)$. b) conversion to MCI in the future and familial AD represented as conversion conditioned to either familial AD and APO$\epsilon4$, $p(fAD, APO\epsilon4|MCI)$.}
-    \label{fig:genfami}
-\end{figure}
-
-Figure \ref{fig:genfami} gives an excellent opportunity to discuss the perils of reaching to conclusions without a good understanding of probability theory. 
-Figure \ref{fig:genfami}-a) shows that for those with $APO\epsilon4=2$, https://jeremykun.com/2013/01/12/the-fundamental-group-a-primer/the probability to convert is larger than to no convert,$p(MCI=1|APO\epsilon4=2) > p(MCI=0|APO\epsilon4=2)$. On the other hand, for heterozygotes and non APOE4,$APO\epsilon4=0,1$, the reverse happens, there are more non converters than converters if the subject is not carrier of homozygote $APO\epsilon4$. 
-However, Figure \ref{fig:genfami}-b) the homozygotic APOE are a very small number ($11/1181 = 0.093\%$), so for those that are converters to MCI only the $0.05\%$ are homozygotic $APO\epsilon4$, $p(APOE=2|MCI=1)=0.05$.
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/boxplot_Nonebrain}
-        \caption{The figure shows the box plot of the size of the brain in mm${^3}$ both in native space (left) and in the normalized MNI space (right).} 
-        \label{fig:boxbet}
-\end{figure}
-
-Figure \ref{fig:boxtissue} shows the boxplot of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. CSF volume on the left, gray matter center and white matter on the right. All volumes are expressed in mm${^3}$.
-
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/boxplot_no_outlierstissue}
-        \caption{Boxplot of volume in mm${^3}$ for the tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
-        \label{fig:boxtissue}
-\end{figure}
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/tissueseg}
-        \caption{Example of tissue based segmentation of one subject in her first visit.} 
-        \label{fig:tissueseg}
-\end{figure}
-
-Figure \ref{fig:kde_3_tissues} shows the histogram and the Kernel Density Estimate (a non-parametric way to estimate the probability density function of a random variable) of the segmentation of tissues of the 957 MRIs in the first year \emph{Vallecas Project}. The volume is expressed in mm${^3}$.
-\begin{figure}[H]
-        \centering
-        \includegraphics[keepaspectratio, width=\linewidth]{figures/kde_3_tissues}
-        \caption{Histogram and KDE in cm${^3}$ for tissue based segmentation (CSF, Gray matter, White matter) for all the MRIs performed during the first year of \emph{Vallecas Project}. Outliers containing extreme values were removed using an automated issue identification algorithm.} 
-        \label{fig:kde_3_tissues}
-\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% %%%% TO DO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-+ python prg that generates the charts for the paper
+-+ decide if section longitudinal uses any visit or only those with the 6 visits. I have   figure for both, if i want the loyals, just add '_loyals' in the .png file
+-+ finish table 2 ttest between years for a selection of static vars
+- add 3.5 with longitudinal for brain size and others, do as buschke (Figure 22) no histogram
+- fix stai (plot standard data) Fig 20b
+-+ Fix Fig 18 rerun for Buschke only 6 years
+- run buschke integral with estimated parameters based on hippo atrophy
+-+ plot contingency tables only for those variables with significance
+- comment on the significance right after the groupby plot and the contingency table 
+- relate variables with brain reserve and cognitive capacity according to table 24
+-+ remove 4.5 to 4.8 and see if they can be used, maybe in the future for bayesian. reutilize 
+-+ finish section 5 atrophy 
+-+ finish brain atrophy section
+-+ finish results and discussion (recommendation)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

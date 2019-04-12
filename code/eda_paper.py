@@ -1966,7 +1966,7 @@ def select_rows_all_visits(dataframe, visits):
 	rows_loyals = df_loyals.all(axis=1)
 	return dataframe[rows_loyals]
 
-def drop_out_handling(dataframe, feature=None):
+def drop_out_handling(dataframe, yini, yend, feature=None):
 	"""drop_out_handling: investigate the drop out 
 	Args:
 	Output
@@ -1974,7 +1974,7 @@ def drop_out_handling(dataframe, feature=None):
 	from scipy.stats import ttest_ind
 	if feature is None:
 		feature = 'nivelrenta'# 'educrenta', 'barrio', 'distrito', 'nivel_educativo', 'edad_visita1'
-	yini, yend = 1, 6
+	#yini, yend = 1, 6
 	dictio = {}
 	for yy in np.arange(2, yend + 1):
 		#select subjects[y1][feature] vs subjects[yend][feature]
@@ -1991,7 +1991,6 @@ def drop_out_handling(dataframe, feature=None):
 		pstat, pval = ttest_ind(g1.dropna(), g2.dropna())
 		dictio[tini, tend, feature] = pval
 		print('ttest yini:', str(yini), ' yend:', str(yy),' feature: ', feature, ' p=', pval, '\n\n')
-		pdb.set_trace()
 	return dictio
 
 def compute_contingency_table(df, labelx, labely):
@@ -2105,6 +2104,122 @@ def plot_scatter_atrophy_tissue(df, ath_cols):
 	pdb.set_trace()
 
 
+def plot_violin_subcortical(df, yi, ye):
+	"""plot_violin_subcortical
+	"""
+	from matplotlib import cm
+	figures_dir = '/Users/jaime/github/papers/EDA_pv/figures' 
+	print('Print violin plot for Vol. yi - ye \n')
+
+	l_hipp_i, l_hipp_e, l_hipp_atr = 'L_Hipp_visita' +str(yi), 'L_Hipp_visita' + str(ye), 'atrophy_L_Hipp_visita' + str(yi) + str(ye)
+	r_hipp_i, r_hipp_e, r_hipp_atr = 'R_Hipp_visita' +str(yi), 'R_Hipp_visita' + str(ye), 'atrophy_R_Hipp_visita' + str(yi) + str(ye)
+	l_amyg_i, l_amyg_e, l_amyg_atr = 'L_Amyg_visita' +str(yi), 'L_Amyg_visita' + str(ye), 'atrophy_L_Amyg_visita' + str(yi) + str(ye)
+	r_amyg_i, r_amyg_e, r_amyg_atr = 'R_Amyg_visita' +str(yi), 'R_Amyg_visita' + str(ye), 'atrophy_R_Amyg_visita' + str(yi) + str(ye)
+	l_accu_i, l_accu_e, l_accu_atr = 'L_Accu_visita' +str(yi), 'L_Accu_visita' + str(ye), 'atrophy_L_Accu_visita' + str(yi) + str(ye)
+	r_accu_i, r_accu_e, r_accu_atr = 'R_Accu_visita' +str(yi), 'R_Accu_visita' + str(ye), 'atrophy_R_Accu_visita' + str(yi) + str(ye)
+	l_thal_i, l_thal_e, l_thal_atr = 'L_Thal_visita' +str(yi), 'L_Thal_visita' + str(ye), 'atrophy_L_Thal_visita' + str(yi) + str(ye)
+	r_thal_i, r_thal_e, r_thal_atr = 'R_Thal_visita' +str(yi), 'R_Thal_visita' + str(ye), 'atrophy_R_Thal_visita' + str(yi) + str(ye)
+	l_puta_i, l_puta_e, l_puta_atr = 'L_Puta_visita' +str(yi), 'L_Puta_visita' + str(ye), 'atrophy_L_Puta_visita' + str(yi) + str(ye)
+	r_puta_i, r_puta_e, r_puta_atr = 'R_Puta_visita' +str(yi), 'R_Puta_visita' + str(ye), 'atrophy_R_Puta_visita' + str(yi) + str(ye)
+	l_pall_i, l_pall_e, l_pall_atr = 'L_Pall_visita' +str(yi), 'L_Pall_visita' + str(ye), 'atrophy_L_Pall_visita' + str(yi) + str(ye)
+	r_pall_i, r_pall_e, r_pall_atr = 'R_Pall_visita' +str(yi), 'R_Pall_visita' + str(ye), 'atrophy_R_Pall_visita' + str(yi) + str(ye)
+	l_caud_i, l_caud_e, l_caud_atr = 'L_Caud_visita' +str(yi), 'L_Caud_visita' + str(ye), 'atrophy_L_Caud_visita' + str(yi) + str(ye)
+	r_caud_i, r_caud_e, r_caud_atr = 'R_Caud_visita' +str(yi), 'R_Caud_visita' + str(ye), 'atrophy_R_Caud_visita' + str(yi) + str(ye)
+	# do mnot include accumbens, amygdala, not sure does segmentation correctly
+	#df2 = df[[l_hipp_atr, r_hipp_atr, l_thal_atr,r_thal_atr,l_puta_atr,r_puta_atr,l_pall_atr,r_pall_atr,l_caud_atr,r_caud_atr]]
+	#listofareas= [l_hipp_atr, r_hipp_atr, l_amyg_atr, r_amyg_atr,l_accu_atr,r_accu_atr,l_thal_atr,r_thal_atr,l_puta_atr,r_puta_atr,l_pall_atr,r_pall_atr,l_caud_atr,r_caud_atr]
+	listofareas= [l_hipp_atr, r_hipp_atr,l_thal_atr,r_thal_atr,l_puta_atr,r_puta_atr,l_pall_atr,r_pall_atr,l_caud_atr,r_caud_atr]
+
+	df2 = df[listofareas]
+	plt.figure(figsize=(9, 6))
+	#sns.barplot(x=listofareas,  y=df2.mean())
+	ax = df2.mean().plot(kind='bar', yerr=df2.std(), cmap="plasma", alpha=0.4, linewidth=2,  title='Mean atrophy in subcortical areas between y:'+str(yi) + ' and y:' + str(ye) )
+	# get labels with area name
+	labels = [item.get_text() for item in ax.get_xticklabels()]
+	labelticks = [x.split('/')[0][8:-9] for x in labels]
+	ax.set_xticklabels(labelticks)
+	#ax.set_title('Subcortical areas trophy vol. $cm^3$ yy:'+str(yi) + str(ye))
+	ax.set_ylabel('Atrophy (0,1)')
+	#plt.grid(True, alpha=0.8)
+	#plt.xticks(rotation= 90)
+	fig_filename = 'subcorts_bars.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	
+	plt.figure(figsize=(8,8))
+	sns.set(style="white")
+	corr = df2.corr()
+	# Generate a mask for the upper triangle
+	mask = np.zeros_like(corr, dtype=np.bool)
+	mask[np.triu_indices_from(mask)] = True
+	cmap = sns.diverging_palette(220, 10, as_cmap=True)
+	# Draw the heatmap with the mask and correct aspect ratio
+	ax = sns.heatmap(corr, mask=mask, annot=True, vmax=1,vmin=-1, center=0,square=True, linewidths=.5, cbar_kws={"shrink": .5})
+	ax.set_xticklabels(labelticks);ax.set_yticklabels(labelticks)
+	plt.xticks(rotation='45')
+	plt.yticks(rotation='horizontal')
+	ax.set_title('Atrophy correlation in subcortical areas between y:'+str(yi) + ' and y:' + str(ye) )
+	plt.tight_layout()
+	fig_filename = 'subcorts_heat.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	
+	# Volume Left~Right, G~W
+	fig = plt.figure()
+	sns.jointplot(df[l_hipp_i], df[l_hipp_e], kind="reg").set_axis_labels('L Hipp y' +str(yi)+ '$(cm^3)$', 'L Hipp y' +str(ye)+ '$(cm^3)$')
+	plt.tight_layout()
+	fig_filename = 'lhipp_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	sns.jointplot(df[r_hipp_i], df[r_hipp_e], kind="reg").set_axis_labels('R Hipp y' +str(yi)+ '$(cm^3)$', 'R Hipp y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'rhipp_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+	#fig = plt.figure()
+	sns.jointplot(df[l_amyg_i], df[l_amyg_e], kind="reg").set_axis_labels('L Amyg y' +str(yi)+ '$(cm^3)$', 'L Amyg y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'lamyg_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	sns.jointplot(df[r_amyg_i], df[r_amyg_e], kind="reg").set_axis_labels('R Amyg y' +str(yi)+ '$(cm^3)$', 'R Amyg y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'ramyg_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+	#fig = plt.figure()
+	sns.jointplot(df[l_accu_i], df[l_accu_e], kind="reg").set_axis_labels('L Accu y' +str(yi)+ '$(cm^3)$', 'L Accu y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'laccu_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	sns.jointplot(df[r_accu_i], df[r_accu_e], kind="reg").set_axis_labels('R Accu y' +str(yi)+ '$(cm^3)$', 'R Accu y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'raccu_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	
+	#fig = plt.figure()
+	sns.jointplot(df[l_thal_i], df[l_thal_e], kind="reg").set_axis_labels('L Thal y' +str(yi)+ '$(cm^3)$', 'L Thal y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'lthal_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	sns.jointplot(df[r_thal_i], df[r_thal_e], kind="reg").set_axis_labels('R Thal y' +str(yi)+ '$(cm^3)$', 'R Thal y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'rthal_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+	#fig = plt.figure()
+	sns.jointplot(df[l_pall_i], df[l_pall_e], kind="reg").set_axis_labels('L Pall y' +str(yi)+ '$(cm^3)$', 'L Pall y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'lpall_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	sns.jointplot(df[r_pall_i], df[r_pall_e], kind="reg").set_axis_labels('R Pall y' +str(yi)+ '$(cm^3)$', 'R Pall y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'rpall_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+	#fig = plt.figure()
+	sns.jointplot(df[l_puta_i], df[l_puta_e], kind="reg").set_axis_labels('L puta y' +str(yi)+ '$(cm^3)$', 'L puta y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'lputa_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	sns.jointplot(df[r_puta_i], df[r_puta_e], kind="reg").set_axis_labels('R puta y' +str(yi)+ '$(cm^3)$', 'R puta y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'rputa_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+	#fig = plt.figure()
+	sns.jointplot(df[l_caud_i], df[l_caud_e], kind="reg").set_axis_labels('L Caud y' +str(yi)+ '$(cm^3$)', 'L Caud y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'lcaud_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	sns.jointplot(df[r_caud_i], df[r_caud_e], kind="reg").set_axis_labels('R Caud y' +str(yi)+ '$(cm^3)$', 'R Caud y' +str(ye)+ '$cm^3$')
+	plt.tight_layout()
+	fig_filename = 'rcaud_yy.png';plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
+
 def plot_violin_tissue(df, yi, ye):
 	"""plot_violin_tissue
 	"""
@@ -2129,16 +2244,21 @@ def plot_violin_tissue(df, yi, ye):
 	fig_filename = 'tissues_violin.png'
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 	
-	# Atrophy G~C, G~W
-	g = (sns.jointplot(df[gm_atr], df[wm_atr], kind="reg")).set_axis_labels("$GM \\Delta$", "GM \\Delta$")#kind="hex"
+	# Atrophy G~C, G~W, W~C
+	g = (sns.jointplot(df[gm_atr], df[wm_atr], kind="reg")).set_axis_labels("GM $\\Delta$", "WM $\\Delta$")#kind="hex"
 	g.fig.set_size_inches(6,6)
 	plt.tight_layout()
 	fig_filename = 'tissuesgm_joint.png'
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
-	g2 = (sns.jointplot(df[gm_atr], df[csf_atr], kind="reg")).set_axis_labels("$GM \\Delta$", "CSF \\Delta$")
+	g2 = (sns.jointplot(df[gm_atr], df[csf_atr], kind="reg")).set_axis_labels("GM $\\Delta$", "CSF $\\Delta$")
 	g2.fig.set_size_inches(6,6)
 	plt.tight_layout()
 	fig_filename = 'tissuesgc_joint.png'
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+	g3 = (sns.jointplot(df[wm_atr], df[csf_atr], kind="reg")).set_axis_labels("WM $\\Delta$", "CSF $\\Delta$")
+	g2.fig.set_size_inches(6,6)
+	plt.tight_layout()
+	fig_filename = 'tissueswc_joint.png'
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 	
 	# jointplot tissue yy ~ye
@@ -2150,8 +2270,6 @@ def plot_violin_tissue(df, yi, ye):
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 	#gg = (sns.jointplot(df2[gm_i], df2[gm_e], kind="reg")).set_axis_labels("GM y"+ str(yi)+" $cm^3$", "GM y"+ str(ye)+" $cm^3$")
 	gg = (sns.jointplot(df2[gm_i], df2[gm_e], kind="reg").plot_joint(sns.kdeplot, zorder=0, n_levels=6)).set_axis_labels("GM y"+ str(yi)+" $cm^3$", "GM y"+ str(ye)+" $cm^3$")
-
-
 	gg.fig.set_size_inches(6,6)
 	plt.tight_layout()
 	fig_filename = 'tissuesgm16_joint.png'
@@ -2397,6 +2515,76 @@ def get_brain_columns(df, yy):
 	print df[flattened_list].describe()	
 	return braincols
 
+
+def script_generate_plots_paper(csv_path):
+	"""Program that creates all the charts for the paper EDA
+	"""
+	plt.close('all')
+	#csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-Vols14567-9April2019.csv'
+	figures_path = '/Users/jaime/github/papers/EDA_pv/figures/'
+	dataframe = pd.read_csv(csv_path)
+	dataframe_orig = dataframe.copy()
+	print('Build dictionary with features ontology and check the features are in the dataframe\n') 
+	#features_dict is the list of clusters, the actual features to plot are hardcoded
+	features_dict = vallecas_features_dictionary(dataframe)
+	########################
+	### Section 1 & 2 ######
+	########################
+	print('*** Figures for Sections 1 and 2 *** \n')
+	print('Plotting histograms for static variables \n\n')
+	plot_figures_static_of_paper(dataframe)
+	### Section 3 ######
+	# select rows with N visits
+	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
+	df_loyals = select_rows_all_visits(dataframe, visits)
+
+	print('Table 2. Dropouts \n')
+	#### compare drop out (06 church, 08 cine, 12 lee, 13 internet)
+	features = ['tir', 'a06', 'a08', 'a12', 'a13', 'numero_barrio', 'numero_distrito', 'nivelrenta', 'educrenta', 'nivel_educativo', 'edad_visita1', 'apoe', 'familial_ad','ultimodx', 'p_visita1', 'dietasaludable']
+	dictio_dropout = []
+	for feat in features:
+		dictio_dropout.append(drop_out_handling(dataframe,1,6,feat))
+	########################
+	### Section 3 ######
+	########################
+	print('*** Figures for Sections 3 *** \n')
+	print('Plotting histograms for longitudinal variables \n\n')
+	plot_figures_longitudinal_of_paper(dataframe, features_dict)
+	plot_figures_longitudinal_of_paper(df_loyals, features_dict, '_loyals')
+	#skewnes:: #df_loyals[feature].skew()
+	# plot ratio of diagnoses
+	ratios = plot_diagnoses_years(dataframe)
+	print("Ratio of Healthy/year is {}".format(ratios[0]), '\n',"Ratio of SCD/year is {}".format(ratios[1]),'\n',"Ratio of SCD+/year is {}".format(ratios[2]),'\n',"Ratio of MCI/year is {}".format(ratios[3]),'\n',"Ratio of AD/year is {}".format(ratios[4]))
+	ratios_loyals = plot_diagnoses_years(df_loyals, '_loyals')
+	print('Plotting time series long variables mean + std \n\n')
+	plot_ts_figures_of_paper(df_loyals, features_dict, '_loyals')
+	plot_ts_figures_of_paper(dataframe, features_dict)
+	########################
+	### Section 1 & 2 ######
+	########################
+
+
+	#'sdestciv', 'nivel_educativo', 'nivelrenta'
+	# 'sexo' 'lat_manual' 'sue_suf', 'sue_pro' 'sue_ron' 'sue_mov' 'sue_rui' sue_hor' sue_rec'
+	# Chi/Fisher for all life style in fig. 12
+	compute_contingencytable_lifestyle(df_loyals, 'conversionmci')
+	pdb.set_trace()
+	labelx, labely = 'conversionmci', 'sue_rui' #'nivelrenta'
+	ctable_res = compute_contingency_table(df_loyals, labelx, labely)
+	ctable_res2 = compute_contingency_table(dataframe, labelx, labely)
+	if len(ctable_res)==5:
+		print('Results of Chi square test for:', labely, ' ~ ',labelx ,'\n')		
+	else:
+		print('Results of Fishers exact test for:', labely, ' ~ ',labelx ,'\n')
+	print('p value Loyals==', ctable_res[2], '\n')
+	print('CTABLE Loyals is:',ctable_res[0])
+	print('p value 2 visits==', ctable_res2[2], '\n')
+	print('CTABLE 2 visists is:',ctable_res2[0])
+	 	
+	pdb.set_trace()
+	
+	
+
 ##################################################################################
 ##################################################################################
 ##################################################################################
@@ -2404,11 +2592,14 @@ def get_brain_columns(df, yy):
 ##################################################################################
 def main():
 	# Open csv with MRI data
+
+	
+
 	plt.close('all')
 	csv_path = '/Users/jaime/Downloads/test_code/PV7years_T1vols.csv'
 	csv_path = '~/vallecas/data/BBDD_vallecas/PVDB_pve_sub.csv'
 	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-10March2019.csv'
-	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-Vols1567-1April2019.csv'
+	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-Vols14567-9April2019.csv'
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures/'
 	dataframe = pd.read_csv(csv_path)
 	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
@@ -2419,6 +2610,10 @@ def main():
 	# select rows with 5 visits
 	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
 	df_loyals = select_rows_all_visits(dataframe, visits)
+	
+	# generates charts and plots and tbles for EDA paper
+	script_generate_plots_paper(csv_path)
+	pdb.set_trace()
 	##########################
 	#testing here cut paste###
 	##########################
@@ -2448,6 +2643,7 @@ def main():
 	# intersection 88 ONLY left
 	ix_noout_s = idx1_s.intersection(idx2_s)
 
+	print('Plotting Atrophy per type of segmentation:brain vol, tissue or subcortical \n')
 	print('Calculate the BRAIN atrophy between two years: yini~yend. Adding atrophy column in df (idx to exclude the outlier) \n')
 	df_atrophy_b = compute_atrophy(df_loyals.loc[ix_noout_b], yi=1, ye=6, typeof = 'brain')
 	plot_violin_betbrain(df_atrophy_b.loc[ix_noout_b], 1, 6)
@@ -2455,35 +2651,17 @@ def main():
 	print('Calculate the TISSUE atrophy between two years: yini~yend. Adding atrophy column in df (idx to exclude the outlier) \n')
 	df_atrophy_t = compute_atrophy(df_loyals.loc[ix_noout_t], yi=1, ye=6, typeof ='tissue')
 	plot_violin_tissue(df_atrophy_t.loc[ix_noout_b], 1, 6)
-	pdb.set_trace()
-	plot_scatter_atrophy(df_atrophy_t.loc[ix_noout_t], typeof = 'tissue')
+	#plot_scatter_atrophy(df_atrophy_t.loc[ix_noout_t], typeof = 'tissue')
 
-
-
-
-
-
-
-
-
-
-
-	print('Plotting scatter of Atrophy per type of segmentation:brain vol, tissue or subcortical \n')
-	plot_scatter_atrophy(df_atrophy_b.loc[ix_noout_b], typeof = 'brain')
-	
-	# Plotting for tissue
-	df_atrophy_t = compute_atrophy(df_loyals.loc[ix_noout_t], yi=1, ye=6, typeof ='tissue')
-	print('Plotting scatter of tissue (removed outliers)) \n')
-	plot_scatter_atrophy(df_atrophy_t.loc[ix_noout_t], typeof = 'tissue')
-	
-	# Plotting for subcortical strctures (fix too stringent)
+	print('Calculate the SUBCORTICAL atrophy between two years: yini~yend. Adding atrophy column in df (idx to exclude the outlier) \n')
+	#select only healthy in last year sum(df_loyals['dx_corto_visita6']<1)
+	df_loyals = df_loyals[df_loyals['dx_corto_visita6']<1]
 	df_atrophy_s = compute_atrophy(df_loyals.loc[ix_noout_s], yi=1, ye=6, typeof ='sub')
-	print('Plotting scatter of subcortical structures (removed outliers)) \n')
-	
-	plot_scatter_atrophy(df_atrophy_s.loc[ix_noout_s], typeof = 'sub')
-	#plot_scatter_atrophy(df_loyals, typeof = 'sub')
+	plot_violin_subcortical(df_atrophy_s.loc[ix_noout_b], 1, 6)
+	#plot_scatter_atrophy(df_atrophy_b.loc[ix_noout_b], typeof = 'brain')
 	pdb.set_trace()
 
+	
 
 
 
@@ -2536,14 +2714,14 @@ def main():
 	#end testing here cut paste###
 
 	#### compare drop out
-	features = ['numero_barrio', 'numero_distrito', 'nivelrenta', 'educrenta', 'nivel_educativo', 'edad_visita1', 'apoe', 'familial_ad','ultimodx', 'p_visita1', 'a13', 'dietasaludable']
+	features = ['tir', 'numero_barrio', 'numero_distrito', 'nivelrenta', 'educrenta', 'nivel_educativo', 'edad_visita1', 'apoe', 'familial_ad','ultimodx', 'p_visita1', 'a13', 'dietasaludable']
 	for feat in features:
 		drop_out_handling(dataframe,feat)
 	pdb.set_trace()
 
 
 	print('Plotting histograms for static variables \n\n')
-	#plot_figures_static_of_paper(dataframe)
+	plot_figures_static_of_paper(dataframe)
 
 	##########################################
 	
