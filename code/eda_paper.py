@@ -144,39 +144,63 @@ def plot_diagnoses_years(dataframe, figname=None):
 	Args:dataframe
 	"""
 	figures_dir ='/Users/jaime/github/papers/EDA_pv/figures'
-	fig_filename = 'conversion_years'
+
+	nb_years = 6
+	x = np.linspace(1, nb_years,nb_years)
+	diag = 'corto'
+	fig_filename = 'conversion_years_' + diag
 	fig1, ax1 = plt.subplots()
 	if figname is not None:
 		fig_filename = fig_filename + figname #'_loyals'
-	nb_years = 6
-	x = np.linspace(1, nb_years,nb_years)
-	cols = ['dx_largo_visita1','dx_largo_visita2','dx_largo_visita3','dx_largo_visita4',\
-	'dx_largo_visita5','dx_largo_visita6']
+	if diag == 'corto':
+		cols = ['dx_corto_visita1','dx_corto_visita2','dx_corto_visita3','dx_corto_visita4','dx_corto_visita5','dx_corto_visita6']
+	else:
+		cols = ['dx_largo_visita1','dx_largo_visita2','dx_largo_visita3','dx_largo_visita4','dx_largo_visita5','dx_largo_visita6']	
 	controls = [0] * nb_years
 	scd = [0] * nb_years
 	scdplus = [0] * nb_years
 	mci = [0] * nb_years
 	ad = [0] * nb_years
 	for ix, name in enumerate(cols):
-		controls[ix] = float(np.sum(dataframe[name]==0))/dataframe[name].count()
-		scd[ix] = float(np.sum(dataframe[name]==1))/dataframe[name].count()
-		scdplus[ix] = float(np.sum(dataframe[name]==2))/dataframe[name].count()
-		mci[ix] = float(np.sum(dataframe[name]==3))/dataframe[name].count()
-		ad[ix] = float(np.sum(dataframe[name]==4))/dataframe[name].count()
-	ratios = [controls, scd, scdplus, mci,ad]
-	plt.plot(x, controls, 'g-', label='Control')
-	plt.plot(x, scd, 'b-', label='SCD')
-	plt.plot(x, scdplus, 'b+-', label='SCD +')
-	plt.plot(x, mci, 'm-', label='MCI')
-	plt.plot(x, ad, 'r-', label='AD')
-	plt.ylabel('ratio subjects')
-	plt.xlabel('years')
-	plt.title('Ratio of diagnose H,SCD,SCD+,MCI,AD /Total subjects year')
-	#plt.text(x, mu_years, textlegend, fontdict=font)
-	plt.legend()
-	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
-	
-	plt.show() 
+		if diag == 'corto':
+			controls[ix] = float(np.sum(dataframe[name]==0))/dataframe[name].count()
+			mci[ix] = float(np.sum(dataframe[name]==1))/dataframe[name].count()
+			ad[ix] = float(np.sum(dataframe[name]==2))/dataframe[name].count()
+		else:
+			controls[ix] = float(np.sum(dataframe[name]==0))/dataframe[name].count()
+			scd[ix] = float(np.sum(dataframe[name]==1))/dataframe[name].count()
+			scdplus[ix] = float(np.sum(dataframe[name]==2))/dataframe[name].count()
+			mci[ix] = float(np.sum(dataframe[name]==3))/dataframe[name].count()
+			ad[ix] = float(np.sum(dataframe[name]==4))/dataframe[name].count()
+	if diag == 'corto':
+		#ratios = [controls, scd, scdplus, mci,ad]
+		ratios = [controls, mci, ad]
+		print("Ratio of Healthy/year is {}".format(ratios[0]), '\n',"Ratio of MCI/year is {}".format(ratios[1]),'\n',"Ratio of AD/year is {}".format(ratios[2]))
+		plt.plot(x, controls, 'g-', label='Control')
+		plt.plot(x, mci, 'm-', label='MCI')
+		plt.plot(x, ad, 'r-', label='AD')
+		plt.ylabel('ratio subjects')
+		plt.xlabel('years')
+		plt.title('Ratio of diagnose H,MCI,AD /Total subjects year')
+		plt.legend()
+		plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+		plt.show()
+	else:
+		ratios = [controls, scd, scdplus, mci,ad]
+		print("Ratio of Healthy/year is {}".format(ratios[0]), '\n',"Ratio of SCD/year is {}".format(ratios[1]),'\n',\
+			"Ratio of SCD+/year is {}".format(ratios[2]), "Ratio of MCI/year is {}".format(ratios[3]), "Ratio of MCI/year is {}".format(ratios[4]))
+		plt.plot(x, controls, 'g-', label='Control')
+		plt.plot(x, scd, 'b-', label='SCD')
+		plt.plot(x, scdplus, 'b+-', label='SCD +')
+		plt.plot(x, mci, 'm-', label='MCI')
+		plt.plot(x, ad, 'r-', label='AD')
+		plt.ylabel('ratio subjects')
+		plt.xlabel('years')
+		plt.title('Ratio of diagnose H,SCD. SCD+,MCI,AD /Total subjects year')
+		plt.legend()
+		plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+		plt.show()
+
 	return ratios
 
 def plot_figures_static_of_paper(dataframe):
@@ -204,32 +228,39 @@ def plot_figures_static_of_paper(dataframe):
 	plt.tight_layout()
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 	
-	print('Plotting Figure 2 (Fig_anthro.png): Anthropometric (peso,talla, imc,pabd)')
-	fig_filename = 'Fig_sexlat.png'
-	phys_lat = ['sexo','lat_manual']
-	fig, axes = plt.subplots(nrows=1, ncols=2, sharey=True)
-	newdf = dataframe2plot.groupby('lat_manual')['lat_manual'].agg(['count'])
+	print('Plotting Figure 2 (Fig_sex.png): Anthropometric (peso,talla, imc,pabd)')
+	fig_filename = 'Fig_sex.png'
+	fig, axes = plt.subplots(nrows=1, ncols=1, sharey=True)
+
+	#newdf = dataframe2plot.groupby('lat_manual')['lat_manual'].agg(['count'])
 	#dont take 9 no sabe no contesta
-	newdf.plot(ax=axes[0],kind='bar', color='yellowgreen')
-	axes[0].set_title(r'Hand laterality', color='C0')
-	axes[0].set_xticklabels([r'Right',r'Left',r'Ambi',r'LeftC'],rotation=0)
-	#axes[0,0].set_ylabel('# subjects')
-	axes[0].set_xlabel(' ')
-	#axes[0].grid(axis='y', alpha=0.75)
-	axes[0].get_legend().remove()
 	#sex
 	newdf = dataframe2plot.groupby('sexo')['sexo'].agg(['count'])
 	#dont take 9 no sabe no contesta
-	newdf.plot(ax=axes[1],kind='bar', color='yellowgreen')
-	axes[1].set_title(r'Sex', color='C0')
-	axes[1].set_xticklabels([r'Male',r'Female'],rotation=0)
+	newdf.plot(ax=axes,kind='bar', color='yellowgreen')
+	axes.set_title(r'Sex', color='C0')
+	axes.set_xticklabels([r'Male',r'Female'],rotation=0)
 	#axes[0,0].set_ylabel('# subjects')
-	axes[1].set_xlabel(' ')
+	axes.set_xlabel(' ')
 	#axes[1].grid(axis='y', alpha=0.75)
-	axes[1].get_legend().remove()
+	axes.get_legend().remove()
 	plt.tight_layout()
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
-	
+	#hand laterality
+	fig_filename = 'Fig_lat.png'
+	fig, axes = plt.subplots(nrows=1, ncols=1, sharey=True)
+	newdf = dataframe2plot.groupby('lat_manual')['lat_manual'].agg(['count'])
+	#dont take 9 no sabe no contesta
+	newdf.plot(ax=axes,kind='bar', color='tan')
+	axes.set_title(r'Hand laterality', color='C0')
+	axes.set_xticklabels([r'Right',r'Left',r'Ambi',r'LeftC'],rotation=0)
+	#axes[0,0].set_ylabel('# subjects')
+	axes.set_xlabel(' ')
+	#axes[0].grid(axis='y', alpha=0.75)
+	axes.get_legend().remove()
+	plt.tight_layout()
+	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
+
 	print('Plotting Figure 2 (Fig_anthro.png): Anthropometric (peso,talla,imc,pabd)')
 	fig_filename ='Fig_anthro.png'
 	list_anthro = ['peso','talla', 'imc','pabd']
@@ -368,12 +399,14 @@ def plot_figures_static_of_paper(dataframe):
 	fig_filename = 'Fig_phys.png'
 	phys_list = ['ejfre', 'ejminut']
 	fig, axes = plt.subplots(nrows=1, ncols=2, sharey=True)
+	
 	dataframe2plot[['ejfre']].plot(ax=axes[0],kind='hist',color='firebrick')
+	axes[0].set_xticklabels([r'0',r'0', r'1',r'2',r'3+'])
 	axes[0].set_xlabel('days/week')
 	axes[0].set_ylabel('# subjects')
 	axes[0].set_title('physical exercise d/w', color='C0')
 	axes[0].get_legend().remove()
-	points = [0, 30, 60, 120,180]
+	points = [0, 30, 60, 120, 180]
 	bins = pd.cut(dataframe2plot['ejminut'], points)
 	newdf = dataframe2plot.groupby(bins)['a01'].agg(['count'])
 	newdf.plot(ax=axes[1], kind='bar',color='firebrick');
@@ -386,7 +419,7 @@ def plot_figures_static_of_paper(dataframe):
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 
 	fig_filename = 'Fig_cardio.png'
-	fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(18,16), sharey=False)
+	fig, axes = plt.subplots(nrows=4, ncols=2, figsize=(12,16), sharey=False)
 	#arryt
 	newdf = dataframe2plot.groupby('arri')['arri'].agg(['count'])
 	#dont take 9 no sabe no contesta
@@ -397,27 +430,25 @@ def plot_figures_static_of_paper(dataframe):
 	#axes[0,0].set_ylabel('# subjects')
 	axes[0,0].set_xlabel(' ')
 	axes[0,0].get_legend().remove()
-	#bmi
-	np.arange(15,50,5)
-	bins = pd.cut(dataframe2plot['imc'], points)
-	#newdf = dataframe2plot.groupby(bins)['imc'].agg(['count'])
-	dataframe2plot['imc'].plot(ax=axes[0,1], kind='hist',color='indianred');
-	axes[0,1].set_xlabel('')
-	#axes[1].set_ylabel('# subjects')
-	axes[0,1].set_title(r'BMI', color='C0')
-	#axes[0,1].axvline(x=25, color="red", linestyle='--')
-	#axes[0,1].axvline(x=30, color="red", linestyle='--')
-	#axes[0,1].set_xticklabels([r'0-1/2h',r'1/2-1h',r'1-2h',r'2-3h'])
+	#bmi removed redundant
+	# np.arange(15,50,5)
+	# bins = pd.cut(dataframe2plot['imc'], points)
+	# #newdf = dataframe2plot.groupby(bins)['imc'].agg(['count'])
+	# dataframe2plot['imc'].plot(ax=axes[0,1], kind='hist',color='indianred');
+	# axes[0,1].set_xlabel('')
+	# #axes[1].set_ylabel('# subjects')
+	# axes[0,1].set_title(r'BMI', color='C0')
+
 	# cor angina
 	newdf = dataframe2plot.groupby('cor')['cor'].agg(['count'])
 	#dont take 9 no sabe no contesta
 	if newdf.ix[9]['count'] >0: newdf = newdf.ix[0:9-1]
-	newdf.plot(ax=axes[0,2],kind='bar', color='indianred')
-	axes[0,2].set_title(r'stroke', color='C0')
-	axes[0,2].set_xticklabels([r'No',r'Angina', r'Stroke'],rotation=0)
+	newdf.plot(ax=axes[0,1],kind='bar', color='indianred')
+	axes[0,1].set_title(r'stroke', color='C0')
+	axes[0,1].set_xticklabels([r'No',r'Angina', r'Stroke'],rotation=0)
 	#axes[0,0].set_ylabel('# subjects')
-	axes[0,2].set_xlabel(' ')
-	axes[0,2].get_legend().remove()
+	axes[0,1].set_xlabel(' ')
+	axes[0,1].get_legend().remove()
 	# diabetes glu
 	newdf = dataframe2plot.groupby('glu')['glu'].agg(['count'])
 	#dont take 9 no sabe no contesta
@@ -440,37 +471,37 @@ def plot_figures_static_of_paper(dataframe):
 	newdf = dataframe2plot.groupby('ictus')['ictus'].agg(['count'])
 	#dont take 9 no sabe no contesta
 	if newdf.ix[9]['count'] >0: newdf = newdf.ix[0:9-1]
-	newdf.plot(ax=axes[1,2],kind='bar', color='indianred')
-	axes[1,2].set_title(r'ictus', color='C0')
-	axes[1,2].set_xticklabels([r'No',r'Ischemic', r'Hemorr'],rotation=0)
+	newdf.plot(ax=axes[2,0],kind='bar', color='indianred')
+	axes[2,0].set_title(r'ictus', color='C0')
+	axes[2,0].set_xticklabels([r'No',r'Ischemic', r'Hemorr'],rotation=0)
 	#axes[0,0].set_ylabel('# subjects')
-	axes[1,2].set_xlabel(' ')
-	axes[1,2].get_legend().remove()
+	axes[2,0].set_xlabel(' ')
+	axes[2,0].get_legend().remove()
 	# lipid colesterol  
 	newdf = dataframe2plot.groupby('lipid')['lipid'].agg(['count'])
 	#dont take 9 no sabe no contesta
 	if newdf.ix[9]['count'] >0: newdf = newdf.ix[0:9-1]
-	newdf.plot(ax=axes[2,0],kind='bar', color='indianred')
-	axes[2,0].set_title(r'cholesterol', color='C0')
-	axes[2,0].set_xticklabels(['No', 'Hyper chol', 'Hyper trig', 'Hyper chol&trig'],rotation=0)
-	#axes[0,0].set_ylabel('# subjects')
-	axes[2,0].set_xlabel(' ')
-	axes[2,0].get_legend().remove()
-	#smoke
-	newdf = dataframe2plot.groupby('tabac')['tabac'].agg(['count'])
 	newdf.plot(ax=axes[2,1],kind='bar', color='indianred')
-	axes[2,1].set_title(r'smoke', color='C0')
-	axes[2,1].set_xticklabels(['No', 'Smoker', 'Ex smoker'],rotation=0)
+	axes[2,1].set_title(r'cholesterol', color='C0')
+	axes[2,1].set_xticklabels(['No', 'Hyper chol', 'Hyper trig', 'Hyper chol&trig'],rotation=0)
+	#axes[0,0].set_ylabel('# subjects')
 	axes[2,1].set_xlabel(' ')
 	axes[2,1].get_legend().remove()
+	#smoke
+	newdf = dataframe2plot.groupby('tabac')['tabac'].agg(['count'])
+	newdf.plot(ax=axes[3,0],kind='bar', color='indianred')
+	axes[3,0].set_title(r'smoke', color='C0')
+	axes[3,0].set_xticklabels(['No', 'Smoker', 'Ex smoker'],rotation=0)
+	axes[3,0].set_xlabel(' ')
+	axes[3,0].get_legend().remove()
 	#tiroides
 	newdf = dataframe2plot.groupby('tir')['tir'].agg(['count'])
 	if newdf.ix[9]['count'] >0: newdf = newdf.ix[0:9-1]
-	newdf.plot(ax=axes[2,2],kind='bar', color='indianred')
-	axes[2,2].set_title(r'thyroiditis', color='C0')
-	axes[2,2].set_xticklabels(['No', 'Hyper thyroiditis', 'Hipo thyroidism'],rotation=0)
-	axes[2,2].set_xlabel(' ')
-	axes[2,2].get_legend().remove()
+	newdf.plot(ax=axes[3,1],kind='bar', color='indianred')
+	axes[3,1].set_title(r'thyroiditis', color='C0')
+	axes[3,1].set_xticklabels(['No', 'Hyper thyroiditis', 'Hipo thyroidism'],rotation=0)
+	axes[3,1].set_xlabel(' ')
+	axes[3,1].get_legend().remove()
 	plt.tight_layout()
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 
@@ -488,9 +519,10 @@ def plot_figures_static_of_paper(dataframe):
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
 
 	fig_filename = 'Fig_food.png'
+
 	foods_df = dataframe[['alaceit', 'alaves', 'alcar', 'aldulc', 'alemb', 'alfrut', 'alhuev', 'allact', 'alleg', 'alpan', 'alpast', 'alpesblan', 'alpeszul', 'alverd']]
 	#sns.pairplot(foods_df, hue='species', size=2.5);
-	fig = dataframe[['alaceit', 'alaves', 'alcar', 'aldulc', 'alemb', 'alfrut', 'alhuev', 'allact', 'alleg', 'alpan', 'alpast', 'alpesblan', 'alpeszul', 'alverd']].hist(figsize=(18, 16), bins=None, rwidth=0.9, xlabelsize=8, ylabelsize=8,grid=False, color = "chocolate")
+	fig = dataframe[['alaceit', 'alaves', 'alcar', 'aldulc', 'alemb', 'alfrut', 'alhuev', 'allact', 'alleg', 'alpan', 'alpast', 'alpesblan', 'alpeszul', 'alverd']].hist(figsize=(18, 18), bins=None, rwidth=0.9, xlabelsize=9, ylabelsize=9,grid=False, color = "chocolate")
 	plt.tight_layout()
 	plt.grid(axis='y', alpha=0.75)	
 	titles=['olive oil', 'white meat', 'red meat', 'sweets', 'charcuterie', 'fruit', 'eggs', 'lact', 'legumes', 'bread', 'pasta', 'white fish', 'blue fish', 'vegetables']
@@ -509,14 +541,15 @@ def plot_figures_static_of_paper(dataframe):
 
 	fig_filename = 'Fig_diet.png'
 	list_diet = ['dietaglucemica', 'dietagrasa', 'dietaproteica', 'dietasaludable']
-	fig = dataframe[list_diet].hist(figsize=(8, 8), bins=None, rwidth=0.9, grid=False, xlabelsize=8, ylabelsize=8,color = "khaki")
-	titles=['glucemic', 'fat', 'proteic', 'medit']
+	fig, axes = plt.subplots(nrows=4, ncols=2, figsize=(12,16), sharey=False)
+	#fig = dataframe[list_diet].hist(figsize=(12, 8), bins=None, rwidth=0.9, grid=False, xlabelsize=8, ylabelsize=8,color = "khaki")
+	titles=['Glucemic', 'Fat', 'Proteic', 'Mediterranean']
 	i=0
 	for x in fig.ravel():
-		title=list_diet[i]
+		title=titles[i]
 		#x.grid(axis='y', alpha=0.75)
 		x.set_title(title)
-		x.axvline(x=np.mean(dataframe[title]), color="red", linestyle='--')
+		x.axvline(x=np.mean(dataframe[list_diet[i]]), color="red", linestyle='--')
 		i=i+1	
 	plt.tight_layout()
 	plt.savefig(os.path.join(figures_dir, fig_filename), bbox_inches='tight')
@@ -2533,6 +2566,7 @@ def script_generate_plots_paper(csv_path):
 	print('*** Figures for Sections 1 and 2 *** \n')
 	print('Plotting histograms for static variables \n\n')
 	plot_figures_static_of_paper(dataframe)
+
 	### Section 3 ######
 	# select rows with N visits
 	visits=['tpo1.2', 'tpo1.3','tpo1.4', 'tpo1.5','tpo1.6']
@@ -2554,8 +2588,8 @@ def script_generate_plots_paper(csv_path):
 	#skewnes:: #df_loyals[feature].skew()
 	# plot ratio of diagnoses
 	ratios = plot_diagnoses_years(dataframe)
-	print("Ratio of Healthy/year is {}".format(ratios[0]), '\n',"Ratio of SCD/year is {}".format(ratios[1]),'\n',"Ratio of SCD+/year is {}".format(ratios[2]),'\n',"Ratio of MCI/year is {}".format(ratios[3]),'\n',"Ratio of AD/year is {}".format(ratios[4]))
 	ratios_loyals = plot_diagnoses_years(df_loyals, '_loyals')
+	pdb.set_trace()
 	print('Plotting time series long variables mean + std \n\n')
 	plot_ts_figures_of_paper(df_loyals, features_dict, '_loyals')
 	plot_ts_figures_of_paper(dataframe, features_dict)
@@ -2599,7 +2633,7 @@ def main():
 	csv_path = '/Users/jaime/Downloads/test_code/PV7years_T1vols.csv'
 	csv_path = '~/vallecas/data/BBDD_vallecas/PVDB_pve_sub.csv'
 	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-10March2019.csv'
-	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-Vols14567-9April2019.csv'
+	csv_path = '~/vallecas/data/BBDD_vallecas/Vallecas_Index-Vols134567-22April2019.csv'
 	figures_path = '/Users/jaime/github/papers/EDA_pv/figures/'
 	dataframe = pd.read_csv(csv_path)
 	# Copy dataframe with the cosmetic changes e.g. Tiempo is now tiempo
