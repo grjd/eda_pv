@@ -5,6 +5,7 @@
 
 \documentclass[11pt]{article}
 \usepackage{tabularx}
+\usepackage[section]{placeins}
 \newcolumntype{b}{X}
 \newcolumntype{s}{>{\hsize=.5\hsize}X}
 %\usepackage[spanish]{babel}
@@ -43,6 +44,7 @@
 \usepackage[font=small, labelfont=bf]{caption}
 \usepackage{fourier}
 \usepackage{float}
+\usepackage{breakcites}
 %\usepackage[protrusion=true, expansion=true]{microtype}
 %\usepackage[margin=1in]{geometry}
 \usepackage{microtype}
@@ -109,32 +111,37 @@
 \begin{document}
 %IDENTIFICACIÓN DE FACTORES DE RIESGO EN DETERIORO COGNITIVO LEVE CON APRENDIZAJE AUTOMÁTICO: HACIA UNA AYUDA AL DIAGNÓSTICO MULTIFACTORIAL Y  AUTOINFORMADA
 
-\title{ \normalsize \textsc{\emph{Proyecto Vallecas} Six years longitudinal study in healthy brain aging}
+\title{ \normalsize \textsc{\emph{The Vallecas Project} Six years longitudinal study in healthy brain aging}
     \\ [2.0cm]
     \HRule{0.5pt} \\
-    \LARGE \textbf{\uppercase{Exploratory Data Analysis in \emph{Proyecto Vallecas}: a six years longitudinal study in healthy brain aging}}
+    \LARGE \textbf{\uppercase{Exploratory Data Analysis in \emph{The Vallecas Project}: a six years longitudinal study in healthy brain aging}}
     \HRule{2pt} \\ [0.5cm]
-    \normalsize \today \vspace*{5\baselineskip}}
+    \normalsize \vspace*{5\baselineskip}} %&Aacute
 
-\date{ }
-%\author{
-%    Jaime G\'omez-Ram\'irez, Marina \'Avila Villanueva, Bel\'en Frades Payo, Teodoro del Ser Quijano,\\ Meritxell Valent\'i Soler, María Ascensi\'on Zea Sevilla and Miguel \'Angel Fern\'andez-Bl\'azquez   \\  \\
-%    \textbf{\large{Fundaci\'on Reina Sof\'ia}} \\
-%    Centre for Research in Neurodegenarative Diseases
-%    \\ \emph{Valderrebollo, 5, 28031 Madrid}
-% }
+%\date{ }
 \author{
-    \textbf{\large{Data Research and Brain Analytics Unit}}   \\  \\
-    \large{Fundaci\'on Reina Sof\'ia} \\
-    Centre for Research in Neurodegenarative Diseases (Fundaci\'on CIEN)
-    \\ \emph{Valderrebollo, 5, 28031 Madrid}
- }
+   Jaime G\'omez-Ram\'irez, Marina \'Avila Villanueva, Bel\'en Frades Payo, Teodoro del Ser Quijano,\\ Meritxell Valent\'i Soler, María Ascensi\'on Zea Sevilla and Miguel \'Angel Fern\'andez-Bl\'azquez   \\  \\
+   % \textbf{\large{Fundaci\'on Reina Sof\'ia}} \\
+   % Centre for Research in Neurodegenarative Diseases
+   % \\ \emph{Valderrebollo, 5, 28031 Madrid}
+   \textbf{\large{CIEN Foundation(Centre for Research in Neurodegenarative Diseases)}} \\
+   Carlos III Institute of Health, Queen Sofia Foundation \\
+    \\ \emph{Valderrebollo, 5, 28031 Madrid, Spain}
+}
+
+
+% \author{
+%     \textbf{\large{Data Research and Brain Analytics Unit}}   \\  \\
+%     \large{Fundaci\'on Reina Sof\'ia} \\
+%     Centre for Research in Neurodegenarative Diseases (Fundaci\'on CIEN)
+%     \\ \emph{Valderrebollo, 5, 28031 Madrid}
+%  }
 
 
 \maketitle
-\begin{center}
-\includegraphics[width = 60mm]{figures/logo_mciu.png}
-\end{center}
+% \begin{center}
+% \includegraphics[width = 60mm]{figures/logo_mciu.png}
+% \end{center}
 \newpage
 \tableofcontents
 \newpage
@@ -155,7 +162,7 @@
 \section*{Abstract}
 Alzheimer's Disease (AD) is a complex, multifactorial and comorbid condition. The asymptomatic behavior in early stages of the disease is a paramount obstacle to formulate a preclinical and predictive model of AD. Not surprisingly, the AD drug approval rate is one of the lowest in the industry, an exiguous $0.4\%$. The identification of risk factors, preferably obtained by the subject herself, is sorely needed given that the incidence of Alzheimer’s disease grows exponentially with age \cite{ferri2005global}, \cite{ganguli2011age}. 
 
-During the last 7 years, researchers at \emph{Proyecto Vallecas} have collected information about the project's volunteers, aged 70 or more. The \emph{Proyecto Vallecas} dataset includes information about a wide range of factors including magnetic resonance imaging, genetic, demographic, socioeconomic, cognitive performance, subjective memory complains, neuropsychiatric disorders, cardiovascular, sleep, diet, physical exercise and self assessed quality of life. The subjects in each visit were diagnosed as healthy, mild cognitive impairment (MCI) or dementia. 
+During the last 7 years, researchers at \emph{Proyecto Vallecas} have collected information about the project's volunteers, aged 70 or more. The \emph{Proyecto Vallecas} dataset includes information about a wide range of factors including magnetic resonance imaging, genetic, demographic, socioeconomic, cognitive performance, subjective memory complaints, neuropsychiatric disorders, cardiovascular, sleep, diet, physical exercise and self assessed quality of life. The subjects in each visit were diagnosed as healthy, mild cognitive impairment (MCI) or dementia. 
 %'CognitivePerformance', 'Diagnoses', 'Neuropsychiatric', 'QualityOfLife', 'Genetics_s', 'SCD', 'Demographics', 'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
 
 In this study we perform Exploratory Data Analysis to summarize the main characteristics of this unique longitudinal dataset. The objective is to characterize the evolution of the collected features over time and most importantly, how their dynamics are related to cognitive decline. We show that the longitudinal dataset of \emph{Proyecto Vallecas}, if conveniently exploited, holds promise to identifying either factors promoting healthy aging and risk factors related to cognitive decline. 
@@ -165,7 +172,7 @@ In this study we perform Exploratory Data Analysis to summarize the main charact
 The Vallecas Project\footnote{We will use indistinctly \emph{Vallecas Project} and its vernacular \emph{Proyecto Vallecas}.} for early detection of AD is the most ambitious population-based study for healthy aging in Spain. The project is carried out at the Queen Sofia Foundation Alzheimer Center by a multidisciplinary team of researchers from the CIEN Foundation. The main objective of the Vallecas Project is to elucidate, through tracking of progression of the cohort, the best combination of features, clinical and others that are informative about developing cognitive impairment in the future. 
 %Thus, it intends to identify a set of \emph{markers} to eventually determine the potential risk that an individual has to develop the disease in the future. 
 
-The dataset at its inception in the first year contained 1,213 subjects who were studied using a large range of features. It is worth noting that the data set contains two types of observations: variables and time series. The former refers to variables that are measured only once, typically in the first year's visit (e.g. APOE genotyping or educational attainment) and the latter are variables with a time index attached (time series) measured at every subject's visit (e.g. results of cognitive performance tests, hippocampal volumetry, subjective memory complains etc.).
+The dataset at its inception in the first year contained 1,213 subjects who were studied using a large range of features. It is worth noting that the data set contains two types of observations: variables and time series. The former refers to variables that are measured only once, typically in the first year's visit (e.g. APOE genotyping or educational attainment) and the latter are variables with a time index attached (time series) measured at every subject's visit (e.g. results of cognitive performance tests, hippocampal volumetry, subjective memory complaints etc.).
 Importantly, the dimensionality of the dataset grows every year (new measurements of features are added) as it does the number of samples as the subjects keep coming for their yearly visits, however the number of samples collected per year decreases (some volunteers drop the study). 
 Table \ref{tab:vallecasvars} shows the features types collected in The Vallecas Project. Each item in the table refers to a cluster of features containing related features. For example, the weight and height of the participants are included under the term Anthropometric. Note that some features are collected only during the first year for example APOE (\emph{Genetics}) or the education level (\emph{Demographics}), but for the most part, features are assessed at each year's visit.
 
@@ -193,7 +200,7 @@ Traumatic brain injury & Engagement external world &  \\
 %%EDA paper1: Here we perform Exploratory Data Analysis (EDA). EDA is the first step in the data analysis process and is performed once the pre processing steps have finished. 
 Figure \ref{fig:pv5years} depicts the number of volunteers for the seven years life of the project. The total number of visits collected so far is 5203. Note that the data collection for year 6 and year 7 are still ongoing. 
 
-\begin{figure}[H]
+\begin{figure}[!htb]
         \centering
         \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_visits}
         \caption{Number of volunteers across seven years of \emph{Proyecto Vallecas}. As expected, the number of subjects decreases across time. The number of subjects in the year 1 was 1213 of which 33 were removed because were diagnosed with AD resulting in 1180 subjects. 965 of the initial 1180 came for a second visit ($18\%$ drop rate), 865 in year 3 ($27\%$ drop rate from year 1), 770 in year 4 ($35\%$ drop rate from year 1), 704 in year 5 ($40\%$ drop rate from year 1), 491 in year 6($58\%$ drop rate from year 1) and 195 in year 7 which at this moment still ongoing. The total number of visits in seven years amounts to 5203.} \label{fig:pv5years}
@@ -210,7 +217,7 @@ In this section we perform Exploratory Data Analysis (EDA) for cross-sectional o
 
 The objective of EDA is to build graphical representations that help us make sense of the data. EDA gives us a bird's eye of the dataset aiding at identifying patterns and trends and most importantly, assisting in framing the type of questions we want to ask.
 EDA relies upon a careful pre-processing of the dataset. We perform EDA in a succession of steps. We will start with a preliminary data analysis plotting basic information of the dataset such as the age distribution and other demographics of the participants. 
-We will also study the distribution of the most significant features of all type of features indicated in Table \ref{tab:vallecasvars}. Furthermore, we plot the distribution of cognitive decline conditional to other features. This will set the stage for the correlation analysis described in Section \ref{se:res} for both static (one observation) and dynamic variables (time series).
+The distribution of the most significant features of all type of features indicated in Table \ref{tab:vallecasvars} is also studied. Furthermore, we plot the distribution of cognitive decline conditional to other features. This will set the stage for the correlation analysis described in Section \ref{se:res} for both static (one observation) and dynamic variables (time series).
 %YS cambio, now i know i want to do, write this when all done
 
 
@@ -274,7 +281,7 @@ We must thus keep in mind the caveat that while higher BMI in midlife (our sampl
 could be a risk factor for dementia, preclinical (undetected) stages of the disease could also produce weight loss and mask this effect. 
 
 
-According to the BMI metrics ($25.0—29.9$ overweight, $>30.0$ obese) our population is overweight (right tail is longer than left tail in the top left histogram. Obesity (Higher midlife BMI) is related to higher risk of dementia and AD, independently of obesity-related risk factors and co-morbidities \cite{tolppanen2014midlife}, \cite{nepal2014rising}. However, a recent meta-analysis \cite{winter2014bmi} found not association between overweight and an increased risk of mortality, on the other hand, the study found an increased risk for those at the lower end (BMI $< 23.0$). If we pay attention to this results, weight loss is an useful feature to monitor in older age.
+According to the BMI metrics ($25.0—29.9$ overweight, $>30.0$ obese) our population is overweight (right tail is longer than left tail in the top left histogram). Obesity (Higher midlife BMI) is related to higher risk of dementia and AD, independently of obesity-related risk factors and co-morbidities \cite{tolppanen2014midlife}, \cite{nepal2014rising}. However, a recent meta-analysis \cite{winter2014bmi} found not association between overweight and an increased risk of mortality, on the other hand, the study found an increased risk for those at the lower end (BMI $< 23.0$). If we pay attention to these results, weight loss is a useful feature to monitor in older age.
 %BMI is calculated by dividing your weight in kilograms by your height in meters squared. 
 %https://www.alzheimersresearchuk.org/high-bmi-linked-increased-risk-dementia-later-life/
 
@@ -292,7 +299,7 @@ The mean and standard deviation of the BMI in our population is $\mu_{BMI}=27.3$
         \label{fig:anthro}
 \end{figure}
 
-Although there are gender-specific risk factors for AD, a convincing account of how brain structure and function  may vary by sex is missing \cite{mielke2014clinical}. Epidemiological studies show that after age, the main risk factor for developing AD  is sex \cite{vina2010women}, \cite{mazure2016sex}. While it is well known that the incidence of the disease is higher in women, it is far from clear that this can be entirely attributed to the higher longevity of women versus men. Socioeconomic factors such as the limited access to high education and the labor market of women born before the 1960s could play a role. 
+Although there are gender-specific risk factors for AD, a convincing account of how brain structure and function  may vary by sex is missing \cite{mielke2014clinical}. Epidemiological studies show that after age, the main risk factor for developing AD  is sex \cite{vina2010women}, \cite{mazure2016sex}. While it is well-known that the incidence of the disease is higher in women, it is far from clear that this can be entirely attributed to the higher longevity of women versus men. Socioeconomic factors such as the limited access to high education and the labor market of women born before the 1960s could play a role. 
 
 From a physiological perspective there are gender differences worth mentioning. Mitochondria of younger women are better protected against amyloid-beta toxicity, but this advantage lessens with age. Estrogenic therapies to deal with mitochondrial damage in AD have failed so far. A 2014 cohort study reports that women with the APO$\epsilon4$ allele are at greater risk of developing AD than are men with this allele \cite{altmann2014sex}. The same study argues that the inconsistency of previous findings about this allele could be motivated by researchers overlooking the APOE$\epsilon4$-sex interaction.
 
@@ -308,19 +315,19 @@ Figure \ref{fig:sex} shows the histogram for sex in the \emph{Vallecas} cohort.
 
 %laterality
 %https://www.awakeningfromalzheimers.com/what-being-right-or-left-handed-says-about-alzheimers-risk/
-A 1986 study reported that compared to right handers, left handers are less vulnerable to the cognitive problems associated with AD \cite{de1986reduced}. However, hand laterality seems play a very marginal role, if any, in AD. In fact, research relating handedness preference and memory function have been abandoned since the early pre-MRI years. 
+A 1986 study reported that compared to right-handers, left-handers are less vulnerable to the cognitive problems associated with AD \cite{de1986reduced}. However, hand laterality seems play a very marginal role, if any, in AD. In fact, research relating handedness preference and memory function have been abandoned since the early pre-MRI years. 
 
 Figure \ref{fig:lat} shows the histogram for hand laterality in the \emph{Vallecas} cohort.
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=.6\linewidth]{figures/Fig_lat}
-        \caption{Histogram of hand laterality. There are 1106 right handed ($93.8\%$), 19 left handed, 39 ambidextrous and 16 were forced right about born left ($6.2\%$ non right handed).} 
+        \caption{Histogram of hand laterality. There are 1106 right-hander ($93.8\%$), 19 left-hander, 39 ambidextrous and 16 were forced right-hander about born left-hander ($6.2\%$ non right-hander).} 
         \label{fig:lat}
 \end{figure}
 
-A 2018 study using data data on cognition from the 2000 and 2010 Health and Retirement Study \cite{crimmins2018educational}, found that people with more education have lower prevalence of dementia and more years of cognitively healthy life. In a postmortem study of 86 brains, researchers found an associations between number of children and neuropathology of AD for women only \cite{beeri2009number}. Researchers argue that this difference may be due to sex-specific mechanisms (e.g. estrogen) rather socio economic differences present in both men and women. However, in addition to the limitations of the study (women were older than men) the ways in which motherhood affect AD risk are more complex, even producing inconsistent results. A 3.5 thousands women study \cite{jang2018differential} found that women who give birth to five or more children may be more likely to develop Alzheimer's disease than women who have fewer births, furthermore, incomplete pregnancy was associated with lower risk of AD in late life. But in a study with 14.5 thousands women presented at the 2018 Alzheimer’s Association International Conference in Chicago, researchers reported that women with three or more children had a 12 percent lower risk of dementia compared to women with one child \cite{AAIC2018}.
+A 2018 study using data on cognition from the 2000 and 2010 Health and Retirement Study \cite{crimmins2018educational}, found that people with more education have lower prevalence of dementia and more years of cognitively healthy life. In a postmortem study of 86 brains, researchers found an association between number of children and neuropathology of AD for women only \cite{beeri2009number}. Researchers argue that this difference may be due to sex-specific mechanisms (e.g. estrogen) rather socio-economic differences present in both men and women. However, in addition to the limitations of the study (women were older than men) the ways in which motherhood affect AD risk are more complex, even producing inconsistent results. A 3.5 thousands women study \cite{jang2018differential} found that women who give birth to five or more children may be more likely to develop Alzheimer's disease than women who have fewer births, furthermore, incomplete pregnancy was associated with lower risk of AD in late life. But in a study with 14.5 thousands women presented at the 2018 Alzheimer’s Association International Conference in Chicago, researchers reported that women with three or more children had a 12 percent lower risk of dementia compared to women with one child \cite{AAIC2018}.
 
-Social isolation and loneliness is believed to be a risk factor in AD \cite{holmen1992loneliness}, \cite{fratiglioni2000influence}, \cite{shankar2013social}, \cite{holwerda2014feelings}, \cite{evans2018social}. A 2007 longitudinal study with up to 4 years of in-home follow up, reported a positive association between loneliness and an increased risk of late-life dementia \cite{wilson2007loneliness}. 
+Social isolation and loneliness is believed to be a risk factor in AD \cite{holmen1992loneliness}, \cite{fratiglioni2000influence}, \cite{shankar2013social}, \cite{holwerda2014feelings}, \cite{evans2018social}. A 2007 longitudinal study with up to 4 years of in-home follow-up, reported a positive association between loneliness and an increased risk of late-life dementia \cite{wilson2007loneliness}. 
 
 Figure \ref{fig:demo} depicts demographic variables including: educational attainment, number of sons, years of work as an employee, self-assessed economic status, marital status and the number of people living at home.
 \begin{figure}[H]
@@ -365,9 +372,9 @@ The two most important hallmarks of AD -amyloid plaques and tau aggregates- are 
 However, the causal link sleep-AD is unclear; Does lack of sleep causes AD or is the pathology responsible for disrupting the sleeping cycle? This chicken-and-egg problem can not be solved with correlational neither with meta-analysis studies. Nevertheless, meta analysis \cite{bubu2016sleep} have confirmed the association between sleep deprivation and cognitive impairment or AD, and can furthermore approximate an "average" magnitude of effect. More importantly, sleep-wake cycles can be approached as a modifiable risk factor of interest in the prevention of AD. 
 %https://www.sciencenews.org/article/sleep-brain-alzheimers-plaques-protein
  
-Figure \ref{fig:sleep} depicts features related to sleep patterns in the \emph{Vallecas} cohort. Daily naps are less common than what it could be expected from a Spaniard population aged 70 or more; $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17$ report to take naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects ($60\%$) report to snore during sleep. 
+Figure \ref{fig:sleep} depicts features related to sleep patterns in the \emph{Vallecas} cohort. Daily naps are less common than what it could be expected from a Spaniard population aged 70 or more; $37\%$ of subjects do not take any nap at all, $24\%$ of subjects sleep daily between 15 and 30 minutes and the $17\%$ report taking naps of at least one hour a day. The majority of subjects report remembering their dreams $67.7\%$ versus $32\%$ that do not. The majority of subjects ($60\%$) report to snore during sleep. 
 % YS remove TBI of charts
-\begin{figure}[H]
+\begin{figure}[!hbt]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_sleep}
         \caption{Histogram of sleep variables in the \emph{Proyecto Vallecas} dataset in the first year. From left to right and up to the bottom, number of hours of sleep during the day ($\mu=0.45, \sigma=1$), number of hours of night sleep ($\mu=6.8, \sigma=1.3$), deep sleep (1 Light, 2 Moderate, 3 Deep), sufficient sleep (0 No, 1 Yes), remember dreams (0 No, 1 Yes), movements during sleep (0 No, 1 Yes), snoring (0 No, 1 Yes, 2 snore and difficult breathing), noises during sleep (0 No, 1 Yes), tingling during sleep (0 No, 1 Yes).} 
@@ -378,14 +385,14 @@ Figure \ref{fig:sleep} depicts features related to sleep patterns in the \emph{V
 \subsection{Life style: food and diet, physical exercise and social bonding}
 \label{ssse:life}
 
-In a recent study performing PET imaging repeated in three years time, volunteers aged 30-60 with no symptoms of dementia when the study began were divided into two groups: 34 people ate a Mediterranean diet (high fruits, vegetables, lean protein) and 36 people ate a Western diet (high in saturated fats and refined sugar). Researchers reported that at the onset of the study, people that ate Western diet already had more beta-amyloid deposits than those who ate a Mediterranean diet. The follow up scans showed an even greater difference in beta-amyloid deposits in the two groups, controlling for sex, age and genotype factors \cite{berti2018mediterranean}.
+In a recent study performing PET imaging repeated in three years time, volunteers aged 30-60 with no symptoms of dementia when the study began were divided into two groups: 34 people ate a Mediterranean diet (high fruits, vegetables, lean protein) and 36 people ate a Western diet (high in saturated fats and refined sugar). Researchers reported that at the onset of the study, people that ate Western diet already had more beta-amyloid deposits than those who ate a Mediterranean diet. The follow-up scans showed an even greater difference in beta-amyloid deposits in the two groups, controlling for sex, age and genotype factors \cite{berti2018mediterranean}.
 
-AD leads to metabolic impairment which is visible in reductions in cerebral glucose uptake. The early detection of decline in brain glucose metabolism could be of interest as a potential therapeutic intervention of AD. Since hypometabolism precedes clinical symptoms of AD, enhancing glucose uptake \cite{duran2016glucose}, for example with ketone bodies \cite{gasior2006neuroprotective}, could have a neuroprotective effects. The ketogenic diet (high in animal fat and low in carbohydrates) is a clinically established nonpharmacological treatment for epilepsy \cite{vining1998multicenter}. It is plausible that neuroprotective effects (enhanced cell energetics) observed in epilepsy could be of use in the treatment of neurodegenerative diseases, protecting against neuronal death through antioxidant and anti-inflammatory actions. From a biochemical standpoint, replacing glucose by ketone bodies can be seen as a sensible choice and there is research reporting an improvement in cognitive functioning in older adults with memory disorders followed by increases of plasma ketone body via the administration of medium chain triglycerides (MCTs) \cite{reger2004effects}. However, the potential downstream costs associated with the adherence to strict ketogenic nutritional recommendations are not fully understood. 
+AD leads to metabolic impairment which is visible in reductions in cerebral glucose uptake. The early detection of decline in brain glucose metabolism could be of interest as a potential therapeutic intervention of AD. Since hypometabolism precedes clinical symptoms of AD, enhancing glucose uptake \cite{duran2016glucose}, for example with ketone bodies \cite{gasior2006neuroprotective}, could have a neuroprotective effect. The ketogenic diet (high in animal fat and low in carbohydrates) is a clinically established non-pharmacological treatment for epilepsy \cite{vining1998multicenter}. It is plausible that neuroprotective effects (enhanced cell energetics) observed in epilepsy could be of use in the treatment of neurodegenerative diseases, protecting against neuronal death through antioxidant and anti-inflammatory actions. From a biochemical standpoint, replacing glucose by ketone bodies can be seen as a sensible choice and there is research reporting an improvement in cognitive functioning in older adults with memory disorders followed by increases of plasma ketone body via the administration of medium chain triglycerides (MCTs) \cite{reger2004effects}. However, the potential downstream costs associated with the adherence to strict ketogenic nutritional recommendations are not fully understood. 
 
 % Food
 Figure \ref{fig:food} depicts the type of food consumption as reported by the subjects in a questionnaire.
 
-\begin{figure}[H]
+\begin{figure}[!hbt]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_food}
         \caption{Histogram of type of weekly food consumption reported by the subjects in the first visit. The x-axis of each chart represents how many days a week they consume which type of food. The large majority of subjects report a daily consumption of bread, milk and olive oil. $84\%$ of subjects consume olive oil $6/7$ days a week, $74\%$ bread, $44\%$ vegetables and $29\%$ report consuming sweets $6/7$ days a week.}
@@ -393,9 +400,10 @@ Figure \ref{fig:food} depicts the type of food consumption as reported by the su
 \end{figure}
 
 %Diet
-Figure \ref{fig:diet} depicts the type diet based on the reported weekly food consumption. We distinguish between three different diets: diet with a strong glucemic component(carbs, sweets), diet with a strong proteic component or ketogenic (red meat, eggs, fish) and Mediterranean diet (fruit, fish, vegetables). We calculate an score for each diet based on REF-Miguel.
+Figure \ref{fig:diet} depicts the type diet based on the reported weekly food consumption. We distinguish between three different diets: diet with a strong glucemic component(carbs, sweets), diet with a strong proteic component or ketogenic (red meat, eggs, fish) and Mediterranean diet (fruit, fish, vegetables). 
+%YS: We calculate an score for each diet based on REF-Miguel.
 
-\begin{figure}[H]
+\begin{figure}[!hbt]
         \centering
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/Fig_diet}
         \caption{Histogram of type of diet based on weekly food consumption as reported by the subjects in the first visit. The x-axis of each chart represents the score for each type of diet, the larger the score the most prevalent the main component of the diet is in the subject's diet. For example, a subject with a score of 12 in the glucemic diet will likely consume more sweets than a subject a score of 6, by the same token a subject with a large score in the Mediterranean diet will likely consume more fruit and vegetables than a subject with a lower score.} 
@@ -404,7 +412,7 @@ Figure \ref{fig:diet} depicts the type diet based on the reported weekly food co
 
 %PhysicalExercise_s ['ejfre', 'ejminut']
 %YS: fig left, cambio 1,2 por dias a la semana
-Studies have shown a beneficial effect of physical exercise in the aging brain, reporting increasing executive functioning and reduction in the expected with age decline of white and gray tissue density with increased fitness \cite{colcombe2003aerobic}. The effects of physical exercise in white matter of the aging brain are particularly interesting. Overall, white matter volume variations seems to be more contained than gray matter volume variation during healthy aging \cite{bartzokis2003white}. However, white matter decline is better observed with DTI-based measures rather than conventional T1-weighted imaging \cite{giorgio2010age}.
+Studies have shown a beneficial effect of physical exercise in the aging brain, reporting increasing executive functioning and reduction in the expected with age decline of white and gray tissue density with increased fitness \cite{colcombe2003aerobic}. The effects of physical exercise in white matter of the aging brain are fascinating. Overall, white matter volume variations seems to be more contained than gray matter volume variation during healthy aging \cite{bartzokis2003white}. However, white matter decline is better observed with DTI-based measures rather than conventional T1-weighted imaging \cite{giorgio2010age}.
 %Although there is variation among brain regions, it is thought that  We will explore this hypothesis in the future when we have available the segmentation of all the years.
 %YS yes!!
 
@@ -419,7 +427,7 @@ Figure \ref{fig:phys} depicts features related to physical exercise. The subject
 %EngagementExternalWorld_s ['a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09', 'a10', 'a11', 'a12', 'a13', 'a14']
 % social bonding
 
-Psychosocial factors such as a rich social network, social engagement and mentally stimulating activities are commonly held as protective factors against dementia AD. Loneliness, depression, living alone are psychosocial stressors that can increase the risk of developing AD \cite{johansson2013common}, \cite{sindi2015advances}. 
+Psycho social factors such as a rich social network, social engagement and mentally stimulating activities are commonly held as protective factors against dementia AD. Loneliness, depression, living alone are psycho social stressors that can increase the risk of developing AD \cite{johansson2013common}, \cite{sindi2015advances}. 
 
 Figure \ref{fig:engage} depicts features related to engagement with the external world. In particular, doing creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, reading habits (books, newspaper, magazines), and use of the Internet and information technologies.
 %EngagementExternalWorld_s ['a03' amigos, 'a04' travel, 'a05' ong, 'a06' church, 'a08' cine, 'a09' sport, 'a10' music, 'a11' tv, 'a12' read, 'a13' internet] 
@@ -428,7 +436,7 @@ Of interest, church goers are a minority in our population, $75\%$ never go to c
 \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_engage}
-        \caption{Histogram of features that reflect engagement with the external world from the part of the subject. From top down and left to right the charts depict the number of subjects that get involve in creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TVradio , how often reads (books, newspaper, magazines), how often uses the internet.} 
+        \caption{Histogram of features that reflect engagement with the external world from the part of the subject. From top down and left to right the charts depict the number of subjects that get involve in creative activities, going out with friends, travel and tourism, community activities (e.g. cultural associations and NGO), going to church, visit social club, go to the movie theater or art shows, go to sport events, how often listens to music, how often watches/listens TV/radio, how often reads (books, newspaper, magazines), how often uses the Internet.} 
         \label{fig:engage}
 \end{figure}
 
@@ -437,14 +445,14 @@ Of interest, church goers are a minority in our population, $75\%$ never go to c
 % Cardiovascular_s ['hta', 'hta_ini', 'glu', 'lipid', 'tabac', 'tabac_cant', 'tabac_fin', 'tabac_ini', 'sp', 'cor', 'cor_ini', 'arri', 'arri_ini', 'card', 'card_ini', 'tir', 'ictus', 'ictus_num', 'ictus_ini', 'ictus_secu']
 
 A recent genome-wide study has been able to identify genetic variants that confer a risk of both cardiovascular disease and Alzheimer's disease \cite{broce2019dissecting}. Vascular risk factors for AD such as diabetes, heart failure, stroke, hypertension and smoking among others could be involved in cerebrovascular dysfunction and AD pathology. Cardiovascular risk factors and their associated brain mechanisms are believed to play a role in the onset of AD. 
-A better understanding of the interplay between cardiovascular disorders is not only beneficial from a clinical perspective but also from a prevention point of view, suggesting behavioral interventions (smoking cessation, healthy diet etc. ) in early adult life \cite{de2010cardiac}.  
+A better understanding of the interplay between cardiovascular disorders is not only beneficial from a clinical perspective but also from a prevention point of view, suggesting behavioral interventions (smoking cessation, healthy diet etc.) in early adult life \cite{de2010cardiac}.  
 
 Thyroid hormones have a significant impact on the cardiac system (excess thyroid hormone affects cardiovascular function \cite{klein2007thyroid}).
 %, subjects also reported whether they suffer from hyper(hipo)thyroidism 
 Stroke is a risk factor for coronary heart disease and subjects were asked if they had in the past hemorrhagic or ischemic cerebral ictus. Ischemic stroke and AD share pathophysiological mechanisms such as inflammation, immune exhaustion and neurovascular damage \cite{lucke2015common}. 
 The causality narrative between AD and hemorrhagic stroke seems to be reversed (AD causes X, rather than the usual search of factor X that causes AD), patients who had Alzheimer's disease are at the highest risk of hemorrhagic stroke \cite{wang2014newly}.
 
-Figure \ref{fig:cardio} depicts features related to the cardiovascular health self reported in the \emph{Vallecas} cohort. The subjects were asked whether they suffer hypertension, angina and heart attack, glucose metabolism disorders, dyslipidemia (an abnormal amount of lipids in the blood), arrhythmias and smoking habits. The majority of subjects report to have hypertension $53\%$ vs $47\%$, this is in line with larger studies, for example in \cite{grau2011cardiovascular} 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ of men and $39\%$ of women, in \cite{lacruz2015prevalence}.
+Figure \ref{fig:cardio} depicts features related to the cardiovascular health self reported in the \emph{Vallecas} cohort. The subjects were asked whether they suffer hypertension, angina and heart attack, glucose metabolism disorders, dyslipidemia (an abnormal amount of lipids in the blood), arrhythmia and smoking habits. The majority of subjects report to have hypertension $53\%$ vs $47\%$, this is in line with larger studies, for example in \cite{grau2011cardiovascular} 28,887 participants in Spain aged 35-74, high blood pressure was present in $47\%$ of men and $39\%$ of women, in \cite{lacruz2015prevalence}.
 $27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 
 
@@ -460,7 +468,7 @@ $27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 \begin{figure}[!htb]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/Fig_cardio}
-        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intolerance to carbs}), hypertension, ictus history (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}).} 
+        \caption{Histogram of features related to cardiovascular health. From top down and left to right: arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), heart stroke (\emph{No past strokes, Angina, Stroke}), diabetes (\emph{No diabetic, diabetes mellitus, intolerance to carbs}), hypertension, ictus history (\emph{No, Ischemic, Hemorrhagic}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}), Smoke (\emph{Non smoker, Smoker, Ex-smoker}), thyroid problems (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}).} 
         \label{fig:cardio}
 \end{figure}
 
@@ -470,11 +478,11 @@ $27\%$ of the participants declared to be smokers and $33\%$ ex-smokers.
 %\label{ssse:tbe}
 %TraumaticBrainInjury_s ['tce', 'tce_con', 'tce_ini', 'tce_num', 'tce_secu']
 
-Traumatic brain injury (TBI) is associated with long-term and acute disorders whose onset and ethiology are insufficiently understood. Violent head displacements in vulnerable brains is a precursor of dementia. A plausible mechanism of transmission is the propagation of abnormal proteins along damaged white matter pathways. Furthermore, TBI can initiate cerebrovascular pathology, which in turn could mediate in neurodegeneration including AD-like dementias \cite{ramos2018traumatic}. See \cite{mendez2017relationship} for a summary of recent research on the TBI-dementia link. 
+Traumatic brain injury (TBI) is associated with long-term and acute disorders whose onset and ethiology are insufficiently understood. Violent head displacements in vulnerable brains is a precursor of dementia. A plausible mechanism of transmission is the propagation of abnormal proteins along damaged white matter pathways. Furthermore, TBI can initiate cerebrovascular pathology, which in turn could mediate in neurodegeneration including AD-like dementia \cite{ramos2018traumatic}. See \cite{mendez2017relationship} for a summary of recent research on the TBI-dementia link. 
 
 Figure \ref{fig:tce} shows the distribution of episodes (at least one) of traumatic brain injury in the \emph{Vallecas} cohort. 
 
-\begin{figure}[!htb]
+\begin{figure}[!hbt]
         \centering
         \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/Fig_tce}
         \caption{Histogram of traumatic brain injury. $20\%$ of subjects declared to have suffered in the past an episode of traumatic brain injury of unspecified seriousness.} 
@@ -487,7 +495,7 @@ Figure \ref{fig:tce} shows the distribution of episodes (at least one) of trauma
 \label{se:eda_long}
 %'CognitivePerformance', 'Diagnoses', 'Neuropsychiatric', 'QualityOfLife', 'Genetics_s', 'SCD', 'Demographics', 'Cardiovascular_s', 'PhysicalExercise_s', 'Sleep_s', 'Anthropometric_s', 'Diet_s', 'SocialEngagement_s', 'TraumaticBrainInjury_s', 'Demographics_s', 'EngagementExternalWorld_s'
 In this section we study the evolution of the variables measured in the \emph{Vallecas} study. We dedicate the first section \ref{sse:miss} to comment on the method employed to deal with data missing. 
-We will study the progression of the longitudinal variables for those subjects that did not miss any visit of their 6 visits (complete-case-analysis). Thus, from an initial number of 1180 subjects that came to their first visit, we will study the time series for those subjects that came to all their visits from year 1 to year 6, which makes a total of 457 subjects spanned over a 6 year period. See Figure \ref{fig:abuelos} for a quick  representation of the procedure.
+We will study the progression of the longitudinal variables for those subjects that did not miss any visit of their 6 visits (complete-case-analysis). Thus, from an initial number of 1180 subjects that came to their first visit, we will study the time series for those subjects that came to all their visits from year 1 to year 6, which makes a total of 457 subjects spanned over a 6-year period. See Figure \ref{fig:abuelos} for a quick  representation of the procedure.
 The adjustment methods for missing data used here is complete-case analysis, that is, participants with missing data are excluded from the analysis. It ought to be noted that this is one methodological choice among other, see \cite{national2010prevention} for a report with recommendations for missing data in clinical trials published by the National Research Council. 
 
 The longitudinal variables are studied as time series of length 6 (number of yearly visits) with 457 observations for each time point. Neuropsychiatric features in section \ref{sse:neupsy}, quality of life in section \ref{sse:qol}, cognitive performance tests are shown in section \ref{sse:cogper} and the evolution of the diagnosis in section \ref{sse:diagn} and MRI data including a description of the segmentation procedure is shown in section \ref{sse:mri}. 
@@ -501,11 +509,11 @@ Missing data compromises statistical inference and represents a serious limitati
 Although there are different methods for completion of missing data e.g. Maximum likelihood, Bayesian and multiple imputation \cite{hogan2004handling}, it is worth reminding that the effectiveness of any statistical method relies upon the plausibility of its assumptions. Thus, it is desirable to have evidence of the mechanisms leading to missing data. There are two major possible scenarios: data missing are completely random and data missing are not at random. The first case is less stringent: the outcomes of participants that dropped out are not significantly different from those that did not drop out
 In the second case, data are missing not at random, outcomes are likely to be different from those of similar participants who did not drop out. In the latter case, the statistical inferential model needs to incorporate additional assumptions. 
 
-For our dataset, since the attrition rate is severe (1180 to 491 in year 6) we opt first to investigate whether the sample changes according to specific patterns, in which case we would not attempt to complete the missing data and we would rather select the subset of subjects that did not miss any visit (471 subjects did not miss any visit from year 1 to year 6). Table \ref{tab:testloyals} indicates that this is the case, remainers and the leavers are different $(p <0.05)$ for some variables. 
+For our dataset, since the attrition rate is severe (1180 to 491 in year 6) we opt first to investigate whether the sample changes according to specific patterns, in which case we would not attempt to complete the missing data, and we would rather select the subset of subjects that did not miss any visit (471 subjects did not miss any visit from year 1 to year 6). Table \ref{tab:testloyals} indicates that this is the case, \emph{remainers} and the leavers are different $(p <0.05)$ for some variables. 
 
 %avatars 
 %https://www.123rf.com/photo_54326404_stock-vector-set-of-characters-in-a-flat-style-older-people-in-different-costumes-grandparents-in-cartoon-flat-st.html?fromid=eDZxWk1FN08rcnBqencvNDlIVlZ2dz09
-Figure \ref{fig:abuelos} depicts the drop-out handling the \emph{Vallecas} longitudinal study. For example, to test the drop out in year 2 we compare the means between the two groups: $(1)$ and $(2,3,4,5,6,7)$ because subject 1 drop the study in year 2, to test the drop out in year 4 referred to year 1 we compare between the groups: $(1,3)$ and $(2,4,5,6,7)$ because subjects 1 and 3 drop the study in year 3. Thus, we compare  \emph{remainers} versus \emph{leavers} for each year. In case the two groups are different for any year it would suggest that the data missing is not random. 
+Figure \ref{fig:abuelos} depicts the drop-out handling the \emph{Vallecas} longitudinal study. For example, to test the drop out in year 2 we compare the means between the two groups: $(1)$ and $(2,3,4,5,6,7)$ because subject 1 drop the study in year 2, to test the drop out in year 4 referred to year 1 we compare between the groups: $(1,3)$ and $(2,4,5,6,7)$ because subjects 1 and 3 leave the study in year 3. Thus, we compare  \emph{remainers} versus \emph{leavers} for each year. In case the two groups are different for any year it would suggest that the data missing is not random. 
 
 \begin{figure}[!htb]
         \centering
@@ -514,7 +522,7 @@ Figure \ref{fig:abuelos} depicts the drop-out handling the \emph{Vallecas} longi
         \label{fig:abuelos}
 \end{figure}
 
-Table \ref{tab:testloyals} shows the statistical tests to study whether the subjects that drop out are significantly different than those that remain in the study. %While for home residency or APOE there is no evidence of difference between the "remainers" and the "leavers", for a number of other features such as age, educational level or familal AD we find significant differences between the two  groups. 
+Table \ref{tab:testloyals} shows the statistical tests to study whether the subjects that drop out are significantly different from those that remain in the study. %While for home residency or APOE there is no evidence of difference between the "remainers" and the "leavers", for a number of other features such as age, educational level or familal AD we find significant differences between the two  groups. 
 Note that we perform a two samples t-test comparing the subjects were present at year 1 and year k $(k=2..6)$ versus subjects present at year 1 but missed year k. The actual size of the groups is indicated in the second row, for example 689 missed their 6th visit and 491 came to their 6th visit. Since there are differences for at least one variable, it follows that the subjects drop out is not random and it is therefore advisable to pursue a complete-case longitudinal analysis.
 
 \begin{table}
@@ -529,14 +537,14 @@ Note that we perform a two samples t-test comparing the subjects were present at
     {Internet}       & ** & ** & ** & ** & ** \\ 
     {Church}         & $>.05$ & $>.05$ & $>.05$ & $>.05$ & $>.05$  \\
     {Diagnosis (last)} & $>.05$ & $>.05$ & $>.05$ & $>.05$ & *  \\
-    {Thyroiditis}    & $>.05$ & $>.05$ & $>.05$ & $>.05$ & $>.05$  \\ \bottomrule
+    {Thyroid problems}    & $>.05$ & $>.05$ & $>.05$ & $>.05$ & $>.05$  \\ \bottomrule
 \end{tabular}
 \caption{T-test for the means of two independent samples scores: 
 group of subjects that were present at year 1 and year k $(k=2..6)$ versus subjects present that missed their \emph{k-th} visit. The drop out of subjects in the study is not random because the groups are different for at least one variable (e.g. Education).}
 \label{tab:testloyals}
 \end{table} 
 
-To conclude this section, the complete-case analysis followed here to handle missing longitudinal data is justified on the basis of the non randomness of the missing data. As table \ref{tab:testloyals} tries to convey, outcomes are likely to be different because the pattern of drop out of subjects is not random, that is, the hypothesis that those that remain and those that leave the study are the same is false in at least the variables shown in Table \ref{tab:testloyals} (e.g. educational level, familal AD, internet use).
+To conclude this section, the complete-case analysis followed here to handle missing longitudinal data is justified on the basis of the non randomness of the missing data. As table \ref{tab:testloyals} tries to convey, outcomes are likely to be different because the pattern of drop out of subjects is not random, that is, the hypothesis that those that remain and those that leave the study are the same is false in at least the variables shown in Table \ref{tab:testloyals} (e.g. educational level, familial AD, internet use).
 
 Note that we opt for complete-case analysis for longitudinal data, that is, an entire missing visits, but we used the much less stringent Multiple Imputation (MI) \cite{buuren2010mice} approach for dealing with missing data within a subject's visit.
 %Models that are based on the assumption that the data are not missing at random must make further assumptions about the effect of such possibilities.
@@ -579,7 +587,7 @@ Figure \ref{fig:cogperyears} plots the evolution of four cognitive performance t
         \includegraphics[height=2.1in]{figures/mmse_visita_loyals}
         \caption{Histograms of score of the MMSE test score for each year's test.}
     \end{subfigure}%\quad
-    \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the six year visits (no missing visits). The scores from left to right and top to bottom refer to: number of words that start by letter p, number of animals, speed processing of symbols and MMSE.}
+    \caption{Histograms showing the evolution of features related to the cognitive performance of the subjects across the six-year visits (no missing visits). The scores from left to right and top to bottom refer to: number of words that start by letter p, number of animals, speed processing of symbols and MMSE.}
     \label{fig:cogperyears}
 \end{figure}
 
@@ -800,8 +808,9 @@ Figure \ref{fig:qol4} plots the time series for four measures related to quality
 \subsection{Subjective Cognitive Decline}
 \label{sse:scd}
 Figure \ref{fig:diag1} plots the time series for the Subjective Cognitive Decline (SCD). 
-%YS. 
-MORE ON THIS.
+Subjective Cognitive Decline (SCD) is a term coined by \cite{jessen2014conceptual} and that tries to convey the decline in cognitive abilities experienced by the subject in comparison with prior self-assessed normal status by the same subject. SCD is a conceptual framework that has been used in the study of preclinical AD and independent of objective cognitive impairment \cite{avila2017subjective}. 
+
+%YS:MORE ON THIS.
 
 \begin{figure}[!htb]
         \centering
@@ -821,7 +830,7 @@ Figure \ref{fig:diag1} plots the time series for the diagnoses administered to s
 \begin{figure}[!htb]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/conversion_years_corto_loyals}
-        \caption{Ratio of subjects diagnosed as Healthy, Subjective Cognitive Decline (SCD), Subjective Cognitive Decline Plus (SCD +), Mild Cognitive Impairment (MCI) and Alzheimer's disease (AD) across the seven years of \emph{Vallecas Project}.} 
+        \caption{Ratio of subjects diagnosed as Healthy, Mild Cognitive Impairment (MCI) and Alzheimer's disease (AD) across the seven years of \emph{Vallecas Project}.} 
         \label{fig:diag1}
 \end{figure}
 
@@ -861,8 +870,8 @@ The segmentation pipeline used the FMRIB Software Library \cite{fsl60}, \cite{je
   %All the other ouputs in first_results subdir: T1_first_all_fast_firstseg == T1_subcort_seg and btk, vbars for each region, need to be converted to .nii
 \end{enumerate}
 
-YS: HERE plot time series for brain, tissue and subcortical structure size. Important, use a longitudinal pipeline. 
-Analysis of atrophy volume loss between year 1 and year 6 is done in Section 5.
+%YS: HERE plot time series for brain, tissue and subcortical structure size. Important, use a longitudinal pipeline. 
+%Analysis of atrophy volume loss between year 1 and year 6 is done in Section 5.
 
 
 \section{Bivariate analysis}
@@ -878,7 +887,7 @@ Analysis of atrophy volume loss between year 1 and year 6 is done in Section 5.
 In the previous sections we studied the dataset unidimensionally, that is, we plot distributions and compute statistics one variable at a time. Here we perform correlational analysis, that is, two or more dimensions, in order to study the effect of some variables upon others. Thus, the aim here is to try to come to grips with the mechanisms that could have generated the data, this is the realms of inferential statistics and is different from descriptive statistics and data visualization. 
 %Inferential statistics relies on models, so in this section we will plot not only data but the fitting a model to the observed data.
 
-In what follows we go through each category of (cross-sectional) features previously described in Section \ref{sse:eda} to via a visual inspection, investigate whether the features affect the rate of conversion to MCI. The contingency table \cite{everitt1992analysis} will gives us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect indicated in the contingency table, using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. 
+In what follows we go through each category of (cross-sectional) features previously described in Section \ref{sse:eda} to via a visual inspection, investigate whether the features affect the rate of conversion to MCI. The contingency table \cite{everitt1992analysis} will give us the (multivariate) frequency distribution of two categorical variables e.g. familial AD and conversion to MCI. Then, we quantify the putative effect indicated in the contingency table, using statistical inference tests which will gives us statistics e.g. chi-square or Fisher's statistic from which a p-value is computed. 
 We compute the Fisher's exact test when the contingency table is $2 \times 2$ and the $\tilde{\chi}^2$ test otherwise \cite{scipy2010}. If the independent variable is not categorical (e.g. weight, defined in $\mathbb{R}$) we perform a one way ANOVA test.
 If the p-value is small enough to be considered relevant then we study whether the feature (e.g. familial AD) has an effect in brain capacity and cognitive reserve measured with brain structure volumes and the FCSRT score test scores respectively.
 This discovery process is described in Figure \ref{fig:anovachi}. 
@@ -957,7 +966,7 @@ Figure \ref{fig:groupby_mci_genetics} shows the results of grouping by \emph{con
 
 Figure \ref{fig:groupby_mci_fami} shows the results of grouping by \emph{conversion to MCI} relative to \emph{familial AD} (0: non familial AD and 1: familial AD).
 
-Note that for each chart in Figures \ref{fig:groupby_mci_genetics} and  \ref{fig:groupby_mci_fami}, on the left side the grouping is in absolute numbers and on the right side in relative numbers, the latter is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars on the right sided charts must sum 1 (a frequentist could interpreted this as a probability function) \cite{Gomez-ramirez_limitations_2013}. 
+Note that for each chart in Figures \ref{fig:groupby_mci_genetics} and  \ref{fig:groupby_mci_fami}, on the left side the grouping is in absolute numbers and on the right side in relative numbers, the latter is a preferable representation since the dataset is unbalanced (many more non converters to MCI than converters). Note that the colored bars on the right sided charts must sum 1 (a frequentist could interpret this as a probability function) \cite{Gomez-ramirez_limitations_2013}. 
 %Grouping by conversion to MCI relative to the genetic profile of the subjects we obtain $p(MCI|APO\epsilon4)$.
 % makes more sense the var you can observe in the y-axis, the inferred var (converson better in the x-axis)
 %A frequentist observing the right side chart could state that $p(MCI=0|APOE=0)=0.9, p(MCI=1|APOE=0)=0.1, p(MCI=0|APOE=1)=0.8, p(MCI=1|APOE=1)=0.2,p(MCI=0|APOE=2)=0.45, p(MCI=1|APOE=2)=0.55$. Thus, only for homozygotic APO$\epsilon4$, $APO\epsilon4=2$, the converters to MCI are majority.
@@ -1146,12 +1155,12 @@ Figure \ref{fig:groupby_food_mci} shows the results of grouping by \emph{Convers
 \begin{figure}[!htb]
         \centering
         \includegraphics[keepaspectratio, width=.8\linewidth]{figures/groupby_food_mci}
-        \caption{The figure shows the grouping by conversion to MCI relative to food consumption in weekly basis. From up left to bottom right: fruits, vegetables, red meat and sweets. The majority of subjects,$63\%$, claims to eat fruit 6-7 days/week, $35\%$ vegetables, only $4\%$ red ,eat and $24\%$ claim to eat sweets 6-7 days/week.} 
+        \caption{The figure shows the grouping by conversion to MCI relative to food consumption in weekly basis. From up left to bottom right: fruits, vegetables, red meat and sweets. The majority of subjects,$63\%$, claims to eat fruit 6-7 days/week, $35\%$ vegetables, only $4\%$ red meat and $24\%$ claim to eat sweets 6-7 days/week.} 
         \label{fig:groupby_food_mci}
         %Curiously, the highest rate of conversion is when subjects report 6-7 days/week consumption (red bars) in any of the four groups of food depicted. 
 \end{figure}
 
-Figure \ref{fig:groupby_diet_mciQuart} shows the results of grouping by \emph{conversion to MCI} relative to diet. We distinguish between four types of diets based on food consumption: high in sugar, high in proteins, high in fruits and vegetables (Mediterranean) and high in fats. A visual inspection shows no effect of the type of diet on conversion to MCI with the exception of the bottom right plot (diet high in fats) which shows a very high rate of converters ($50\%$). This appreciation is confirmed when we perform 1 way ANOVA tests(Table \ref{tab:anovascont}), we obtain values bellow $1\%$, however the effect size is too small ($<0.01$). 
+Figure \ref{fig:groupby_diet_mciQuart} shows the results of grouping by \emph{conversion to MCI} relative to diet. We distinguish between four types of diets based on food consumption: high in sugar, high in proteins, high in fruits and vegetables (Mediterranean) and high in fats. A visual inspection shows no effect of the type of diet on conversion to MCI, except for the bottom right plot (diet high in fats) which shows a very high rate of converters ($50\%$). This appreciation is confirmed when we perform 1 way ANOVA tests(Table \ref{tab:anovascont}), we obtain values bellow $1\%$, however the effect size is too small ($<0.01$). 
 %However this is a very small group of only 10 subjects that fall into the quartile of no fat consumption. 
 %YS Plot contingency table of fattos
 \begin{figure}[!htb]
@@ -1178,7 +1187,7 @@ Figure \ref{fig:groupby_social_mci} shows the results of grouping by \emph{conve
 \begin{figure}[!htb]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_social_mci}
-        \caption{The figure shows the grouping by conversion to MCI relative to activities that reflect the subject's social life and her  engagement with the external world. From up left to bottom right the frequency (Never, Few, Often) of participating in: creative-artistic activities, go out with friends, traveling, participation in NGO and other non profit bodies, go to church,  
+        \caption{The figure shows the grouping by conversion to MCI relative to activities that reflect the subject's social life and her  engagement with the external world. From up left to bottom right the frequency (Never, Few, Often) of participating in: creative-artistic activities, go out with friends, traveling, participation in NGO and other non-profit bodies, go to church,  
         social clubs, movie theater, sports events, music concerts, watching TV, reading (newspapers and books) and use the Internet.}
         \label{fig:groupby_social_mci}
 \end{figure}
@@ -1186,7 +1195,7 @@ Figure \ref{fig:groupby_social_mci} shows the results of grouping by \emph{conve
 %\paragraph*{Statistical tests for Life style and MCI}
 The statistical tests for life style features are included in Table \ref{tab:fischiall}.
 We observe relevant conditioning on conversion to MCI for going to church and also for going to the movie theater and using the Internet and IT.
-Using the Internet is relevant for subjects with at least 2 visits (not when all the 6 visits are accounted for) and the reverse occurs for traveling, significant for visits coming to all their vists not for those that come to at least 2.
+Using the Internet is relevant for subjects with at least 2 visits (not when all the 6 visits are accounted for) and the reverse occurs for traveling, significant for visits coming to all their visits not for those that come to at least 2.
 %YS why is this??
 
 \subsection{Cardiovascular and cerebrovascular pathologies}
@@ -1196,7 +1205,7 @@ The statistical tests for cardiovascular and cerebrovascular features are includ
 \begin{figure}[!htb]
         \centering
         \includegraphics[keepaspectratio, width=\linewidth]{figures/groupby_cardio_mci}
-        \caption{The figure shows the grouping by conversion to MCI relative to the cardiovascular health of the subjects. From up left to bottom right: blood pressure (\emph{Normal blood preassure, hypertension}), diabetes (\emph{No diabetic, diabetes mellitus, intolerance to carbs}),Smoke (\emph{Non smoker, Smoker, Ex-smoker}), body mass index (\emph{No overweight, overweight}) ,cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}),arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), heart stroke (\emph{No past strokes, Angina, Stroke}), thyroiditis (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}), ictus (\emph{No, Ischemic, Hemorrhagic}).}
+        \caption{The figure shows the grouping by conversion to MCI relative to the cardiovascular health of the subjects. From up left to bottom right: blood pressure (\emph{Normal blood preassure, hypertension}), diabetes (\emph{No diabetic, diabetes mellitus, intolerance to carbs}), smoke (\emph{Non smoker, Smoker, Ex-smoker}), body mass index (\emph{No overweight, overweight}), cholesterol (\emph{No cholesterol, hyper cholesterol, Hyper triglycerides, both hyper cholesterol and triglycerides}),arrythmias (\emph{No Arrhythmia, Atrial fibrillation, Arrhythmia}), heart stroke (\emph{No past strokes, Angina, Stroke}), thyroid problems (\emph{No thyroiditis, Hyper thyroiditis, hipo thyroiditis}), ictus (\emph{No, Ischemic, Hemorrhagic}).}
         \label{fig:groupby_cardio_mci}
 \end{figure}
 
@@ -1211,13 +1220,12 @@ Figure \ref{fig:groupby_tbi_mci} shows the results of grouping \emph{Conversion 
 
 %\paragraph*{Statistical tests for Cardiovascular and cerebrovascular pathologies}
 
-\newpage
 \paragraph*{Fisher and $\tilde{\chi}^2$ tests }
 
 Table \ref{tab:fischiall} with statistical tests for both a population of the subjects with 6 visits and also in the second column for subjects that came to at least 2 visits.
 
 \begin{table}[!htb]
-\caption{Statistical tests to study whether an hypothetical observed imbalance of conversion to MCI is statistically significant.
+\caption{Statistical tests to study whether a hypothetical observed imbalance of conversion to MCI is statistically significant.
 The first column shows the variable used to compute its effect upon conversion, second column shows the p-value for the test performed for those subjects that came at all their 6 visits ($N=471$), the third column contains the p-value for those subjects that came at least to 2 visits ($N=960$) and fourth column indicates the type of test performed (Fisher's when contingency matrix is $2 \times 2$ and $\tilde{\chi}^2$ otherwise.) }
 \centering
 \begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{.7cm}|  }
@@ -1298,14 +1306,14 @@ The first column shows the variable used to compute its effect upon conversion, 
 
 \newpage
 
-\section{Brain atrophy (year 1 to year 6) }
+\section{Brain atrophy}
 \label{se:segementa}
 
 In this section we show the analyze the volume estimates for brain extraction, tissue segmentation (CSF, white and gray matter) and subcortical segmentation (thalamus, putamen, hippocampus, accumbens, pallidum, caudate, amygdala) for a total of 314 subjects for both year 1 and year 6, (total $314 \times 2 = 628$).
 
 \paragraph*{Brain extraction}
 
-Research shows that the growth rate of the brain slowly declines declines from the first year of birth (it increases dramatically during), brain volume reaches its maximum at the age of 40 years to then decline by $5\%$ per decade, the decline is thought to accelerate at around 70 years \cite{peters2006ageing}.
+Research shows that the growth rate of the brain slowly declines from the first year of birth (it increases dramatically during), brain volume reaches its maximum at the age of 40 years to then decline by $5\%$ per decade, the decline is thought to accelerate at around 70 years \cite{peters2006ageing}.
 
 Figure \ref{fig:brainviolin} shows the results of the brain extraction algorithm for years 1 and year 6. The brain's size is expressed in cm${^3}$ in native space. Left side, brain volume density estimate for year 1 and on the right, for year 6.
 %The average brain size is around 1,000 cm${^3}$ or 1000,000 mm${^3}$ which reflects the age and the gender unbalance of the sample.
@@ -1317,7 +1325,7 @@ Figure \ref{fig:brainviolin} shows the results of the brain extraction algorithm
 \begin{figure}[!htb]
         \centering
         \includegraphics[keepaspectratio, width=0.6\linewidth]{figures/bnative_violin}
-        \caption{The violin plot shows the brain volume in native space ($cm^3$) for year 1 (left) and year 6 (right). As expected the mean volume decreases from  year 1 to year 6. The average brain size is around 1,000 cm${^3}$ which reflects the age and the gender unbalance of the sample.} 
+        \caption{The violin plot shows the brain volume in native space ($cm^3$) for year 1 (left) and year 6 (right). As expected, the mean volume decreases from  year 1 to year 6. The average brain size is around 1,000 cm${^3}$ which reflects the age and the gender unbalance of the sample.} 
         \label{fig:brainviolin}
 \end{figure}
 %\footnote{A violin plot is a hybrid of a box plot and a kernel density plot.}
@@ -1422,7 +1430,7 @@ Figure \ref{fig:jointtissuescont} shows the relationship between the volume of e
     \label{fig:jointtissuescont}
 \end{figure}
 
-Figure \ref{fig:jointtissues} shows the relationship between the atrophy of tissues as well as the profiles of each tissue atrophy in the margins. Thus, on the left, the joint plot of gray matter atrophy and white matter atrophy, center, between gray matter atrophy and CSF atrophy and on the right between white matter and CSF. The figure indicates that there is no a particularly strong linear correlation between the volume atrophy of the brain tissues. 
+Figure \ref{fig:jointtissues} shows the relationship between the atrophy of tissues as well as the profiles of each tissue atrophy in the margins. Thus, on the left, the joint plot of gray matter atrophy and white matter atrophy, center, between gray matter atrophy and CSF atrophy and on the right between white matter and CSF. The figure indicates that there is no any particularly strong linear correlation between the volume atrophy of the brain tissues. 
 
 \begin{figure}[!htb]
     \centering
@@ -1463,7 +1471,7 @@ Figure \ref{fig:subcorseg} shows the segmentation of the subcortical structures:
         \label{fig:subcorseg}
 \end{figure}
 
-Figure \ref{fig:subyybars} shows the atrophy calculated as the standarized difference in volume between year 1 and year 6 for the different subcortical structures (Equation \ref{eq:atro}).
+Figure \ref{fig:subyybars} shows the atrophy calculated as the standardized difference in volume between year 1 and year 6 for the different subcortical structures (Equation \ref{eq:atro}).
 
 \begin{figure}[!htb]
         \centering
@@ -1607,7 +1615,6 @@ Figures \ref{fig:caudyy}, \ref{fig:putayy}, \ref{fig:pallyy}, \ref{fig:thalyy}, 
     \label{fig:hippyy}
 \end{figure}
 
-\newpage
 Figure \ref{fig:subyypearson} shows the Pearson correlation between the atrophy produced between years 1 and 6 in the different subcortical areas. 
 \begin{figure}[!htb]
         \centering
@@ -1617,11 +1624,9 @@ Figure \ref{fig:subyypearson} shows the Pearson correlation between the atrophy 
 \end{figure}
 
 \newpage
-\newpage
-\newpage
+
 \section{Results}
 \label{se:res}
-
 %tsfresh, Buschke
 % build the code, calculate the b-integral compare if it is better than indoividual scores or the aggregate score in a rgression o ...
 % /Users/jaime/github/papers/EDA_pv/code/area_under_curve.py
@@ -1629,29 +1634,29 @@ Figure \ref{fig:subyypearson} shows the Pearson correlation between the atrophy 
 The study presented here compiles a longitudinal analysis of \emph{The Vallecas Project}. Although the idea was to perform an exploratory analysis, it is still possible to draw conclusions and recommendations.
 We will focus on the results shown in Table \ref{tab:fischiall} and Table \ref{tab:anovascont} and in the insights produced by the brain segmentation procedure discussed in Section \ref{se:segementa}.
 
-Bivariate analysis of cross sectional variables and conversion to MCI using statistical significance tests (Fisher and $\tilde{\chi}^2$) show a small set of variables with statistical relevance: \emph{APOE, thyroiditis} and variables coding for social activities such as use of new technologies, going to church and participation in cultural events and public entertainment.
+Bivariate analysis of cross sectional variables and conversion to MCI using statistical significance tests (Fisher and $\tilde{\chi}^2$) show a small set of variables with statistical relevance: \emph{APOE, thyroid disorders } and variables coding for social activities such as the use of new technologies, going to church and participation in cultural events and public entertainment.
 The ANOVA tests for non categorical variables in Table \ref{tab:anovascont} show statistical relevance for MCI conversion in dietary practices, in particular diet with a strong fat component and less so for protein based diets.
 
-Aside from considerations of the profusely documented problems with statistically significance tests \cite{ioannidis2005most}, \cite{simmons2011false}, \cite{veresoglou2015p},\cite{greenland2016statistical},
-\cite{stupple2019reproducibility},\cite{hurlbert2019coup}, there are at least two important caveats that deserves a comment. First, the classification problem of converters to MCI versus non converters is unbalanced, that is, the class of converters is underrepresented. Second, we are only studying two dimensional relationships, on the other hand, cognitive decline which is the process that conversion to MCI is trying to label is a complex phenomenon involving more complicated patterns than bivariate mapping. 
+Aside from considerations of the profusely documented problems with statistical significance tests \cite{ioannidis2005most}, \cite{simmons2011false}, \cite{veresoglou2015p},\cite{greenland2016statistical},
+\cite{stupple2019reproducibility},\cite{hurlbert2019coup}, there are at least two important caveats. First, the classification problem of converters to MCI versus non converters is unbalanced, that is, the class of converters is underrepresented. Second, we are only studying two dimensional relationships, on the other hand, cognitive decline which is the process that conversion to MCI is trying to map is a complex phenomenon involving more complicated patterns than bivariate mapping. 
 
 In a forthcoming study we specifically tackle the feature selection problem using machine learning. Specifically we build a random forest classifier \cite{breiman2001random} from which we will identify the most informative features, we call to this set features the \emph{Vallecas Index}.
 
 It is also possible to draw some interesting conclusions from the brain segmentation results shown in Section \ref{se:segementa}. First, as expected the volume of the brain decreases with aging. Figure \ref{fig:brainviolin} shows a decrease in the mean volume of the brain in year 6 compared to year 1. Furthermore, the kernel density estimation included in the figure indicates a marked difference in the shape of the distributions of each year. The figure suggests that aging makes the brain volume distribution more entropic or more flat. (See the shape of the violin plot in year 6 compared to year 1).
 
-The tissue-based segmentation obtained the volume estimates of cerebrospinal fluid (CSF), gray matter and white matter in the brain for both years 1 and 6 in healthy subjects (diagnosed as healthy in the last year). Figure \ref{fig:violtissues} confirms that aging increases brain cavities which are filled with cerebrospinal fluid, as the figure shows, the volume of CSF increases going from year 1 to year 6. On the other hand, the volume of both white and gray matter goes down as aging progresses. 
+The tissue-based segmentation obtained the volume estimates of cerebrospinal fluid (CSF), gray matter and white matter for both years 1 and 6 in healthy subjects (diagnosed as healthy in the last year) shown in Figure \ref{fig:violtissues}, confirms that aging increases brain cavities which are filled with cerebrospinal fluid. As Figure \ref{fig:violtissues} shows, the volume of CSF increases going from year 1 to year 6. On the other hand, the volume of both white and gray matter goes down as aging progresses. 
 We also plot in Figure \ref{fig:jointtissuescont} the relationship between the tissue volume in year 1 and year 6. In all cases there is strong linear correlation, this can be interpreted as healthy aging progressing monotonically, that is, without big leaps. The more it deviates from linearity the less deterministic or entropic aging would be. This discussion will be expanded and made more clear in a forthcoming work that uses the full time series ($t= 1,2,3,4,5$ and $6$) rather than the first and last time points ($t=1,6$). 
-The atrophy between tissues is calculated as the standardize difference between the volume in year 1 and the volume year 6 (Equation \ref{eq:atro}) is shown in Figure \ref{fig:jointtissues}. The Pearson correlation gives us 0.13 for both $\Delta GM, \Delta WM$ and $\Delta GM, \Delta CSF$ and 0.35 for $\Delta WM, \Delta CSF$.
+The atrophy between tissues is calculated as the standardize difference between the volume in year 1 and the volume year 6 (Equation \ref{eq:atro}) is shown in Figure \ref{fig:jointtissues}. The Pearson correlation gives us 0.13 for both $\Delta({GM}) \sim \Delta({WM})$ and $\Delta({GM})\sim \Delta({CSF})$ and 0.35 for $\Delta({WM}) \sim \Delta({CSF})$.
 
 %Bayesian Statistical Models of Shape and Appearance for Subcortical Brain Segmentation
 Finally, the segmentation of brain subcortical structures including Thalamus, Putamen, Hippocampus, Accumbens, Pallidum, Caudate and Amygdala \cite{patenaude2011bayesian} throws some important information to be consider and replicated using alternative segmentation techniques \cite{despotovic2015mri}, \cite{zhang2018fully}. 
-First, the mean atrophy per subcortical structure for subjects diagnosed as healthy in year 6 is shown in Figure \ref{fig:subcorseg}. The left hippocampus is the the structure that has on average the least atrophy ($~4\%$). The Putamen, no the other, both left an right, has the largest atrophy ($~8\%$). According to this result the left hippocampus would be a subcortical structure more stable, in terms of volume loss, than others subcortical areas during healthy aging. Nevertheless, this result must be interpreted with great caution, a different outliers removal procedure and the a different segmentation algorithm could produce modifications in the results. In the future we will test and extend on this result to study the volumetric progression of the hippocampus with alternative segmentation procedures that are able to identify the hippocampal subfields as well. 
+First, the mean atrophy per subcortical structure for subjects diagnosed as healthy in year 6 is shown in Figure \ref{fig:subcorseg}. The left hippocampus is the structure that has on average the least atrophy ($~4\%$). The Putamen, both left an right, has the largest atrophy ($~8\%$). According to this result the left hippocampus would be a subcortical structure more stable, in terms of volume loss, than others subcortical areas during healthy aging. Nevertheless, this result must be interpreted with caution, a different outliers removal procedure and different segmentation algorithm could produce modifications in the results. In the future we will test and extend on this result to study the volumetric progression of the hippocampus with alternative segmentation procedures that are able to identify the hippocampal subfields as well. 
 
-The linear correlation for each substructure is also obtained (Figures \ref{fig:caudyy} to \ref{fig:hippyy}). We find a strong linear dependency between subcortical structure volumes  between year 1 and year 6, the rationale behind has been already discussed above -aging is a monotonic process. It might be mentioned that the Pearson correlation of the volume changes in the nucleus accumbens (both sides) and the right amygdala is significantly lower than for the rest of the structures ($p >0.01$). Whether this finding is relevant to brain senescence or a side-effect of the segmentation algorithm used will be investigated using alternative segmentation techniques that take advantage of the scanner spatial resolution, producing amygdala nuclei volume estimates \cite{iglesias2015computational}.  
+The linear correlation for each substructure is also obtained (Figures \ref{fig:caudyy} to \ref{fig:hippyy}). We find a strong linear dependency between subcortical structure volumes  between year 1 and year 6. The rationale behind this finding has been already discussed above -aging is a monotonic process. It might be mentioned that the Pearson correlation of the volume changes in the nucleus accumbens (both sides) and the right amygdala is significantly lower than for the rest of the structures ($p >0.01$). Whether this finding is relevant to brain senescence or a side effect of the segmentation algorithm used, will be investigated using alternative segmentation techniques that take advantage of the scanner spatial resolution, producing amygdala nuclei volume estimates \cite{iglesias2015computational}.  
 
-A cogent understanding of how senescence affects brain function will be incomplete without brain functional data. We will explore changes in brain connectivity using fMRI collected in \emph{Proyecto Vallecas}.
+A cogent understanding of how senescence affects brain function will be incomplete without brain functional data. We explore changes in brain connectivity using fMRI collected in \emph{The Vallecas Project} in an upcoming work.
 
-\emph{To Be Continued.}
+%\emph{To Be Continued.}
 %\section{Conclusions}
 %\label{se:con}
 
